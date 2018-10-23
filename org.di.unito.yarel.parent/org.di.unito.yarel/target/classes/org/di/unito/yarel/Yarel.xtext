@@ -1,0 +1,82 @@
+/**
+ * Yarel
+ * Copyright (C) 2018  Claudio Grandi, Dariush Moshiri, Luca Roversi
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+grammar org.di.unito.yarel.Yarel with org.eclipse.xtext.common.Terminals
+
+generate yarel "http://www.di.org/unito/yarel/Yarel"
+
+Model:
+    'module' name=ID '{' elements+=Element* '}'; 
+	
+Element: 
+	  Import | Declaration | Definition;
+
+Import:
+	'import' importedNamespace=QualifiedNameWithWildcard
+;
+
+QualifiedName:
+   ID ('.' ID)*
+;
+
+QualifiedNameWithWildcard:
+    QualifiedName '.*'?
+;
+
+Declaration:
+	'dec' name=ID ':' signature=Signature;
+
+Signature:
+	types += Type (',' types+=Type)*;
+
+Type: 
+    {Type} value=(INT)? 'int'
+;
+Definition:
+	'def' declarationName=[Declaration] ':=' body=Body;
+
+Body: SerComp ;
+
+SerComp returns Body:
+	ParComp ({SerComp.left=current} '.' right=ParComp)* ;
+
+ParComp returns Body:
+	BodyBase ({ParComp.left=current} '|' right=BodyBase)* ;
+
+BodyBase returns Body: 
+   '(' Body ')' | Atomic;
+
+
+Atomic returns Body: 
+    {BodyId}  funName='id' 
+  | {BodyInc} funName='inc' 
+  | {BodyDec} funName='dec'
+  | {BodyNeg} funName='neg'
+  | {BodyInv} function='inv' '[' body=Body ']'
+  | {BodyIt}  function='it' '[' body=Body ']'
+  | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
+  | {BodyFun} funName=[Declaration] 
+  | {BodyPerm} permutation=Permutation
+;
+
+Permutation: 
+  '/' indexes+=Digit (indexes+=Digit)* '/';
+  
+Digit:
+	value=INT;	

@@ -1,0 +1,8 @@
+*.metadata
+*.class
+**/*.class
+**/src-gen
+**/xtend-gen
+*.ecore
+*.genmodel
+*.xml_gen
