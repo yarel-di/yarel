@@ -1,3 +1,5 @@
+# YAREL
+
 **YAREL** is a paradigmatic first-order functional programming language.
 
 Its stands for **Y**(et)**A**(nother)**RE**(versible)**L**(language), i.e. if P is a program in YAREL, then the inverse of P exists for free in YAREL.
