@@ -40,7 +40,7 @@ QualifiedNameWithWildcard:
 ;
 
 Declaration:
-	'dec' name=ID ':' signature=Signature;
+	'dcl' name=ID ':' signature=Signature;
 
 Signature:
 	types += Type (',' types+=Type)*;
@@ -54,7 +54,7 @@ Definition:
 Body: SerComp ;
 
 SerComp returns Body:
-	ParComp ({SerComp.left=current} '.' right=ParComp)* ;
+	ParComp ({SerComp.left=current} ';' right=ParComp)* ;
 
 ParComp returns Body:
 	BodyBase ({ParComp.left=current} '|' right=BodyBase)* ;

@@ -929,9 +929,9 @@ rule__Declaration__Group__0__Impl
 	}
 :
 (
-	{ before(grammarAccess.getDeclarationAccess().getDecKeyword_0()); }
-	'dec'
-	{ after(grammarAccess.getDeclarationAccess().getDecKeyword_0()); }
+	{ before(grammarAccess.getDeclarationAccess().getDclKeyword_0()); }
+	'dcl'
+	{ after(grammarAccess.getDeclarationAccess().getDclKeyword_0()); }
 )
 ;
 finally {
@@ -1415,9 +1415,9 @@ rule__SerComp__Group_1__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getSerCompAccess().getFullStopKeyword_1_1()); }
-	'.'
-	{ after(grammarAccess.getSerCompAccess().getFullStopKeyword_1_1()); }
+	{ before(grammarAccess.getSerCompAccess().getSemicolonKeyword_1_1()); }
+	';'
+	{ after(grammarAccess.getSerCompAccess().getSemicolonKeyword_1_1()); }
 )
 ;
 finally {
