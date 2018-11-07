@@ -307,9 +307,9 @@ ruleDeclaration returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='dec'
+		otherlv_0='dcl'
 		{
-			newLeafNode(otherlv_0, grammarAccess.getDeclarationAccess().getDecKeyword_0());
+			newLeafNode(otherlv_0, grammarAccess.getDeclarationAccess().getDclKeyword_0());
 		}
 		(
 			(
@@ -582,9 +582,9 @@ ruleSerComp returns [EObject current=null]
 						$current);
 				}
 			)
-			otherlv_2='.'
+			otherlv_2=';'
 			{
-				newLeafNode(otherlv_2, grammarAccess.getSerCompAccess().getFullStopKeyword_1_1());
+				newLeafNode(otherlv_2, grammarAccess.getSerCompAccess().getSemicolonKeyword_1_1());
 			}
 			(
 				(
