@@ -9,11 +9,11 @@ YAREL is an experimental implementation of the class Reversible Primitive Permut
 For example, a program of YAREL is:
 ```
 module multiplication {
-    dec main : Int, // value x
-               Int, // value y
-               Int  // result
+    dec main : int, // value x
+               int, // value y
+               int  // result
 
-    def main := /1 3 2/ . it[/2 1/ . it[inc] . /2 1/] . /1 3 2/
+    def main := /1 3 2/ ; it[/2 1/ ; it[inc] . /2 1/] ; /1 3 2/
 }
 ```
 
