@@ -13,7 +13,7 @@ module multiplication {
                int, // value y
                int  // result
 
-    def main := /1 3 2/ ; it[/2 1/ ; it[inc] . /2 1/] ; /1 3 2/
+    def main := /1 3 2/ ; it[/2 1/ ; it[inc] ; /2 1/] ; /1 3 2/
 }
 ```
 
