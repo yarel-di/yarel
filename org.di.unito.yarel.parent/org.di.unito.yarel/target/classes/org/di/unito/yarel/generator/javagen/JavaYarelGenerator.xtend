@@ -46,6 +46,8 @@ import org.di.unito.yarel.yarel.Permutation
 
 class JavaYarelGenerator implements IGenerator2 {
 	
+	static final String OUTPUT_TEST = "output_test"
+	
 	private def exceptionsGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -182,7 +184,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def MAINGenerator(String packageName) {
 		'''
 		package «packageName»;
-		import Revalcore.*;
+		import Yarelcore.*;
 		public class «packageName» {
 			public static void main(String[] args) throws WrongArityException {
 				int i=0;
@@ -235,6 +237,28 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
+	private def playGenerator(String packageName, Model model) {
+		
+		val functionNames = model.elements.filter(Definition).map[ it.declarationName.name ]
+		
+		'''
+		package «packageName»;
+		import Yarelcore.*;
+		import java.util.Arrays;
+		
+		public class «packageName»PlayWith {
+			public static void main(String[] args) throws Exception {
+				 «FOR name : functionNames»
+				 	RPP «name»RPP = new «packageName».«name»();
+				 	for(int i : «name»RPP.b(new int[] {«FOR i : 0 ..< arities.get(name) - 1»«i+1»,«ENDFOR»5})) {
+				 			System.out.println(i);
+				 		}
+				 «ENDFOR»
+			}
+		}
+		'''}
+	
+	
     /* Stores the arity of every declared name. */
 	val Map<String,Integer> arities = new HashMap<String,Integer>;
 	
@@ -276,13 +300,14 @@ class JavaYarelGenerator implements IGenerator2 {
 	 */
 	private def compile(IFileSystemAccess2 fsa, Model model) {
 		var definitions = model.elements.filter(Definition)
+		val folder = model.name + "/"
         for(definition: definitions) {
         	var compilation = compile(model, definition, true)
-            fsa.generateFile(model.name+"/"+definition.declarationName.name+".java", compilation)
+            fsa.generateFile(folder + definition.declarationName.name+".java", compilation)
             if (definition.declarationName.name.equals("main"))
-            	fsa.generateFile(model.name+"/"+model.name+".java", MAINGenerator(model.name))
+            	fsa.generateFile(folder + model.name+".java", MAINGenerator(model.name))
             compilation = compile(model, definition, false)
-            fsa.generateFile(model.name+"/inv_"+definition.declarationName.name+".java", compilation)
+            fsa.generateFile(folder + "/inv_"+definition.declarationName.name+".java", compilation)
         }
 	}
 	    
@@ -290,7 +315,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	    '''
 		package «model.name»;
 		import java.util.Arrays;
-		import Revalcore.*;
+		import Yarelcore.*;
 		«generateImports(model)»
 		public class «IF !fwd»inv_«ENDIF»«definition.declarationName.name» implements RPP {
 		    public «IF !fwd»inv_«ENDIF»«definition.declarationName.name»() { }
@@ -470,8 +495,9 @@ class JavaYarelGenerator implements IGenerator2 {
 	}
 	
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		
 		val model = resource.allContents.toIterable.filter(Model).get(0)
-        val packageName = "Revalcore"//model.name
+        val packageName = "Yarelcore"//model.name
         fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
         fsa.generateFile(packageName+"/RPP.java", RPPGenerator(packageName))
         fsa.generateFile(packageName+"/id.java", IdGenerator(packageName))
@@ -484,6 +510,12 @@ class JavaYarelGenerator implements IGenerator2 {
         fsa.generateFile(packageName+"/inv_neg.java", InvNegGenerator(packageName))
         collectArities(model)
         compile(fsa, model)
+       
+        //Tests
+        fsa.generateFile(model.name + "Test.java", OUTPUT_TEST, "//Esempio di file per i test")
+        
+        //Play source
+       	fsa.generateFile(model.name + "/" + model.name + "PlayWith.java", playGenerator(model.name, model))
 	}
 
 	
