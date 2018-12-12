@@ -3,9 +3,16 @@
  */
 package org.di.unito.yarel
 
+import org.eclipse.xtext.generator.IOutputConfigurationProvider
+import org.di.unito.yarel.utils.YarelOutputConfigurationProvider
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 class YarelRuntimeModule extends AbstractYarelRuntimeModule {
+	
+	def Class<? extends IOutputConfigurationProvider> bindIOutputConfigurationProvider() {
+		return YarelOutputConfigurationProvider
+	}
+	
 }
