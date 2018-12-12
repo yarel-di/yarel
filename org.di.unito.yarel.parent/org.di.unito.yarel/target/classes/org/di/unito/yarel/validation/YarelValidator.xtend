@@ -18,22 +18,23 @@
 
 package org.di.unito.yarel.validation
 
-import org.di.unito.yarel.yarel.Declaration
+import java.util.HashSet
 import org.di.unito.yarel.yarel.Body
-import org.di.unito.yarel.yarel.SerComp
-import org.di.unito.yarel.yarel.ParComp
-import org.di.unito.yarel.yarel.BodyInv
-import org.di.unito.yarel.yarel.BodyFun
-import org.di.unito.yarel.yarel.BodyIt
-import org.di.unito.yarel.yarel.BodyIf
-import org.di.unito.yarel.yarel.BodyPerm
-import org.di.unito.yarel.yarel.BodyInc
-import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyDec
+import org.di.unito.yarel.yarel.BodyFun
 import org.di.unito.yarel.yarel.BodyId
-import org.eclipse.xtext.validation.Check
-import org.di.unito.yarel.yarel.YarelPackage
+import org.di.unito.yarel.yarel.BodyIf
+import org.di.unito.yarel.yarel.BodyInc
+import org.di.unito.yarel.yarel.BodyInv
+import org.di.unito.yarel.yarel.BodyIt
+import org.di.unito.yarel.yarel.BodyNeg
+import org.di.unito.yarel.yarel.BodyPerm
+import org.di.unito.yarel.yarel.Declaration
 import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.ParComp
+import org.di.unito.yarel.yarel.SerComp
+import org.di.unito.yarel.yarel.YarelPackage
+import org.eclipse.xtext.validation.Check
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
@@ -48,8 +49,10 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_SERIAL_COMPOSITION = BASE_ERROR_NAME + 'ERROR_SERIAL_COMPOSITION'
 	public static val ERROR_IF_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_IF_FUNCTIONS_ARITY'
 	public static val ERROR_PERMUTATION_BOUND = BASE_ERROR_NAME + 'ERROR_PERMUTATION_BOUND'
+	public static val ERROR_PERMUTATION_INDECES = BASE_ERROR_NAME + 'ERROR_PERMUTATION_INDECES'
 	public static val ERROR_ITERATION_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_ITERATION_FUNCTIONS_ARITY'
 	public static val ERROR_ARITY = BASE_ERROR_NAME + 'ERROR_ARITY'
+	
 	
 	private def dispatch int getArity(Declaration declaration) {
 		return declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
@@ -119,5 +122,20 @@ class YarelValidator extends AbstractYarelValidator {
 		if(outOfBoundIndexes.size > 0)
 				error("Index of permutation out of bound, it must be between 1 and " + arity, YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_BOUND)
 	}	
+	
+	/**
+	 * Check if the indices in a permutation are all different
+	 */
+	@Check
+	def checkPermutationIndicesEquality(BodyPerm permutationBody) {
+		val permutation = permutationBody.permutation
+		val indicesSet = new HashSet<Integer>()
+		
+		permutation.indexes.forEach[
+			if(indicesSet.contains(it.value))
+				error("Indices must be all different", YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_INDECES)
+			indicesSet.add(it.value)
+		]
+	}
 	
 }
