@@ -2,51 +2,77 @@
 
 **YAREL** is a paradigmatic first-order functional programming language.
 
-It stands for **Y**(et)**A**(nother)**RE**(versible)**L**(language), i.e. if P is a program in YAREL, then the inverse of P exists for free in YAREL.
+It stands for **Y**(et)**A**(nother)**RE**(versible)**L**(language), i.e. if ```P``` is a program in YAREL, then the inverse ```inv[P]``` of ```P``` exists for free in YAREL.
 
-YAREL is an experimental implementation of the class Reversible Primitive Permutations (RPP) of which a preliminary version can be found [here](http://www.di.unito.it/~paolini/papers/2017rpp.pdf).
+YAREL is an experimental implementation of the class **RPP** of Reversible Primitive Permutations.
+The [techrep](http://www.di.unito.it/~paolini/papers/2017rpp.pdf) which introduces RPP is under consideration for publication.
 
-For example, a program of YAREL is:
+An example of a YAREL module is:
 ```
-module multiplication {
-    dcl main : int, // value x
-               int, // value y
-               int  // result
-
-    def main := /1 3 2/ ; it[/2 1/ ; it[inc] ; /2 1/] ; /1 3 2/
+/**
+ * Defines a multiplication on natural numbers and checks the
+ * existence of the inverse inv[multiplication] of the multiplication.
+ */
+module Multiplication {
+	
+	///// multiplication
+	dcl permutation: 3 int
+	/*  v3 --> v1
+	 *  v1 --> v2
+	 *  v2 --> v3
+	 */
+	def permutation := /3 1 2/
+	
+	dcl multiplication : 3 int 
+	/* in : v, u, a
+	 * out: v, u, a + v*u
+	 * Correctly works on natural numbers only.
+	 * It yields v*u if and only if a is 0.
+	 */
+	def multiplication := permutation;it[it[inc]];inv[permutation]
+	
+	dcl identity: 3 int
+	/* Just checking that the inverse of the multiplication exists. */
+	def identity := multiplication;inv[multiplication]
 }
 ```
 
-It defines the function main that takes three arguments of type integer and yields three integers as its result.
+It declares that the permutation we are going to define takes three integers its input. To ease the presentation we assume to use natural numbers only.
+The definition of the permutation says that the third input becomes the first output, the first input becomes the second output and the second input becomes 
+the third output.
 
 For example:
 ```
-main 5 4 0 // evaluates to the tuple 5 4 0+(5*4)
-main 3 4 0 // evaluates to the tuple 3 4 0+(3*4)
+permutation 5 4 0 // yields the tuple 0 5 4
 ```
-I.e., in general, if x and y are nonnegative integer numbers, then:
-```
-main x y z // evaluates to the tuple x y z+(x*y)
-```
-The point is that inside the module multiplication the inverse inv_main of main exists for free without explicitly defining it.
 
-The behavior of inv_main is the one we may expect:
-```
-inv_main 5 4 20 // evaluates to 5 4 0
-inv_main 3 4 12 // evaluates to 3 4 0
-```
-I.e., in general:
-```
-inv_main x y z+(x*y) // evaluates to x y z
-```
-which means that the sequential compositions\
-(main . inv_main) or (inv_main . main)
+Also the multiplication is declared as a function with three inputs.
 
-are equivalent to the identity. This equivalence keeps holding with any value supplied for x, y and z, negative ones included.
+For example:
+```
+multiplication 5 4 0 // yields the tuple 5 4 0+(5*4)
+```
+In general, if v and u are natural numbers, then:
+```
+multiplication v u a // yields the tuple v u a+(v*u)
+```
+The point is that inside the module ```Multiplication``` the inverse ```inv[multiplication]``` of ```multiplication``` exists for free without explicitly defining it.
+
+The behavior of ```inv[multiplication]``` is the one we may expect:
+```
+inv[multiplication] 5 4 20 // yields the tuple 5 4 0
+```
+In general:
+```
+inv[multiplication] v u a+(v*u) // yields the tuple v u a
+```
+which means that the sequential compositions
+```multiplication;inv[multiplication]``` or ```inv[muliplication];multiplication```
+are equivalent to the identity.
 
 YAREL inherits the main properties of RPP:
 
--   is complete with respect to the class of Primitive Recursive Functions;
--   allows the programming of functions with type Z^n → Z^n only.
+-   it is complete with respect to the class of Primitive Recursive Functions;
+-   it allows to program functions with type Z<sup>n</sup> → Z<sup>n</sup> only.
 
-The details about how experimenting YAREL will be subject of a user manual under construction.
+[Documentation about YAREL.](https://github.com/yarel-di/yarel/wiki).
