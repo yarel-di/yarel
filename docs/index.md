@@ -8,7 +8,7 @@ YAREL is an experimental implementation of the class **RPP** of Reversible Primi
 The [techrep](http://www.di.unito.it/~paolini/papers/2017rpp.pdf) which introduces RPP is under consideration for publication.
 
 An example of a YAREL module is:
-```
+```Java
 /**
  * Defines a multiplication on natural numbers and checks the
  * existence of the inverse inv[multiplication] of the multiplication.
@@ -17,22 +17,19 @@ module Multiplication {
 	
 	///// multiplication
 	dcl permutation: 3 int
-	/*  v3 --> v1
-	 *  v1 --> v2
-	 *  v2 --> v3
-	 */
-	def permutation := /3 1 2/
+	def permutation := //t u v
+	                   /3 1 2/ 
+	                   //v t u
 	
 	dcl multiplication : 3 int 
-	/* in : v, u, a
-	 * out: v, u, a + v*u
-	 * Correctly works on natural numbers only.
-	 * It yields v*u if and only if a is 0.
-	 */
-	def multiplication := permutation;it[it[inc]];inv[permutation]
+	/* Works on natural numbers only.
+	 * Yields v*u if and only if a is 0. */
+	def multiplication := // v u a
+	                      permutation;it[it[inc]];inv[permutation]
+			      // v u a+v*u
 	
 	dcl identity: 3 int
-	/* Just checking that the inverse of the multiplication exists. */
+	/* The inverse of the multiplication exists. */
 	def identity := multiplication;inv[multiplication]
 }
 ```
