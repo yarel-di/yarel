@@ -33,38 +33,43 @@ module Multiplication {
 	def identity := multiplication;inv[multiplication]
 }
 ```
-
 It declares that the permutation we are going to define takes three integers its input. To ease the presentation we assume to use natural numbers only.
 The definition of the permutation says that the third input becomes the first output, the first input becomes the second output and the second input becomes 
 the third output.
 
 For example:
-```
+```Java
 permutation 5 4 0 // yields the tuple 0 5 4
 ```
 
 Also the multiplication is declared as a function with three inputs.
 
 For example:
-```
+```Java
 multiplication 5 4 0 // yields the tuple 5 4 0+(5*4)
 ```
 In general, if v and u are natural numbers, then:
-```
+```Java
 multiplication v u a // yields the tuple v u a+(v*u)
 ```
 The point is that inside the module ```Multiplication``` the inverse ```inv[multiplication]``` of ```multiplication``` exists for free without explicitly defining it.
 
 The behavior of ```inv[multiplication]``` is the one we may expect:
-```
+```Java
 inv[multiplication] 5 4 20 // yields the tuple 5 4 0
 ```
 In general:
-```
+```Java
 inv[multiplication] v u a+(v*u) // yields the tuple v u a
 ```
 which means that the sequential compositions
-```multiplication;inv[multiplication]``` or ```inv[muliplication];multiplication```
+```Java
+multiplication;inv[multiplication]
+``` 
+or 
+```Java
+inv[muliplication];multiplication
+```
 are equivalent to the identity.
 
 YAREL inherits the main properties of RPP:
