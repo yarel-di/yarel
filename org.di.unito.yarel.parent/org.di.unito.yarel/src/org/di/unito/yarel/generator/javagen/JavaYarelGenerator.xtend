@@ -76,9 +76,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class id implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
-				int[] r = new int[this.a];
-				r[0] = x[0];
-				return r;
+				return x;
 			}
 			public int getA() { return this.a; }
 		}
@@ -103,9 +101,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class inc implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
-				int[] r = new int[this.a];
-				r[0] = x[0] + 1;
-				return r;
+				x[0] = x[0] + 1;
+				return x;
 			}
 			public int getA() { return this.a; }
 		}
@@ -130,9 +127,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class dec implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
-				int[] r = new int[this.a];
-				r[0] = x[0] - 1;
-				return r;
+				x[0] = x[0] - 1;
+				return x;
 			}
 			public int getA() { return this.a; }
 		}
@@ -157,9 +153,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class neg implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
-				int[] r = new int[this.a];
-				r[0] = -x[0];
-				return r;
+				x[0] = -x[0];
+				return x;
 			}
 			public int getA() { return this.a; }
 		}
@@ -175,65 +170,6 @@ class JavaYarelGenerator implements IGenerator2 {
 				return this.f.b(x);
 			}
 			public int getA() { return this.a; }
-		}
-		'''}
-	
-	/**
-	 * Generates the code of a Java class with a main method used to start the computation of the program
-	 */
-	private def MAINGenerator(String packageName) {
-		'''
-		package «packageName»;
-		import Yarelcore.*;
-		public class «packageName» {
-			public static void main(String[] args) throws WrongArityException {
-				int i=0;
-				int[] b;
-				int[] inv_b;
-				int[] p;
-		
-				RPP f=new main() ;
-				RPP inv_f=new inv_main() ;
-		
-				int a = f.getA();
-				int n = args.length;
-				if (a!=n){
-					throw new WrongArityException(); 
-				}
-				int[] x=new int[n];
-		
-				for (i=0; i<n; i++){
-					x[i]=Integer.parseInt(args[i]);
-				}
-		
-				b=f.b(x);
-				inv_b=inv_f.b(x);
-				p=inv_f.b(b);
-		
-				System.out.println("diritto:");
-				for (i=0; i<n; i++){
-					System.out.print(" ");
-					System.out.print(b[i]);
-				}
-		
-				System.out.println(" ");
-		
-				System.out.println("rovescio: ");
-				for (i=0; i<n; i++){
-					System.out.print(" ");
-					System.out.print(inv_b[i]);
-				}
-				
-				System.out.println(" ");
-				
-				System.out.println("rovescio del diritto: ");
-				for (i=0; i<n; i++){
-					System.out.print(" ");
-					System.out.print(p[i]);
-				}
-								
-				System.out.println(" ");
-			}
 		}
 		'''}
 	
@@ -304,8 +240,6 @@ class JavaYarelGenerator implements IGenerator2 {
         for(definition: definitions) {
         	var compilation = compile(model, definition, true)
             fsa.generateFile(folder + definition.declarationName.name+".java", compilation)
-            if (definition.declarationName.name.equals("main"))
-            	fsa.generateFile(folder + model.name+".java", MAINGenerator(model.name))
             compilation = compile(model, definition, false)
             fsa.generateFile(folder + "/inv_"+definition.declarationName.name+".java", compilation)
         }
@@ -315,6 +249,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	    '''
 		package «model.name»;
 		import java.util.Arrays;
+		import java.lang.Math;
 		import Yarelcore.*;
 		«generateImports(model)»
 		public class «IF !fwd»inv_«ENDIF»«definition.declarationName.name» implements RPP {
@@ -411,9 +346,9 @@ class JavaYarelGenerator implements IGenerator2 {
           	'''
           	private final int a = «b.permutation.indexes.length»;
           	public int[] b(int[] x) {
-          		int[] r = new int[«b.permutation.indexes.length»];
+          		int tmp=0;
           		«compileBodyPerm(b.permutation, fwd)»
-          		return r;
+          		return x;
           	}
           	public int getA() { return this.a; }
 	      	'''
@@ -423,13 +358,14 @@ class JavaYarelGenerator implements IGenerator2 {
 	      	'''
 	      BodyIt:
           	'''
-		  	RPP function = new RPP() {
+		  	// Iteration start
+		  	RPP function = new RPP() { 
 		  		«compile(b.body,fwd)»
 		  	};
 		  	private final int a = function.getA()+1;
 		  	public int[] b(int[] x) {
 		  		int[] t=Arrays.copyOfRange(x,0,function.getA());
-		  		for(int i = 0 ; i < x[x.length - 1]; i++){
+		  		for(int i = 0 ; i < Math.abs(x[x.length - 1]); i++){
 		  			t = function.b(t);
 		  		}
 		  		int[] r=new int[x.length];
@@ -439,7 +375,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		  		r[r.length-1]=x[x.length-1];
 		  		return r;
 		  	}
-		  	public int getA() { return this.a; }
+		  	public int getA() { return this.a; } 
+		  	// Iteration stop
 	      	'''
 	      BodyIf:
           	'''
@@ -475,17 +412,73 @@ class JavaYarelGenerator implements IGenerator2 {
 	      	'''
         }.toString
     }
-
+    
+    private def update(int[]p, int[]c,int k){
+    	var i = 0;
+		var trovatoInizioCiclo = false;
+		while (i < p.length && !trovatoInizioCiclo) {
+		   var nonEsiste = true; 
+		   var j = 0;
+		   while (j < c.length && j < k &&  nonEsiste) {
+		      nonEsiste = i != c.get(j);
+		      j += 1;
+		   }
+		   trovatoInizioCiclo = nonEsiste;
+  		   i = i + 1;
+		}
+		if (trovatoInizioCiclo)
+		    i = i - 1;
+		return i ;
+    }
+    
 	private def compileBodyPerm(Permutation permutation, boolean fwd) {
-		compileBodyPerm(permutation, 0, fwd)
-	}
-	
-	private def String compileBodyPerm(Permutation permutation, int i, boolean fwd) {
-	    '''
-	    «IF !fwd»r[«permutation.indexes.get(i).value-1»] = x[«i»];«ENDIF»
-	    «IF fwd»r[«i»] = x[«permutation.indexes.get(i).value-1»];«ENDIF»
-	    «IF i + 1 < permutation.indexes.length»«compileBodyPerm(permutation, i + 1, fwd)»«ENDIF»
-	    '''
+		var p = newIntArrayOfSize(permutation.indexes.length)
+		var pVal=0
+		var pPos=0
+		
+		for(var i=0; i<permutation.indexes.length; i++){
+			if (fwd){
+				p.set(i,permutation.indexes.get(i).value-1)
+			}
+			else{
+				pVal = permutation.indexes.get(i).value -1
+				pPos = permutation.indexes.get(pVal).value -1
+				p.set(pPos,pVal)
+			}
+		}
+		
+		var i=0
+		var k=0
+		var startCycle=0
+		var enterCycle=false
+		var c = newIntArrayOfSize(permutation.indexes.length)
+		var r=""
+		
+		while(i<permutation.indexes.length) {
+			c.set(k,i)
+			k += 1
+			startCycle = i
+			enterCycle = p.get(i) != startCycle
+			
+			if(enterCycle){
+				r=r+"tmp = x["+startCycle+"]; \n"
+			}
+			while(p.get(i)!=startCycle){
+				r=r+"x["+ i +"] = x["+ p.get(i) + "]; \n"
+				c.set(k, p.get(i));
+				k = k + 1;
+				i = p.get(i);	
+			}
+			
+			if (enterCycle){
+			    r=r+"x["+i+"] = tmp; \n";
+			}
+			    
+			i = update(p,c,k);
+							
+		}
+		
+		return r
 	}
 	
 	override afterGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
