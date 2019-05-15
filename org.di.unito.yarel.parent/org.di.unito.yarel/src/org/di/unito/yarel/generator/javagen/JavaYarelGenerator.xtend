@@ -241,7 +241,7 @@ class JavaYarelGenerator implements IGenerator2 {
         	var compilation = compile(model, definition, true)
             fsa.generateFile(folder + definition.declarationName.name+".java", compilation)
             compilation = compile(model, definition, false)
-            fsa.generateFile(folder + "/inv_"+definition.declarationName.name+".java", compilation)
+            fsa.generateFile(folder + "inv_"+definition.declarationName.name+".java", compilation)
         }
 	}
 	    
