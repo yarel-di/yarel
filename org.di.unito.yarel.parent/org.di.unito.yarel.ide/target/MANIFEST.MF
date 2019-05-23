@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.di.unito.yarel.ide
+Bundle-ManifestVersion: 2
+Bundle-Name: org.di.unito.yarel.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.201905220928
+Bundle-SymbolicName: org.di.unito.yarel.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.di.unito.yarel,org.eclipse.xtext.ide,org.eclipse.x
+ text.xbase.ide,org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.di.unito.yarel.ide.contentassist.antlr.internal,or
+ g.di.unito.yarel.ide.contentassist.antlr
+

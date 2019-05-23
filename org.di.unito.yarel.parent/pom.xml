@@ -29,6 +29,7 @@
 		<module>org.di.unito.yarel.repository</module>
 		<module>org.di.unito.yarel.tests</module>
 		<module>org.di.unito.yarel.ui.tests</module>
+		<module>org.di.unito.yarel.update</module>
 	</modules>
 	<build>
 		<plugins>
