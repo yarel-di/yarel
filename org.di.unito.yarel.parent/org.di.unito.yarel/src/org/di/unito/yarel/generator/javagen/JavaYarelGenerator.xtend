@@ -35,6 +35,7 @@ import org.di.unito.yarel.yarel.BodyInc
 import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyDec
 import org.di.unito.yarel.yarel.BodyId
+import org.di.unito.yarel.yarel.BodyFor
 import org.di.unito.yarel.yarel.Definition
 import org.di.unito.yarel.yarel.Model
 import java.util.HashMap
@@ -60,7 +61,9 @@ class JavaYarelGenerator implements IGenerator2 {
 		    }
 		}
 		'''}
-		
+	
+	/*Generates code for the RPP (Reversible Primitive Permutation) interface, 
+	implemented in a different way by each function*/
 	private def RPPGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -69,7 +72,8 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int[] b(int[] x);
 		}
 		'''}
-	
+		
+	//Implements the identity function
 	private def IdGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -82,6 +86,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 		
+	//Implements the inverse of the identity function	
 	private def InvIdGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -95,6 +100,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
+	//Implements the increase function
 	private def IncGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -107,7 +113,8 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return this.a; }
 		}
 		'''}
-
+	
+	//Implements the inverse of the increase function
 	private def InvIncGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -121,6 +128,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
+	//Implements the decrease function
 	private def DecGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -134,6 +142,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
+	//Implements the inverse of the decrease function
 	private def InvDecGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -147,6 +156,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
+	//Implements the neg function
 	private def NegGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -160,6 +170,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
+	//Implements the inverse of the neg function
 	private def InvNegGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -173,6 +184,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
+	//Generates an executable java file to run a simple test on the function/s declared in the .rl file.
 	private def playGenerator(String packageName, Model model) {
 		
 		val functionNames = model.elements.filter(Definition).map[ it.declarationName.name ]
@@ -258,8 +270,12 @@ class JavaYarelGenerator implements IGenerator2 {
 		}'''
 	}
 
+/*Generates java code for the functions. The fwd variable is used to generate code corresponding
+ * to the regular function (fwd=true) or the inverse function (fwd=false)*/
     private def String compile(Body b, boolean  fwd ) {
+        //This switch works by checking the variable type of b, similar to a java instanceof
         switch (b) {
+          //For each type of function, different java code is generated
           SerComp: 
           	'''
           	RPP l = new RPP() {
@@ -359,7 +375,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	      BodyIt:
           	'''
 		  	// Iteration start
-		  	RPP function = new RPP() { 
+		  	RPP function = new RPP() {
 		  		«compile(b.body,fwd)»
 		  	};
 		  	private final int a = function.getA()+1;
@@ -377,6 +393,62 @@ class JavaYarelGenerator implements IGenerator2 {
 		  	}
 		  	public int getA() { return this.a; } 
 		  	// Iteration stop
+	      	'''
+	      BodyFor: /*Added by Paolo Parker*/
+          	'''
+		  	RPP function = new RPP() //regular function used when v > 0
+		  	{
+		  		«/*the following call generates java code for the body of the "for" statement 
+		  		  (the expression contained in its square brackets)*/
+		  		compile(b.body,fwd)»
+		  	};
+		  	
+		  	RPP inv_function = new RPP() //inverse function used when v < 0
+		  	{
+		  		«compile(b.body,!fwd)»
+		  	};
+		  	
+		  	private final int a = function.getA()+1;
+		  	public int[] b(int[] x) //b stands for behaviour and x are the delta and v function parameters
+		  	{
+		  		int[] t = new int[x.length-1]; //t stands for temporary array, as it's used each time only locally
+		  		
+		  		for(int i=0; i<t.length; i++)
+		  		{
+		  			t[i] = x[i];
+		  		}
+		  		
+		  		if(x[x.length-1] > 0) //if v is greater than zero, recursion goes on and v decreases each time
+		  		{
+		  			t = function.b(t);
+		  			x[x.length-1] = x[x.length-1] - 1;
+		  			for(int i=0; i<x.length-1; i++)
+		  			{
+		  				x[i] = t[i];
+		  			}
+		  			x = b(x);
+		  			x[x.length-1] = x[x.length-1] + 1; //takes v back to its original value in the later stage of recursion
+		  		}
+		  		
+		  		if(x[x.length-1] < 0) //if v is less than zero, recursion goes on and v increases each time
+		  		{
+		  			t = inv_function.b(t);
+		  			x[x.length-1] = x[x.length-1] + 1;
+		  			for(int i=0; i<x.length-1; i++)
+		  			{
+		  				x[i] = t[i];
+		  			}
+		  			x = b(x);
+		  			x[x.length-1] = x[x.length-1] - 1; //takes v back to its original value in the later stage of recursion
+		  		}
+		  	
+		  		if(x[x.length-1] == 0) //when v is equal to zero, recursive calls stop as a value is returned
+		  		{
+		  			return x;
+		  		}
+		  		return x;
+		  	}
+		  	public int getA() { return this.a; } 
 	      	'''
 	      BodyIf:
           	'''
@@ -431,6 +503,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		return i ;
     }
     
+    //Implements the permutation function
 	private def compileBodyPerm(Permutation permutation, boolean fwd) {
 		var p = newIntArrayOfSize(permutation.indexes.length)
 		var pVal=0
@@ -481,14 +554,36 @@ class JavaYarelGenerator implements IGenerator2 {
 		return r
 	}
 	
+	
+	//Builds a java file that can be used to test the function/s declared and defined in the .rl file
+	def CharSequence testFileGenerator(Model model) /*Added by Paolo Parker*/
+	{
+		val testFile = '''
+		package «model.name»;
+		import Yarelcore.*;
+		import java.util.Arrays;
+		
+		public class «model.name»Test
+		{
+			public static void main(String[] args)
+			{
+				//Scrivere i test qui
+			}
+		}
+		'''
+		return testFile
+	}
+	
 	override afterGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 	}
 	
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 	}
 	
+	/*The compiler's execution starts from this method*/
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
+		//Looks for the Model in the .rl file
 		val model = resource.allContents.toIterable.filter(Model).get(0)
         val packageName = "Yarelcore"//model.name
         fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
@@ -502,10 +597,11 @@ class JavaYarelGenerator implements IGenerator2 {
         fsa.generateFile(packageName+"/neg.java", NegGenerator(packageName))
         fsa.generateFile(packageName+"/inv_neg.java", InvNegGenerator(packageName))
         collectArities(model)
+        //Generates java code starting from the Model
         compile(fsa, model)
        
         //Tests
-        fsa.generateFile(model.name + "Test.java", OUTPUT_TEST, "//Esempio di file per i test")
+        fsa.generateFile(model.name + "/" + model.name + "Test.java", testFileGenerator(model))
         
         //Play source
        	fsa.generateFile(model.name + "/" + model.name + "PlayWith.java", playGenerator(model.name, model))
