@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.di.unito.yarel.tests
+Bundle-ManifestVersion: 2
+Bundle-Name: org.di.unito.yarel.tests
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.201905220928
+Bundle-SymbolicName: org.di.unito.yarel.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.di.unito.yarel,org.eclipse.jdt.core,org.junit.jupi
+ ter.api;bundle-version="[5.0.0,6.0.0)",org.eclipse.xtext.testing,org.
+ eclipse.xtext.xbase.testing,org.eclipse.xtext.xbase.lib;bundle-versio
+ n="2.14.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.di.unito.yarel.tests;x-internal=true
+

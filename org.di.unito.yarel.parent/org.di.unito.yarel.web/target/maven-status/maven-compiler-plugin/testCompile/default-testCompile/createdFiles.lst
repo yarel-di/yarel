@@ -1,0 +1,4 @@
+org\di\unito\yarel\web\YarelServlet.class
+org\di\unito\yarel\web\ServerLauncher.class
+org\di\unito\yarel\web\YarelWebModule.class
+org\di\unito\yarel\web\YarelWebSetup.class

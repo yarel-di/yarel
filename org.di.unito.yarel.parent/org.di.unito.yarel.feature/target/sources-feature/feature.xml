@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.di.unito.yarel.feature.source" version="1.0.0.201905220928" label="Yarel Feature  Developer Resources">
+  <includes id="org.di.unito.yarel.feature" version="1.0.0.201905220928"/>
+  <plugin id="org.di.unito.yarel.source" version="1.0.0.201905220928" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="org.di.unito.yarel.ide.source" version="1.0.0.201905220928" download-size="0" install-size="0" unpack="false"/>
+  <plugin id="org.di.unito.yarel.ui.source" version="1.0.0.201905220928" download-size="0" install-size="0" unpack="false"/>
+</feature>

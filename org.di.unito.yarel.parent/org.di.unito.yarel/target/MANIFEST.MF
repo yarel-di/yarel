@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.di.unito.yarel
+Bundle-ManifestVersion: 2
+Bundle-Name: org.di.unito.yarel
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.201905220928
+Bundle-SymbolicName: org.di.unito.yarel; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,org.eclipse.xtext.xbase,org.eclipse.
+ equinox.common;bundle-version="3.5.0",org.eclipse.emf.ecore,org.eclip
+ se.xtext.xbase.lib;bundle-version="2.14.0",org.eclipse.xtext.util,org
+ .eclipse.emf.common,org.eclipse.xtend.lib;bundle-version="2.14.0",org
+ .antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.di.unito.yarel.services,org.di.unito.yarel.yarel.i
+ mpl,org.di.unito.yarel.serializer,org.di.unito.yarel.generator,org.di
+ .unito.yarel.scoping,org.di.unito.yarel.validation,org.di.unito.yarel
+ ,org.di.unito.yarel.yarel,org.di.unito.yarel.parser.antlr.internal,or
+ g.di.unito.yarel.parser.antlr,org.di.unito.yarel.yarel.util
+Import-Package: org.apache.log4j
+

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='2'>
+  <artifact classifier='osgi.bundle' id='org.di.unito.yarel.ide' version='1.0.0.201905220928'>
+    <properties size='5'>
+      <property name='artifact.size' value='52330'/>
+      <property name='download.size' value='52330'/>
+      <property name='maven-groupId' value='org.di.unito.yarel'/>
+      <property name='maven-artifactId' value='org.di.unito.yarel.ide'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+  </artifact>
+  <artifact classifier='osgi.bundle' id='org.di.unito.yarel.ide.source' version='1.0.0.201905220928'>
+    <properties size='6'>
+      <property name='artifact.size' value='38092'/>
+      <property name='download.size' value='38092'/>
+      <property name='maven-groupId' value='org.di.unito.yarel'/>
+      <property name='maven-artifactId' value='org.di.unito.yarel.ide'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      <property name='maven-classifier' value='sources'/>
+    </properties>
+  </artifact>
+</artifacts>

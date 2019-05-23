@@ -18,13 +18,13 @@
  
 package org.di.unito.yarel.generator
 
+import org.di.unito.yarel.generator.javagen.JavaYarelGenerator
+import org.di.unito.yarel.generator.latex.LatexYarelGenerator
+import org.di.unito.yarel.generator.sagemath.SageMathYarelGenerator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import org.di.unito.yarel.generator.latex.LatexYarelGenerator
-import org.di.unito.yarel.generator.sagemath.SageMathYarelGenerator
-import org.di.unito.yarel.generator.javagen.JavaYarelGenerator
 
 /**
  * Generates code from your model files on save.

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Yarel">
+      Yet Another REversible Language.
+   </description>
+   <feature url="features/org.di.unito.yarel.feature_1.0.0.qualifier" id="org.di.unito.yarel.feature" version="1.0.0.qualifier">
+      <category name="org.di.unito.yarel"/>
+   </feature>
+   <category-def name="org.di.unito.yarel" label="Yarel">
+      <description>
+         Yet Another REversible Language.
+      </description>
+   </category-def>
+</site>

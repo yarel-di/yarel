@@ -9,12 +9,31 @@
 	<artifactId>org.di.unito.yarel.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-api</artifactId>
+		    <version>5.5.0-M1</version>
+		    <scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<configuration>
+					<failIfNoTests>false</failIfNoTests>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 
