@@ -35,7 +35,8 @@ import org.di.unito.yarel.yarel.BodyInc
 import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyDec
 import org.di.unito.yarel.yarel.BodyId
-import org.di.unito.yarel.yarel.BodyFor
+import org.di.unito.yarel.yarel.BodyTof
+import org.di.unito.yarel.yarel.BodyNot
 import org.di.unito.yarel.yarel.Definition
 import org.di.unito.yarel.yarel.Model
 import java.util.HashMap
@@ -46,8 +47,6 @@ import org.di.unito.yarel.yarel.Import
 import org.di.unito.yarel.yarel.Permutation
 
 class JavaYarelGenerator implements IGenerator2 {
-	
-	static final String OUTPUT_TEST = "output_test"
 	
 	private def exceptionsGenerator(String packageName) {
 		'''
@@ -62,171 +61,279 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		'''}
 	
-	/*Generates code for the RPP (Reversible Primitive Permutation) interface, 
-	implemented in a different way by each function*/
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def RPPGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public interface RPP {
 			public int getA();
-			public int[] b(int[] x);
+			public ArrayList<Object> b(ArrayList<Object> x);
 		}
 		'''}
-		
-	//Implements the identity function
+	
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def IdGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class id implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
+			public ArrayList<Object> b(ArrayList<Object> x) {
 				return x;
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
-		
-	//Implements the inverse of the identity function	
+	
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */	
 	private def InvIdGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class inv_id implements RPP {
 			private RPP f = new id();
 			private final int a = this.f.getA();
-			public int[] b(int[] x) {
+			public ArrayList<Object> b(ArrayList<Object> x) {
 				return this.f.b(x);
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
 	
-	//Implements the increase function
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def IncGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class inc implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
-				x[0] = x[0] + 1;
+			public ArrayList<Object> b(ArrayList<Object> x) {
+				x.set(0, (Integer)x.get(0) + 1);
 				return x;
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
 	
-	//Implements the inverse of the increase function
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def InvIncGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class inv_inc implements RPP {
 			private RPP f = new dec();
 			private final int a = this.f.getA();
-			public int[] b(int[] x) {
+			public ArrayList<Object> b(ArrayList<Object> x) {
 				return this.f.b(x);
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
 	
-	//Implements the decrease function
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def DecGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class dec implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
-				x[0] = x[0] - 1;
+			public ArrayList<Object> b(ArrayList<Object> x) {
+				x.set(0, (Integer)x.get(0) - 1);
 				return x;
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
 	
-	//Implements the inverse of the decrease function
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def InvDecGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class inv_dec implements RPP {
 			private RPP f = new inc();
 			private final int a = this.f.getA();;
-			public int[] b(int[] x) {
+			public ArrayList<Object> b(ArrayList<Object> x) {
 				return this.f.b(x);
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
 	
-	//Implements the neg function
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def NegGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class neg implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
-				x[0] = -x[0];
+			public ArrayList<Object> b(ArrayList<Object> x) {
+				x.set(0, - (Integer) x.get(0));
 				return x;
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
 	
-	//Implements the inverse of the neg function
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def InvNegGenerator(String packageName) {
 		'''
 		package «packageName»;
+		import java.util.ArrayList;
 		public class inv_neg implements RPP {
 			private RPP f = new neg();
 			private final int a = this.f.getA();;
-			public int[] b(int[] x) {
+			public ArrayList<Object> b(ArrayList<Object> x) {
 				return this.f.b(x);
 			}
 			public int getA() { return this.a; }
 		}
 		'''}
 	
-	//Generates an executable java file to run a simple test on the function/s declared in the .rl file.
+	/**
+	 * Added by Riccardo Viola.
+	 */
+	private def TofGenerator(String packageName) {
+		'''
+		package «packageName»;
+		import java.util.ArrayList;
+		public class tof implements RPP {
+			private final int a = 3;
+			public ArrayList<Object> b(ArrayList<Object> x) {
+				ArrayList<Object> r = new ArrayList<Object>();
+				r.add(x.get(0));
+				r.add(x.get(1));
+				Boolean c = (Boolean) x.get(2);
+				if(c.booleanValue() == false){
+					r.add(  ((Boolean) x.get(0)) && ((Boolean) x.get(1)));
+				}else{
+					r.add(!(((Boolean) x.get(0)) && ((Boolean) x.get(1))) );
+				}
+				return r;
+			}
+			public int getA() { return this.a; }
+		}
+		'''}
+	
+	/**
+	 * Added by Riccardo Viola.
+	 */
+	private def InvTofGenerator(String packageName) {
+		'''
+		package «packageName»;
+		import java.util.ArrayList;
+		public class inv_tof implements RPP {
+			private RPP f = new tof();
+			private final int a = this.f.getA();;
+			public ArrayList<Object> b(ArrayList<Object> x) {
+				return this.f.b(x);
+			}
+			public int getA() { return this.a; }
+		}
+		'''}
+	
+	/**
+	 * Added by Riccardo Viola.
+	 */
+	private def NotGenerator(String packageName) {
+		'''
+		package «packageName»;
+		import java.util.ArrayList;
+		public class not implements RPP {
+			private final int a = 1;
+			public ArrayList<Object> b(ArrayList<Object> x) {
+				ArrayList<Object> r = new ArrayList<Object>();
+				r.add(!((Boolean) x.get(0)));
+				return r;
+			}
+			public int getA() { return this.a; }
+		}
+		'''}
+	
+	/**
+	 * Added by Riccardo Viola.
+	 */
+	private def InvNotGenerator(String packageName) {
+		'''
+		package «packageName»;
+		import java.util.ArrayList;
+		public class inv_not implements RPP {
+			private RPP f = new not();
+			private final int a = this.f.getA();;
+			public ArrayList<Object> b(ArrayList<Object> x) {
+				return this.f.b(x);
+			}
+			public int getA() { return this.a; }
+		}
+		'''}
+	
+	/**
+	 * Generates an executable java file to run a simple test on the function/s declared in the .rl file
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def playGenerator(String packageName, Model model) {
-		
 		val functionNames = model.elements.filter(Definition).map[ it.declarationName.name ]
-		
 		'''
 		package «packageName»;
 		import Yarelcore.*;
-		import java.util.Arrays;
+		import java.util.ArrayList;
 		
 		public class «packageName»PlayWith {
 			public static void main(String[] args) throws Exception {
 				 «FOR name : functionNames»
 				 	RPP «name»RPP = new «packageName».«name»();
-				 	for(int i : «name»RPP.b(new int[] {«FOR i : 0 ..< arities.get(name) - 1»«i+1»,«ENDFOR»5})) {
-				 			System.out.println(i);
-				 		}
+				 	ArrayList<Object> x = new ArrayList<Object>();
+				 	x.add(«arities.get(name)»);
+				 	System.out.println( «name»RPP.b(x).toString() );
 				 «ENDFOR»
 			}
 		}
 		'''}
 	
-	
-    /* Stores the arity of every declared name. */
+    /**
+	 * Stores the arity of every declared name
+	 */
 	val Map<String,Integer> arities = new HashMap<String,Integer>;
 	
-	/* Associates every declared name to its arity. */
+	/**
+	 * Associates every declared name to its arity
+	 */
 	private def collectArities(Model m) {
 		for(var i = 0; i < m.elements.length; i++){
 			if(m.elements.get(i).getContainerOfType(Declaration)!==null) { // if a declaration exists
 				var arity = 0
-				for(var j = 0; j < (m.elements.get(i) as Declaration).signature.types.length; j++) // every type component
-					if ((m.elements.get(i) as Declaration).signature.types.get(j).value != 0)
-						arity = arity + (m.elements.get(i) as Declaration).signature.types.get(j).value // counts the explicit number of occurrences
+				for(var j = 0; j < (m.elements.get(i) as Declaration).signaturesL.types.length; j++) // every type component
+					if ((m.elements.get(i) as Declaration).signaturesL.types.get(j).value != 0)
+						arity = arity + (m.elements.get(i) as Declaration).signaturesL.types.get(j).value // counts the explicit number of occurrences
 					else  
 					    arity++ // counts +1
 			   arities.put((m.elements.get(i) as Declaration).name, arity)
 			}
 		}
 	}
-	
 
-	/* Reads the arity of the given declared name. */
+	/**
+	 * Reads the arity of the given declared name
+	 */
 	private def getArity(String name) {
 		return arities.get(name);
 	}
@@ -257,25 +364,28 @@ class JavaYarelGenerator implements IGenerator2 {
         }
 	}
 	    
+	/**
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
     private def compile(Model model, Definition definition, boolean fwd) {
 	    '''
 		package «model.name»;
-		import java.util.Arrays;
+		import java.util.ArrayList;
 		import java.lang.Math;
 		import Yarelcore.*;
 		«generateImports(model)»
 		public class «IF !fwd»inv_«ENDIF»«definition.declarationName.name» implements RPP {
 		    public «IF !fwd»inv_«ENDIF»«definition.declarationName.name»() { }
 		    «compile(definition.body, fwd)»
-		}'''
-	}
+		}'''}
 
-/*Generates java code for the functions. The fwd variable is used to generate code corresponding
- * to the regular function (fwd=true) or the inverse function (fwd=false)*/
+	/**
+	 * Generates java code for the functions. The fwd variable is used to generate code corresponding
+	 * to the regular function (fwd=true) or the inverse function (fwd=false)
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
     private def String compile(Body b, boolean  fwd ) {
-        //This switch works by checking the variable type of b, similar to a java instanceof
         switch (b) {
-          //For each type of function, different java code is generated
           SerComp: 
           	'''
           	RPP l = new RPP() {
@@ -285,12 +395,12 @@ class JavaYarelGenerator implements IGenerator2 {
           		«compile(b.right, fwd)»
           	};
           	private final int a = l.getA();
-          	public int[] b(int[] x) { // Implements a serial composition.
+          	public ArrayList<Object> b(ArrayList<Object> x) {
           		return «IF fwd»this.r.b(this.l.b(x))«ENDIF»«IF !fwd»this.l.b(this.r.b(x))«ENDIF»;
           	}
           	public int getA() { return this.a; }
           	'''
-          ParComp: 
+          ParComp:
           	'''
           	RPP l = new RPP() {
           		«compile(b.left, fwd)»
@@ -299,25 +409,26 @@ class JavaYarelGenerator implements IGenerator2 {
           		«compile(b.right, fwd)»
           	};
           	private final int a = l.getA() + r.getA();
-          	public int[] b(int[] x) { // Implements a parallel composition
-          		return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-          		,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
+          	public ArrayList<Object> b(ArrayList<Object> x) {
+          		ArrayList<Object> lA = new ArrayList<Object>();
+          		ArrayList<Object> rA = new ArrayList<Object>();
+          		for(int i=0       ; i < l.getA()         ; i++){
+          			lA.add(x.get(i));
+          		}
+          		for(int i=l.getA(); i < l.getA()+r.getA(); i++){
+          			rA.add(x.get(i));
+          		}
+          		ArrayList<Object> res = l.b(lA);
+          		res.addAll(r.b(rA));
+          		return res;
           	}
           	public int getA() { return this.a; }
-          	private int[] append(int[] l, int[] r) {
-          		int[] res = new int[l.length + r.length];
-          		for(int i = 0; i < l.length; i++)
-          			res[i] = l[i];
-          		for(int i = 0; i < r.length; i++) 
-          		  	res[i + l.length] = r[i];
-          	 	return res;
-          	}
           '''
           BodyId:
           	'''
           	private RPP f = new «IF !fwd»inv_«ENDIF»id();
           	private final int a = f.getA();
-          	public int[] b(int[] x) {
+          	public ArrayList<Object> b(ArrayList<Object> x) {
           		return this.f.b(x);
           	}
           	public int getA() { return this.a; }
@@ -326,7 +437,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	'''
           	private RPP f = new «IF !fwd»inv_«ENDIF»inc();
           	private final int a = f.getA();
-          	public int[] b(int[] x) {
+          	public ArrayList<Object> b(ArrayList<Object> x) {
           		return this.f.b(x);
           	}
           	public int getA() { return this.a; }
@@ -335,7 +446,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	'''
           	private RPP f = new «IF !fwd»inv_«ENDIF»dec();
           	private final int a = f.getA();
-          	public int[] b(int[] x) {
+          	public ArrayList<Object> b(ArrayList<Object> x) {
           		return this.f.b(x);
           	}
           	public int getA() { return this.a; }
@@ -344,7 +455,25 @@ class JavaYarelGenerator implements IGenerator2 {
           	'''
           	private RPP f = new «IF !fwd»inv_«ENDIF»neg();
           	private final int a = f.getA();
-          	public int[] b(int[] x) {
+          	public ArrayList<Object> b(ArrayList<Object> x) {
+          		return this.f.b(x);
+          	}
+          	public int getA() { return this.a; }
+          	'''
+          BodyTof: 
+          	'''
+          	private RPP f = new «IF !fwd»inv_«ENDIF»tof();
+          	private final int a = f.getA();
+          	public ArrayList<Object> b(ArrayList<Object> x) {
+          		return this.f.b(x);
+          	}
+          	public int getA() { return this.a; }
+          	'''
+          BodyNot: 
+          	'''
+          	private RPP f = new «IF !fwd»inv_«ENDIF»not();
+          	private final int a = f.getA();
+          	public ArrayList<Object> b(ArrayList<Object> x) {
           		return this.f.b(x);
           	}
           	public int getA() { return this.a; }
@@ -353,7 +482,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	'''
           	RPP function = new «IF !fwd»inv_«ENDIF»«b.funName.name»();
           	private final int a = function.getA();
-          	public int[] b(int[] x) { 
+          	public ArrayList<Object> b(ArrayList<Object> x) { 
           		  	return this.function.b(x);
           	}
           	 public int getA() { return this.a; }          
@@ -361,8 +490,8 @@ class JavaYarelGenerator implements IGenerator2 {
           BodyPerm:
           	'''
           	private final int a = «b.permutation.indexes.length»;
-          	public int[] b(int[] x) {
-          		int tmp=0;
+          	public ArrayList<Object> b(ArrayList<Object> x) {
+          		Integer tmp = new Integer(0);
           		«compileBodyPerm(b.permutation, fwd)»
           		return x;
           	}
@@ -379,76 +508,23 @@ class JavaYarelGenerator implements IGenerator2 {
 		  		«compile(b.body,fwd)»
 		  	};
 		  	private final int a = function.getA()+1;
-		  	public int[] b(int[] x) {
-		  		int[] t=Arrays.copyOfRange(x,0,function.getA());
-		  		for(int i = 0 ; i < Math.abs(x[x.length - 1]); i++){
+		  	public ArrayList<Object> b(ArrayList<Object> x) {
+		  		ArrayList<Object> t = new ArrayList<Object>();
+		  		for(int i=0; i <= function.getA(); i++){
+		  			t.add(x.get(i));
+		  		}
+		  		for(int i=0; i < Math.abs((Integer)x.get(x.size()-1)); i++){
 		  			t = function.b(t);
 		  		}
-		  		int[] r=new int[x.length];
-		  		for (int i=0; i<t.length; i++){
-		  			r[i]=t[i];
+		  		ArrayList<Object> r = new ArrayList<Object>();
+		  		for(int i=0; i < t.size(); i++){
+		  			r.add(t.get(i));
 		  		}
-		  		r[r.length-1]=x[x.length-1];
+		  		r.set(r.size()-1, x.get(x.size()-1));
 		  		return r;
 		  	}
 		  	public int getA() { return this.a; } 
 		  	// Iteration stop
-	      	'''
-	      BodyFor: /*Added by Paolo Parker*/
-          	'''
-		  	RPP function = new RPP() //regular function used when v > 0
-		  	{
-		  		«/*the following call generates java code for the body of the "for" statement 
-		  		  (the expression contained in its square brackets)*/
-		  		compile(b.body,fwd)»
-		  	};
-		  	
-		  	RPP inv_function = new RPP() //inverse function used when v < 0
-		  	{
-		  		«compile(b.body,!fwd)»
-		  	};
-		  	
-		  	private final int a = function.getA()+1;
-		  	public int[] b(int[] x) //b stands for behaviour and x are the delta and v function parameters
-		  	{
-		  		int[] t = new int[x.length-1]; //t stands for temporary array, as it's used each time only locally
-		  		
-		  		for(int i=0; i<t.length; i++)
-		  		{
-		  			t[i] = x[i];
-		  		}
-		  		
-		  		if(x[x.length-1] > 0) //if v is greater than zero, recursion goes on and v decreases each time
-		  		{
-		  			t = function.b(t);
-		  			x[x.length-1] = x[x.length-1] - 1;
-		  			for(int i=0; i<x.length-1; i++)
-		  			{
-		  				x[i] = t[i];
-		  			}
-		  			x = b(x);
-		  			x[x.length-1] = x[x.length-1] + 1; //takes v back to its original value in the later stage of recursion
-		  		}
-		  		
-		  		if(x[x.length-1] < 0) //if v is less than zero, recursion goes on and v increases each time
-		  		{
-		  			t = inv_function.b(t);
-		  			x[x.length-1] = x[x.length-1] + 1;
-		  			for(int i=0; i<x.length-1; i++)
-		  			{
-		  				x[i] = t[i];
-		  			}
-		  			x = b(x);
-		  			x[x.length-1] = x[x.length-1] - 1; //takes v back to its original value in the later stage of recursion
-		  		}
-		  	
-		  		if(x[x.length-1] == 0) //when v is equal to zero, recursive calls stop as a value is returned
-		  		{
-		  			return x;
-		  		}
-		  		return x;
-		  	}
-		  	public int getA() { return this.a; } 
 	      	'''
 	      BodyIf:
           	'''
@@ -463,22 +539,25 @@ class JavaYarelGenerator implements IGenerator2 {
 	  		};
 	  		private final int a=pos.getA()+1;
 	  		public int getA() {return this.a;}
-	  		public int[] b(int[] x) {
-	  			int[] t=Arrays.copyOfRange(x,0,pos.getA());	  		
-	  			if(x[x.length-1]>0){
+	  		public ArrayList<Object> b(ArrayList<Object> x) {
+	  			ArrayList<Object> t = new ArrayList<Object>();
+	  			for(int i=0; i <= pos.getA(); i++){
+	  				t.add(x.get(i));
+	  			} 		
+	  			if((Integer)x.get(x.size()-1)>0){
 	  				t=pos.b(t);
 	  			}
-	  			if(x[x.length-1]==0){
+	  			if((Integer)x.get(x.size()-1)==0){
 	  				t=zero.b(t);
 	  			}
-	  			if(x[x.length-1]<0){
+	  			if((Integer)x.get(x.size()-1)<0){
 	  				t=neg.b(t);
 	  			}
-	  			int[] r = new int[x.length];
-	  			for (int i = 0; i < t.length; i++){
-	  				r[i]=t[i];
+	  			ArrayList<Object> r = new ArrayList<Object>();
+	  			for (int i = 0; i < t.size(); i++){
+	  				r.add(t.get(i));
 	  			}
-	  			r[r.length-1]=x[x.length-1];
+	  			r.set(r.size()-1, x.get(x.size()-1));
 	  			return r;
 	  		}
 	      	'''
@@ -503,7 +582,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		return i ;
     }
     
-    //Implements the permutation function
+    /**
+	 * Implements the permutation function
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	private def compileBodyPerm(Permutation permutation, boolean fwd) {
 		var p = newIntArrayOfSize(permutation.indexes.length)
 		var pVal=0
@@ -534,34 +616,31 @@ class JavaYarelGenerator implements IGenerator2 {
 			enterCycle = p.get(i) != startCycle
 			
 			if(enterCycle){
-				r=r+"tmp = x["+startCycle+"]; \n"
+				r=r+"tmp = (Integer) x.get("+startCycle+"); \n"
 			}
 			while(p.get(i)!=startCycle){
-				r=r+"x["+ i +"] = x["+ p.get(i) + "]; \n"
+				r=r+"x.set("+ i +", x.get("+ p.get(i) +")); \n"
 				c.set(k, p.get(i));
 				k = k + 1;
 				i = p.get(i);	
 			}
-			
 			if (enterCycle){
-			    r=r+"x["+i+"] = tmp; \n";
+			    r=r+"x.set("+i+", tmp); \n";
 			}
-			    
-			i = update(p,c,k);
-							
+			i = update(p,c,k);					
 		}
-		
 		return r
 	}
 	
-	
-	//Builds a java file that can be used to test the function/s declared and defined in the .rl file
-	def CharSequence testFileGenerator(Model model) /*Added by Paolo Parker*/
-	{
+	/**
+	 * Builds a java file that can be used to test the function/s declared and defined in the .rl file
+	 * Taken from Paolo Parker. Modified by Riccardo Viola.
+	 */
+	def CharSequence testFileGenerator(Model model){
 		val testFile = '''
 		package «model.name»;
 		import Yarelcore.*;
-		import java.util.Arrays;
+		import java.util.ArrayList;
 		
 		public class «model.name»Test
 		{
@@ -580,9 +659,11 @@ class JavaYarelGenerator implements IGenerator2 {
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 	}
 	
-	/*The compiler's execution starts from this method*/
+	/**
+	 * The compiler's execution starts from this method
+	 * Taken from Dariush. Modified by Riccardo Viola.
+	 */
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		
 		//Looks for the Model in the .rl file
 		val model = resource.allContents.toIterable.filter(Model).get(0)
         val packageName = "Yarelcore"//model.name
@@ -596,6 +677,11 @@ class JavaYarelGenerator implements IGenerator2 {
         fsa.generateFile(packageName+"/inv_dec.java", InvDecGenerator(packageName))
         fsa.generateFile(packageName+"/neg.java", NegGenerator(packageName))
         fsa.generateFile(packageName+"/inv_neg.java", InvNegGenerator(packageName))
+        fsa.generateFile(packageName+"/tof.java", TofGenerator(packageName))
+        fsa.generateFile(packageName+"/inv_tof.java", InvTofGenerator(packageName))
+        fsa.generateFile(packageName+"/not.java", NotGenerator(packageName))
+        fsa.generateFile(packageName+"/inv_not.java", InvNotGenerator(packageName))
+        
         collectArities(model)
         //Generates java code starting from the Model
         compile(fsa, model)
@@ -606,6 +692,5 @@ class JavaYarelGenerator implements IGenerator2 {
         //Play source
        	fsa.generateFile(model.name + "/" + model.name + "PlayWith.java", playGenerator(model.name, model))
 	}
-
 	
 }
