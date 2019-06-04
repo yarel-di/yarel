@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 grammar org.di.unito.yarel.Yarel with org.eclipse.xtext.common.Terminals
 
 generate yarel "http://www.di.org/unito/yarel/Yarel"
@@ -28,52 +27,66 @@ Element:
 	  Import | Declaration | Definition;
 
 Import:
-	'import' importedNamespace=QualifiedNameWithWildcard;
+	'import' importedNamespace=QualifiedNameWithWildcard
+;
 
 QualifiedName:
-   ID ('.' ID)*;
+   ID ('.' ID)*
+;
 
 QualifiedNameWithWildcard:
-    QualifiedName '.*'?;
+    QualifiedName '.*'?
+;
 
 Declaration:
-	'dcl' name=ID ':' signature=Signature;
+	'dcl' name=ID ':' signaturesL=Signature '->' signaturesR=Signature 
+;
 
 Signature:
-	types += Type (',' types+=Type)*;
-
-Type: 
-    {Type} value=(INT)? 'int'
+	types += Type (',' types+=Type)*
 ;
-Definition:
-	'def' declarationName=[Declaration] ':=' body=Body;
 
-Body: SerComp;
+Type:
+    {TypeInt}  value=(INT)? 'int'
+  | {TypeBool} value=(INT)? 'bool'
+;
+ 
+Definition:
+	'def' declarationName=[Declaration] ':=' body=Body
+;
+
+Body:
+	SerComp
+;
 
 SerComp returns Body:
-	ParComp ({SerComp.left=current} ';' right=ParComp)*;
+	ParComp ({SerComp.left=current} ';' right=ParComp)*
+;
 
 ParComp returns Body:
-	BodyBase ({ParComp.left=current} '|' right=BodyBase)* ;
+	BodyBase ({ParComp.left=current} '|' right=BodyBase)*
+;
 
-BodyBase returns Body: 
-   '(' Body ')' | Atomic;
+BodyBase returns Body:
+   '(' Body ')' | Atomic
+;
 
-
-Atomic returns Body: 
-    {BodyId}  funName='id' 
-  | {BodyInc} funName='inc' 
-  | {BodyDec} funName='dec'
-  | {BodyNeg} funName='neg'
-  | {BodyFor} function='for' '[' body=Body ']'
-  | {BodyInv} function='inv' '[' body=Body ']'
-  | {BodyIt}  function='it' '[' body=Body ']'
-  | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
-  | {BodyFun} funName=[Declaration] 
-  | {BodyPerm} permutation=Permutation;
+Atomic returns Body:
+    {BodyId}   funName='id' 
+  | {BodyInc}  funName='inc' 
+  | {BodyDec}  funName='dec'
+  | {BodyNeg}  funName='neg'
+  | {BodyTof}  funName='tof'
+  | {BodyNot}  funName='not'
+  | {BodyInv}  function='inv' '[' body=Body ']'
+  | {BodyIt}   function='it' '[' body=Body ']'
+  | {BodyIf}   function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
+  | {BodyFun}  funName=[Declaration] 
+  | {BodyPerm} permutation=Permutation
+;
 
 Permutation: 
   '/' indexes+=Digit (indexes+=Digit)* '/';
   
 Digit:
-	value=INT;
+	value=INT;	
