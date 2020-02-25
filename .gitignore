@@ -6,3 +6,5 @@
 *.ecore
 *.genmodel
 *.xml_gen
+*.java
+*.xtendbin
