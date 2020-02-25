@@ -35,6 +35,7 @@ import org.di.unito.yarel.yarel.ParComp
 import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.YarelPackage
 import org.eclipse.xtext.validation.Check
+import org.di.unito.yarel.yarel.BodyFor
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
@@ -43,13 +44,13 @@ class YarelValidator extends AbstractYarelValidator {
 
 
 	//Error ids
-	public static val BASE_ERROR_NAME = 'org.di.unito.reval_'
+	public static val BASE_ERROR_NAME = 'org.di.unito.yarel_'
 	public static val WARNING_BAD_MODULE_NAME = BASE_ERROR_NAME + 'WARNING_BAD_MODULE_NAME'
 	public static val ERROR_RECURSION = BASE_ERROR_NAME + 'ERROR_RECURSION'
 	public static val ERROR_SERIAL_COMPOSITION = BASE_ERROR_NAME + 'ERROR_SERIAL_COMPOSITION'
 	public static val ERROR_IF_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_IF_FUNCTIONS_ARITY'
 	public static val ERROR_PERMUTATION_BOUND = BASE_ERROR_NAME + 'ERROR_PERMUTATION_BOUND'
-	public static val ERROR_PERMUTATION_INDECES = BASE_ERROR_NAME + 'ERROR_PERMUTATION_INDECES'
+	public static val ERROR_PERMUTATION_INDICES = BASE_ERROR_NAME + 'ERROR_PERMUTATION_INDICES'
 	public static val ERROR_ITERATION_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_ITERATION_FUNCTIONS_ARITY'
 	public static val ERROR_ARITY = BASE_ERROR_NAME + 'ERROR_ARITY'
 	
@@ -61,10 +62,11 @@ class YarelValidator extends AbstractYarelValidator {
 	private def dispatch int getArity(Body body) {
 		switch body {
 			SerComp: body.left.arity
-			ParComp: body.right.arity + body.left.arity 
+			ParComp: body.right.arity + body.left.arity
 			BodyInv : body.body.arity
 			BodyFun : body.funName.arity
 			BodyIt : 1 + body.body.arity
+			BodyFor: 1 + body.body.arity
 			BodyIf: 1 + body.pos.arity
 			BodyPerm: body.permutation.indexes.size
 			BodyInc : 1
@@ -110,7 +112,7 @@ class YarelValidator extends AbstractYarelValidator {
 	}
 	
 	/**
-	 * Check if each index used inside permutation is less or equal to the arity of the function
+	 * Check if each index used inside a permutation is less or equal to the arity of the function
 	 */
 	@Check
 	def checkPermutationBound(BodyPerm permutationBody) {
@@ -133,9 +135,8 @@ class YarelValidator extends AbstractYarelValidator {
 		
 		permutation.indexes.forEach[
 			if(indicesSet.contains(it.value))
-				error("Indices must be all different", YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_INDECES)
+				error("Indices must be all different", YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_INDICES)
 			indicesSet.add(it.value)
 		]
 	}
-	
 }

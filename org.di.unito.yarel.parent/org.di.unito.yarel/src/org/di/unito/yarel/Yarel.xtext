@@ -28,16 +28,13 @@ Element:
 	  Import | Declaration | Definition;
 
 Import:
-	'import' importedNamespace=QualifiedNameWithWildcard
-;
+	'import' importedNamespace=QualifiedNameWithWildcard;
 
 QualifiedName:
-   ID ('.' ID)*
-;
+   ID ('.' ID)*;
 
 QualifiedNameWithWildcard:
-    QualifiedName '.*'?
-;
+    QualifiedName '.*'?;
 
 Declaration:
 	'dcl' name=ID ':' signature=Signature;
@@ -51,10 +48,10 @@ Type:
 Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;
 
-Body: SerComp ;
+Body: SerComp;
 
 SerComp returns Body:
-	ParComp ({SerComp.left=current} ';' right=ParComp)* ;
+	ParComp ({SerComp.left=current} ';' right=ParComp)*;
 
 ParComp returns Body:
 	BodyBase ({ParComp.left=current} '|' right=BodyBase)* ;
@@ -68,15 +65,15 @@ Atomic returns Body:
   | {BodyInc} funName='inc' 
   | {BodyDec} funName='dec'
   | {BodyNeg} funName='neg'
+  | {BodyFor} function='for' '[' body=Body ']'
   | {BodyInv} function='inv' '[' body=Body ']'
   | {BodyIt}  function='it' '[' body=Body ']'
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
   | {BodyFun} funName=[Declaration] 
-  | {BodyPerm} permutation=Permutation
-;
+  | {BodyPerm} permutation=Permutation;
 
 Permutation: 
   '/' indexes+=Digit (indexes+=Digit)* '/';
   
 Digit:
-	value=INT;	
+	value=INT;

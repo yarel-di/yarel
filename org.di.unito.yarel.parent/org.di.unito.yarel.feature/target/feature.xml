@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.di.unito.yarel.feature"
+      label="Yarel Feature "
+      version="1.0.0.201905220928">
+
+   <plugin
+         id="org.di.unito.yarel"
+         download-size="185"
+         install-size="433"
+         version="1.0.0.201905220928"
+         unpack="false"/>
+
+   <plugin
+         id="org.di.unito.yarel.ide"
+         download-size="51"
+         install-size="190"
+         version="1.0.0.201905220928"
+         unpack="false"/>
+
+   <plugin
+         id="org.di.unito.yarel.ui"
+         download-size="18"
+         install-size="47"
+         version="1.0.0.201905220928"
+         unpack="false"/>
+
+</feature>
