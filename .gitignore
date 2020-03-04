@@ -8,7 +8,4 @@
 *.xml_gen
 *.java
 *.xtendbin
-*.classpath
-*.settings
-*.project
 **/*._trace
