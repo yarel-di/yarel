@@ -6,6 +6,6 @@
 *.ecore
 *.genmodel
 *.xml_gen
-*.java
 *.xtendbin
 **/*._trace
+Yarelcore/
