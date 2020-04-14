@@ -3,10 +3,10 @@ import java.util.Arrays;
 import java.lang.Math;
 import Yarelcore.*;
 import compound.*; 
-public class Permutation implements RPP {
-    public Permutation() { }
+public class InvPermutation implements RPP {
+    public InvPermutation() { }
     RPP l = new RPP() {
-    	RPP function = new ParComposition();
+    	RPP function = new InvParComposition();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
@@ -26,7 +26,7 @@ public class Permutation implements RPP {
     };
     private final int a = l.getA();
     public int[] b(int[] x) { // Implements a serial composition.
-    	return this.r.b(this.l.b(x));
+    	return this.l.b(this.r.b(x));
     }
     public int getA() { return this.a; }
 }

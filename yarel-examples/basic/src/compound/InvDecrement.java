@@ -2,11 +2,11 @@ package compound;
 import java.util.Arrays;
 import java.lang.Math;
 import Yarelcore.*;
-public class Decrement implements RPP {
-    public Decrement() { }
+public class InvDecrement implements RPP {
+    public InvDecrement() { }
     // Iteration start
     RPP function = new RPP() {
-    	private RPP f = new Dec();
+    	private RPP f = new InvDec();
     	private final int a = f.getA();
     	public int[] b(int[] x) {
     		return this.f.b(x);

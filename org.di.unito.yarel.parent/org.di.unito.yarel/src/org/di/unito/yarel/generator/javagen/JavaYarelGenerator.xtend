@@ -77,7 +77,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def IdGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class id implements RPP {
+		public class Id implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
 				return x;
@@ -90,8 +90,8 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def InvIdGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class inv_id implements RPP {
-			private RPP f = new id();
+		public class InvId implements RPP {
+			private RPP f = new Id();
 			private final int a = this.f.getA();
 			public int[] b(int[] x) {
 				return this.f.b(x);
@@ -104,7 +104,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def IncGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class inc implements RPP {
+		public class Inc implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
 				x[0] = x[0] + 1;
@@ -118,8 +118,8 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def InvIncGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class inv_inc implements RPP {
-			private RPP f = new dec();
+		public class InvInc implements RPP {
+			private RPP f = new Dec();
 			private final int a = this.f.getA();
 			public int[] b(int[] x) {
 				return this.f.b(x);
@@ -132,7 +132,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def DecGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class dec implements RPP {
+		public class Dec implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
 				x[0] = x[0] - 1;
@@ -146,8 +146,8 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def InvDecGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class inv_dec implements RPP {
-			private RPP f = new inc();
+		public class InvDec implements RPP {
+			private RPP f = new Inc();
 			private final int a = this.f.getA();;
 			public int[] b(int[] x) {
 				return this.f.b(x);
@@ -160,7 +160,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def NegGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class neg implements RPP {
+		public class Neg implements RPP {
 			private final int a = 1;
 			public int[] b(int[] x) {
 				x[0] = -x[0];
@@ -174,8 +174,8 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def InvNegGenerator(String packageName) {
 		'''
 		package «packageName»;
-		public class inv_neg implements RPP {
-			private RPP f = new neg();
+		public class InvNeg implements RPP {
+			private RPP f = new Neg();
 			private final int a = this.f.getA();;
 			public int[] b(int[] x) {
 				return this.f.b(x);
@@ -194,10 +194,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		import Yarelcore.*;
 		import java.util.Arrays;
 		
-		public class «packageName»PlayWith {
+		public class «packageName.toFirstUpper»PlayWith {
 			public static void main(String[] args) throws Exception {
 				 «FOR name : functionNames»
-				 	RPP «name»RPP = new «packageName».«name»();
+				 	RPP «name»RPP = new «packageName».«name.toFirstUpper»();
 				 	for(int i : «name»RPP.b(new int[] {«FOR i : 0 ..< arities.get(name) - 1»«i+1»,«ENDFOR»5})) {
 				 			System.out.println(i);
 				 		}
@@ -251,9 +251,9 @@ class JavaYarelGenerator implements IGenerator2 {
 		val folder = model.name + "/"
         for(definition: definitions) {
         	var compilation = compile(model, definition, true)
-            fsa.generateFile(folder + definition.declarationName.name+".java", compilation)
+            fsa.generateFile(folder + definition.declarationName.name.toFirstUpper+".java", compilation)
             compilation = compile(model, definition, false)
-            fsa.generateFile(folder + "inv_"+definition.declarationName.name+".java", compilation)
+            fsa.generateFile(folder + "Inv"+definition.declarationName.name.toFirstUpper+".java", compilation)
         }
 	}
 	    
@@ -264,8 +264,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		import java.lang.Math;
 		import Yarelcore.*;
 		«generateImports(model)»
-		public class «IF !fwd»inv_«ENDIF»«definition.declarationName.name» implements RPP {
-		    public «IF !fwd»inv_«ENDIF»«definition.declarationName.name»() { }
+		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
+		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
 		    «compile(definition.body, fwd)»
 		}'''
 	}
@@ -315,7 +315,7 @@ class JavaYarelGenerator implements IGenerator2 {
           '''
           BodyId:
           	'''
-          	private RPP f = new «IF !fwd»inv_«ENDIF»id();
+          	private RPP f = new «IF !fwd»Inv«ENDIF»Id();
           	private final int a = f.getA();
           	public int[] b(int[] x) {
           		return this.f.b(x);
@@ -324,7 +324,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	''' 
           BodyInc: 
           	'''
-          	private RPP f = new «IF !fwd»inv_«ENDIF»inc();
+          	private RPP f = new «IF !fwd»Inv«ENDIF»Inc();
           	private final int a = f.getA();
           	public int[] b(int[] x) {
           		return this.f.b(x);
@@ -333,7 +333,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	'''
           BodyDec:
           	'''
-          	private RPP f = new «IF !fwd»inv_«ENDIF»dec();
+          	private RPP f = new «IF !fwd»Inv«ENDIF»Dec();
           	private final int a = f.getA();
           	public int[] b(int[] x) {
           		return this.f.b(x);
@@ -342,7 +342,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	''' 
           BodyNeg: 
           	'''
-          	private RPP f = new «IF !fwd»inv_«ENDIF»neg();
+          	private RPP f = new «IF !fwd»Inv«ENDIF»Neg();
           	private final int a = f.getA();
           	public int[] b(int[] x) {
           		return this.f.b(x);
@@ -351,7 +351,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	'''
           BodyFun: 
           	'''
-          	RPP function = new «IF !fwd»inv_«ENDIF»«b.funName.name»();
+          	RPP function = new «IF !fwd»Inv«ENDIF»«b.funName.name.toFirstUpper»();
           	private final int a = function.getA();
           	public int[] b(int[] x) { 
           		  	return this.function.b(x);
@@ -563,7 +563,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		import Yarelcore.*;
 		import java.util.Arrays;
 		
-		public class «model.name»Test
+		public class «model.name.toFirstUpper»Test
 		{
 			public static void main(String[] args)
 			{
@@ -588,23 +588,23 @@ class JavaYarelGenerator implements IGenerator2 {
         val packageName = "Yarelcore"//model.name
         fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
         fsa.generateFile(packageName+"/RPP.java", RPPGenerator(packageName))
-        fsa.generateFile(packageName+"/id.java", IdGenerator(packageName))
-        fsa.generateFile(packageName+"/inv_id.java", InvIdGenerator(packageName))
-        fsa.generateFile(packageName+"/inc.java", IncGenerator(packageName))
-        fsa.generateFile(packageName+"/inv_inc.java", InvIncGenerator(packageName))
-        fsa.generateFile(packageName+"/dec.java", DecGenerator(packageName))
-        fsa.generateFile(packageName+"/inv_dec.java", InvDecGenerator(packageName))
-        fsa.generateFile(packageName+"/neg.java", NegGenerator(packageName))
-        fsa.generateFile(packageName+"/inv_neg.java", InvNegGenerator(packageName))
+        fsa.generateFile(packageName+"/Id.java", IdGenerator(packageName))
+        fsa.generateFile(packageName+"/InvId.java", InvIdGenerator(packageName))
+        fsa.generateFile(packageName+"/Inc.java", IncGenerator(packageName))
+        fsa.generateFile(packageName+"/InvInc.java", InvIncGenerator(packageName))
+        fsa.generateFile(packageName+"/Dec.java", DecGenerator(packageName))
+        fsa.generateFile(packageName+"/InvDec.java", InvDecGenerator(packageName))
+        fsa.generateFile(packageName+"/Neg.java", NegGenerator(packageName))
+        fsa.generateFile(packageName+"/InvNeg.java", InvNegGenerator(packageName))
         collectArities(model)
         //Generates java code starting from the Model
         compile(fsa, model)
        
         //Tests
-        fsa.generateFile(model.name + "/" + model.name + "Test.java", testFileGenerator(model))
+        fsa.generateFile(model.name + "/" + model.name.toFirstUpper + "Test.java", testFileGenerator(model))
         
         //Play source
-       	fsa.generateFile(model.name + "/" + model.name + "PlayWith.java", playGenerator(model.name, model))
+       	fsa.generateFile(model.name + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name, model))
 	}
 
 	

@@ -33,7 +33,7 @@ class YarelGenerationTest
 			 * 				2) the implementation of the function declared in the module actually does what it's intended to do*/
 			
 			//Gets the class we will be using reflection on
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
 			
 			//parameters to be used when invoking the b(ehaviour) method
 			val int[] x = #[0]
@@ -46,7 +46,7 @@ class YarelGenerationTest
 			assertEquals(1,actualx.get(0))
 			
 			//Doing the same as above for the inverse function (mod.inv_f)
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[0]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			assertEquals(-1,actualx.get(0))
@@ -70,7 +70,7 @@ class YarelGenerationTest
 			def f := dec
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
 			val int[] x = #[0]
 			var int[] actualx = function.invoke("b",x) as int[]
 			assertEquals(-1,actualx.get(0))
@@ -79,7 +79,7 @@ class YarelGenerationTest
 			assertEquals(1,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[0]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			assertEquals(1,actualx.get(0))
@@ -99,7 +99,7 @@ class YarelGenerationTest
 			def f := id
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
 			val int[] x = #[0]
 			var int[] actualx = function.invoke("b",x) as int[]
 			assertEquals(0,actualx.get(0))
@@ -109,7 +109,7 @@ class YarelGenerationTest
 			assertEquals(1,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[0]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			assertEquals(0,actualx.get(0))
@@ -130,7 +130,7 @@ class YarelGenerationTest
 			def f := neg
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
 			val int[] x = #[5]
 			var int[] actualx = function.invoke("b",x) as int[]
 			assertEquals(-5,actualx.get(0))
@@ -140,7 +140,7 @@ class YarelGenerationTest
 			assertEquals(1,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[5]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			assertEquals(-5,actualx.get(0))
@@ -161,8 +161,8 @@ class YarelGenerationTest
 			def f := inc;dec;inc
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
-			println(getGeneratedCode("mod.f"))
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
+			println(getGeneratedCode("mod.F"))
 			val int[] x = #[10]
 			var int[] actualx = function.invoke("b",x) as int[]
 			assertEquals(11,actualx.get(0))
@@ -172,7 +172,7 @@ class YarelGenerationTest
 			assertEquals(1,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[4]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			assertEquals(3,actualx.get(0))
@@ -193,8 +193,8 @@ class YarelGenerationTest
 			def f := inc|dec|inc
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
-			println(getGeneratedCode("mod.f"))
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
+			println(getGeneratedCode("mod.F"))
 			val int[] x = #[10,15,20]
 			var int[] actualx = function.invoke("b",x) as int[]
 			var int[] expectedx = #[11,14,21]
@@ -205,7 +205,7 @@ class YarelGenerationTest
 			assertEquals(3,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[4,5,6]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			expectedx = #[3,6,5]
@@ -226,8 +226,8 @@ class YarelGenerationTest
 			def f := /2 4 3 1/
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
-			println(getGeneratedCode("mod.f"))
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
+			println(getGeneratedCode("mod.F"))
 			val int[] x = #[1,2,3,4]
 			var int[] actualx = function.invoke("b",x) as int[]
 			var int[] expectedx = #[2,4,3,1]
@@ -238,7 +238,7 @@ class YarelGenerationTest
 			assertEquals(4,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[1,2,3,4]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			expectedx = #[4,1,3,2]
@@ -264,8 +264,8 @@ class YarelGenerationTest
 		        def conclusion := it[inc]
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val premise = getCompiledClass("mod.premise").getDeclaredConstructor.newInstance
-		 	val conclusion = getCompiledClass("mod.conclusion").getDeclaredConstructor.newInstance
+			val premise = getCompiledClass("mod.Premise").getDeclaredConstructor.newInstance
+		 	val conclusion = getCompiledClass("mod.Conclusion").getDeclaredConstructor.newInstance
 			
 		 	val int[] input = #[5,0]
 			var int[] outputOfPremise = premise.invoke("b",input) as int[]
@@ -283,8 +283,8 @@ class YarelGenerationTest
 		        def conclusion := it[inc]
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val premise = getCompiledClass("mod.premise").getDeclaredConstructor.newInstance
-		 	val conclusion = getCompiledClass("mod.conclusion").getDeclaredConstructor.newInstance
+			val premise = getCompiledClass("mod.Premise").getDeclaredConstructor.newInstance
+		 	val conclusion = getCompiledClass("mod.Conclusion").getDeclaredConstructor.newInstance
 			
 		 	val int[] input = #[5,10]
 			var int[] outputOfPremise = premise.invoke("b",input) as int[]
@@ -302,8 +302,8 @@ class YarelGenerationTest
 		        def conclusion := it[inc]
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val premise = getCompiledClass("mod.premise").getDeclaredConstructor.newInstance
-		 	val conclusion = getCompiledClass("mod.conclusion").getDeclaredConstructor.newInstance
+			val premise = getCompiledClass("mod.Premise").getDeclaredConstructor.newInstance
+		 	val conclusion = getCompiledClass("mod.Conclusion").getDeclaredConstructor.newInstance
 			
 		 	val int[] input = #[5,-10]
 			var int[] outputOfPremise = premise.invoke("b",input) as int[]
@@ -326,8 +326,8 @@ class YarelGenerationTest
 		        def conclusion := for[inc]
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val premise = getCompiledClass("mod.premise").getDeclaredConstructor.newInstance
-		 	val conclusion = getCompiledClass("mod.conclusion").getDeclaredConstructor.newInstance
+			val premise = getCompiledClass("mod.Premise").getDeclaredConstructor.newInstance
+		 	val conclusion = getCompiledClass("mod.Conclusion").getDeclaredConstructor.newInstance
 			
 		 	val int[] input = #[5,0]
 			var int[] outputOfPremise = premise.invoke("b",input) as int[]
@@ -345,8 +345,8 @@ class YarelGenerationTest
 		        def conclusion := for[inc]
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val premise = getCompiledClass("mod.premise").getDeclaredConstructor.newInstance
-		 	val conclusion = getCompiledClass("mod.conclusion").getDeclaredConstructor.newInstance
+			val premise = getCompiledClass("mod.Premise").getDeclaredConstructor.newInstance
+		 	val conclusion = getCompiledClass("mod.Conclusion").getDeclaredConstructor.newInstance
 			
 		 	val int[] input = #[5,10]
 			var int[] outputOfPremise = premise.invoke("b",input) as int[]
@@ -364,8 +364,8 @@ class YarelGenerationTest
 		        def conclusion := for[inc]
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val premise = getCompiledClass("mod.premise").getDeclaredConstructor.newInstance
-		 	val conclusion = getCompiledClass("mod.conclusion").getDeclaredConstructor.newInstance
+			val premise = getCompiledClass("mod.Premise").getDeclaredConstructor.newInstance
+		 	val conclusion = getCompiledClass("mod.Conclusion").getDeclaredConstructor.newInstance
 			
 		 	val int[] input = #[5,-10]
 			var int[] outputOfPremise = premise.invoke("b",input) as int[]
@@ -384,8 +384,8 @@ class YarelGenerationTest
 			def f := inv[inc]
 		}'''.compile([
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
-			println(getGeneratedCode("mod.f"))
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
+			println(getGeneratedCode("mod.F"))
 			val int[] x = #[5]
 			var int[] actualx = function.invoke("b",x) as int[]
 			assertEquals(4,actualx.get(0))
@@ -395,7 +395,7 @@ class YarelGenerationTest
 			assertEquals(1,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			val int[] x_inv = #[5]
 			actualx = inv_function.invoke("b",x_inv) as int[]
 			assertEquals(6,actualx.get(0))
@@ -417,8 +417,8 @@ class YarelGenerationTest
 		}'''.compile([
 			
 			//----------------REGULAR FUNCTION-----------------
-			val function = getCompiledClass("mod.f").getDeclaredConstructor.newInstance
-			println(getGeneratedCode("mod.f"))
+			val function = getCompiledClass("mod.F").getDeclaredConstructor.newInstance
+			println(getGeneratedCode("mod.F"))
 			
 			//testing for positive v
 			val int[] x_pos = #[5,13]
@@ -443,7 +443,7 @@ class YarelGenerationTest
 			assertEquals(2,actualArity);
 			
 			//----------------INVERSE FUNCTION-----------------
-			val inv_function = getCompiledClass("mod.inv_f").getDeclaredConstructor.newInstance
+			val inv_function = getCompiledClass("mod.InvF").getDeclaredConstructor.newInstance
 			
 			//testing for positive v
 			val int[] x_invPos = #[5,13]
