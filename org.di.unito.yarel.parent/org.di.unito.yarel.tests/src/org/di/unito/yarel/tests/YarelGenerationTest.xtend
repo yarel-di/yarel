@@ -64,7 +64,7 @@ class YarelGenerationTest
 	@Test
 	def void testFunctionDec()
 	{
-		'''module mod
+		'''module mod 
 		{
 			dcl f: int
 			def f := dec

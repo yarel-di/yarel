@@ -2,12 +2,13 @@ package base;
 import java.util.Arrays;
 import java.lang.Math;
 import Yarelcore.*;
+import modules.G; 
 public class InvF implements RPP {
     public InvF() { }
-    private RPP f = new InvInc();
-    private final int a = f.getA();
-    public int[] b(int[] x) {
-    	return this.f.b(x);
+    RPP function = new InvG();
+    private final int a = function.getA();
+    public int[] b(int[] x) { 
+    	  	return this.function.b(x);
     }
-    public int getA() { return this.a; }
+     public int getA() { return this.a; }          
 }

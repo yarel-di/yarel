@@ -1,5 +1,7 @@
-module base { 
+module base {
+	import modules.G
 	dcl f : int
 	dcl g : int
-	def f := inc
+	def g := id
+	def f := g
 }
