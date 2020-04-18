@@ -69,7 +69,7 @@ Atomic returns Body:
   | {BodyInv} function='inv' '[' body=Body ']'
   | {BodyIt}  function='it' '[' body=Body ']'
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
-  | {BodyFun} funName=[Declaration] 
+  | {BodyFun} funName=[Declaration | QualifiedName] 
   | {BodyPerm} permutation=Permutation;
 
 Permutation: 
