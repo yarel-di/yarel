@@ -34,7 +34,7 @@ QualifiedName:
    ID ('.' ID)*;
 
 QualifiedNameWithWildcard:
-    QualifiedName '.*'?;
+    ID ('.' ID)* '.' (ID | '*');
 
 Declaration:
 	'dcl' name=ID ':' signature=Signature;

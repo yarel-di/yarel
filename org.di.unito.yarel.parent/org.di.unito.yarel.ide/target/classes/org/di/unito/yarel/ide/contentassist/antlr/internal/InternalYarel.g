@@ -476,6 +476,27 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+rule__QualifiedNameWithWildcard__Alternatives_3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_3_0()); }
+		RULE_ID
+		{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_3_0()); }
+	)
+	|
+	(
+		{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getAsteriskKeyword_3_1()); }
+		'*'
+		{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getAsteriskKeyword_3_1()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
 rule__BodyBase__Alternatives
 	@init {
 		int stackSize = keepStackSize();
@@ -881,9 +902,9 @@ rule__QualifiedNameWithWildcard__Group__0__Impl
 	}
 :
 (
-	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getQualifiedNameParserRuleCall_0()); }
-	ruleQualifiedName
-	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getQualifiedNameParserRuleCall_0()); }
+	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_0()); }
+	RULE_ID
+	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_0()); }
 )
 ;
 finally {
@@ -896,6 +917,7 @@ rule__QualifiedNameWithWildcard__Group__1
 	}
 :
 	rule__QualifiedNameWithWildcard__Group__1__Impl
+	rule__QualifiedNameWithWildcard__Group__2
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -907,9 +929,116 @@ rule__QualifiedNameWithWildcard__Group__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopAsteriskKeyword_1()); }
-	('.*')?
-	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopAsteriskKeyword_1()); }
+	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getGroup_1()); }
+	(rule__QualifiedNameWithWildcard__Group_1__0)*
+	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getGroup_1()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__QualifiedNameWithWildcard__Group__2
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__QualifiedNameWithWildcard__Group__2__Impl
+	rule__QualifiedNameWithWildcard__Group__3
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__QualifiedNameWithWildcard__Group__2__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopKeyword_2()); }
+	'.'
+	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopKeyword_2()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__QualifiedNameWithWildcard__Group__3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__QualifiedNameWithWildcard__Group__3__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__QualifiedNameWithWildcard__Group__3__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getAlternatives_3()); }
+	(rule__QualifiedNameWithWildcard__Alternatives_3)
+	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getAlternatives_3()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+rule__QualifiedNameWithWildcard__Group_1__0
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__QualifiedNameWithWildcard__Group_1__0__Impl
+	rule__QualifiedNameWithWildcard__Group_1__1
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__QualifiedNameWithWildcard__Group_1__0__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopKeyword_1_0()); }
+	'.'
+	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopKeyword_1_0()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__QualifiedNameWithWildcard__Group_1__1
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__QualifiedNameWithWildcard__Group_1__1__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__QualifiedNameWithWildcard__Group_1__1__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_1_1()); }
+	RULE_ID
+	{ after(grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_1_1()); }
 )
 ;
 finally {

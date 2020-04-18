@@ -271,23 +271,47 @@ ruleQualifiedNameWithWildcard returns [AntlrDatatypeRuleToken current=new AntlrD
 	leaveRule();
 }:
 	(
+		this_ID_0=RULE_ID
 		{
-			newCompositeNode(grammarAccess.getQualifiedNameWithWildcardAccess().getQualifiedNameParserRuleCall_0());
-		}
-		this_QualifiedName_0=ruleQualifiedName
-		{
-			$current.merge(this_QualifiedName_0);
+			$current.merge(this_ID_0);
 		}
 		{
-			afterParserOrEnumRuleCall();
+			newLeafNode(this_ID_0, grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_0());
 		}
 		(
-			kw='.*'
+			kw='.'
 			{
 				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopAsteriskKeyword_1());
+				newLeafNode(kw, grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopKeyword_1_0());
 			}
-		)?
+			this_ID_2=RULE_ID
+			{
+				$current.merge(this_ID_2);
+			}
+			{
+				newLeafNode(this_ID_2, grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_1_1());
+			}
+		)*
+		kw='.'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getQualifiedNameWithWildcardAccess().getFullStopKeyword_2());
+		}
+		(
+			this_ID_4=RULE_ID
+			{
+				$current.merge(this_ID_4);
+			}
+			{
+				newLeafNode(this_ID_4, grammarAccess.getQualifiedNameWithWildcardAccess().getIDTerminalRuleCall_3_0());
+			}
+			    |
+			kw='*'
+			{
+				$current.merge(kw);
+				newLeafNode(kw, grammarAccess.getQualifiedNameWithWildcardAccess().getAsteriskKeyword_3_1());
+			}
+		)
 	)
 ;
 
