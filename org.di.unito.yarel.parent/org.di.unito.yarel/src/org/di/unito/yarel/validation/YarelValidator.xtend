@@ -36,12 +36,19 @@ import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.YarelPackage
 import org.eclipse.xtext.validation.Check
 import org.di.unito.yarel.yarel.BodyFor
-
+import org.di.unito.yarel.yarel.Import
+import org.di.unito.yarel.scoping.YarelIndex
+import com.google.inject.Inject
+import org.di.unito.yarel.utils.YarelUtils
+import org.di.unito.yarel.yarel.Model
+import org.eclipse.xtext.validation.CheckType
+import static extension org.eclipse.xtext.EcoreUtil2.*
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
  */
 class YarelValidator extends AbstractYarelValidator {
-
+	@Inject extension YarelIndex
+	@Inject extension YarelUtils
 
 	//Error ids
 	public static val BASE_ERROR_NAME = 'org.di.unito.yarel_'
@@ -53,7 +60,9 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_PERMUTATION_INDICES = BASE_ERROR_NAME + 'ERROR_PERMUTATION_INDICES'
 	public static val ERROR_ITERATION_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_ITERATION_FUNCTIONS_ARITY'
 	public static val ERROR_ARITY = BASE_ERROR_NAME + 'ERROR_ARITY'
-	
+	public static val ERROR_IMPORT = BASE_ERROR_NAME + 'ERROR_IMPORT'
+	public static val ERROR_DUPLICATE_MODULE = BASE_ERROR_NAME + 'ERROR_DUPLICATE_MODULE'
+	public static val ERROR_INVALID_DEFINITION_COUNT = BASE_ERROR_NAME + 'ERROR_INVALID_DEFINITION_COUNT'
 	
 	private def dispatch int getArity(Declaration declaration) {
 		return declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
@@ -139,4 +148,114 @@ class YarelValidator extends AbstractYarelValidator {
 			indicesSet.add(it.value)
 		]
 	}
+	
+	/**
+	 * Check if the imported module exist
+	 * And if the imported function of the imported module exist
+	 */
+	 @Check(CheckType::NORMAL)
+	 def checkImport(Import impt){
+	 	val importedModule = impt.visibleModules.findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
+	 	if(importedModule === null){//check if the module exist
+	 		error(
+	 			''''«impt.importedModule»' cannot be resolved as a module''', 
+	 			YarelPackage::eINSTANCE.import_ImportedNamespace, 
+	 			ERROR_IMPORT
+	 		)
+	 	}
+	 	else{//Check that the imported function is declared in the imported module
+	 		val importedFunction = impt.importedFunction
+	 		if(importedFunction != '*'){//the wildcard is not used
+	 			if(!importedModule.declarations.map[name].contains(importedFunction)){//check if the imported module contain the function
+	 				error(
+	 					"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
+						YarelPackage::eINSTANCE.import_ImportedNamespace, 
+						ERROR_IMPORT)	
+	 			}
+	 		}		
+	 	}
+	 }
+	 
+	 /**
+	  * Check if there aren't module duplicate
+	  */
+	  @Check(CheckType::NORMAL)
+	  def checkModuleDuplicate(Model currentModule){
+	  	if(currentModule.visibleModules.exists[mod | mod != currentModule && mod.name == currentModule.name]){
+	  		error(
+	  			'''The module '«currentModule.name»' is already defined''',
+	  			YarelPackage::eINSTANCE.model_Name,
+	  			ERROR_DUPLICATE_MODULE
+	  		)
+	  	}
+	  }
+	  
+	  
+	  /**
+	  * Check if the module does not declare a function with the same name
+	  * of a function declared in another module
+	  */
+	  @Check
+	  def checkImportedFunctionRedeclaration(Declaration decl){
+	  	val currentModule = decl.getContainerOfType(typeof(Model))
+	  	val importedModules = currentModule.visibleModules.filter[mod |
+	  		currentModule.imports.map[importedModule].contains(mod.name)	  		
+	  	]//take only the imported modules
+		val mod = importedModules.findFirst[
+			declarations.map[name].contains(decl.name)
+		]//the module that already declare the function
+	  	if(mod !== null){
+	  		//The function is declared in another module
+	  		error(
+	  			"The function '" + decl.name + "' is already declared in the imported module '" +
+	  				mod.name + "'",
+	  			YarelPackage::eINSTANCE.declaration_Name,
+	  			ERROR_IMPORT
+	  		) 	
+	  	}
+	  }
+	  
+	  /**
+	   * Check that every declared function has just one definition
+	   * also check that every declared function has a definition inside the same module
+	   */
+	  @Check
+	  def checkOneDefinition(Declaration decl){
+	  	val currentModule = decl.getContainerOfType(typeof(Model))
+	  	var count = 0
+	  	var i = 0
+	  	while(count < 2 && i < currentModule.definitions.size){//count the number of definition
+	  		if(currentModule.definitions.get(i).declarationName == decl) count++
+	  		i++
+	  	}
+	  	if(count >= 2){//check if the declaration has no definition
+	  		error('''The declared function '«decl.name»' has multiple definitions''',
+	  			YarelPackage::eINSTANCE.declaration_Name,
+	  			ERROR_INVALID_DEFINITION_COUNT
+	  		)
+	  	}
+	  	else if(count == 0){//check if the declaration has multiple definition
+	  		error('''The declared function '«decl.name»' has no definition''',
+	  			YarelPackage::eINSTANCE.declaration_Name,
+	  			ERROR_INVALID_DEFINITION_COUNT
+	  		)	
+	  	}
+	  	//else noError
+	  }
+	  
+	  /**
+	   * Check that a module does not give a definition of an imported function
+	   */
+	  @Check def checkDefineOnlyOwnFunction(Definition definition){
+	  	if(definition.declarationName.name !== null){//The cross reference of the object is solved
+		  	val mod = definition.getContainerOfType(typeof(Model))
+		  	if(!mod.declarations.contains(definition.declarationName)){
+		  		error(
+		  			"Trying to define the imported function '" + definition.declarationName.name + "'",
+		  			YarelPackage::eINSTANCE.definition_DeclarationName,
+		  			ERROR_IMPORT
+		  		)
+		  	}
+	  	}
+	  }
 }
