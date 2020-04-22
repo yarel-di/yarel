@@ -43,6 +43,11 @@ import org.di.unito.yarel.utils.YarelUtils
 import org.di.unito.yarel.yarel.Model
 import org.eclipse.xtext.validation.CheckType
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import java.util.HashMap
+import java.util.Map
+import java.util.List
+import java.util.ArrayList
+
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
  */
@@ -149,6 +154,8 @@ class YarelValidator extends AbstractYarelValidator {
 		]
 	}
 	
+	//----VALIDATION FOR IMPORTS----//
+	
 	/**
 	 * Check if the imported module exist
 	 * And if the imported function of the imported module exist
@@ -197,7 +204,19 @@ class YarelValidator extends AbstractYarelValidator {
 	  */
 	  @Check
 	  def checkImportedFunctionRedeclaration(Declaration decl){
-	  	val currentModule = decl.getContainerOfType(typeof(Model))
+	  	val imports = mapImportedFunToMod(decl.getContainerOfType(typeof(Model)))
+	  	val importingMod = imports.get(decl.name)
+	  	if(importingMod !== null){
+	  		//The function is not imported by a module
+	  		error(
+	  			"The function '" + decl.name + "' is already declared in the imported module '" +
+	  				importingMod + "'",
+	  			YarelPackage::eINSTANCE.declaration_Name,
+	  			ERROR_IMPORT
+	  		)
+	  	}
+	  	/*
+	  	OLD VERSION:
 	  	val importedModules = currentModule.visibleModules.filter[mod |
 	  		currentModule.imports.map[importedModule].contains(mod.name)	  		
 	  	]//take only the imported modules
@@ -212,7 +231,29 @@ class YarelValidator extends AbstractYarelValidator {
 	  			YarelPackage::eINSTANCE.declaration_Name,
 	  			ERROR_IMPORT
 	  		) 	
+	  	}*/
+	  }
+	  
+	  /**
+	   * Map each imported function to the first module that import its
+	   */
+	  private def mapImportedFunToMod(Model module){
+	  	val Map<String, String> funToModMap = new HashMap()
+	  	val visibleModules = module.visibleModules
+	  	for(impt : module.imports){
+	  		val importedModule = impt.importedModule
+	  		val function = impt.importedFunction
+	  		if(function == '*'){//resolve the wildcard
+  				visibleModules.findFirst[mod | mod.name == importedModule]
+  							  .declarations
+  							  .map[name]
+  							  .forEach(fun | funToModMap.putIfAbsent(fun, importedModule))
+	  		}
+	  		else{//add the function to the map
+	  			funToModMap.putIfAbsent(function, importedModule)
+	  		}
 	  	}
+	  	return funToModMap
 	  }
 	  
 	  /**

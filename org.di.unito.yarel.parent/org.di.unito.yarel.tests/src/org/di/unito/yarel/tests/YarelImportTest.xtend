@@ -251,11 +251,13 @@ class YarelImportTest {
 	}
 	
 	//Test if there is an error you redeclare a function declared in another module
-	@Test def void testRedeclaredFunction(){
+	@Test def void testRedeclaredFunctionWildcardCase(){
 		val mod1 = '''
 			module mod1{
 				dcl f : int 
 				def f := id
+				dcl g : int
+				def g := id
 			}
 			
 		'''.parse
@@ -274,8 +276,67 @@ class YarelImportTest {
 					YarelValidator::ERROR_IMPORT,
 					"The function 'f' is already declared in the imported module 'mod1'"
 				)
-				1.assertEquals(validate.size)
+				assertError(
+					YarelPackage::eINSTANCE.declaration,
+					YarelValidator::ERROR_IMPORT,
+					"The function 'g' is already declared in the imported module 'mod1'"
+				)
+				2.assertEquals(validate.size)
 		]
+	}
+	
+	//Test if there no if error you redeclare a function declared in another module
+	//but you don't import that function
+	@Test def void testRedeclaredFunctionNoWildcardCase(){
+		val mod1 = '''
+			module mod1{
+				dcl f : int 
+				def f := id
+				dcl g : int 
+				def g := id
+			}
+		'''.parse
+		mod1.assertNoErrors
+		'''
+			module mod2{
+				import mod1.f
+				dcl g : int
+				def g := id
+			}
+		'''.parse(mod1.eResource.resourceSet).assertNoErrors
+	}
+	
+	//Test if the error that you have if you try to redefine
+	//a function declared in 2 or more different modules is referred to the
+	//first imported module that import that function
+	@Test def void testRedeclaredFunctionMultipleModules(){
+		val mod1 = '''
+			module mod1{
+				dcl f : int 
+				def f := id
+			}
+		'''.parse
+		mod1.assertNoErrors
+		val mod2 = '''
+			module mod2{
+				dcl f : int 
+				def f := id
+			}
+		'''.parse(mod1.eResource.resourceSet)
+		mod2.assertNoErrors
+		'''
+			module mod3{
+				import mod1.*
+				import mod2.*
+				dcl f : int
+				def f := id
+			}
+		'''.parse(mod1.eResource.resourceSet)
+		   .assertError(
+				YarelPackage::eINSTANCE.declaration,
+				YarelValidator::ERROR_IMPORT,
+				"The function 'f' is already declared in the imported module 'mod1'"
+		    )
 	}
 	
 	//Test if there is an error if you give to a function multiple definition
