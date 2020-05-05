@@ -349,9 +349,11 @@ class YarelParsingTest
 	@Test
 	def void testSerCompComplexOK() 
 	{
-		"module m { dcl f0 :  int
+		"module m { dcl f0 :  int			
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int
+					def f2 := id
                     def f0 := (f2;(f2;f1;dec));inc}".parse.assertNoErrors
 	}
 
@@ -360,7 +362,9 @@ class YarelParsingTest
 	{
 		"module m { dcl f0 :  int, int, int, int, int
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int
+					def f2 := id
                     def f0 := (f2|f1)|((f1|f2)|inc)}".parse.assertNoErrors
 	}
 
@@ -368,7 +372,9 @@ class YarelParsingTest
 	def void testSeqParCompOK00() 
 	{
 		"module m { dcl f0 :  int
+					def f0 := id
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int, int
                     def f2 := (inc|f0);(f1|dec)}".parse.assertNoErrors
 	}
@@ -377,7 +383,9 @@ class YarelParsingTest
 	def void testSeqParCompOK01() 
 	{
 		"module m { dcl f0 :  int
+					def f0 := id
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int, int
                     def f2 := (inc;f1)|(f0;dec)}".parse.assertNoErrors
 	}
@@ -386,7 +394,9 @@ class YarelParsingTest
 	def void testSeqParCompOK02() 
 	{
 		"module m { dcl f0 :  int
+					def f0 := id
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int, int
                     def f2 := (inc;(f1;inc))|(f0;(dec;dec))}".parse.assertNoErrors
 	}

@@ -17,6 +17,9 @@ import static extension org.junit.Assert.assertEquals
 import org.di.unito.yarel.utils.YarelUtils
 import org.di.unito.yarel.scoping.YarelIndex
 import org.di.unito.yarel.validation.YarelValidator
+import org.eclipse.xtext.xbase.testing.CompilationTestHelper
+import org.eclipse.xtext.xbase.lib.util.ReflectExtensions
+import static extension org.junit.Assert.assertArrayEquals
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(YarelInjectorProvider))
@@ -27,6 +30,10 @@ class YarelImportTest {
 	@Inject extension IScopeProvider
 	@Inject extension YarelUtils
 	@Inject extension YarelIndex
+	@Inject extension CompilationTestHelper
+	@Inject extension ReflectExtensions
+	
+	//----PARSING TEST----//
 	
 	//Test if there are no error when not using an import
 	@Test def void testNoImport(){
@@ -177,6 +184,8 @@ class YarelImportTest {
 			scope.allElements.map[name].join(", ")
 		)
 	}
+	
+	//----VALIDATION TEST----//
 	
 	//Test if there is an error if you try to import a module that does not exist
 	@Test def void testImportedModuleExistCheck(){
@@ -419,22 +428,125 @@ class YarelImportTest {
 		]
 	}
 	
-	 @Test def void prova(){
-	 	val mod1 = 
-	 	'''
-	 	module mod1{
-	 		dcl f : int
-	 		def f := id
-	 	}
-	 	'''.parse
-	 	mod1.assertNoErrors
-	 	val mod2 = 
-	 	'''
-	 	module mod2{
-	 		import mod1.*
-	 		dcl g : int
-	 		def g := id
-	 	}
-	 	'''.parse(mod1.eResource.resourceSet)
-	 }
+	//--COMPILATION TESTS:--//
+	
+	static val CharSequence importedModuleMod1 = 
+		'''
+		module mod1{
+			dcl g : int
+			def g := id
+		}'''
+		
+	static val CharSequence importedModuleMod2 = 
+		'''
+		module mod2{
+			dcl g : int
+			def g := neg
+			dcl h : int
+			def h := neg
+		}'''
+	
+	@Test def void testImportWithNoAmbiguityCode(){
+		(#[
+			importedModuleMod1,
+			'''module mod{
+				import mod1.*
+				dcl f : int
+				def f := g
+			}'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	@Test def void testImportWithNoAmbiguityCode1(){
+		(#[
+			importedModuleMod1,
+			'''module mod{
+				import mod1.g
+				dcl f : int
+				def f := g
+			}'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	@Test def void testImportWithNoAmbiguityCode2(){
+		(#[
+			importedModuleMod1,
+			importedModuleMod2,
+			'''module mod{
+				import mod1.*
+				import mod2.h
+				dcl f : int
+				def f := g
+			}'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	@Test def void testImportFunctionWithQualifiedNameCode(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{
+				dcl f : int
+				def f := mod1.g
+			}
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	@Test def void testNoAmbiguityWithQualifiedNameInGeneratedCode(){
+		(#[
+			importedModuleMod1,
+			importedModuleMod2,
+			'''
+			module mod{
+				import mod1.*
+				import mod2.*
+				dcl f : int
+				def f := id ; mod1.g ; id
+			}
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	@Test def void testNoAmbiguityWithQualifiedNameInGeneratedCode1(){
+		(#[
+			importedModuleMod1,
+			importedModuleMod2,
+			'''
+			module mod{
+				import mod1.*
+				import mod2.*
+				dcl f : int
+				def f := mod1.g ; mod2.g
+			}
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[-1])
+	}
+	
+	def private assertCorrectCodeGeneration(Iterable<CharSequence> files, String functionToTest, int[] input, int[] expectedResuslt){
+		files.compile([
+			val function = getCompiledClass(functionToTest).getDeclaredConstructor.newInstance
+			val int[] result = function.invoke("b", input) as int[]
+			result.assertArrayEquals(expectedResuslt)
+		])
+	}
+	
+	/*@Test def void prova(){
+		val mod1 = '''
+			module mod1{
+				dcl f : int
+				def f := id
+			}
+		'''.parse
+		mod1.assertNoErrors
+		'''
+			module mod2{
+				def f := id
+			}
+		'''.parse(mod1.eResource.resourceSet) => [
+			for(f : visibleFunctions){
+				println(f.EObjectURI)
+			}
+		]
+	}*/
 }

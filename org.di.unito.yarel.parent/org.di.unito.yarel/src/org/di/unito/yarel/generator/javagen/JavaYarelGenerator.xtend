@@ -42,12 +42,30 @@ import java.util.HashMap
 import java.util.Map
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.di.unito.yarel.yarel.Import
 import org.di.unito.yarel.yarel.Permutation
+import org.di.unito.yarel.yarel.Import
+import com.google.inject.Inject
+//import static extension org.eclipse.xtext.naming.IQualifiedNameProvider.*
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.naming.IQualifiedNameProvider.AbstractImpl
+import org.di.unito.yarel.scoping.YarelIndex
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.xtext.nodemodel.INode
+import com.google.common.collect.Iterables
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils
+import org.eclipse.xtext.nodemodel.ICompositeNode
+import org.eclipse.xtext.resource.ILocationInFileProvider
 
 class JavaYarelGenerator implements IGenerator2 {
 	
 	static final String OUTPUT_TEST = "output_test"
+	
+	//the function does the same thing as the one declared in YarelUtils
+	//which for an unknown reason does not work here
+	private def imports(Model mod){
+		mod.elements.filter(typeof(Import))
+	}
 	
 	private def exceptionsGenerator(String packageName) {
 		'''
@@ -232,17 +250,33 @@ class JavaYarelGenerator implements IGenerator2 {
 	}
 	
 	private def generateImports(Model m){
-		var r=""  
+		/*var r=""  
 		for(var i = 0; i < m.elements.length; i++){
 			if(m.elements.get(i).getContainerOfType(Import)!==null) {
 				//println("IMPORT: " + (m.elements.get(i) as Import).name)
-				r=r + "import "+(m.elements.get(i) as Import).importedNamespace.toString+"; \n"
-				
+				r=r + "import "+(m.elements.get(i) as Import).importedNamespace.toString+"; \n"				
 			}
 		}
-		return r		
+		return r*/
+		//A better way to do it:
+		var r = ""
+		val imports = m.imports
+		for(impt : imports){
+			if(impt.importedNamespace.endsWith('*')){//the import use a wildcard
+				r = r + "import "+ impt.importedNamespace +"; \n"
+			}
+			else{//import of a single function
+				val pointIndex = impt.importedNamespace.lastIndexOf('.')
+				val packageName = impt.importedNamespace.substring(0, pointIndex)
+				val functionName = impt.importedNamespace.substring(pointIndex + 1).toFirstUpper
+				//import also the inverse function
+				val invFunctionName = "Inv" + impt.importedNamespace.substring(pointIndex + 1).toFirstUpper
+				r = r + "import "+ packageName + '.' + functionName +"; \n"
+				r = r + "import "+ packageName + '.' + invFunctionName +"; \n"
+			}
+		}
+		r
 	}	
-	
 	/**
 	 * Starts the compilation from the root of the AST which is Model
 	 */
@@ -349,15 +383,27 @@ class JavaYarelGenerator implements IGenerator2 {
           	}
           	public int getA() { return this.a; }
           	'''
-          BodyFun: 
+          BodyFun: {
+          	val funName = b.getActualString() //not sure if it is an efficient way to do it (SOLUTION No 1)
+          	val pointIndex = funName.lastIndexOf('.')
+          	var containingPackage = "" //the name of the module (and so the package) that contain the function
+          	var functionName = ""
+          	if(pointIndex >= 0){//the functionName is a QualifiedName
+          		containingPackage = funName.substring(0, pointIndex + 1)//include the point
+          		functionName = funName.substring(pointIndex + 1)
+          	}
+          	else{
+          		functionName = funName
+          	}
           	'''
-          	RPP function = new «IF !fwd»Inv«ENDIF»«b.funName.name.toFirstUpper»();
+          	RPP function = new «containingPackage»«IF !fwd»Inv«ENDIF»«functionName.toFirstUpper»();
           	private final int a = function.getA();
           	public int[] b(int[] x) { 
           		  	return this.function.b(x);
           	}
           	 public int getA() { return this.a; }          
           	'''
+          }
           BodyPerm:
           	'''
           	private final int a = «b.permutation.indexes.length»;
@@ -580,6 +626,16 @@ class JavaYarelGenerator implements IGenerator2 {
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 	}
 	
+	
+	/*
+	 //USE THIS IF YOU GO FOR THE SOLUTION No 2: 
+	 var IQualifiedNameProvider qnp
+		
+	def doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context, IQualifiedNameProvider qnp){
+		this.qnp = qnp
+		doGenerate(resource, fsa, context)
+	}*/
+	
 	/*The compiler's execution starts from this method*/
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
@@ -605,7 +661,29 @@ class JavaYarelGenerator implements IGenerator2 {
         
         //Play source
        	fsa.generateFile(model.name + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name, model))
-	}
+	}	
 
+
+	private def getActualString(EObject elem){
+		val ICompositeNode node = NodeModelUtils.getNode(elem);
+		node.text.trim
+	}
 	
+	/**
+	 * MEMO:
+	 * Ho trovato due soluzioni per risolvere il problema degli import
+	 * SOLUZIONE No1:
+	 * La prima consiste nel accedere direttamente al testo corrispondente a BodyFun
+	 * In questa maniera è immediatamente possibile sapere se la cross reference è stata risolta
+	 * usando il nome qualificato dell'oggetto oppure no.
+	 * Tuttavia attraverso questa soluzione si naviga nell'albero di parsing
+	 * (E' un operazione dispensiosa?)
+	 * --
+	 * SOLUZIONE No2:
+	 * La seconda consiste nell'usare in ogni caso i nomi qualificati delle funzioni.
+	 * Sia in presenza di un ambiguità che no.
+	 * In questo modo diventano anche non necessari gli import nel codice java generato.
+	 * L'operazione è sicuramente meno dispensiosa della prima, tuttavia il codice generato
+	 * potrebbe diventare meno leggibile
+	 */
 }

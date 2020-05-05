@@ -8,6 +8,7 @@ import org.di.unito.yarel.yarel.YarelPackage
 import org.di.unito.yarel.yarel.Model
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.common.util.URI
+import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 class YarelIndex {
 	@Inject org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider rdp
