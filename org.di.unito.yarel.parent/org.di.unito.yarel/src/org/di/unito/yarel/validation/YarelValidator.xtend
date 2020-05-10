@@ -1,5 +1,5 @@
 /**
- * Yarel
+  * Yarel
  * Copyright (C) 2018  Claudio Grandi, Dariush Moshiri, Luca Roversi
  *
  * This program is free software: you can redistribute it and/or modify
@@ -159,6 +159,7 @@ class YarelValidator extends AbstractYarelValidator {
 	/**
 	 * Check if the imported module exist
 	 * And if the imported function of the imported module exist
+	 * Added by: Matteo Palazzo
 	 */
 	 @Check(CheckType::NORMAL)
 	 def checkImport(Import impt){
@@ -185,6 +186,7 @@ class YarelValidator extends AbstractYarelValidator {
 	 
 	 /**
 	  * Check if there aren't module duplicate
+	  * Added by: Matteo Palazzo
 	  */
 	  @Check(CheckType::NORMAL)
 	  def checkModuleDuplicate(Model currentModule){
@@ -201,6 +203,7 @@ class YarelValidator extends AbstractYarelValidator {
 	  /**
 	  * Check if the module does not declare a function with the same name
 	  * of a function declared in another module
+	  * Added by: Matteo Palazzo
 	  */
 	  @Check
 	  def checkImportedFunctionRedeclaration(Declaration decl){
@@ -236,6 +239,7 @@ class YarelValidator extends AbstractYarelValidator {
 	  
 	  /**
 	   * Map each imported function to the first module that import its
+	   * Added by Matteo Palazzo
 	   */
 	  private def mapImportedFunToMod(Model module){
 	  	val Map<String, String> funToModMap = new HashMap()
@@ -259,6 +263,7 @@ class YarelValidator extends AbstractYarelValidator {
 	  /**
 	   * Check that every declared function has just one definition
 	   * also check that every declared function has a definition inside the same module
+	   * Added by Matteo Palazzo
 	   */
 	  @Check
 	  def checkOneDefinition(Declaration decl){
@@ -286,6 +291,7 @@ class YarelValidator extends AbstractYarelValidator {
 	  
 	  /**
 	   * Check that a module does not give a definition of an imported function
+	   * Added by Matteo Palazzo
 	   */
 	  @Check def checkDefineOnlyOwnFunction(Definition definition){
 	  	if(definition.declarationName.name !== null){//The cross reference of the object is solved
