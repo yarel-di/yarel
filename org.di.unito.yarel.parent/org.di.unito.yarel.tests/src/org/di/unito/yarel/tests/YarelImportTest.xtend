@@ -260,7 +260,7 @@ class YarelImportTest {
 	}
 	
 	//Test if there is an error you redeclare a function declared in another module
-	@Test def void testRedeclaredFunctionWildcardCase(){
+	/*@Test def void testRedeclaredFunctionWildcardCase(){
 		val mod1 = '''
 			module mod1{
 				dcl f : int 
@@ -292,7 +292,7 @@ class YarelImportTest {
 				)
 				2.assertEquals(validate.size)
 		]
-	}
+	}*/
 	
 	//Test if there no if error you redeclare a function declared in another module
 	//but you don't import that function
@@ -318,7 +318,7 @@ class YarelImportTest {
 	//Test if the error that you have if you try to redefine
 	//a function declared in 2 or more different modules is referred to the
 	//first imported module that import that function
-	@Test def void testRedeclaredFunctionMultipleModules(){
+	/*@Test def void testRedeclaredFunctionMultipleModules(){
 		val mod1 = '''
 			module mod1{
 				dcl f : int 
@@ -346,7 +346,7 @@ class YarelImportTest {
 				YarelValidator::ERROR_IMPORT,
 				"The function 'f' is already declared in the imported module 'mod1'"
 		    )
-	}
+	}*/
 	
 	//Test if there is an error if you give to a function multiple definition
 	@Test def void testMultipleDefinition(){
@@ -363,6 +363,24 @@ class YarelImportTest {
 					"The declared function 'f' has multiple definitions" 
 				)
 		]
+	}
+	
+	@Test def void testImportedFunctionOverride(){
+		val mod1 = 
+		'''
+		module mod1{
+			dcl f : int
+			def f := id
+		}
+		'''.parse
+		mod1.assertNoErrors
+		'''
+		module mod2{
+			import mod1.*
+			dcl f : int
+			def f := neg
+		}
+		'''.parse(mod1.eResource.resourceSet).assertNoErrors
 	}
 	
 	//Test if there is an error if a declared function has not definition
@@ -457,6 +475,146 @@ class YarelImportTest {
 		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
 	}
 	
+	private def void assertCorrectGeneratedBodyFun(CharSequence rlCode,
+		String moduleName,
+		String funName,
+		String expectedBodyFun
+	){
+		rlCode.compile[
+			getGeneratedCode(moduleName + "." + funName).trim.assertEquals(
+				'''
+				package mod;
+				import java.util.Arrays;
+				import java.lang.Math;
+				import Yarelcore.*;	
+				public class «funName» implements RPP {
+				    public «funName»() { }
+				    RPP function = «expectedBodyFun»;
+				    private final int a = function.getA();
+				    public int[] b(int[] x) { 
+				    	  	return this.function.b(x);
+				    }
+				     public int getA() { return this.a; }
+				}
+				'''.toString.trim	
+			)
+		]
+	}
+	
+	private def void assertCorrectGeneratedBodyFun(Iterable<CharSequence> files,
+		String moduleName,
+		String funName,
+		String expectedBodyFun
+	){
+		files.compile[
+			getGeneratedCode(moduleName + "." + funName).trim.assertEquals(
+				'''
+				package mod;
+				import java.util.Arrays;
+				import java.lang.Math;
+				import Yarelcore.*;	
+				public class «funName» implements RPP {
+				    public «funName»() { }
+				    RPP function = «expectedBodyFun»;
+				    private final int a = function.getA();
+				    public int[] b(int[] x) { 
+				    	  	return this.function.b(x);
+				    }
+				     public int getA() { return this.a; }
+				}
+				'''.toString.trim	
+			)
+		]
+	}
+	
+	@Test def void testCorrectGeneratedCode(){
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := f
+		}
+		'''.assertCorrectGeneratedBodyFun("mod", "G", "new F()")
+	}
+	
+	@Test def void testCorrectGeneratedCode1(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{
+				import mod1.g
+				dcl f : int
+				def f := g		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "F", "new mod1.G()")
+	}
+	
+	@Test def void testCorrectGeneratedCode2(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{				
+				dcl f : int
+				def f := mod1.g		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "F", "new mod1.G()")
+	}
+	
+	@Test def void testCorrectGeneratedCodeInvertedFunction(){	
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := f
+		}
+		'''.assertCorrectGeneratedBodyFun("mod", "InvG", "new InvF()")
+	}
+	
+	@Test def void testCorrectGeneratedCodeInvertedFunction1(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{
+				import mod1.g
+				dcl f : int
+				def f := g		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "InvF", "new mod1.InvG()")
+	}
+	
+	@Test def void testCorrectGeneratedCodeInv(){	
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := inv[f]
+		}
+		'''.assertCorrectGeneratedBodyFun("mod", "G", "new InvF()")
+	}
+	
+	@Test def void testCorrectGeneratedCodeInv1(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{
+				import mod1.g
+				dcl f : int
+				def f := inv[g]		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "F", "new mod1.InvG()")
+	}
+	
 	@Test def void testImportWithNoAmbiguityCode1(){
 		(#[
 			importedModuleMod1,
@@ -531,22 +689,29 @@ class YarelImportTest {
 		])
 	}
 	
-	/*@Test def void prova(){
-		val mod1 = '''
-			module mod1{
-				dcl f : int
-				def f := id
+	@Test def void testImportedFunctionOverrideInGeneratedCode(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{
+				import mod1.*
+				dcl g : int
+				def g := neg[mod1.g] 
 			}
-		'''.parse
-		mod1.assertNoErrors
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.G", #[1], #[-1])
+	}
+	
+	@Test def void prova(){
 		'''
-			module mod2{
-				def f := id
-			}
-		'''.parse(mod1.eResource.resourceSet) => [
-			for(f : visibleFunctions){
-				println(f.EObjectURI)
-			}
+		module mod1{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := f
+		}
+		'''.compile[
+			getCompiledClass("mod1.G")
 		]
-	}*/
+	}
 }
