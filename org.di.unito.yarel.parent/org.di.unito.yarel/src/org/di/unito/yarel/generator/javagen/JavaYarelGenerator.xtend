@@ -249,6 +249,12 @@ class JavaYarelGenerator implements IGenerator2 {
 		return arities.get(name);
 	}
 	
+	/*
+	 * Nota: non c'è più bisogno di usare questa
+	 * funzione, infatti se ad ogni funzione vi si
+	 * accede con il nome del modulo
+	 * allora è inutile fare degli import
+	 */
 	private def generateImports(Model m){
 		/*var r=""  
 		for(var i = 0; i < m.elements.length; i++){
@@ -296,12 +302,21 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «model.name»;
 		import java.util.Arrays;
 		import java.lang.Math;
+		import Yarelcore.*;	
+		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
+		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
+		    «compile(definition.body, fwd)»
+		}'''
+	    /*'''
+		package «model.name»;
+		import java.util.Arrays;
+		import java.lang.Math;
 		import Yarelcore.*;
 		«generateImports(model)»
 		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
 		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
 		    «compile(definition.body, fwd)»
-		}'''
+		}'''*/
 	}
 
 /*Generates java code for the functions. The fwd variable is used to generate code corresponding
@@ -384,7 +399,20 @@ class JavaYarelGenerator implements IGenerator2 {
           	public int getA() { return this.a; }
           	'''
           BodyFun: {
-          	val funName = b.getActualString() //not sure if it is an efficient way to do it (SOLUTION No 1)
+          	val qualifiedName = qnp.getFullyQualifiedName(b.funName);
+          	val moduleName = qualifiedName.firstSegment;
+          	var functionName = (fwd ? "" : "Inv") + qualifiedName.lastSegment.toFirstUpper;
+          	if(moduleName != b.getContainerOfType(typeof(Model)).name)          	      	
+      			functionName = moduleName + "." + functionName;      
+          	'''
+          	RPP function = new «functionName»();
+          	private final int a = function.getA();
+          	public int[] b(int[] x) { 
+          		  	return this.function.b(x);
+          	}
+          	 public int getA() { return this.a; }
+          	'''
+          	/*val funName = b.getActualString() //not sure if it is an efficient way to do it (SOLUTION No 1)
           	val pointIndex = funName.lastIndexOf('.')
           	var containingPackage = "" //the name of the module (and so the package) that contain the function
           	var functionName = ""
@@ -402,7 +430,7 @@ class JavaYarelGenerator implements IGenerator2 {
           		  	return this.function.b(x);
           	}
           	 public int getA() { return this.a; }          
-          	'''
+          	'''*/
           }
           BodyPerm:
           	'''
@@ -627,14 +655,13 @@ class JavaYarelGenerator implements IGenerator2 {
 	}
 	
 	
-	/*
 	 //USE THIS IF YOU GO FOR THE SOLUTION No 2: 
-	 var IQualifiedNameProvider qnp
+	var IQualifiedNameProvider qnp
 		
 	def doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context, IQualifiedNameProvider qnp){
 		this.qnp = qnp
 		doGenerate(resource, fsa, context)
-	}*/
+	}
 	
 	/*The compiler's execution starts from this method*/
 	override doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
@@ -664,10 +691,10 @@ class JavaYarelGenerator implements IGenerator2 {
 	}	
 
 
-	private def getActualString(EObject elem){
+	/*private def getActualString(EObject elem){
 		val ICompositeNode node = NodeModelUtils.getNode(elem);
 		node.text.trim
-	}
+	}*/
 	
 	/**
 	 * MEMO:

@@ -36,7 +36,7 @@ import org.eclipse.xtext.resource.ILocationInFileProvider
  */
 class YarelGenerator extends AbstractGenerator {
 
-	//@Inject IQualifiedNameProvider qnp //USE THIS IF YOU GO FOR THE SOLUTION No 2:
+	@Inject IQualifiedNameProvider qnp //USE THIS IF YOU GO FOR THE SOLUTION No 2:
 
 	val latexGenerator = new LatexYarelGenerator
 	val sageMathGenerator = new SageMathYarelGenerator
@@ -48,6 +48,6 @@ class YarelGenerator extends AbstractGenerator {
     override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
        latexGenerator.doGenerate(resource, fsa, context);
        sageMathGenerator.doGenerate(resource, fsa, context);
-       javaGenerator.doGenerate(resource, fsa, context);
+       javaGenerator.doGenerate(resource, fsa, context, qnp);
     }
 }
