@@ -205,7 +205,7 @@ class YarelValidator extends AbstractYarelValidator {
 	  * of a function declared in another module
 	  * Added by: Matteo Palazzo
 	  */
-	  @Check
+	  /*@Check
 	  def checkImportedFunctionRedeclaration(Declaration decl){
 	  	val imports = mapImportedFunToMod(decl.getContainerOfType(typeof(Model)))
 	  	val importingMod = imports.get(decl.name)
@@ -217,7 +217,7 @@ class YarelValidator extends AbstractYarelValidator {
 	  			YarelPackage::eINSTANCE.declaration_Name,
 	  			ERROR_IMPORT
 	  		)
-	  	}
+	  	}*/
 	  	/*
 	  	OLD VERSION:
 	  	val importedModules = currentModule.visibleModules.filter[mod |
@@ -234,8 +234,8 @@ class YarelValidator extends AbstractYarelValidator {
 	  			YarelPackage::eINSTANCE.declaration_Name,
 	  			ERROR_IMPORT
 	  		) 	
-	  	}*/
-	  }
+	  	}
+	  }*/
 	  
 	  /**
 	   * Map each imported function to the first module that import its
