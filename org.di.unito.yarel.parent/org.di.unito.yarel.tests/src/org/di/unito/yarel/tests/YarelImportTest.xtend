@@ -20,6 +20,7 @@ import org.di.unito.yarel.validation.YarelValidator
 import org.eclipse.xtext.xbase.testing.CompilationTestHelper
 import org.eclipse.xtext.xbase.lib.util.ReflectExtensions
 import static extension org.junit.Assert.assertArrayEquals
+import static org.junit.Assert.assertArrayEquals
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(YarelInjectorProvider))
@@ -154,7 +155,7 @@ class YarelImportTest {
 	}
 	
 	//Test if the scope seen in a function body is correct
-	@Test def void testCorrectScope(){
+	@Test def void testCorrectBodyFunScope(){
 		val mod1 = 
 		'''
 		module mod1{
@@ -171,19 +172,18 @@ class YarelImportTest {
 		}
 		'''.parse(mod1.eResource.resourceSet)
 		mod2.assertNoErrors
-		val mod1FDef = mod1.definitions.head //get the definition of f in mod1
-		val mod2GDef = mod2.definitions.filter(typeof(Definition)).head//get the definition of g in mod2 
-		mod1FDef.assertScope(YarelPackage::eINSTANCE.bodyFun_FunName, "f, mod1.f, mod2.g")
-		mod2GDef.assertScope(YarelPackage::eINSTANCE.bodyFun_FunName, "g, f, mod2.g, mod1.f")
+		val mod1FDef = mod1.definitions.head.body //get the definition of f in mod1
+		val mod2GDef = mod2.definitions.filter(typeof(Definition)).head.body//get the definition of g in mod2 
+		mod1FDef.assertScope(YarelPackage::eINSTANCE.bodyFun_FunName, #['f', 'mod1.f', 'mod2.g'])
+		mod2GDef.assertScope(YarelPackage::eINSTANCE.bodyFun_FunName, #['f', 'g', 'mod2.g', 'mod1.f'])
 	}
 	
 	//Assert if the expected scope is equals to the actual one
-	def private assertScope(EObject context, EReference reference, CharSequence expected){
-		val scope = context.getScope(reference)
-		expected.toString.assertEquals(
-			scope.allElements.map[name].join(", ")
-		)
+	def private assertScope(EObject context, EReference reference, String[] expected){
+		val scope = context.getScope(reference).allElements.map[name.toString]
+		expected.sort.assertArrayEquals(scope.sort)
 	}
+
 	
 	//----VALIDATION TEST----//
 	
@@ -412,12 +412,61 @@ class YarelImportTest {
 				import mod1.*
 				def f := id
 			}
-		'''.parse(mod1.eResource.resourceSet) => [
+		'''.parse(mod1.eResource.resourceSet) => [								
 				assertError(
 					YarelPackage::eINSTANCE.definition,
-					YarelValidator::ERROR_IMPORT,
-					"Trying to define the imported function 'f'"
-				)
+					"org.eclipse.xtext.diagnostics.Diagnostic.Linking",
+					"Couldn't resolve reference to Declaration 'f'"
+				)				
+		]
+	}
+	
+	@Test def void testCorrectDefinitionScope(){
+		'''
+		module mod1{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := f
+		}
+		'''.parse => [
+			assertNoErrors
+				val gDef = definitions.head
+				val fDef = definitions.last
+				gDef.assertScope(YarelPackage::eINSTANCE.definition_DeclarationName, #['f', 'g'])
+				fDef.assertScope(YarelPackage::eINSTANCE.definition_DeclarationName, #['f', 'g'])				
+		]
+	}
+	
+	@Test def void testCorrectDefinitionScope1(){
+		val mod = 
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := id
+			dcl h : int
+			def h := id
+		}
+		'''.parse
+		mod.assertNoErrors
+		'''
+		module mod1{
+			import mod.f
+			import mod.g
+			import mod.h
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := f
+		}
+		'''.parse(mod.eResource.resourceSet) => [
+			assertNoErrors
+				val gDef = definitions.head
+				val fDef = definitions.last
+				gDef.assertScope(YarelPackage::eINSTANCE.definition_DeclarationName, #['f', 'g'])
+				fDef.assertScope(YarelPackage::eINSTANCE.definition_DeclarationName, #['f', 'g'])			
 		]
 	}
 	
@@ -701,6 +750,8 @@ class YarelImportTest {
 			'''
 		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.G", #[1], #[-1])
 	}
+	
+	//------/
 	
 	@Test def void prova(){
 		'''
