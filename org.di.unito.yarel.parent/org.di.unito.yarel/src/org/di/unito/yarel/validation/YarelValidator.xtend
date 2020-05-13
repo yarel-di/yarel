@@ -241,7 +241,7 @@ class YarelValidator extends AbstractYarelValidator {
 	   * Map each imported function to the first module that import its
 	   * Added by Matteo Palazzo
 	   */
-	  private def mapImportedFunToMod(Model module){
+	  /*private def mapImportedFunToMod(Model module){
 	  	val Map<String, String> funToModMap = new HashMap()
 	  	val visibleModules = module.visibleModules
 	  	for(impt : module.imports){
@@ -258,7 +258,7 @@ class YarelValidator extends AbstractYarelValidator {
 	  		}
 	  	}
 	  	return funToModMap
-	  }
+	  }*/
 	  
 	  /**
 	   * Check that every declared function has just one definition
@@ -292,8 +292,9 @@ class YarelValidator extends AbstractYarelValidator {
 	  /**
 	   * Check that a module does not give a definition of an imported function
 	   * Added by Matteo Palazzo
+	   * NOTA: DA SOSTITUIRE CON LO SCOPING
 	   */
-	  @Check def checkDefineOnlyOwnFunction(Definition definition){
+	  /*@Check def checkDefineOnlyOwnFunction(Definition definition){
 	  	if(definition.declarationName.name !== null){//The cross reference of the object is solved
 		  	val mod = definition.getContainerOfType(typeof(Model))
 		  	if(!mod.declarations.contains(definition.declarationName)){
@@ -304,5 +305,5 @@ class YarelValidator extends AbstractYarelValidator {
 		  		)
 		  	}
 	  	}
-	  }
+	  }*/
 }
