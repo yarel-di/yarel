@@ -3,6 +3,16 @@
  */
 package org.di.unito.yarel.scoping
 
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.ecore.EObject
+import org.di.unito.yarel.yarel.YarelPackage
+import org.di.unito.yarel.yarel.Declaration
+import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.di.unito.yarel.yarel.Model
+import org.di.unito.yarel.utils.YarelUtils
+import com.google.inject.Inject
+import org.eclipse.xtext.scoping.Scopes
+import org.di.unito.yarel.yarel.Definition
 
 /**
  * This class contains custom scoping description.
@@ -11,5 +21,15 @@ package org.di.unito.yarel.scoping
  * on how and when to use it.
  */
 class YarelScopeProvider extends AbstractYarelScopeProvider {
-
+	@Inject extension YarelUtils
+	override getScope(EObject context, EReference reference){	
+		if(reference == YarelPackage::eINSTANCE.definition_DeclarationName){		
+			if(context instanceof Definition){									
+				val dclFuns = context.getContainerOfType(typeof(Model))
+									 .declarations
+				return Scopes::scopeFor(dclFuns)
+			}		
+		}
+		return super.getScope(context, reference)
+	}
 }
