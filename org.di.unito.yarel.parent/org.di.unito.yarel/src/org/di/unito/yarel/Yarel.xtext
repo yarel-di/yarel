@@ -22,10 +22,10 @@ grammar org.di.unito.yarel.Yarel with org.eclipse.xtext.common.Terminals
 generate yarel "http://www.di.org/unito/yarel/Yarel"
 
 Model:
-    'module' name=ID '{' elements+=Element* '}'; 
+    imports += Import* 'module' name=ID '{' elements+=Element* '}'; 
 	
 Element: 
-	  Import | Declaration | Definition;
+	  Declaration | Definition;
 
 Import:
 	'import' importedNamespace=QualifiedNameWithWildcard;
