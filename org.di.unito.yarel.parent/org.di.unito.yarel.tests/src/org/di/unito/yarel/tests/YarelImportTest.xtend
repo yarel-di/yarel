@@ -72,8 +72,8 @@ class YarelImportTest {
 		'''.parse
 		mod1.assertNoErrors
 		val mod2 = '''
+		import mod1.*
 		module mod2{
-			import mod1.*
 			dcl g : int
 			def g := f
 		}
@@ -116,12 +116,14 @@ class YarelImportTest {
 		}
 		'''.parse(mod1.eResource.resourceSet)
 		mod2.assertNoErrors
-		'''module mod3{
-			import mod1.*
-			import mod2.*
+		'''
+		import mod1.*
+		import mod2.*
+		module mod3{
 			dcl g : int
 			def g := f
-		}'''.parse(mod2.eResource.resourceSet).assertError(//check that there is an error due to the ambiguity
+		}
+		'''.parse(mod2.eResource.resourceSet).assertError(//check that there is an error due to the ambiguity
 				YarelPackage::eINSTANCE.bodyFun, 
 				"org.eclipse.xtext.diagnostics.Diagnostic.Linking",
 				"Couldn't resolve reference to Declaration 'f'"
@@ -146,12 +148,14 @@ class YarelImportTest {
 		}
 		'''.parse(mod1.eResource.resourceSet)
 		mod2.assertNoErrors
-		'''module mod3{
-			import mod1.*
-			import mod2.*
+		'''
+		import mod1.*
+		import mod2.*
+		module mod3{
 			dcl g : 2 int
 			def g := mod1.f | mod2.f
-		}'''.parse(mod2.eResource.resourceSet).assertNoErrors 
+		}
+		'''.parse(mod2.eResource.resourceSet).assertNoErrors 
 	}
 	
 	//Test if the scope seen in a function body is correct
@@ -164,9 +168,10 @@ class YarelImportTest {
 		}
 		'''.parse
 		mod1.assertNoErrors
-		val mod2 = '''
+		val mod2 = 
+		'''
+		import mod1.*
 		module mod2{
-			import mod1.*
 			dcl g : int
 			def g := id
 		}
@@ -196,13 +201,14 @@ class YarelImportTest {
 			}
 		'''.parse
 		mod1.assertNoErrors
-		val mod2 = '''
-			module mod2{
-				import mod4.*
-				import mod1.*
-				dcl g : int
-				def g := f
-			}
+		val mod2 = 
+		'''
+		import mod4.*
+		import mod1.*
+		module mod2{
+			dcl g : int
+			def g := f
+		}
 		'''.parse(mod1.eResource.resourceSet) => [
 					assertError(
 						YarelPackage::eINSTANCE.import, 
@@ -223,13 +229,14 @@ class YarelImportTest {
 			}
 		'''.parse
 		mod1.assertNoErrors
-		val mod2 = '''
-			module mod2{
-				import mod1.f
-				import mod1.h
-				dcl g : int
-				def g := f
-			}
+		val mod2 = 
+		'''
+		import mod1.f
+		import mod1.h
+		module mod2{
+			dcl g : int
+			def g := f
+		}
 		'''.parse(mod1.eResource.resourceSet) => [
 					assertError(
 						YarelPackage::eINSTANCE.import, 
@@ -307,11 +314,11 @@ class YarelImportTest {
 		'''.parse
 		mod1.assertNoErrors
 		'''
-			module mod2{
-				import mod1.f
-				dcl g : int
-				def g := id
-			}
+		import mod1.f
+		module mod2{
+			dcl g : int
+			def g := id
+		}
 		'''.parse(mod1.eResource.resourceSet).assertNoErrors
 	}
 	
@@ -375,8 +382,8 @@ class YarelImportTest {
 		'''.parse
 		mod1.assertNoErrors
 		'''
+		import mod1.*
 		module mod2{
-			import mod1.*
 			dcl f : int
 			def f := neg
 		}
@@ -408,10 +415,10 @@ class YarelImportTest {
 		'''.parse
 		mod1.assertNoErrors
 		'''
-			module mod2{
-				import mod1.*
-				def f := id
-			}
+		import mod1.*
+		module mod2{
+			def f := id
+		}
 		'''.parse(mod1.eResource.resourceSet) => [								
 				assertError(
 					YarelPackage::eINSTANCE.definition,
@@ -452,10 +459,10 @@ class YarelImportTest {
 		'''.parse
 		mod.assertNoErrors
 		'''
+		import mod.f
+		import mod.g
+		import mod.h
 		module mod1{
-			import mod.f
-			import mod.g
-			import mod.h
 			dcl f : int
 			def f := id
 			dcl g : int
@@ -516,8 +523,9 @@ class YarelImportTest {
 	@Test def void testImportWithNoAmbiguityCode(){
 		(#[
 			importedModuleMod1,
-			'''module mod{
-				import mod1.*
+			'''
+			import mod1.*
+			module mod{
 				dcl f : int
 				def f := g
 			}'''
@@ -591,8 +599,8 @@ class YarelImportTest {
 		(#[
 			importedModuleMod1,
 			'''
+			import mod1.g
 			module mod{
-				import mod1.g
 				dcl f : int
 				def f := g		
 			}
@@ -629,8 +637,8 @@ class YarelImportTest {
 		(#[
 			importedModuleMod1,
 			'''
+			import mod1.g
 			module mod{
-				import mod1.g
 				dcl f : int
 				def f := g		
 			}
@@ -654,8 +662,8 @@ class YarelImportTest {
 		(#[
 			importedModuleMod1,
 			'''
+			import mod1.g
 			module mod{
-				import mod1.g
 				dcl f : int
 				def f := inv[g]		
 			}
@@ -667,8 +675,9 @@ class YarelImportTest {
 	@Test def void testImportWithNoAmbiguityCode1(){
 		(#[
 			importedModuleMod1,
-			'''module mod{
-				import mod1.g
+			'''
+			import mod1.g
+			module mod{
 				dcl f : int
 				def f := g
 			}'''
@@ -679,9 +688,10 @@ class YarelImportTest {
 		(#[
 			importedModuleMod1,
 			importedModuleMod2,
-			'''module mod{
-				import mod1.*
-				import mod2.h
+			'''
+			import mod1.*
+			import mod2.h
+			module mod{
 				dcl f : int
 				def f := g
 			}'''
@@ -705,9 +715,9 @@ class YarelImportTest {
 			importedModuleMod1,
 			importedModuleMod2,
 			'''
+			import mod1.*
+			import mod2.*
 			module mod{
-				import mod1.*
-				import mod2.*
 				dcl f : int
 				def f := id ; mod1.g ; id
 			}
@@ -720,9 +730,9 @@ class YarelImportTest {
 			importedModuleMod1,
 			importedModuleMod2,
 			'''
+			import mod1.*
+			import mod2.*
 			module mod{
-				import mod1.*
-				import mod2.*
 				dcl f : int
 				def f := mod1.g ; mod2.g
 			}
@@ -742,8 +752,8 @@ class YarelImportTest {
 		(#[
 			importedModuleMod1,
 			'''
+			import mod1.*
 			module mod{
-				import mod1.*
 				dcl g : int
 				def g := neg[mod1.g] 
 			}

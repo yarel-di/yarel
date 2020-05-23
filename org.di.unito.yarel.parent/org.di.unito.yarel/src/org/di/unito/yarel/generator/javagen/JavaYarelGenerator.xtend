@@ -63,9 +63,6 @@ class JavaYarelGenerator implements IGenerator2 {
 	
 	//the function does the same thing as the one declared in YarelUtils
 	//which for an unknown reason does not work here
-	private def imports(Model mod){
-		mod.elements.filter(typeof(Import))
-	}
 	
 	private def exceptionsGenerator(String packageName) {
 		'''
