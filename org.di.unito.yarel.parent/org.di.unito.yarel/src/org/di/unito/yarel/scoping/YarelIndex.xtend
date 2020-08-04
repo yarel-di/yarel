@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.common.util.URI
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 
+/*Added by Matteo Palazzo */
 class YarelIndex {
 	@Inject org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider rdp
 	@Inject IContainer$Manager cm

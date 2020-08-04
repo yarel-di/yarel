@@ -396,6 +396,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	public int getA() { return this.a; }
           	'''
           BodyFun: {
+          	/*Changed by Matteo Palazzo*/
           	val qualifiedName = qnp.getFullyQualifiedName(b.funName);
           	val moduleName = qualifiedName.firstSegment;
           	var functionName = (fwd ? "" : "Inv") + qualifiedName.lastSegment.toFirstUpper;

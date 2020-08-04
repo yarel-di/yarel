@@ -155,7 +155,6 @@ class YarelValidator extends AbstractYarelValidator {
 	}
 	
 	//----VALIDATION FOR IMPORTS----//
-	
 	/**
 	 * Check if the imported module exist
 	 * And if the imported function of the imported module exist
