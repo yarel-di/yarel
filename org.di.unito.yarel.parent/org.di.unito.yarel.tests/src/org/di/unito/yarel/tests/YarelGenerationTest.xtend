@@ -10,6 +10,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import static extension org.junit.Assert.assertArrayEquals
+import static extension org.junit.Assert.assertEquals
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(YarelInjectorProvider))
@@ -463,4 +465,280 @@ class YarelGenerationTest
 			assertEquals(2,actualArity);
 			])
 	}
+	
+	//TEST FOR IMPORTS
+	//Added by: Matteo Palazzo
+	
+		static val CharSequence importedModuleMod1 = 
+		'''
+		module mod1{
+			dcl g : int
+			def g := id
+		}'''
+		
+	static val CharSequence importedModuleMod2 = 
+		'''
+		module mod2{
+			dcl g : int
+			def g := neg
+			dcl h : int
+			def h := neg
+		}'''
+	
+	//Test if it's generated the expected code in the use of an imported function with no ambiguity
+	@Test def void testImportWithNoAmbiguityCode(){
+		(#[
+			importedModuleMod1,
+			'''
+			import mod1.*
+			module mod{
+				dcl f : int
+				def f := g
+			}'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	private def void assertCorrectGeneratedBodyFun(CharSequence rlCode,
+		String moduleName,
+		String funName,
+		String expectedBodyFun
+	){
+		rlCode.compile[
+			getGeneratedCode(moduleName + "." + funName).trim.assertEquals(
+				'''
+				package mod;
+				import java.util.Arrays;
+				import java.lang.Math;
+				import Yarelcore.*;	
+				public class «funName» implements RPP {
+				    public «funName»() { }
+				    RPP function = «expectedBodyFun»;
+				    private final int a = function.getA();
+				    public int[] b(int[] x) { 
+				    	  	return this.function.b(x);
+				    }
+				     public int getA() { return this.a; }
+				}
+				'''.toString.trim	
+			)
+		]
+	}
+	
+	private def void assertCorrectGeneratedBodyFun(Iterable<CharSequence> files,
+		String moduleName,
+		String funName,
+		String expectedBodyFun
+	){
+		files.compile[
+			getGeneratedCode(moduleName + "." + funName).trim.assertEquals(
+				'''
+				package mod;
+				import java.util.Arrays;
+				import java.lang.Math;
+				import Yarelcore.*;	
+				public class «funName» implements RPP {
+				    public «funName»() { }
+				    RPP function = «expectedBodyFun»;
+				    private final int a = function.getA();
+				    public int[] b(int[] x) { 
+				    	  	return this.function.b(x);
+				    }
+				     public int getA() { return this.a; }
+				}
+				'''.toString.trim	
+			)
+		]
+	}
+	
+	//Test if it's generated the expected code when there is no import
+	@Test def void testCorrectGeneratedCode(){
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := f
+		}
+		'''.assertCorrectGeneratedBodyFun("mod", "G", "new F()")
+	}
+	
+	//Test if it's generated the expected code when importing a specific function from a module
+	@Test def void testCorrectGeneratedCode1(){
+		(#[
+			importedModuleMod1,
+			'''
+			import mod1.g
+			module mod{
+				dcl f : int
+				def f := g		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "F", "new mod1.G()")
+	}
+	
+	//Test if it's generated the expected code when using a specific function with its qualified name
+	@Test def void testCorrectGeneratedCode2(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{				
+				dcl f : int
+				def f := mod1.g		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "F", "new mod1.G()")
+	}
+	
+	//Test if it's generated the expected code for the invFunction when there is no import
+	@Test def void testCorrectGeneratedCodeInvertedFunction(){	
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := f
+		}
+		'''.assertCorrectGeneratedBodyFun("mod", "InvG", "new InvF()")
+	}
+	
+	//Test if it's generated the expected code for the invFunction with a specific import
+	@Test def void testCorrectGeneratedCodeInvertedFunction1(){
+		(#[
+			importedModuleMod1,
+			'''
+			import mod1.g
+			module mod{
+				dcl f : int
+				def f := g		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "InvF", "new mod1.InvG()")
+	}
+	
+	//Test if it's generated the expected code for the invFunction when is using the inv op
+	@Test def void testCorrectGeneratedCodeInv(){	
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			dcl g : int
+			def g := inv[f]
+		}
+		'''.assertCorrectGeneratedBodyFun("mod", "G", "new InvF()")
+	}
+	
+	//Test if it's generated the expected code for the invFunction when is using the inv op on an imported function
+	@Test def void testCorrectGeneratedCodeInv1(){
+		(#[
+			importedModuleMod1,
+			'''
+			import mod1.g
+			module mod{
+				dcl f : int
+				def f := inv[g]		
+			}
+			'''	
+		] as Iterable<CharSequence>)
+			.assertCorrectGeneratedBodyFun("mod", "F", "new mod1.InvG()")
+	}
+	
+	//Test if the code works as expected when using an imported function with no ambiguity
+	@Test def void testImportWithNoAmbiguityCode1(){
+		(#[
+			importedModuleMod1,
+			'''
+			import mod1.g
+			module mod{
+				dcl f : int
+				def f := g
+			}'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	//Test if the code works as expected when using an imported function with no ambiguity
+	@Test def void testImportWithNoAmbiguityCode2(){
+		(#[
+			importedModuleMod1,
+			importedModuleMod2,
+			'''
+			import mod1.*
+			import mod2.h
+			module mod{
+				dcl f : int
+				def f := g
+			}'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	//Test if the code works as expected when using a function with her qualified name
+	@Test def void testImportFunctionWithQualifiedNameCode(){
+		(#[
+			importedModuleMod1,
+			'''
+			module mod{
+				dcl f : int
+				def f := mod1.g
+			}
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	//Test if the code works as expected when using an imported function with no ambiguity
+	@Test def void testNoAmbiguityWithQualifiedNameInGeneratedCode(){
+		(#[
+			importedModuleMod1,
+			importedModuleMod2,
+			'''
+			import mod1.*
+			import mod2.*
+			module mod{
+				dcl f : int
+				def f := id ; mod1.g ; id
+			}
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[1])
+	}
+	
+	//Test if the code works as expected when using an imported function with no ambiguity
+	@Test def void testNoAmbiguityWithQualifiedNameInGeneratedCode1(){
+		(#[
+			importedModuleMod1,
+			importedModuleMod2,
+			'''
+			import mod1.*
+			import mod2.*
+			module mod{
+				dcl f : int
+				def f := mod1.g ; mod2.g
+			}
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.F", #[1], #[-1])
+	}
+	
+	def private assertCorrectCodeGeneration(Iterable<CharSequence> files, String functionToTest, int[] input, int[] expectedResuslt){
+		files.compile([
+			val function = getCompiledClass(functionToTest).getDeclaredConstructor.newInstance
+			val int[] result = function.invoke("b", input) as int[]
+			result.assertArrayEquals(expectedResuslt)
+		])
+	}
+	
+	//Test if the code works as expected when "overriding" a function
+	@Test def void testImportedFunctionOverrideInGeneratedCode(){
+		(#[
+			importedModuleMod1,
+			'''
+			import mod1.*
+			module mod{
+				dcl g : int
+				def g := neg[mod1.g] 
+			}
+			'''
+		] as Iterable<CharSequence>).assertCorrectCodeGeneration("mod.G", #[1], #[-1])
+	}
+	
+	
 }
