@@ -509,7 +509,7 @@ class YarelGenerationTest
 				package mod;
 				import java.util.Arrays;
 				import java.lang.Math;
-				import Yarelcore.*;	
+				import yarelcore.*;	
 				public class «funName» implements RPP {
 				    public «funName»() { }
 				    RPP function = «expectedBodyFun»;
@@ -535,7 +535,7 @@ class YarelGenerationTest
 				package mod;
 				import java.util.Arrays;
 				import java.lang.Math;
-				import Yarelcore.*;	
+				import yarelcore.*;	
 				public class «funName» implements RPP {
 				    public «funName»() { }
 				    RPP function = «expectedBodyFun»;

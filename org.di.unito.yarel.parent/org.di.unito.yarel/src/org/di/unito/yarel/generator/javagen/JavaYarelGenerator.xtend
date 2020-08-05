@@ -206,7 +206,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		
 		'''
 		package «packageName»;
-		import Yarelcore.*;
+		import yarelcore.*;
 		import java.util.Arrays;
 		
 		public class «packageName.toFirstUpper»PlayWith {
@@ -285,7 +285,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	 */
 	private def compile(IFileSystemAccess2 fsa, Model model) {
 		var definitions = model.elements.filter(Definition)
-		val folder = model.name + "/"
+		val folder = model.name.toFirstLower + "/"
         for(definition: definitions) {
         	var compilation = compile(model, definition, true)
             fsa.generateFile(folder + definition.declarationName.name.toFirstUpper+".java", compilation)
@@ -296,10 +296,10 @@ class JavaYarelGenerator implements IGenerator2 {
 	    
     private def compile(Model model, Definition definition, boolean fwd) {
 	    '''
-		package «model.name»;
+		package «model.name.toFirstLower»;
 		import java.util.Arrays;
 		import java.lang.Math;
-		import Yarelcore.*;	
+		import yarelcore.*;	
 		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
 		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
 		    «compile(definition.body, fwd)»
@@ -401,7 +401,7 @@ class JavaYarelGenerator implements IGenerator2 {
           	val moduleName = qualifiedName.firstSegment;
           	var functionName = (fwd ? "" : "Inv") + qualifiedName.lastSegment.toFirstUpper;
           	if(moduleName != b.getContainerOfType(typeof(Model)).name)          	      	
-      			functionName = moduleName + "." + functionName;      
+      			functionName = moduleName.toFirstLower + "." + functionName;      
           	'''
           	RPP function = new «functionName»();
           	private final int a = function.getA();
@@ -631,8 +631,8 @@ class JavaYarelGenerator implements IGenerator2 {
 	def CharSequence testFileGenerator(Model model) /*Added by Paolo Parker*/
 	{
 		val testFile = '''
-		package «model.name»;
-		import Yarelcore.*;
+		package «model.name.toFirstLower»;
+		import yarelcore.*;
 		import java.util.Arrays;
 		
 		public class «model.name.toFirstUpper»Test
@@ -666,7 +666,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		
 		//Looks for the Model in the .rl file
 		val model = resource.allContents.toIterable.filter(Model).get(0)
-        val packageName = "Yarelcore"//model.name
+        val packageName = "yarelcore"//model.name
         fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
         fsa.generateFile(packageName+"/RPP.java", RPPGenerator(packageName))
         fsa.generateFile(packageName+"/Id.java", IdGenerator(packageName))
@@ -682,10 +682,10 @@ class JavaYarelGenerator implements IGenerator2 {
         compile(fsa, model)
        
         //Tests
-        fsa.generateFile(model.name + "/" + model.name.toFirstUpper + "Test.java", testFileGenerator(model))
+        fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "Test.java", testFileGenerator(model))
         
         //Play source
-       	fsa.generateFile(model.name + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name, model))
+       	fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name.toFirstLower, model))
 	}	
 
 
