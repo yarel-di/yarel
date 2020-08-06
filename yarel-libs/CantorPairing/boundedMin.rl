@@ -1,13 +1,11 @@
-
+import ArithNat.*
+import funcH12.*
 module BoundedMin {
 	
 	/* 
 	 * This module provides bounded minimization for the function H12. It defines the RPP version with arity 7
 	 * and another version with arity 5, which almost halves the arity 8 expected in the original article.
 	 */
-    
-    import ArithNat.*
-    import funcH12.*
     
     
     /* This version of RPP is not present in the original article but has only arity of 5.

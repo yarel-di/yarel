@@ -1,9 +1,9 @@
-package ArithNat;
+package arithNat;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class inv_mulN implements RPP {
-    public inv_mulN() { }
+import yarelcore.*;	
+public class InvMulN implements RPP {
+    public InvMulN() { }
     RPP l = new RPP() {
     	private final int a = 3;
     	public int[] b(int[] x) {
@@ -19,12 +19,12 @@ public class inv_mulN implements RPP {
     RPP r = new RPP() {
     	// Iteration start
     	RPP function = new RPP() {
-    		RPP function = new inv_sumN();
+    		RPP function = new InvSumN();
     		private final int a = function.getA();
     		public int[] b(int[] x) { 
     			  	return this.function.b(x);
     		}
-    		 public int getA() { return this.a; }          
+    		 public int getA() { return this.a; }
     	};
     	private final int a = function.getA()+1;
     	public int[] b(int[] x) {

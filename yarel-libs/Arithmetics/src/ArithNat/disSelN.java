@@ -1,13 +1,13 @@
-package ArithNat;
+package arithNat;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class disSelN implements RPP {
-    public disSelN() { }
+import yarelcore.*;	
+public class DisSelN implements RPP {
+    public DisSelN() { }
     RPP pos=new RPP() {
     	RPP l = new RPP() {
     		RPP pos=new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -15,7 +15,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP zero=new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -23,7 +23,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP neg=new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -53,7 +53,7 @@ public class disSelN implements RPP {
     	};
     	RPP r = new RPP() {
     		RPP l = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -61,7 +61,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP r = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -92,7 +92,7 @@ public class disSelN implements RPP {
     RPP zero=new RPP() {
     	RPP l = new RPP() {
     		RPP pos=new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -100,7 +100,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP zero=new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -108,7 +108,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP neg=new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -138,7 +138,7 @@ public class disSelN implements RPP {
     	};
     	RPP r = new RPP() {
     		RPP l = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -146,7 +146,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP r = new RPP() {
-    			private RPP f = new inc();
+    			private RPP f = new Inc();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -177,7 +177,7 @@ public class disSelN implements RPP {
     RPP neg=new RPP() {
     	RPP l = new RPP() {
     		RPP pos=new RPP() {
-    			private RPP f = new dec();
+    			private RPP f = new Dec();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -185,7 +185,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP zero=new RPP() {
-    			private RPP f = new dec();
+    			private RPP f = new Dec();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -193,7 +193,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP neg=new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -223,7 +223,7 @@ public class disSelN implements RPP {
     	};
     	RPP r = new RPP() {
     		RPP l = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -231,7 +231,7 @@ public class disSelN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP r = new RPP() {
-    			private RPP f = new inc();
+    			private RPP f = new Inc();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);

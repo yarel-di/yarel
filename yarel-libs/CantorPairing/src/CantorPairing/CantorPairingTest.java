@@ -1,5 +1,5 @@
-package CantorPairing;
-import Yarelcore.*;
+package cantorPairing;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class CantorPairingTest

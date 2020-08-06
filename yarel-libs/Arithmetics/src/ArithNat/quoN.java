@@ -1,9 +1,9 @@
-package ArithNat;
+package arithNat;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class quoN implements RPP {
-    public quoN() { }
+import yarelcore.*;	
+public class QuoN implements RPP {
+    public QuoN() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
@@ -23,15 +23,15 @@ public class quoN implements RPP {
     			RPP l = new RPP() {
     				RPP l = new RPP() {
     					RPP l = new RPP() {
-    						RPP function = new sumN();
+    						RPP function = new SumN();
     						private final int a = function.getA();
     						public int[] b(int[] x) { 
     							  	return this.function.b(x);
     						}
-    						 public int getA() { return this.a; }          
+    						 public int getA() { return this.a; }
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -54,7 +54,7 @@ public class quoN implements RPP {
     					}
     				};
     				RPP r = new RPP() {
-    					private RPP f = new id();
+    					private RPP f = new Id();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -77,7 +77,7 @@ public class quoN implements RPP {
     				}
     			};
     			RPP r = new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -128,12 +128,12 @@ public class quoN implements RPP {
     RPP r = new RPP() {
     	// Iteration start
     	RPP function = new RPP() {
-    		RPP function = new disStepN();
+    		RPP function = new DisStepN();
     		private final int a = function.getA();
     		public int[] b(int[] x) { 
     			  	return this.function.b(x);
     		}
-    		 public int getA() { return this.a; }          
+    		 public int getA() { return this.a; }
     	};
     	private final int a = function.getA()+1;
     	public int[] b(int[] x) {

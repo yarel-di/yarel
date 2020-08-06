@@ -1,10 +1,9 @@
 package funcH12;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
-public class inv_T3 implements RPP {
-    public inv_T3() { }
+import yarelcore.*;	
+public class InvT3 implements RPP {
+    public InvT3() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		private final int a = 3;
@@ -21,12 +20,12 @@ public class inv_T3 implements RPP {
     	RPP r = new RPP() {
     		// Iteration start
     		RPP function = new RPP() {
-    			RPP function = new inv_T2();
+    			RPP function = new InvT2();
     			private final int a = function.getA();
     			public int[] b(int[] x) { 
     				  	return this.function.b(x);
     			}
-    			 public int getA() { return this.a; }          
+    			 public int getA() { return this.a; }
     		};
     		private final int a = function.getA()+1;
     		public int[] b(int[] x) {

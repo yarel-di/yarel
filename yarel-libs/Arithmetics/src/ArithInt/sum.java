@@ -1,11 +1,9 @@
-package ArithInt;
+package arithInt;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import Util.*; 
-import ArithNat.*; 
-public class sum implements RPP {
-    public sum() { }
+import yarelcore.*;	
+public class Sum implements RPP {
+    public Sum() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
@@ -26,7 +24,7 @@ public class sum implements RPP {
     						RPP r = new RPP() {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -34,7 +32,7 @@ public class sum implements RPP {
     									public int getA() { return this.a; }
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -57,12 +55,12 @@ public class sum implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								RPP function = new dup();
+    								RPP function = new util.Dup();
     								private final int a = function.getA();
     								public int[] b(int[] x) { 
     									  	return this.function.b(x);
     								}
-    								 public int getA() { return this.a; }          
+    								 public int getA() { return this.a; }
     							};
     							private final int a = l.getA() + r.getA();
     							public int[] b(int[] x) { // Implements a parallel composition
@@ -106,15 +104,15 @@ public class sum implements RPP {
     				RPP r = new RPP() {
     					RPP l = new RPP() {
     						RPP l = new RPP() {
-    							RPP function = new dup();
+    							RPP function = new util.Dup();
     							private final int a = function.getA();
     							public int[] b(int[] x) { 
     								  	return this.function.b(x);
     							}
-    							 public int getA() { return this.a; }          
+    							 public int getA() { return this.a; }
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -137,7 +135,7 @@ public class sum implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -188,16 +186,16 @@ public class sum implements RPP {
     			RPP l = new RPP() {
     				RPP pos=new RPP() {
     					RPP pos=new RPP() {
-    						RPP function = new sumN();
+    						RPP function = new arithNat.SumN();
     						private final int a = function.getA();
     						public int[] b(int[] x) { 
     							  	return this.function.b(x);
     						}
-    						 public int getA() { return this.a; }          
+    						 public int getA() { return this.a; }
     					};
     					RPP zero=new RPP() {
     						RPP l = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -205,7 +203,7 @@ public class sum implements RPP {
     							public int getA() { return this.a; }
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -231,7 +229,7 @@ public class sum implements RPP {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
-    									private RPP f = new neg();
+    									private RPP f = new Neg();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -239,7 +237,7 @@ public class sum implements RPP {
     									public int getA() { return this.a; }
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -262,12 +260,12 @@ public class sum implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								RPP function = new subN();
+    								RPP function = new arithNat.SubN();
     								private final int a = function.getA();
     								public int[] b(int[] x) { 
     									  	return this.function.b(x);
     								}
-    								 public int getA() { return this.a; }          
+    								 public int getA() { return this.a; }
     							};
     							private final int a = l.getA();
     							public int[] b(int[] x) { // Implements a serial composition.
@@ -277,7 +275,7 @@ public class sum implements RPP {
     						};
     						RPP r = new RPP() {
     							RPP l = new RPP() {
-    								private RPP f = new neg();
+    								private RPP f = new Neg();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -285,7 +283,7 @@ public class sum implements RPP {
     								public int getA() { return this.a; }
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -337,7 +335,7 @@ public class sum implements RPP {
     				RPP zero=new RPP() {
     					RPP l = new RPP() {
     						RPP l = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -345,7 +343,7 @@ public class sum implements RPP {
     							public int getA() { return this.a; }
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -368,7 +366,7 @@ public class sum implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -395,7 +393,7 @@ public class sum implements RPP {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -403,7 +401,7 @@ public class sum implements RPP {
     									public int getA() { return this.a; }
     								};
     								RPP r = new RPP() {
-    									private RPP f = new neg();
+    									private RPP f = new Neg();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -426,12 +424,12 @@ public class sum implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								RPP function = new subN();
+    								RPP function = new arithNat.SubN();
     								private final int a = function.getA();
     								public int[] b(int[] x) { 
     									  	return this.function.b(x);
     								}
-    								 public int getA() { return this.a; }          
+    								 public int getA() { return this.a; }
     							};
     							private final int a = l.getA();
     							public int[] b(int[] x) { // Implements a serial composition.
@@ -441,7 +439,7 @@ public class sum implements RPP {
     						};
     						RPP r = new RPP() {
     							RPP l = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -449,7 +447,7 @@ public class sum implements RPP {
     								public int getA() { return this.a; }
     							};
     							RPP r = new RPP() {
-    								private RPP f = new neg();
+    								private RPP f = new Neg();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -479,7 +477,7 @@ public class sum implements RPP {
     					};
     					RPP zero=new RPP() {
     						RPP l = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -487,7 +485,7 @@ public class sum implements RPP {
     							public int getA() { return this.a; }
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -513,7 +511,7 @@ public class sum implements RPP {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
-    									private RPP f = new neg();
+    									private RPP f = new Neg();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -521,7 +519,7 @@ public class sum implements RPP {
     									public int getA() { return this.a; }
     								};
     								RPP r = new RPP() {
-    									private RPP f = new neg();
+    									private RPP f = new Neg();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -544,12 +542,12 @@ public class sum implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								RPP function = new sumN();
+    								RPP function = new arithNat.SumN();
     								private final int a = function.getA();
     								public int[] b(int[] x) { 
     									  	return this.function.b(x);
     								}
-    								 public int getA() { return this.a; }          
+    								 public int getA() { return this.a; }
     							};
     							private final int a = l.getA();
     							public int[] b(int[] x) { // Implements a serial composition.
@@ -559,7 +557,7 @@ public class sum implements RPP {
     						};
     						RPP r = new RPP() {
     							RPP l = new RPP() {
-    								private RPP f = new neg();
+    								private RPP f = new Neg();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -567,7 +565,7 @@ public class sum implements RPP {
     								public int getA() { return this.a; }
     							};
     							RPP r = new RPP() {
-    								private RPP f = new neg();
+    								private RPP f = new Neg();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -638,7 +636,7 @@ public class sum implements RPP {
     				}
     			};
     			RPP r = new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -686,7 +684,7 @@ public class sum implements RPP {
     RPP r = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -694,7 +692,7 @@ public class sum implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP r = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -717,12 +715,12 @@ public class sum implements RPP {
     		}
     	};
     	RPP r = new RPP() {
-    		RPP function = new inv_dup();
+    		RPP function = new util.InvDup();
     		private final int a = function.getA();
     		public int[] b(int[] x) { 
     			  	return this.function.b(x);
     		}
-    		 public int getA() { return this.a; }          
+    		 public int getA() { return this.a; }
     	};
     	private final int a = l.getA() + r.getA();
     	public int[] b(int[] x) { // Implements a parallel composition

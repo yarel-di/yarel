@@ -1,8 +1,7 @@
+import ArithNat.*
 module Quotient {
 	
 	/* Definitions for division on Naturals */
-	
-	import ArithNat.*
 	
 	/*
 	 * It performs a single step of division. Returns <r-d d q 0> iff d >= r[case A], <r d q -d> else[case B].

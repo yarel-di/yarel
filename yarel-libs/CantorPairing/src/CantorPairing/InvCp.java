@@ -1,48 +1,32 @@
-package funcH12;
+package cantorPairing;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
-public class inv_H12 implements RPP {
-    public inv_H12() { }
+import yarelcore.*;	
+public class InvCp implements RPP {
+    public InvCp() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
-    		RPP l = new RPP() {
-    			private final int a = 3;
-    			public int[] b(int[] x) {
-    				int tmp=0;
-    				tmp = x[1]; 
-    				x[1] = x[2]; 
-    				x[2] = tmp; 
-    				return x;
-    			}
-    			public int getA() { return this.a; }
-    		};
-    		RPP r = new RPP() {
-    			RPP function = new inv_T3sub();
-    			private final int a = function.getA();
-    			public int[] b(int[] x) { 
-    				  	return this.function.b(x);
-    			}
-    			 public int getA() { return this.a; }          
-    		};
-    		private final int a = l.getA();
-    		public int[] b(int[] x) { // Implements a serial composition.
-    			return this.l.b(this.r.b(x));
+    		private final int a = 3;
+    		public int[] b(int[] x) {
+    			int tmp=0;
+    			tmp = x[0]; 
+    			x[0] = x[1]; 
+    			x[1] = tmp; 
+    			return x;
     		}
     		public int getA() { return this.a; }
     	};
     	RPP r = new RPP() {
     		RPP l = new RPP() {
-    			RPP function = new dup_2();
+    			RPP function = new arithNat.InvSumN();
     			private final int a = function.getA();
     			public int[] b(int[] x) { 
     				  	return this.function.b(x);
     			}
-    			 public int getA() { return this.a; }          
+    			 public int getA() { return this.a; }
     		};
     		RPP r = new RPP() {
-    			private RPP f = new inv_id();
+    			private RPP f = new InvId();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -71,15 +55,12 @@ public class inv_H12 implements RPP {
     	public int getA() { return this.a; }
     };
     RPP r = new RPP() {
-    	private final int a = 3;
-    	public int[] b(int[] x) {
-    		int tmp=0;
-    		tmp = x[1]; 
-    		x[1] = x[2]; 
-    		x[2] = tmp; 
-    		return x;
+    	RPP function = new funcH12.InvP3();
+    	private final int a = function.getA();
+    	public int[] b(int[] x) { 
+    		  	return this.function.b(x);
     	}
-    	public int getA() { return this.a; }
+    	 public int getA() { return this.a; }
     };
     private final int a = l.getA();
     public int[] b(int[] x) { // Implements a serial composition.

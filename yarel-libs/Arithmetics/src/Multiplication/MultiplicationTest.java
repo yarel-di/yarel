@@ -1,5 +1,5 @@
-package Multiplication;
-import Yarelcore.*;
+package multiplication;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class MultiplicationTest

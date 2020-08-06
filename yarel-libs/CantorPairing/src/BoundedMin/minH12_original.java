@@ -1,11 +1,9 @@
-package BoundedMin;
+package boundedMin;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
-import funcH12.*; 
-public class minH12_original implements RPP {
-    public minH12_original() { }
+import yarelcore.*;	
+public class MinH12_original implements RPP {
+    public MinH12_original() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
@@ -21,15 +19,15 @@ public class minH12_original implements RPP {
     											RPP l = new RPP() {
     												RPP l = new RPP() {
     													RPP l = new RPP() {
-    														RPP function = new H12();
+    														RPP function = new funcH12.H12();
     														private final int a = function.getA();
     														public int[] b(int[] x) { 
     															  	return this.function.b(x);
     														}
-    														 public int getA() { return this.a; }          
+    														 public int getA() { return this.a; }
     													};
     													RPP r = new RPP() {
-    														private RPP f = new id();
+    														private RPP f = new Id();
     														private final int a = f.getA();
     														public int[] b(int[] x) {
     															return this.f.b(x);
@@ -52,7 +50,7 @@ public class minH12_original implements RPP {
     													}
     												};
     												RPP r = new RPP() {
-    													private RPP f = new id();
+    													private RPP f = new Id();
     													private final int a = f.getA();
     													public int[] b(int[] x) {
     														return this.f.b(x);
@@ -75,7 +73,7 @@ public class minH12_original implements RPP {
     												}
     											};
     											RPP r = new RPP() {
-    												private RPP f = new id();
+    												private RPP f = new Id();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -123,7 +121,7 @@ public class minH12_original implements RPP {
     												RPP l = new RPP() {
     													RPP l = new RPP() {
     														RPP l = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -131,7 +129,7 @@ public class minH12_original implements RPP {
     															public int getA() { return this.a; }
     														};
     														RPP r = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -154,7 +152,7 @@ public class minH12_original implements RPP {
     														}
     													};
     													RPP r = new RPP() {
-    														private RPP f = new id();
+    														private RPP f = new Id();
     														private final int a = f.getA();
     														public int[] b(int[] x) {
     															return this.f.b(x);
@@ -177,7 +175,7 @@ public class minH12_original implements RPP {
     													}
     												};
     												RPP r = new RPP() {
-    													private RPP f = new id();
+    													private RPP f = new Id();
     													private final int a = f.getA();
     													public int[] b(int[] x) {
     														return this.f.b(x);
@@ -200,7 +198,7 @@ public class minH12_original implements RPP {
     												}
     											};
     											RPP r = new RPP() {
-    												private RPP f = new id();
+    												private RPP f = new Id();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -227,7 +225,7 @@ public class minH12_original implements RPP {
     												RPP l = new RPP() {
     													RPP l = new RPP() {
     														RPP l = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -235,7 +233,7 @@ public class minH12_original implements RPP {
     															public int getA() { return this.a; }
     														};
     														RPP r = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -258,7 +256,7 @@ public class minH12_original implements RPP {
     														}
     													};
     													RPP r = new RPP() {
-    														private RPP f = new id();
+    														private RPP f = new Id();
     														private final int a = f.getA();
     														public int[] b(int[] x) {
     															return this.f.b(x);
@@ -281,7 +279,7 @@ public class minH12_original implements RPP {
     													}
     												};
     												RPP r = new RPP() {
-    													private RPP f = new id();
+    													private RPP f = new Id();
     													private final int a = f.getA();
     													public int[] b(int[] x) {
     														return this.f.b(x);
@@ -304,7 +302,7 @@ public class minH12_original implements RPP {
     												}
     											};
     											RPP r = new RPP() {
-    												private RPP f = new id();
+    												private RPP f = new Id();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -332,7 +330,7 @@ public class minH12_original implements RPP {
     													RPP l = new RPP() {
     														RPP l = new RPP() {
     															RPP l = new RPP() {
-    																private RPP f = new id();
+    																private RPP f = new Id();
     																private final int a = f.getA();
     																public int[] b(int[] x) {
     																	return this.f.b(x);
@@ -340,7 +338,7 @@ public class minH12_original implements RPP {
     																public int getA() { return this.a; }
     															};
     															RPP r = new RPP() {
-    																private RPP f = new id();
+    																private RPP f = new Id();
     																private final int a = f.getA();
     																public int[] b(int[] x) {
     																	return this.f.b(x);
@@ -363,7 +361,7 @@ public class minH12_original implements RPP {
     															}
     														};
     														RPP r = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -386,7 +384,7 @@ public class minH12_original implements RPP {
     														}
     													};
     													RPP r = new RPP() {
-    														private RPP f = new id();
+    														private RPP f = new Id();
     														private final int a = f.getA();
     														public int[] b(int[] x) {
     															return this.f.b(x);
@@ -411,7 +409,7 @@ public class minH12_original implements RPP {
     												RPP zero=new RPP() {
     													RPP l = new RPP() {
     														RPP l = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -419,7 +417,7 @@ public class minH12_original implements RPP {
     															public int getA() { return this.a; }
     														};
     														RPP r = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -442,12 +440,12 @@ public class minH12_original implements RPP {
     														}
     													};
     													RPP r = new RPP() {
-    														RPP function = new sumN();
+    														RPP function = new arithNat.SumN();
     														private final int a = function.getA();
     														public int[] b(int[] x) { 
     															  	return this.function.b(x);
     														}
-    														 public int getA() { return this.a; }          
+    														 public int getA() { return this.a; }
     													};
     													private final int a = l.getA() + r.getA();
     													public int[] b(int[] x) { // Implements a parallel composition
@@ -468,7 +466,7 @@ public class minH12_original implements RPP {
     													RPP l = new RPP() {
     														RPP l = new RPP() {
     															RPP l = new RPP() {
-    																private RPP f = new id();
+    																private RPP f = new Id();
     																private final int a = f.getA();
     																public int[] b(int[] x) {
     																	return this.f.b(x);
@@ -476,7 +474,7 @@ public class minH12_original implements RPP {
     																public int getA() { return this.a; }
     															};
     															RPP r = new RPP() {
-    																private RPP f = new id();
+    																private RPP f = new Id();
     																private final int a = f.getA();
     																public int[] b(int[] x) {
     																	return this.f.b(x);
@@ -499,7 +497,7 @@ public class minH12_original implements RPP {
     															}
     														};
     														RPP r = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -522,7 +520,7 @@ public class minH12_original implements RPP {
     														}
     													};
     													RPP r = new RPP() {
-    														private RPP f = new id();
+    														private RPP f = new Id();
     														private final int a = f.getA();
     														public int[] b(int[] x) {
     															return this.f.b(x);
@@ -570,7 +568,7 @@ public class minH12_original implements RPP {
     													RPP l = new RPP() {
     														RPP l = new RPP() {
     															RPP l = new RPP() {
-    																private RPP f = new id();
+    																private RPP f = new Id();
     																private final int a = f.getA();
     																public int[] b(int[] x) {
     																	return this.f.b(x);
@@ -578,7 +576,7 @@ public class minH12_original implements RPP {
     																public int getA() { return this.a; }
     															};
     															RPP r = new RPP() {
-    																private RPP f = new id();
+    																private RPP f = new Id();
     																private final int a = f.getA();
     																public int[] b(int[] x) {
     																	return this.f.b(x);
@@ -601,7 +599,7 @@ public class minH12_original implements RPP {
     															}
     														};
     														RPP r = new RPP() {
-    															private RPP f = new id();
+    															private RPP f = new Id();
     															private final int a = f.getA();
     															public int[] b(int[] x) {
     																return this.f.b(x);
@@ -624,7 +622,7 @@ public class minH12_original implements RPP {
     														}
     													};
     													RPP r = new RPP() {
-    														private RPP f = new id();
+    														private RPP f = new Id();
     														private final int a = f.getA();
     														public int[] b(int[] x) {
     															return this.f.b(x);
@@ -647,7 +645,7 @@ public class minH12_original implements RPP {
     													}
     												};
     												RPP r = new RPP() {
-    													private RPP f = new inc();
+    													private RPP f = new Inc();
     													private final int a = f.getA();
     													public int[] b(int[] x) {
     														return this.f.b(x);
@@ -726,15 +724,15 @@ public class minH12_original implements RPP {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
     										RPP l = new RPP() {
-    											RPP function = new inv_H12();
+    											RPP function = new funcH12.InvH12();
     											private final int a = function.getA();
     											public int[] b(int[] x) { 
     												  	return this.function.b(x);
     											}
-    											 public int getA() { return this.a; }          
+    											 public int getA() { return this.a; }
     										};
     										RPP r = new RPP() {
-    											private RPP f = new id();
+    											private RPP f = new Id();
     											private final int a = f.getA();
     											public int[] b(int[] x) {
     												return this.f.b(x);
@@ -757,7 +755,7 @@ public class minH12_original implements RPP {
     										}
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -780,7 +778,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -814,7 +812,7 @@ public class minH12_original implements RPP {
     									RPP l = new RPP() {
     										RPP l = new RPP() {
     											RPP l = new RPP() {
-    												private RPP f = new inc();
+    												private RPP f = new Inc();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -822,7 +820,7 @@ public class minH12_original implements RPP {
     												public int getA() { return this.a; }
     											};
     											RPP r = new RPP() {
-    												private RPP f = new id();
+    												private RPP f = new Id();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -845,7 +843,7 @@ public class minH12_original implements RPP {
     											}
     										};
     										RPP r = new RPP() {
-    											private RPP f = new id();
+    											private RPP f = new Id();
     											private final int a = f.getA();
     											public int[] b(int[] x) {
     												return this.f.b(x);
@@ -868,7 +866,7 @@ public class minH12_original implements RPP {
     										}
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -891,7 +889,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new inc();
+    									private RPP f = new Inc();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -914,7 +912,7 @@ public class minH12_original implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -983,7 +981,7 @@ public class minH12_original implements RPP {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -991,7 +989,7 @@ public class minH12_original implements RPP {
     										public int getA() { return this.a; }
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -1014,7 +1012,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1037,7 +1035,7 @@ public class minH12_original implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -1060,7 +1058,7 @@ public class minH12_original implements RPP {
     							}
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -1083,7 +1081,7 @@ public class minH12_original implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -1110,7 +1108,7 @@ public class minH12_original implements RPP {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1118,7 +1116,7 @@ public class minH12_original implements RPP {
     									public int getA() { return this.a; }
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1141,7 +1139,7 @@ public class minH12_original implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -1164,12 +1162,12 @@ public class minH12_original implements RPP {
     							}
     						};
     						RPP r = new RPP() {
-    							RPP function = new sumN();
+    							RPP function = new arithNat.SumN();
     							private final int a = function.getA();
     							public int[] b(int[] x) { 
     								  	return this.function.b(x);
     							}
-    							 public int getA() { return this.a; }          
+    							 public int getA() { return this.a; }
     						};
     						private final int a = l.getA() + r.getA();
     						public int[] b(int[] x) { // Implements a parallel composition
@@ -1187,7 +1185,7 @@ public class minH12_original implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -1215,7 +1213,7 @@ public class minH12_original implements RPP {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -1223,7 +1221,7 @@ public class minH12_original implements RPP {
     										public int getA() { return this.a; }
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -1246,7 +1244,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1269,7 +1267,7 @@ public class minH12_original implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -1292,7 +1290,7 @@ public class minH12_original implements RPP {
     							}
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -1315,7 +1313,7 @@ public class minH12_original implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -1393,15 +1391,15 @@ public class minH12_original implements RPP {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
     										RPP l = new RPP() {
-    											RPP function = new inv_H12();
+    											RPP function = new funcH12.InvH12();
     											private final int a = function.getA();
     											public int[] b(int[] x) { 
     												  	return this.function.b(x);
     											}
-    											 public int getA() { return this.a; }          
+    											 public int getA() { return this.a; }
     										};
     										RPP r = new RPP() {
-    											private RPP f = new inv_id();
+    											private RPP f = new InvId();
     											private final int a = f.getA();
     											public int[] b(int[] x) {
     												return this.f.b(x);
@@ -1424,7 +1422,7 @@ public class minH12_original implements RPP {
     										}
     									};
     									RPP r = new RPP() {
-    										private RPP f = new inv_id();
+    										private RPP f = new InvId();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -1447,7 +1445,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new inv_id();
+    									private RPP f = new InvId();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1495,7 +1493,7 @@ public class minH12_original implements RPP {
     									RPP l = new RPP() {
     										RPP l = new RPP() {
     											RPP l = new RPP() {
-    												private RPP f = new inv_id();
+    												private RPP f = new InvId();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -1503,7 +1501,7 @@ public class minH12_original implements RPP {
     												public int getA() { return this.a; }
     											};
     											RPP r = new RPP() {
-    												private RPP f = new inv_id();
+    												private RPP f = new InvId();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -1526,7 +1524,7 @@ public class minH12_original implements RPP {
     											}
     										};
     										RPP r = new RPP() {
-    											private RPP f = new inv_id();
+    											private RPP f = new InvId();
     											private final int a = f.getA();
     											public int[] b(int[] x) {
     												return this.f.b(x);
@@ -1549,7 +1547,7 @@ public class minH12_original implements RPP {
     										}
     									};
     									RPP r = new RPP() {
-    										private RPP f = new inv_id();
+    										private RPP f = new InvId();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -1572,7 +1570,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new inv_id();
+    									private RPP f = new InvId();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1599,7 +1597,7 @@ public class minH12_original implements RPP {
     									RPP l = new RPP() {
     										RPP l = new RPP() {
     											RPP l = new RPP() {
-    												private RPP f = new inv_id();
+    												private RPP f = new InvId();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -1607,7 +1605,7 @@ public class minH12_original implements RPP {
     												public int getA() { return this.a; }
     											};
     											RPP r = new RPP() {
-    												private RPP f = new inv_id();
+    												private RPP f = new InvId();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -1630,7 +1628,7 @@ public class minH12_original implements RPP {
     											}
     										};
     										RPP r = new RPP() {
-    											private RPP f = new inv_id();
+    											private RPP f = new InvId();
     											private final int a = f.getA();
     											public int[] b(int[] x) {
     												return this.f.b(x);
@@ -1653,7 +1651,7 @@ public class minH12_original implements RPP {
     										}
     									};
     									RPP r = new RPP() {
-    										private RPP f = new inv_id();
+    										private RPP f = new InvId();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -1676,7 +1674,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new inv_id();
+    									private RPP f = new InvId();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1703,7 +1701,7 @@ public class minH12_original implements RPP {
     									RPP l = new RPP() {
     										RPP l = new RPP() {
     											RPP l = new RPP() {
-    												private RPP f = new inv_id();
+    												private RPP f = new InvId();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -1711,7 +1709,7 @@ public class minH12_original implements RPP {
     												public int getA() { return this.a; }
     											};
     											RPP r = new RPP() {
-    												private RPP f = new inv_id();
+    												private RPP f = new InvId();
     												private final int a = f.getA();
     												public int[] b(int[] x) {
     													return this.f.b(x);
@@ -1734,7 +1732,7 @@ public class minH12_original implements RPP {
     											}
     										};
     										RPP r = new RPP() {
-    											private RPP f = new inv_id();
+    											private RPP f = new InvId();
     											private final int a = f.getA();
     											public int[] b(int[] x) {
     												return this.f.b(x);
@@ -1757,7 +1755,7 @@ public class minH12_original implements RPP {
     										}
     									};
     									RPP r = new RPP() {
-    										private RPP f = new inv_id();
+    										private RPP f = new InvId();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -1780,7 +1778,7 @@ public class minH12_original implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new inv_inc();
+    									private RPP f = new InvInc();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1853,15 +1851,15 @@ public class minH12_original implements RPP {
     					RPP l = new RPP() {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
-    								RPP function = new H12();
+    								RPP function = new funcH12.H12();
     								private final int a = function.getA();
     								public int[] b(int[] x) { 
     									  	return this.function.b(x);
     								}
-    								 public int getA() { return this.a; }          
+    								 public int getA() { return this.a; }
     							};
     							RPP r = new RPP() {
-    								private RPP f = new inv_id();
+    								private RPP f = new InvId();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -1884,7 +1882,7 @@ public class minH12_original implements RPP {
     							}
     						};
     						RPP r = new RPP() {
-    							private RPP f = new inv_id();
+    							private RPP f = new InvId();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -1907,7 +1905,7 @@ public class minH12_original implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new inv_id();
+    						private RPP f = new InvId();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -1941,7 +1939,7 @@ public class minH12_original implements RPP {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
-    									private RPP f = new inv_inc();
+    									private RPP f = new InvInc();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1949,7 +1947,7 @@ public class minH12_original implements RPP {
     									public int getA() { return this.a; }
     								};
     								RPP r = new RPP() {
-    									private RPP f = new inv_id();
+    									private RPP f = new InvId();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -1972,7 +1970,7 @@ public class minH12_original implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new inv_id();
+    								private RPP f = new InvId();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -1995,7 +1993,7 @@ public class minH12_original implements RPP {
     							}
     						};
     						RPP r = new RPP() {
-    							private RPP f = new inv_id();
+    							private RPP f = new InvId();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -2018,7 +2016,7 @@ public class minH12_original implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new inv_inc();
+    						private RPP f = new InvInc();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -2041,7 +2039,7 @@ public class minH12_original implements RPP {
     					}
     				};
     				RPP r = new RPP() {
-    					private RPP f = new inv_id();
+    					private RPP f = new InvId();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);

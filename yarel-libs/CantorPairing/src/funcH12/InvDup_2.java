@@ -1,10 +1,9 @@
 package funcH12;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
-public class inv_dup_2 implements RPP {
-    public inv_dup_2() { }
+import yarelcore.*;	
+public class InvDup_2 implements RPP {
+    public InvDup_2() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		private final int a = 2;
@@ -20,7 +19,7 @@ public class inv_dup_2 implements RPP {
     	RPP r = new RPP() {
     		// Iteration start
     		RPP function = new RPP() {
-    			private RPP f = new inv_inc();
+    			private RPP f = new InvInc();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -51,7 +50,7 @@ public class inv_dup_2 implements RPP {
     };
     RPP r = new RPP() {
     	RPP pos=new RPP() {
-    		private RPP f = new inv_id();
+    		private RPP f = new InvId();
     		private final int a = f.getA();
     		public int[] b(int[] x) {
     			return this.f.b(x);
@@ -59,7 +58,7 @@ public class inv_dup_2 implements RPP {
     		public int getA() { return this.a; }
     	};
     	RPP zero=new RPP() {
-    		private RPP f = new inv_id();
+    		private RPP f = new InvId();
     		private final int a = f.getA();
     		public int[] b(int[] x) {
     			return this.f.b(x);
@@ -67,7 +66,7 @@ public class inv_dup_2 implements RPP {
     		public int getA() { return this.a; }
     	};
     	RPP neg=new RPP() {
-    		private RPP f = new inv_neg();
+    		private RPP f = new InvNeg();
     		private final int a = f.getA();
     		public int[] b(int[] x) {
     			return this.f.b(x);

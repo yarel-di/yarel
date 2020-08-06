@@ -1,5 +1,5 @@
-package BoundedMin;
-import Yarelcore.*;
+package boundedMin;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class BoundedMinTest

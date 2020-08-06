@@ -1,8 +1,7 @@
 package funcH12;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
+import yarelcore.*;	
 public class T3 implements RPP {
     public T3() { }
     RPP l = new RPP() {
@@ -26,7 +25,7 @@ public class T3 implements RPP {
     			public int[] b(int[] x) { 
     				  	return this.function.b(x);
     			}
-    			 public int getA() { return this.a; }          
+    			 public int getA() { return this.a; }
     		};
     		private final int a = function.getA()+1;
     		public int[] b(int[] x) {

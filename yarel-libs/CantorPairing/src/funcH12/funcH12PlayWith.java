@@ -1,8 +1,8 @@
 package funcH12;
-import Yarelcore.*;
+import yarelcore.*;
 import java.util.Arrays;
 
-public class funcH12PlayWith {
+public class FuncH12PlayWith {
 	public static void main(String[] args) throws Exception {
 		 RPP T2RPP = new funcH12.T2();
 		 for(int i : T2RPP.b(new int[] {1,5})) {
@@ -28,7 +28,7 @@ public class funcH12PlayWith {
 		 for(int i : P3subRPP.b(new int[] {1,2,5})) {
 		 		System.out.println(i);
 		 	}
-		 RPP dup_2RPP = new funcH12.dup_2();
+		 RPP dup_2RPP = new funcH12.Dup_2();
 		 for(int i : dup_2RPP.b(new int[] {1,5})) {
 		 		System.out.println(i);
 		 	}

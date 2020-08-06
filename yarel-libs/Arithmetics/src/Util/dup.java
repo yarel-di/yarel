@@ -1,9 +1,9 @@
-package Util;
+package util;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class dup implements RPP {
-    public dup() { }
+import yarelcore.*;	
+public class Dup implements RPP {
+    public Dup() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
@@ -23,7 +23,7 @@ public class dup implements RPP {
     				// Iteration start
     				RPP function = new RPP() {
     					RPP l = new RPP() {
-    						private RPP f = new dec();
+    						private RPP f = new Dec();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -31,7 +31,7 @@ public class dup implements RPP {
     						public int getA() { return this.a; }
     					};
     					RPP r = new RPP() {
-    						private RPP f = new inc();
+    						private RPP f = new Inc();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -79,7 +79,7 @@ public class dup implements RPP {
     			RPP l = new RPP() {
     				// Iteration start
     				RPP function = new RPP() {
-    					private RPP f = new inc();
+    					private RPP f = new Inc();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -103,7 +103,7 @@ public class dup implements RPP {
     				// Iteration stop
     			};
     			RPP r = new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -133,7 +133,7 @@ public class dup implements RPP {
     	};
     	RPP r = new RPP() {
     		RPP l = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -142,7 +142,7 @@ public class dup implements RPP {
     		};
     		RPP r = new RPP() {
     			RPP pos=new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -150,7 +150,7 @@ public class dup implements RPP {
     				public int getA() { return this.a; }
     			};
     			RPP zero=new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -158,7 +158,7 @@ public class dup implements RPP {
     				public int getA() { return this.a; }
     			};
     			RPP neg=new RPP() {
-    				private RPP f = new neg();
+    				private RPP f = new Neg();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);

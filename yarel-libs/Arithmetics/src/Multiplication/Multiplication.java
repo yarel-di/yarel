@@ -1,24 +1,24 @@
-package Multiplication;
+package multiplication;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class inv_multiplication implements RPP {
-    public inv_multiplication() { }
+import yarelcore.*;	
+public class Multiplication implements RPP {
+    public Multiplication() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
-    		RPP function = new inv_permutation();
+    		RPP function = new Permutation();
     		private final int a = function.getA();
     		public int[] b(int[] x) { 
     			  	return this.function.b(x);
     		}
-    		 public int getA() { return this.a; }          
+    		 public int getA() { return this.a; }
     	};
     	RPP r = new RPP() {
     		// Iteration start
     		RPP function = new RPP() {
     			// Iteration start
     			RPP function = new RPP() {
-    				private RPP f = new inv_inc();
+    				private RPP f = new Inc();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -59,21 +59,21 @@ public class inv_multiplication implements RPP {
     	};
     	private final int a = l.getA();
     	public int[] b(int[] x) { // Implements a serial composition.
-    		return this.l.b(this.r.b(x));
+    		return this.r.b(this.l.b(x));
     	}
     	public int getA() { return this.a; }
     };
     RPP r = new RPP() {
-    	RPP function = new permutation();
+    	RPP function = new InvPermutation();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     private final int a = l.getA();
     public int[] b(int[] x) { // Implements a serial composition.
-    	return this.l.b(this.r.b(x));
+    	return this.r.b(this.l.b(x));
     }
     public int getA() { return this.a; }
 }

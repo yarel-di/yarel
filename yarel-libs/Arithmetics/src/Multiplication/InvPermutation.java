@@ -1,9 +1,9 @@
-package Multiplication;
+package multiplication;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class inv_permutation implements RPP {
-    public inv_permutation() { }
+import yarelcore.*;	
+public class InvPermutation implements RPP {
+    public InvPermutation() { }
     private final int a = 3;
     public int[] b(int[] x) {
     	int tmp=0;

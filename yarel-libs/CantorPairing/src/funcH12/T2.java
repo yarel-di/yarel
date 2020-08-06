@@ -1,15 +1,14 @@
 package funcH12;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
+import yarelcore.*;	
 public class T2 implements RPP {
     public T2() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
     			RPP l = new RPP() {
-    				private RPP f = new inc();
+    				private RPP f = new Inc();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -17,7 +16,7 @@ public class T2 implements RPP {
     				public int getA() { return this.a; }
     			};
     			RPP r = new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -57,12 +56,12 @@ public class T2 implements RPP {
     		public int getA() { return this.a; }
     	};
     	RPP r = new RPP() {
-    		RPP function = new sumN();
+    		RPP function = new arithNat.SumN();
     		private final int a = function.getA();
     		public int[] b(int[] x) { 
     			  	return this.function.b(x);
     		}
-    		 public int getA() { return this.a; }          
+    		 public int getA() { return this.a; }
     	};
     	private final int a = l.getA();
     	public int[] b(int[] x) { // Implements a serial composition.

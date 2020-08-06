@@ -1,15 +1,13 @@
-package ArithInt;
+package arithInt;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import Util.*; 
-import ArithNat.*; 
-public class sub implements RPP {
-    public sub() { }
-    RPP function = new inv_sum();
+import yarelcore.*;	
+public class Sub implements RPP {
+    public Sub() { }
+    RPP function = new InvSum();
     private final int a = function.getA();
     public int[] b(int[] x) { 
     	  	return this.function.b(x);
     }
-     public int getA() { return this.a; }          
+     public int getA() { return this.a; }
 }

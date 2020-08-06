@@ -1,5 +1,5 @@
-package ArithInt;
-import Yarelcore.*;
+package arithInt;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class ArithIntTest

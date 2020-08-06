@@ -1,24 +1,24 @@
-package Multiplication;
+package multiplication;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class inv_identity implements RPP {
-    public inv_identity() { }
+import yarelcore.*;	
+public class InvIdentity implements RPP {
+    public InvIdentity() { }
     RPP l = new RPP() {
-    	RPP function = new inv_multiplication();
+    	RPP function = new InvMultiplication();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     RPP r = new RPP() {
-    	RPP function = new multiplication();
+    	RPP function = new Multiplication();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     private final int a = l.getA();
     public int[] b(int[] x) { // Implements a serial composition.

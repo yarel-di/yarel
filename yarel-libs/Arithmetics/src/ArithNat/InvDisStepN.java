@@ -1,23 +1,23 @@
-package ArithNat;
+package arithNat;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class inv_disStepN implements RPP {
-    public inv_disStepN() { }
+import yarelcore.*;	
+public class InvDisStepN implements RPP {
+    public InvDisStepN() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
     			RPP l = new RPP() {
     				RPP l = new RPP() {
-    					RPP function = new inv_subN();
+    					RPP function = new InvSubN();
     					private final int a = function.getA();
     					public int[] b(int[] x) { 
     						  	return this.function.b(x);
     					}
-    					 public int getA() { return this.a; }          
+    					 public int getA() { return this.a; }
     				};
     				RPP r = new RPP() {
-    					private RPP f = new inv_inc();
+    					private RPP f = new InvInc();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -40,7 +40,7 @@ public class inv_disStepN implements RPP {
     				}
     			};
     			RPP r = new RPP() {
-    				private RPP f = new inv_id();
+    				private RPP f = new InvId();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -83,7 +83,7 @@ public class inv_disStepN implements RPP {
     	};
     	RPP r = new RPP() {
     		RPP l = new RPP() {
-    			private RPP f = new inv_id();
+    			private RPP f = new InvId();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -91,12 +91,12 @@ public class inv_disStepN implements RPP {
     			public int getA() { return this.a; }
     		};
     		RPP r = new RPP() {
-    			RPP function = new inv_disSelN();
+    			RPP function = new InvDisSelN();
     			private final int a = function.getA();
     			public int[] b(int[] x) { 
     				  	return this.function.b(x);
     			}
-    			 public int getA() { return this.a; }          
+    			 public int getA() { return this.a; }
     		};
     		private final int a = l.getA() + r.getA();
     		public int[] b(int[] x) { // Implements a parallel composition

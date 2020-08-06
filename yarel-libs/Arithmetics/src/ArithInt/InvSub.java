@@ -1,10 +1,10 @@
-package funcH12;
+package arithInt;
 import java.util.Arrays;
 import java.lang.Math;
 import yarelcore.*;	
-public class H12_v2 implements RPP {
-    public H12_v2() { }
-    RPP function = new P3sub();
+public class InvSub implements RPP {
+    public InvSub() { }
+    RPP function = new Sum();
     private final int a = function.getA();
     public int[] b(int[] x) { 
     	  	return this.function.b(x);

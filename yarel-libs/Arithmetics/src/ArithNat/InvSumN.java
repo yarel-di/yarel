@@ -1,12 +1,12 @@
-package ArithNat;
+package arithNat;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class inv_sumN implements RPP {
-    public inv_sumN() { }
+import yarelcore.*;	
+public class InvSumN implements RPP {
+    public InvSumN() { }
     // Iteration start
     RPP function = new RPP() {
-    	private RPP f = new inv_inc();
+    	private RPP f = new InvInc();
     	private final int a = f.getA();
     	public int[] b(int[] x) {
     		return this.f.b(x);
