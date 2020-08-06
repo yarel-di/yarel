@@ -1,17 +1,16 @@
 package modules;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import compound.*; 
+import yarelcore.*;	
 public class InvPermutation implements RPP {
     public InvPermutation() { }
     RPP l = new RPP() {
-    	RPP function = new InvParComposition();
+    	RPP function = new compound.InvParComposition();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     RPP r = new RPP() {
     	private final int a = 4;

@@ -1,7 +1,7 @@
 package compound;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
+import yarelcore.*;	
 public class InvParComposition implements RPP {
     public InvParComposition() { }
     RPP l = new RPP() {
@@ -10,7 +10,7 @@ public class InvParComposition implements RPP {
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     RPP r = new RPP() {
     	RPP function = new InvDecrement();
@@ -18,7 +18,7 @@ public class InvParComposition implements RPP {
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     private final int a = l.getA() + r.getA();
     public int[] b(int[] x) { // Implements a parallel composition

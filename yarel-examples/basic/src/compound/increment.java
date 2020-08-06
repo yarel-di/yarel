@@ -1,7 +1,7 @@
 package compound;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
+import yarelcore.*;	
 public class Increment implements RPP {
     public Increment() { }
     // Iteration start

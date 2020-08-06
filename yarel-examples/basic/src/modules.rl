@@ -1,9 +1,7 @@
+import compound.*
 module modules {
-	import compound.*
-	
 	dcl g : int
 	def g := id
-	
 	dcl permutation : 4 int
 	def permutation :=
 	                 /* x   y   w   z */

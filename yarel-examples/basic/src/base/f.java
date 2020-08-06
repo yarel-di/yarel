@@ -1,8 +1,7 @@
 package base;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import modules.G; 
+import yarelcore.*;	
 public class F implements RPP {
     public F() { }
     RPP function = new G();
@@ -10,5 +9,5 @@ public class F implements RPP {
     public int[] b(int[] x) { 
     	  	return this.function.b(x);
     }
-     public int getA() { return this.a; }          
+     public int getA() { return this.a; }
 }

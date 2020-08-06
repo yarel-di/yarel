@@ -1,8 +1,7 @@
 package modules;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import compound.*; 
+import yarelcore.*;	
 public class InvG implements RPP {
     public InvG() { }
     private RPP f = new InvId();

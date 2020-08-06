@@ -1,5 +1,5 @@
 package modules;
-import Yarelcore.*;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class ModulesPlayWith {

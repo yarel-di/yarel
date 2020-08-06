@@ -1,8 +1,7 @@
 package modules;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import compound.*; 
+import yarelcore.*;	
 public class G implements RPP {
     public G() { }
     private RPP f = new Id();

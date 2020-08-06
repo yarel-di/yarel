@@ -1,5 +1,5 @@
 package compound;
-import Yarelcore.*;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class CompoundPlayWith {

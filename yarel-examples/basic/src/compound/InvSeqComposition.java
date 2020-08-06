@@ -1,7 +1,7 @@
 package compound;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
+import yarelcore.*;	
 public class InvSeqComposition implements RPP {
     public InvSeqComposition() { }
     RPP l = new RPP() {
@@ -10,7 +10,7 @@ public class InvSeqComposition implements RPP {
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     RPP r = new RPP() {
     	RPP function = new InvDecrement();
@@ -18,7 +18,7 @@ public class InvSeqComposition implements RPP {
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     private final int a = l.getA();
     public int[] b(int[] x) { // Implements a serial composition.
