@@ -402,28 +402,6 @@ class JavaYarelGenerator implements IGenerator2 {
           	}
           	 public int getA() { return this.a; }
           	'''
-          	/*
-          	SOLUTION No1:
-          	val funName = b.getActualString()
-          	val pointIndex = funName.lastIndexOf('.')
-          	var containingPackage = "" //the name of the module (and so the package) that contain the function
-          	var functionName = ""
-          	if(pointIndex >= 0){//the functionName is a QualifiedName
-          		containingPackage = funName.substring(0, pointIndex + 1)//include the point
-          		functionName = funName.substring(pointIndex + 1)
-          	}
-          	else{
-          		functionName = funName
-          	}
-          	'''
-          	RPP function = new «containingPackage»«IF !fwd»Inv«ENDIF»«functionName.toFirstUpper»();
-          	private final int a = function.getA();
-          	public int[] b(int[] x) { 
-          		  	return this.function.b(x);
-          	}
-          	 public int getA() { return this.a; }          
-          	'''
-          	*/
           }
           BodyPerm:
           	'''
@@ -682,28 +660,4 @@ class JavaYarelGenerator implements IGenerator2 {
         //Play source
        	fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name.toFirstLower, model))
 	}	
-
-
-	/*private def getActualString(EObject elem){
-		val ICompositeNode node = NodeModelUtils.getNode(elem);
-		node.text.trim
-	}*/
-	
-	/**
-	 * MEMO:
-	 * Ho trovato due soluzioni per risolvere il problema degli import
-	 * SOLUZIONE No1:
-	 * La prima consiste nel accedere direttamente al testo corrispondente a BodyFun
-	 * In questa maniera è immediatamente possibile sapere se la cross reference è stata risolta
-	 * usando il nome qualificato dell'oggetto oppure no.
-	 * Tuttavia attraverso questa soluzione si naviga nell'albero di parsing
-	 * (E' un operazione dispensiosa?)
-	 * --
-	 * SOLUZIONE No2:
-	 * La seconda consiste nell'usare in ogni caso i nomi qualificati delle funzioni.
-	 * Sia in presenza di un ambiguità che no.
-	 * In questo modo diventano anche non necessari gli import nel codice java generato.
-	 * L'operazione è sicuramente meno dispensiosa della prima, tuttavia il codice generato
-	 * potrebbe diventare meno leggibile
-	 */
 }
