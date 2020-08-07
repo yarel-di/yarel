@@ -198,67 +198,6 @@ class YarelValidator extends AbstractYarelValidator {
 	  	}
 	  }
 	  
-	  
-	  /**
-	  * Check if the module does not declare a function with the same name
-	  * of a function declared in another module
-	  * Added by: Matteo Palazzo
-	  */
-	  /*@Check
-	  def checkImportedFunctionRedeclaration(Declaration decl){
-	  	val imports = mapImportedFunToMod(decl.getContainerOfType(typeof(Model)))
-	  	val importingMod = imports.get(decl.name)
-	  	if(importingMod !== null){
-	  		//The function is not imported by a module
-	  		error(
-	  			"The function '" + decl.name + "' is already declared in the imported module '" +
-	  				importingMod + "'",
-	  			YarelPackage::eINSTANCE.declaration_Name,
-	  			ERROR_IMPORT
-	  		)
-	  	}*/
-	  	/*
-	  	OLD VERSION:
-	  	val importedModules = currentModule.visibleModules.filter[mod |
-	  		currentModule.imports.map[importedModule].contains(mod.name)	  		
-	  	]//take only the imported modules
-		val mod = importedModules.findFirst[
-			declarations.map[name].contains(decl.name)
-		]//the module that already declare the function
-	  	if(mod !== null){
-	  		//The function is declared in another module
-	  		error(
-	  			"The function '" + decl.name + "' is already declared in the imported module '" +
-	  				mod.name + "'",
-	  			YarelPackage::eINSTANCE.declaration_Name,
-	  			ERROR_IMPORT
-	  		) 	
-	  	}
-	  }*/
-	  
-	  /**
-	   * Map each imported function to the first module that import its
-	   * Added by Matteo Palazzo
-	   */
-	  /*private def mapImportedFunToMod(Model module){
-	  	val Map<String, String> funToModMap = new HashMap()
-	  	val visibleModules = module.visibleModules
-	  	for(impt : module.imports){
-	  		val importedModule = impt.importedModule
-	  		val function = impt.importedFunction
-	  		if(function == '*'){//resolve the wildcard
-  				visibleModules.findFirst[mod | mod.name == importedModule]
-  							  .declarations
-  							  .map[name]
-  							  .forEach(fun | funToModMap.putIfAbsent(fun, importedModule))
-	  		}
-	  		else{//add the function to the map
-	  			funToModMap.putIfAbsent(function, importedModule)
-	  		}
-	  	}
-	  	return funToModMap
-	  }*/
-	  
 	  /**
 	   * Check that every declared function has just one definition
 	   * also check that every declared function has a definition inside the same module
@@ -287,22 +226,4 @@ class YarelValidator extends AbstractYarelValidator {
 	  	}
 	  	//else noError
 	  }
-	  
-	  /**
-	   * Check that a module does not give a definition of an imported function
-	   * Added by Matteo Palazzo
-	   * NOTA: DA SOSTITUIRE CON LO SCOPING
-	   */
-	  /*@Check def checkDefineOnlyOwnFunction(Definition definition){
-	  	if(definition.declarationName.name !== null){//The cross reference of the object is solved
-		  	val mod = definition.getContainerOfType(typeof(Model))
-		  	if(!mod.declarations.contains(definition.declarationName)){
-		  		error(
-		  			"Trying to define the imported function '" + definition.declarationName.name + "'",
-		  			YarelPackage::eINSTANCE.definition_DeclarationName,
-		  			ERROR_IMPORT
-		  		)
-		  	}
-	  	}
-	  }*/
 }
