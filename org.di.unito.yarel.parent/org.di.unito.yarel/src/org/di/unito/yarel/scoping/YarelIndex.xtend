@@ -15,6 +15,9 @@ class YarelIndex {
 	@Inject org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider rdp
 	@Inject IContainer$Manager cm
 	
+	/*
+	 * Return all the visible modules from the object o
+	 */
 	def getVisibleModules(EObject o){
 		val index = rdp.getResourceDescriptions(o.eResource)
  		val rd = index.getResourceDescription(o.eResource.URI)

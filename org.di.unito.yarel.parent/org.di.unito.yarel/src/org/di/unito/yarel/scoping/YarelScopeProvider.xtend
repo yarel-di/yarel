@@ -24,6 +24,12 @@ import org.di.unito.yarel.yarel.Definition
 /* Added by Matteo Palazzo */
 class YarelScopeProvider extends AbstractYarelScopeProvider {
 	@Inject extension YarelUtils
+	
+	/*
+	 * Define the scope of the Definition.
+	 * In this way the user can define only the function that are declared in the same module
+	 * where the definition is made
+	 */
 	override getScope(EObject context, EReference reference){	
 		if(reference == YarelPackage::eINSTANCE.definition_DeclarationName){		
 			if(context instanceof Definition){									

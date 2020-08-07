@@ -7,9 +7,18 @@ import org.di.unito.yarel.yarel.Import
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
+	/*
+	 * Return all the declarations of a module
+	 */
 	def declarations(Model module){module.elements.filter(typeof(Declaration))}
+	/*
+	 * Return all the definitions of a module
+	 */
 	def definitions(Model module){module.elements.filter(typeof(Definition))}
 
+	/*
+	 * Return the name of the module used in the import
+	 */
 	def importedModule(Import impt){
 		val importedNamespace = impt.importedNamespace
 		val splitIndex = impt.importedNamespace.lastIndexOf('.')
@@ -19,6 +28,9 @@ class YarelUtils {
 		else return null
 	}
 	
+	/*
+	 * Return the name of the imported function
+	 */
 	def importedFunction(Import impt){
 		val importedNamespace = impt.importedNamespace
 		val splitIndex = impt.importedNamespace.lastIndexOf('.')
