@@ -247,10 +247,12 @@ class JavaYarelGenerator implements IGenerator2 {
 	}
 	
 	/*
-	 * Nota: non c'è più bisogno di usare questa
-	 * funzione, infatti se ad ogni funzione vi si
-	 * accede con il nome del modulo
-	 * allora è inutile fare degli import
+	 * There no need to use this function, because
+	 * in the java code the call to each yarel function
+	 * is made through its qualified name. So there is no 
+	 * need to make the imports.
+	 * This function is still here in case for some hypotheticals 
+	 * future uses
 	 */
 	private def generateImports(Model m){
 		/*var r=""  
@@ -304,16 +306,6 @@ class JavaYarelGenerator implements IGenerator2 {
 		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
 		    «compile(definition.body, fwd)»
 		}'''
-	    /*'''
-		package «model.name»;
-		import java.util.Arrays;
-		import java.lang.Math;
-		import Yarelcore.*;
-		«generateImports(model)»
-		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
-		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
-		    «compile(definition.body, fwd)»
-		}'''*/
 	}
 
 /*Generates java code for the functions. The fwd variable is used to generate code corresponding
@@ -410,7 +402,9 @@ class JavaYarelGenerator implements IGenerator2 {
           	}
           	 public int getA() { return this.a; }
           	'''
-          	/*val funName = b.getActualString() //not sure if it is an efficient way to do it (SOLUTION No 1)
+          	/*
+          	SOLUTION No1:
+          	val funName = b.getActualString()
           	val pointIndex = funName.lastIndexOf('.')
           	var containingPackage = "" //the name of the module (and so the package) that contain the function
           	var functionName = ""
@@ -428,7 +422,8 @@ class JavaYarelGenerator implements IGenerator2 {
           		  	return this.function.b(x);
           	}
           	 public int getA() { return this.a; }          
-          	'''*/
+          	'''
+          	*/
           }
           BodyPerm:
           	'''
@@ -653,7 +648,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	}
 	
 	
-	 //USE THIS IF YOU GO FOR THE SOLUTION No 2: 
+	//USE THIS IF YOU GO FOR THE SOLUTION No 2: 
 	var IQualifiedNameProvider qnp
 		
 	def doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context, IQualifiedNameProvider qnp){
