@@ -2,10 +2,10 @@ package compound;
 import java.util.Arrays;
 import java.lang.Math;
 import yarelcore.*;	
-public class InvParComposition implements RPP {
-    public InvParComposition() { }
+public class ParComposition implements RPP {
+    public ParComposition() { }
     RPP l = new RPP() {
-    	RPP function = new InvIncrement();
+    	RPP function = new Increment();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
@@ -13,7 +13,7 @@ public class InvParComposition implements RPP {
     	 public int getA() { return this.a; }
     };
     RPP r = new RPP() {
-    	RPP function = new InvDecrement();
+    	RPP function = new Decrement();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);

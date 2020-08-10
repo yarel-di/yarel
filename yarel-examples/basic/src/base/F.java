@@ -2,9 +2,9 @@ package base;
 import java.util.Arrays;
 import java.lang.Math;
 import yarelcore.*;	
-public class InvF implements RPP {
-    public InvF() { }
-    RPP function = new InvG();
+public class F implements RPP {
+    public F() { }
+    RPP function = new G();
     private final int a = function.getA();
     public int[] b(int[] x) { 
     	  	return this.function.b(x);

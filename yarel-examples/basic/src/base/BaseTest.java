@@ -1,8 +1,8 @@
-package innerFile;
-import Yarelcore.*;
+package base;
+import yarelcore.*;
 import java.util.Arrays;
 
-public class InnerFileTest
+public class BaseTest
 {
 	public static void main(String[] args)
 	{

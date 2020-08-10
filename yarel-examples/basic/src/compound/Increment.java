@@ -2,11 +2,11 @@ package compound;
 import java.util.Arrays;
 import java.lang.Math;
 import yarelcore.*;	
-public class InvIncrement implements RPP {
-    public InvIncrement() { }
+public class Increment implements RPP {
+    public Increment() { }
     // Iteration start
     RPP function = new RPP() {
-    	private RPP f = new InvInc();
+    	private RPP f = new Inc();
     	private final int a = f.getA();
     	public int[] b(int[] x) {
     		return this.f.b(x);
