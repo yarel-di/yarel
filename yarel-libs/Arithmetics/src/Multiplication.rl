@@ -2,7 +2,7 @@
  * Defines a multiplication on natural numbers and checks the
  * existence of the inverse inv[multiplication] of the multiplication.
  */
-module Multiplication {
+module multiplication {
 	
 	///// multiplication
 	dcl permutation: 3 int

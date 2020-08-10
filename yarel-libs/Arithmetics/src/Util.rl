@@ -1,4 +1,4 @@
-module Util {
+module util {
 	/** in : a, 0, 0
 	 *  out: a, a, 0
 	 *  Duplicates the first argument, given two ancillae intialized

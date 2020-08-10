@@ -3,7 +3,7 @@
  * This module contains sum, sub(traction), mul(tiplication), quo(tient).
  * The overall assumption is that every function expects natural numbers as its inputs. 
  */
-module ArithNat { 
+module arithNat { 
 
 	//////// sum	
 	dcl sumN : 2 int
