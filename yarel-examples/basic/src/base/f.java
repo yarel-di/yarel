@@ -1,13 +1,13 @@
 package base;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class f implements RPP {
-    public f() { }
-    private RPP f = new inc();
-    private final int a = f.getA();
-    public int[] b(int[] x) {
-    	return this.f.b(x);
+import yarelcore.*;	
+public class F implements RPP {
+    public F() { }
+    RPP function = new G();
+    private final int a = function.getA();
+    public int[] b(int[] x) { 
+    	  	return this.function.b(x);
     }
-    public int getA() { return this.a; }
+     public int getA() { return this.a; }
 }

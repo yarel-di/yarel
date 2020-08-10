@@ -1,8 +1,8 @@
 package base;
-import Yarelcore.*;
+import yarelcore.*;
 import java.util.Arrays;
 
-public class baseTest
+public class BaseTest
 {
 	public static void main(String[] args)
 	{

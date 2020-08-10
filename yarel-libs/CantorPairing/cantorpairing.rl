@@ -1,7 +1,7 @@
+import ArithNat.*
+import funcH12.*
+import BoundedMin.*
 module CantorPairing {
-    import ArithNat.*
-    import funcH12.*
-    import BoundedMin.*
     
     /* note: Sum[a] := (\sum_{i=0}^{a}i) */
     

@@ -1,12 +1,9 @@
-package CantorPairing;
+package cantorPairing;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
-import funcH12.*; 
-import BoundedMin.*; 
-public class cu implements RPP {
-    public cu() { }
+import yarelcore.*;	
+public class Cu implements RPP {
+    public Cu() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
@@ -26,12 +23,12 @@ public class cu implements RPP {
     								public int getA() { return this.a; }
     							};
     							RPP r = new RPP() {
-    								RPP function = new minH12();
+    								RPP function = new boundedMin.MinH12();
     								private final int a = function.getA();
     								public int[] b(int[] x) { 
     									  	return this.function.b(x);
     								}
-    								 public int getA() { return this.a; }          
+    								 public int getA() { return this.a; }
     							};
     							private final int a = l.getA();
     							public int[] b(int[] x) { // Implements a serial composition.
@@ -63,7 +60,7 @@ public class cu implements RPP {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -71,7 +68,7 @@ public class cu implements RPP {
     										public int getA() { return this.a; }
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -94,7 +91,7 @@ public class cu implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -117,7 +114,7 @@ public class cu implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -143,7 +140,7 @@ public class cu implements RPP {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
-    										private RPP f = new inc();
+    										private RPP f = new Inc();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -151,7 +148,7 @@ public class cu implements RPP {
     										public int getA() { return this.a; }
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -174,7 +171,7 @@ public class cu implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -197,7 +194,7 @@ public class cu implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -223,7 +220,7 @@ public class cu implements RPP {
     							RPP l = new RPP() {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -231,7 +228,7 @@ public class cu implements RPP {
     										public int getA() { return this.a; }
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -254,7 +251,7 @@ public class cu implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -277,7 +274,7 @@ public class cu implements RPP {
     								}
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -350,7 +347,7 @@ public class cu implements RPP {
     					RPP l = new RPP() {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
-    								private RPP f = new dec();
+    								private RPP f = new Dec();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -358,7 +355,7 @@ public class cu implements RPP {
     								public int getA() { return this.a; }
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -381,7 +378,7 @@ public class cu implements RPP {
     							}
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -404,7 +401,7 @@ public class cu implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -427,7 +424,7 @@ public class cu implements RPP {
     					}
     				};
     				RPP r = new RPP() {
-    					private RPP f = new id();
+    					private RPP f = new Id();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -458,15 +455,15 @@ public class cu implements RPP {
     		RPP r = new RPP() {
     			RPP l = new RPP() {
     				RPP l = new RPP() {
-    					RPP function = new H12_v2();
+    					RPP function = new funcH12.H12_v2();
     					private final int a = function.getA();
     					public int[] b(int[] x) { 
     						  	return this.function.b(x);
     					}
-    					 public int getA() { return this.a; }          
+    					 public int getA() { return this.a; }
     				};
     				RPP r = new RPP() {
-    					private RPP f = new id();
+    					private RPP f = new Id();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -489,7 +486,7 @@ public class cu implements RPP {
     				}
     			};
     			RPP r = new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -521,15 +518,15 @@ public class cu implements RPP {
     		RPP l = new RPP() {
     			RPP l = new RPP() {
     				RPP l = new RPP() {
-    					RPP function = new subN();
+    					RPP function = new arithNat.SubN();
     					private final int a = function.getA();
     					public int[] b(int[] x) { 
     						  	return this.function.b(x);
     					}
-    					 public int getA() { return this.a; }          
+    					 public int getA() { return this.a; }
     				};
     				RPP r = new RPP() {
-    					private RPP f = new id();
+    					private RPP f = new Id();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -552,7 +549,7 @@ public class cu implements RPP {
     				}
     			};
     			RPP r = new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -575,7 +572,7 @@ public class cu implements RPP {
     			}
     		};
     		RPP r = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);

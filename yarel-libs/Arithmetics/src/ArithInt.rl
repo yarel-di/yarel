@@ -3,10 +3,9 @@
  * This module contains sum, sub(traction), mul(tiplication), quo(tient)
  * that take any integer value as their arguments. 
  */
+import Util.*
+import ArithNat.*
  module ArithInt {
-	import Util.*
-	import ArithNat.*
-	
 	//////// sum
 	/* in : a  , b, 0, 0, 0
 	 * out: a+b, a, b, 0, 0

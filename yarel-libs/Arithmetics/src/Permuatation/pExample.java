@@ -1,9 +1,9 @@
-package Permuatation;
+package permuatation;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-public class pExample implements RPP {
-    public pExample() { }
+import yarelcore.*;	
+public class PExample implements RPP {
+    public PExample() { }
     private final int a = 4;
     public int[] b(int[] x) {
     	int tmp=0;

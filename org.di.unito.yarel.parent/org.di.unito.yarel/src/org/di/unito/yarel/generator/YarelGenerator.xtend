@@ -25,6 +25,9 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import com.google.inject.Inject
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.resource.ILocationInFileProvider
 
 /**
  * Generates code from your model files on save.
@@ -32,6 +35,8 @@ import org.eclipse.xtext.generator.IGeneratorContext
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class YarelGenerator extends AbstractGenerator {
+
+	@Inject IQualifiedNameProvider qnp //USE THIS IF YOU GO FOR THE SOLUTION No 2:
 
 	val latexGenerator = new LatexYarelGenerator
 	val sageMathGenerator = new SageMathYarelGenerator
@@ -43,6 +48,6 @@ class YarelGenerator extends AbstractGenerator {
     override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
        latexGenerator.doGenerate(resource, fsa, context);
        sageMathGenerator.doGenerate(resource, fsa, context);
-       javaGenerator.doGenerate(resource, fsa, context);
+       javaGenerator.doGenerate(resource, fsa, context, qnp);
     }
 }

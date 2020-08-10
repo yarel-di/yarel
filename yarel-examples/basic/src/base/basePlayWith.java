@@ -1,10 +1,14 @@
 package base;
-import Yarelcore.*;
+import yarelcore.*;
 import java.util.Arrays;
 
-public class basePlayWith {
+public class BasePlayWith {
 	public static void main(String[] args) throws Exception {
-		 RPP fRPP = new base.f();
+		 RPP gRPP = new base.G();
+		 for(int i : gRPP.b(new int[] {5})) {
+		 		System.out.println(i);
+		 	}
+		 RPP fRPP = new base.F();
 		 for(int i : fRPP.b(new int[] {5})) {
 		 		System.out.println(i);
 		 	}

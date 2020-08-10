@@ -1,5 +1,5 @@
-package ArithNat;
-import Yarelcore.*;
+package arithNat;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class ArithNatTest

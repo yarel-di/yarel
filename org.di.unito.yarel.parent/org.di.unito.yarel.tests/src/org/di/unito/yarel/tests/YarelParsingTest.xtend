@@ -349,9 +349,11 @@ class YarelParsingTest
 	@Test
 	def void testSerCompComplexOK() 
 	{
-		"module m { dcl f0 :  int
+		"module m { dcl f0 :  int			
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int
+					def f2 := id
                     def f0 := (f2;(f2;f1;dec));inc}".parse.assertNoErrors
 	}
 
@@ -360,7 +362,9 @@ class YarelParsingTest
 	{
 		"module m { dcl f0 :  int, int, int, int, int
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int
+					def f2 := id
                     def f0 := (f2|f1)|((f1|f2)|inc)}".parse.assertNoErrors
 	}
 
@@ -368,7 +372,9 @@ class YarelParsingTest
 	def void testSeqParCompOK00() 
 	{
 		"module m { dcl f0 :  int
+					def f0 := id
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int, int
                     def f2 := (inc|f0);(f1|dec)}".parse.assertNoErrors
 	}
@@ -377,7 +383,9 @@ class YarelParsingTest
 	def void testSeqParCompOK01() 
 	{
 		"module m { dcl f0 :  int
+					def f0 := id
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int, int
                     def f2 := (inc;f1)|(f0;dec)}".parse.assertNoErrors
 	}
@@ -386,7 +394,9 @@ class YarelParsingTest
 	def void testSeqParCompOK02() 
 	{
 		"module m { dcl f0 :  int
+					def f0 := id
                     dcl f1 :  int
+					def f1 := id
                     dcl f2 :  int, int
                     def f2 := (inc;(f1;inc))|(f0;(dec;dec))}".parse.assertNoErrors
 	}
@@ -552,5 +562,34 @@ class YarelParsingTest
 	def void testParCompWithReferenceOK() 
 	{
 		assertModuleRepr("module m { dcl f0 : int dcl f1 : int, int def f1 := f0|inc}", "module m { dcl f0 : int dcl f1 : int, int def f1 := (f0|inc)}")
+	}
+	
+	//TEST FOR IMPORTS
+	//Added by: Matteo Palazzo
+	
+	//Test if there are no error when not using an import
+	@Test def void testNoImport(){
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			
+			dcl g : int
+			def g := f
+		}
+		'''.parse.assertNoErrors
+	}
+	
+	//Test if you can use a function declared in the same module by calling it with the qualified name
+	@Test def void testQualifiedNameOfSameModule(){
+		'''
+		module mod{
+			dcl f : int
+			def f := id
+			
+			dcl g : int
+			def g := mod.f
+		}
+		'''.parse.assertNoErrors
 	}
 }

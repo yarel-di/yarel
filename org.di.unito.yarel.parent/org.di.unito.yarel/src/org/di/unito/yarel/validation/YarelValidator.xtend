@@ -1,5 +1,5 @@
 /**
- * Yarel
+  * Yarel
  * Copyright (C) 2018  Claudio Grandi, Dariush Moshiri, Luca Roversi
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,12 +36,24 @@ import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.YarelPackage
 import org.eclipse.xtext.validation.Check
 import org.di.unito.yarel.yarel.BodyFor
+import org.di.unito.yarel.yarel.Import
+import org.di.unito.yarel.scoping.YarelIndex
+import com.google.inject.Inject
+import org.di.unito.yarel.utils.YarelUtils
+import org.di.unito.yarel.yarel.Model
+import org.eclipse.xtext.validation.CheckType
+import static extension org.eclipse.xtext.EcoreUtil2.*
+import java.util.HashMap
+import java.util.Map
+import java.util.List
+import java.util.ArrayList
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
  */
 class YarelValidator extends AbstractYarelValidator {
-
+	@Inject extension YarelIndex
+	@Inject extension YarelUtils
 
 	//Error ids
 	public static val BASE_ERROR_NAME = 'org.di.unito.yarel_'
@@ -53,7 +65,9 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_PERMUTATION_INDICES = BASE_ERROR_NAME + 'ERROR_PERMUTATION_INDICES'
 	public static val ERROR_ITERATION_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_ITERATION_FUNCTIONS_ARITY'
 	public static val ERROR_ARITY = BASE_ERROR_NAME + 'ERROR_ARITY'
-	
+	public static val ERROR_IMPORT = BASE_ERROR_NAME + 'ERROR_IMPORT'
+	public static val ERROR_DUPLICATE_MODULE = BASE_ERROR_NAME + 'ERROR_DUPLICATE_MODULE'
+	public static val ERROR_INVALID_DEFINITION_COUNT = BASE_ERROR_NAME + 'ERROR_INVALID_DEFINITION_COUNT'
 	
 	private def dispatch int getArity(Declaration declaration) {
 		return declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
@@ -139,4 +153,77 @@ class YarelValidator extends AbstractYarelValidator {
 			indicesSet.add(it.value)
 		]
 	}
+	
+	//----VALIDATION FOR IMPORTS----//
+	/**
+	 * Check if the imported module exist
+	 * And if the imported function of the imported module exist
+	 * Added by: Matteo Palazzo
+	 */
+	 @Check(CheckType::NORMAL)
+	 def checkImport(Import impt){
+	 	val importedModule = impt.visibleModules.findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
+	 	if(importedModule === null){//check if the module exist
+	 		error(
+	 			''''«impt.importedModule»' cannot be resolved as a module''', 
+	 			YarelPackage::eINSTANCE.import_ImportedNamespace, 
+	 			ERROR_IMPORT
+	 		)
+	 	}
+	 	else{//Check that the imported function is declared in the imported module
+	 		val importedFunction = impt.importedFunction
+	 		if(importedFunction != '*'){//the wildcard is not used
+	 			if(!importedModule.declarations.map[name].contains(importedFunction)){//check if the imported module contain the function
+	 				error(
+	 					"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
+						YarelPackage::eINSTANCE.import_ImportedNamespace, 
+						ERROR_IMPORT)	
+	 			}
+	 		}		
+	 	}
+	 }
+	 
+	 /**
+	  * Check if there aren't module duplicate
+	  * Added by: Matteo Palazzo
+	  */
+	  @Check(CheckType::NORMAL)
+	  def checkModuleDuplicate(Model currentModule){
+	  	if(currentModule.visibleModules.exists[mod | mod != currentModule && mod.name == currentModule.name]){
+	  		error(
+	  			'''The module '«currentModule.name»' is already defined''',
+	  			YarelPackage::eINSTANCE.model_Name,
+	  			ERROR_DUPLICATE_MODULE
+	  		)
+	  	}
+	  }
+	  
+	  /**
+	   * Check that every declared function has just one definition
+	   * also check that every declared function has a definition inside the same module
+	   * Added by Matteo Palazzo
+	   */
+	  @Check
+	  def checkOneDefinition(Declaration decl){
+	  	val currentModule = decl.getContainerOfType(typeof(Model))
+	  	var count = 0
+	  	var i = 0
+	  	while(count < 2 && i < currentModule.definitions.size){//count the number of definition
+	  		if(currentModule.definitions.get(i).declarationName == decl) count++
+	  		i++
+	  	}
+	  	if(count >= 2){//check if the declaration has no definition
+	  		error('''The declared function '«decl.name»' has multiple definitions''',
+	  			YarelPackage::eINSTANCE.declaration_Name,
+	  			ERROR_INVALID_DEFINITION_COUNT
+	  		)
+	  	}
+	  	else if(count == 0){//check if the declaration has multiple definition
+	  		error('''The declared function '«decl.name»' has no definition''',
+	  			YarelPackage::eINSTANCE.declaration_Name,
+	  			ERROR_INVALID_DEFINITION_COUNT
+	  		)	
+	  	}
+	  	//else noError
+	  }
 }

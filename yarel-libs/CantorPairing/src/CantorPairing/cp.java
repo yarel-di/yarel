@@ -1,12 +1,9 @@
-package CantorPairing;
+package cantorPairing;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
-import funcH12.*; 
-import BoundedMin.*; 
-public class cp implements RPP {
-    public cp() { }
+import yarelcore.*;	
+public class Cp implements RPP {
+    public Cp() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		private final int a = 3;
@@ -21,15 +18,15 @@ public class cp implements RPP {
     	};
     	RPP r = new RPP() {
     		RPP l = new RPP() {
-    			RPP function = new sumN();
+    			RPP function = new arithNat.SumN();
     			private final int a = function.getA();
     			public int[] b(int[] x) { 
     				  	return this.function.b(x);
     			}
-    			 public int getA() { return this.a; }          
+    			 public int getA() { return this.a; }
     		};
     		RPP r = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);
@@ -58,12 +55,12 @@ public class cp implements RPP {
     	public int getA() { return this.a; }
     };
     RPP r = new RPP() {
-    	RPP function = new P3();
+    	RPP function = new funcH12.P3();
     	private final int a = function.getA();
     	public int[] b(int[] x) { 
     		  	return this.function.b(x);
     	}
-    	 public int getA() { return this.a; }          
+    	 public int getA() { return this.a; }
     };
     private final int a = l.getA();
     public int[] b(int[] x) { // Implements a serial composition.

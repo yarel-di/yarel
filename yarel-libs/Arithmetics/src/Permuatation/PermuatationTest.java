@@ -1,5 +1,5 @@
-package Permuatation;
-import Yarelcore.*;
+package permuatation;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class PermuatationTest

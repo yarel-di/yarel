@@ -1,8 +1,7 @@
 package funcH12;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
+import yarelcore.*;	
 public class P3 implements RPP {
     public P3() { }
     RPP l = new RPP() {
@@ -21,15 +20,15 @@ public class P3 implements RPP {
     			};
     			RPP r = new RPP() {
     				RPP l = new RPP() {
-    					RPP function = new dup_2();
+    					RPP function = new Dup_2();
     					private final int a = function.getA();
     					public int[] b(int[] x) { 
     						  	return this.function.b(x);
     					}
-    					 public int getA() { return this.a; }          
+    					 public int getA() { return this.a; }
     				};
     				RPP r = new RPP() {
-    					private RPP f = new id();
+    					private RPP f = new Id();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -78,16 +77,16 @@ public class P3 implements RPP {
     		// Iteration start
     		RPP function = new RPP() {
     			RPP l = new RPP() {
-    				RPP function = new sumN();
+    				RPP function = new arithNat.SumN();
     				private final int a = function.getA();
     				public int[] b(int[] x) { 
     					  	return this.function.b(x);
     				}
-    				 public int getA() { return this.a; }          
+    				 public int getA() { return this.a; }
     			};
     			RPP r = new RPP() {
     				RPP l = new RPP() {
-    					private RPP f = new id();
+    					private RPP f = new Id();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);
@@ -95,7 +94,7 @@ public class P3 implements RPP {
     					public int getA() { return this.a; }
     				};
     				RPP r = new RPP() {
-    					private RPP f = new dec();
+    					private RPP f = new Dec();
     					private final int a = f.getA();
     					public int[] b(int[] x) {
     						return this.f.b(x);

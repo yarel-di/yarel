@@ -6,6 +6,8 @@ package org.di.unito.yarel.generator;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+
+import java.security.cert.Extension;
 import java.util.List;
 import org.di.unito.yarel.YarelStandaloneSetup;
 import org.eclipse.emf.common.util.URI;
@@ -15,6 +17,7 @@ import org.eclipse.xtext.generator.GeneratorContext;
 import org.eclipse.xtext.generator.GeneratorDelegate;
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.generator.JavaIoFileSystemAccess;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -46,6 +49,8 @@ public class Main {
 	
 	@Inject
 	private IOutputConfigurationProvider outputConf;
+	
+	@Inject private IQualifiedNameProvider qnp;
 
 	protected void runGenerator(String string) {
 		// Load the resource

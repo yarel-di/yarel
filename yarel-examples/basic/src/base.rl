@@ -1,6 +1,7 @@
-/**  */
-module base { 
+import modules.g
+module base {
 	dcl f : int
 	dcl g : int
-	def f := inc
+	def g := id
+	def f := g
 }

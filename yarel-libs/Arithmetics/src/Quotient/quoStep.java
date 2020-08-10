@@ -1,10 +1,9 @@
-package Quotient;
+package quotient;
 import java.util.Arrays;
 import java.lang.Math;
-import Yarelcore.*;
-import ArithNat.*; 
-public class quoStep implements RPP {
-    public quoStep() { }
+import yarelcore.*;	
+public class QuoStep implements RPP {
+    public QuoStep() { }
     RPP l = new RPP() {
     	RPP l = new RPP() {
     		RPP l = new RPP() {
@@ -28,15 +27,15 @@ public class quoStep implements RPP {
     							RPP r = new RPP() {
     								RPP l = new RPP() {
     									RPP l = new RPP() {
-    										RPP function = new sumN();
+    										RPP function = new arithNat.SumN();
     										private final int a = function.getA();
     										public int[] b(int[] x) { 
     											  	return this.function.b(x);
     										}
-    										 public int getA() { return this.a; }          
+    										 public int getA() { return this.a; }
     									};
     									RPP r = new RPP() {
-    										private RPP f = new id();
+    										private RPP f = new Id();
     										private final int a = f.getA();
     										public int[] b(int[] x) {
     											return this.f.b(x);
@@ -59,7 +58,7 @@ public class quoStep implements RPP {
     									}
     								};
     								RPP r = new RPP() {
-    									private RPP f = new id();
+    									private RPP f = new Id();
     									private final int a = f.getA();
     									public int[] b(int[] x) {
     										return this.f.b(x);
@@ -107,15 +106,15 @@ public class quoStep implements RPP {
     					RPP r = new RPP() {
     						RPP l = new RPP() {
     							RPP l = new RPP() {
-    								RPP function = new subN();
+    								RPP function = new arithNat.SubN();
     								private final int a = function.getA();
     								public int[] b(int[] x) { 
     									  	return this.function.b(x);
     								}
-    								 public int getA() { return this.a; }          
+    								 public int getA() { return this.a; }
     							};
     							RPP r = new RPP() {
-    								private RPP f = new id();
+    								private RPP f = new Id();
     								private final int a = f.getA();
     								public int[] b(int[] x) {
     									return this.f.b(x);
@@ -138,7 +137,7 @@ public class quoStep implements RPP {
     							}
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -187,15 +186,15 @@ public class quoStep implements RPP {
     			RPP r = new RPP() {
     				RPP pos=new RPP() {
     					RPP l = new RPP() {
-    						RPP function = new subN();
+    						RPP function = new arithNat.SubN();
     						private final int a = function.getA();
     						public int[] b(int[] x) { 
     							  	return this.function.b(x);
     						}
-    						 public int getA() { return this.a; }          
+    						 public int getA() { return this.a; }
     					};
     					RPP r = new RPP() {
-    						private RPP f = new inc();
+    						private RPP f = new Inc();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -219,15 +218,15 @@ public class quoStep implements RPP {
     				};
     				RPP zero=new RPP() {
     					RPP l = new RPP() {
-    						RPP function = new subN();
+    						RPP function = new arithNat.SubN();
     						private final int a = function.getA();
     						public int[] b(int[] x) { 
     							  	return this.function.b(x);
     						}
-    						 public int getA() { return this.a; }          
+    						 public int getA() { return this.a; }
     					};
     					RPP r = new RPP() {
-    						private RPP f = new inc();
+    						private RPP f = new Inc();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -252,7 +251,7 @@ public class quoStep implements RPP {
     				RPP neg=new RPP() {
     					RPP l = new RPP() {
     						RPP l = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -260,7 +259,7 @@ public class quoStep implements RPP {
     							public int getA() { return this.a; }
     						};
     						RPP r = new RPP() {
-    							private RPP f = new id();
+    							private RPP f = new Id();
     							private final int a = f.getA();
     							public int[] b(int[] x) {
     								return this.f.b(x);
@@ -283,7 +282,7 @@ public class quoStep implements RPP {
     						}
     					};
     					RPP r = new RPP() {
-    						private RPP f = new id();
+    						private RPP f = new Id();
     						private final int a = f.getA();
     						public int[] b(int[] x) {
     							return this.f.b(x);
@@ -354,15 +353,15 @@ public class quoStep implements RPP {
     	RPP r = new RPP() {
     		RPP l = new RPP() {
     			RPP l = new RPP() {
-    				RPP function = new subN();
+    				RPP function = new arithNat.SubN();
     				private final int a = function.getA();
     				public int[] b(int[] x) { 
     					  	return this.function.b(x);
     				}
-    				 public int getA() { return this.a; }          
+    				 public int getA() { return this.a; }
     			};
     			RPP r = new RPP() {
-    				private RPP f = new id();
+    				private RPP f = new Id();
     				private final int a = f.getA();
     				public int[] b(int[] x) {
     					return this.f.b(x);
@@ -385,7 +384,7 @@ public class quoStep implements RPP {
     			}
     		};
     		RPP r = new RPP() {
-    			private RPP f = new id();
+    			private RPP f = new Id();
     			private final int a = f.getA();
     			public int[] b(int[] x) {
     				return this.f.b(x);

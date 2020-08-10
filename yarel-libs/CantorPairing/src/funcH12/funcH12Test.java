@@ -1,8 +1,8 @@
 package funcH12;
-import Yarelcore.*;
+import yarelcore.*;
 import java.util.Arrays;
 
-public class funcH12Test
+public class FuncH12Test
 {
 	public static void main(String[] args)
 	{

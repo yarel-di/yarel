@@ -1,5 +1,5 @@
-package Quotient;
-import Yarelcore.*;
+package quotient;
+import yarelcore.*;
 import java.util.Arrays;
 
 public class QuotientTest

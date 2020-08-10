@@ -1,12 +1,10 @@
+ import ArithNat.*
  module funcH12 {   
     /*
      * This code contains a bit different version of H function in respect to RPP. It is called H12 because
      * it works on its first and second parameters and takes one less input.
      * It also defines a very simple H12_v2 which doesn't seemingly belong to the concept of "Triangular numbers".
      */
-     
-     
-    import ArithNat.*
     
     /* T2 function */
     dcl T2 : 2 int
