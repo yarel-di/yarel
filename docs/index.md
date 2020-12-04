@@ -1,4 +1,6 @@
-# YAREL
+## YAREL
+
+### An intuition
 
 **YAREL** is a paradigmatic first-order functional programming language.
 
@@ -78,4 +80,8 @@ YAREL inherits the main properties of RPP:
 -   it is complete with respect to the class of Primitive Recursive Functions;
 -   it allows to program functions with type Z<sup>n</sup> → Z<sup>n</sup> only.
 
-[Documentation about YAREL](https://github.com/yarel-di/yarel/wiki).
+### Documentation
+Still under development in the [Wiki section about YAREL](https://github.com/yarel-di/yarel/wiki).
+
+### News
+- [2020] A short video on the possible contibution that reversible programming languages may have to improve the green-footrpint of computers (in Italian) [Green UniTo VIDEO](https://www.facebook.com/UniToGO/videos/123160272789622/?t=71).
