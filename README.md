@@ -5,7 +5,8 @@
 It stands for **Y**(et)**A**(nother)**RE**(versible)**L**(language), i.e. if ```P``` is a program in YAREL, then the inverse ```inv[P]``` of ```P``` exists for free in YAREL.
 
 YAREL is an experimental implementation of the class **RPP** of Reversible Primitive Permutations.
-The [techrep](http://www.di.unito.it/~paolini/papers/2017rpp.pdf) which introduces RPP is under development.
+The work ["A class of Recursive Permutations which is Primitive Recursive complete"](https://www.sciencedirect.com/science/article/abs/pii/S0304397519307558) (["Preliminary version"](http://www.di.unito.it/~rover/RESEARCH/PUBLICATIONS/2020-TCS-RPP/2017RPPFinalAutors.pdf)) introduces RPP.
+
 
 An example of a YAREL module is:
 ```Java
@@ -33,8 +34,7 @@ module Multiplication {
 	def identity := multiplication;inv[multiplication]
 }
 ```
-
-It declares that the permutation we are going to define takes three integers in inputm which, to simplify this shrot presentation we assume are limited to natural numbers only.
+It declares that the permutation we are going to define takes three integers its input. To ease the presentation we assume to use natural numbers only.
 The definition of the permutation says that the third input becomes the first output, the first input becomes the second output and the second input becomes 
 the third output.
 
@@ -68,14 +68,14 @@ which means that the sequential compositions
 multiplication;inv[multiplication]
 ``` 
 or 
-```Java 
+```Java
 inv[muliplication];multiplication
 ```
 are equivalent to the identity.
 
 YAREL inherits the main properties of RPP:
 
--   it is complete with respect to the class of Primitive Recursive Functions, i.e. we can can implement a huge class of functions as programs of Yarel that, for sure, will terminate;
--   every function that a proram in Yarel implements has type Z<sup>n</sup> → Z<sup>n</sup>.
+-   it is complete with respect to the class of Primitive Recursive Functions;
+-   it allows to program functions with type Z<sup>n</sup> → Z<sup>n</sup> only.
 
 [Documentation about YAREL](https://github.com/yarel-di/yarel/wiki).
