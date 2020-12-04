@@ -5,7 +5,8 @@
 It stands for **Y**(et)**A**(nother)**RE**(versible)**L**(language), i.e. if ```P``` is a program in YAREL, then the inverse ```inv[P]``` of ```P``` exists for free in YAREL.
 
 YAREL is an experimental implementation of the class **RPP** of Reversible Primitive Permutations.
-The [techrep](http://www.di.unito.it/~paolini/papers/2017rpp.pdf) which introduces RPP is under consideration for publication.
+The work ["A class of Recursive Permutations which is Primitive Recursive complete"](https://www.sciencedirect.com/science/article/abs/pii/S0304397519307558) (["Preliminary version"](http://www.di.unito.it/~rover/RESEARCH/PUBLICATIONS/2020-TCS-RPP/2017RPPFinalAutors.pdf)) introduces RPP.
+
 
 An example of a YAREL module is:
 ```Java
