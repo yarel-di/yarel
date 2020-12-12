@@ -1,4 +1,4 @@
-import ArithNat.*
+import arithNat.*
 import funcH12.*
 module BoundedMin {
 	

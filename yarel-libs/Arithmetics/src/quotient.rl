@@ -1,5 +1,5 @@
-import ArithNat.*
-module Quotient {
+import arithNat.*
+module quotient {
 	
 	/* Definitions for division on Naturals */
 	
@@ -12,7 +12,7 @@ module Quotient {
 	 * r: remainder
 	 * d: divisor
 	 * q: quotient
-	 * k: will be r-d at first, then it'll be 0 if the substraction step has been executed, -d otherwise.
+	 * k: will be r-d at first, then it'll be 0 if the subtraction step has been executed, -d otherwise.
 	 */
 	dcl quoStep : 4 int
 	

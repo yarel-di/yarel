@@ -1,4 +1,4 @@
- import ArithNat.*
+ import arithNat.*
  module funcH12 {   
     /*
      * This code contains a bit different version of H function in respect to RPP. It is called H12 because

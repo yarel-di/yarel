@@ -5,11 +5,11 @@ module mod2{
 	dcl f : int
 	dcl g : int
 	//The function to import declared in mod1 can be called both with
-	//her fullied qualified name and without
+	//her fully qualified name and without
 	def f := to_import
 	def g := mod1.to_import
 	
-	//The funcion to_override declared in mod1 can be overrided 
+	//The function to_override declared in mod1 can be overridden
 	dcl to_override : int
 	def to_override := neg 
 	
