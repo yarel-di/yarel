@@ -1,4 +1,4 @@
-### AN INTUITION
+### SOME INTUITIONS
 
 **YAREL** is a paradigmatic first-order functional programming language.
 
