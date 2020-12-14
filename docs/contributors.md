@@ -9,15 +9,3 @@
 - *Pier Paolo Tarasco.* He is a former undergraduate student. He focused on how we can exploit a reversible language when transforming a recursively defined program, written in a classical imperative programming language, into its iterative equivalent. This is currently a subject of ongoing research investigation.
 - *Matteo Palazzo.* He his a former undergraduate student. After a further code refactoring, he implemented the first usable import mechanism in Yarel. I think that his final report ["The import mechanism of the
 Yarel reversible language"](./MatteoPalazzo-tesi.pdf) is a reasonable accessible up to date document that gives an overview of what the current implementation of Yarel offers.
-
-
-**URLEncode** Latex Formula -> [http://meyerweb.com/eric/tools/dencoder/]
-
-Create Link:
-```markdown
-![\mathcal{C}](http://latex.codecogs.com/gif.latex?<URLEncodedLaTeX>)
-
-or
-
-![$2^2$](https://chart.googleapis.com/chart?cht=tx&chl=<URLEncodedLaTeX>)
-```
