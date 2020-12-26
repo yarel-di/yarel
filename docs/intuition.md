@@ -69,7 +69,7 @@ multiplication;inv[multiplication]
 ``` 
 or 
 ```Java
-inv[muliplication];multiplication
+inv[multiplication];multiplication
 ```
 are equivalent to the identity.
 
