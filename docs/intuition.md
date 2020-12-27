@@ -77,4 +77,4 @@ YAREL inherits the main properties of RPP:
 -   it is complete with respect to the class of Primitive Recursive Functions;
 -   it allows to program functions with type Z<sup>n</sup> → Z<sup>n</sup> only.
 
-See (201228-Yarel-techrep)[https://datacloud.di.unito.it/index.php/s/XTkHsBFbnjeitc3] for a deeper introduction.
+See [201228-Yarel-techrep](https://datacloud.di.unito.it/index.php/s/XTkHsBFbnjeitc3) for a deeper introduction.
