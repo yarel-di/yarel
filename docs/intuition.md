@@ -7,7 +7,6 @@ It stands for **Y**(et)**A**(nother)**RE**(versible)**L**(language), i.e. if ```
 YAREL is an experimental implementation of the class **RPP** of Reversible Primitive Permutations.
 The work ["A class of Recursive Permutations which is Primitive Recursive complete"](https://www.sciencedirect.com/science/article/abs/pii/S0304397519307558) (["Preliminary version"](http://www.di.unito.it/~rover/RESEARCH/PUBLICATIONS/2020-TCS-RPP/2017RPPFinalAutors.pdf)) introduces RPP.
 
-
 An example of a YAREL module is:
 ```Java
 /**
@@ -77,3 +76,5 @@ YAREL inherits the main properties of RPP:
 
 -   it is complete with respect to the class of Primitive Recursive Functions;
 -   it allows to program functions with type Z<sup>n</sup> → Z<sup>n</sup> only.
+
+See [https://datacloud.di.unito.it/index.php/s/XTkHsBFbnjeitc3](201228-Yarel-techrep) for a deeper introduction.
