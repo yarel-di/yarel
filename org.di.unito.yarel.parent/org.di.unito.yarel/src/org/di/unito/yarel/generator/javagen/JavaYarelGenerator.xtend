@@ -18,48 +18,36 @@
  
 package org.di.unito.yarel.generator.javagen
 
-import org.eclipse.xtext.generator.IGenerator2
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IFileSystemAccess2
-import org.eclipse.xtext.generator.IGeneratorContext
-import org.di.unito.yarel.yarel.Declaration
-import org.di.unito.yarel.yarel.Body
-import org.di.unito.yarel.yarel.SerComp
-import org.di.unito.yarel.yarel.ParComp
-import org.di.unito.yarel.yarel.BodyInv
-import org.di.unito.yarel.yarel.BodyFun
-import org.di.unito.yarel.yarel.BodyIt
-import org.di.unito.yarel.yarel.BodyIf
-import org.di.unito.yarel.yarel.BodyPerm
-import org.di.unito.yarel.yarel.BodyInc
-import org.di.unito.yarel.yarel.BodyNeg
-import org.di.unito.yarel.yarel.BodyDec
-import org.di.unito.yarel.yarel.BodyId
-import org.di.unito.yarel.yarel.BodyFor
-import org.di.unito.yarel.yarel.Definition
-import org.di.unito.yarel.yarel.Model
 import java.util.HashMap
 import java.util.Map
+import org.di.unito.yarel.yarel.Body
+import org.di.unito.yarel.yarel.BodyDec
+import org.di.unito.yarel.yarel.BodyFor
+import org.di.unito.yarel.yarel.BodyFun
+import org.di.unito.yarel.yarel.BodyId
+import org.di.unito.yarel.yarel.BodyIf
+import org.di.unito.yarel.yarel.BodyInc
+import org.di.unito.yarel.yarel.BodyInv
+import org.di.unito.yarel.yarel.BodyIt
+import org.di.unito.yarel.yarel.BodyNeg
+import org.di.unito.yarel.yarel.BodyPerm
+import org.di.unito.yarel.yarel.Declaration
+import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.Model
+import org.di.unito.yarel.yarel.ParComp
+import org.di.unito.yarel.yarel.Permutation
+import org.di.unito.yarel.yarel.SerComp
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.xtext.generator.IFileSystemAccess2
+import org.eclipse.xtext.generator.IGenerator2
+import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.di.unito.yarel.yarel.Permutation
-import org.di.unito.yarel.yarel.Import
-import com.google.inject.Inject
-//import static extension org.eclipse.xtext.naming.IQualifiedNameProvider.*
-import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.eclipse.xtext.naming.IQualifiedNameProvider.AbstractImpl
-import org.di.unito.yarel.scoping.YarelIndex
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.xtext.nodemodel.INode
-import com.google.common.collect.Iterables
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils
-import org.eclipse.xtext.nodemodel.ICompositeNode
-import org.eclipse.xtext.resource.ILocationInFileProvider
 
 class JavaYarelGenerator implements IGenerator2 {
 	
-	static final String OUTPUT_TEST = "output_test"
+//	static final String OUTPUT_TEST = "output_test"
 	
 	//the function does the same thing as the one declared in YarelUtils
 	//which for an unknown reason does not work here
@@ -69,10 +57,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class WrongArityException extends RuntimeException {
 		    public WrongArityException(){
-		        super();
+			  super();
 		    }
 		    public WrongArityException(String message){
-		        super(message);
+			  super(message);
 		    }
 		}
 		'''}
@@ -82,9 +70,47 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def RPPGenerator(String packageName) {
 		'''
 		package «packageName»;
+		/** Definition of an operator in RPP context. */
 		public interface RPP {
+			/**
+			 * "Ariety".
+			 * <p>
+			 * Returns the ariety of this operator.<br>
+			 * For instance, <i>increment</i> has <code>1</code> as ariety.
+			 */
 			public int getA();
-			public int[] b(int[] x);
+			
+			/**
+			 * "Behaves".
+			 * <p>
+			 * Implements the behavior of this statements, i.e. what it should do (for
+			 * instance, an increment increments some values), applied to some of the given
+			 * registers (which is the parameter).<br>
+			 * Invokes {@link #b(int[], int, int)} passing <code>0</code> and
+			 * <code>{@link #getA()}</code> as parameters.
+			 * Notice that not all registers are forced to be considered.
+			 * 
+			 * @param x the vector of "registers", in particular their values.
+			 */
+			public default void b(int[] x) { this.b(x, 0, this.getA()); }
+			
+			/**
+			 * As like as {@link #b(int[])}, but operating over a restricted subset of
+			 * contiguous registers.<br>
+			 * ALL of the indexes <b>MUST</b> be considered as <i>inclusive</i> and bounded
+			 * to <code>0</code> and <code>x.length - 1</code>.
+			 * 
+			 * @param x			the vector of "registers", in particular their values.
+			 * @param startIndex the minimum register's index considered by this operator,
+			 *				   i.e. the first register affected by this call, which is inclusive.
+			 *				   The {@link #b(int[])} implementation assign <code>0</code> to it.
+			 *				   It's the most important index.
+			 * @param endIndex   the maximum register's index considered by this operator, 
+			 *				   i.e. the last register affected by this call, which is exclusive.
+			 *				   The {@link #b(int[])} implementation assign <code>{@link #getA()}</code> to it.
+			 *				   Usually this index is ignored.
+			 */
+			public void b(int[] x, int startIndex, int endIndex);
 		}
 		'''}
 		
@@ -94,10 +120,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Id implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
-				return x;
-			}
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex){  }
 		}
 		'''}
 		
@@ -108,10 +132,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class InvId implements RPP {
 			private RPP f = new Id();
 			private final int a = this.f.getA();
-			public int[] b(int[] x) {
-				return this.f.b(x);
-			}
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex){
+				this.f.b(x, startIndex, endIndex);
+			}
 		}
 		'''}
 	
@@ -121,11 +145,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Inc implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
-				x[0] = x[0] + 1;
-				return x;
-			}
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex) {
+				x[startIndex]++;
+			}
 		}
 		'''}
 	
@@ -136,10 +159,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class InvInc implements RPP {
 			private RPP f = new Dec();
 			private final int a = this.f.getA();
-			public int[] b(int[] x) {
-				return this.f.b(x);
-			}
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex) {
+				this.f.b(x, startIndex, endIndex);
+			}
 		}
 		'''}
 	
@@ -149,11 +172,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Dec implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
-				x[0] = x[0] - 1;
-				return x;
-			}
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex) {
+				x[startIndex]--;
+			}
 		}
 		'''}
 	
@@ -163,11 +185,11 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class InvDec implements RPP {
 			private RPP f = new Inc();
-			private final int a = this.f.getA();;
-			public int[] b(int[] x) {
-				return this.f.b(x);
-			}
+			private final int a = this.f.getA();
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex) {
+				this.f.b(x, startIndex, endIndex);
+			}
 		}
 		'''}
 	
@@ -177,11 +199,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Neg implements RPP {
 			private final int a = 1;
-			public int[] b(int[] x) {
-				x[0] = -x[0];
-				return x;
-			}
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex) {
+				x[startIndex] = -x[startIndex];
+			}
 		}
 		'''}
 	
@@ -192,10 +213,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class InvNeg implements RPP {
 			private RPP f = new Neg();
 			private final int a = this.f.getA();;
-			public int[] b(int[] x) {
-				return this.f.b(x);
-			}
 			public int getA() { return this.a; }
+			public void b(int[] x, int startIndex, int endIndex) {
+				this.f.b(x, startIndex, endIndex);
+			}
 		}
 		'''}
 	
@@ -211,11 +232,13 @@ class JavaYarelGenerator implements IGenerator2 {
 		
 		public class «packageName.toFirstUpper»PlayWith {
 			public static void main(String[] args) throws Exception {
-				 «FOR name : functionNames»
+				 «FOR name : functionNames SEPARATOR "\n"»
 				 	RPP «name»RPP = new «packageName».«name.toFirstUpper»();
-				 	for(int i : «name»RPP.b(new int[] {«FOR i : 0 ..< arities.get(name) - 1»«i+1»,«ENDFOR»5})) {
-				 			System.out.println(i);
-				 		}
+				 	int[] data«name.toFirstUpper» = new int[] {«FOR i : 0 ..< getArity(name) - 1»«i+1»,«ENDFOR»5};
+				 	«name»RPP.b(data«name.toFirstUpper»);
+				 	for(int i : data«name.toFirstUpper») {
+				 		System.out.println(i);
+				 	}
 				 «ENDFOR»
 			}
 		}
@@ -228,14 +251,15 @@ class JavaYarelGenerator implements IGenerator2 {
 	/* Associates every declared name to its arity. */
 	private def collectArities(Model m) {
 		for(var i = 0; i < m.elements.length; i++){
-			if(m.elements.get(i).getContainerOfType(Declaration)!==null) { // if a declaration exists
+			var element = m.elements.get(i);
+			if(element.getContainerOfType(Declaration)!==null) { // if a declaration exists
 				var arity = 0
-				for(var j = 0; j < (m.elements.get(i) as Declaration).signature.types.length; j++) // every type component
-					if ((m.elements.get(i) as Declaration).signature.types.get(j).value != 0)
-						arity = arity + (m.elements.get(i) as Declaration).signature.types.get(j).value // counts the explicit number of occurrences
+				for(var j = 0; j < (element as Declaration).signature.types.length; j++) // every type component
+					if ((element as Declaration).signature.types.get(j).value != 0)
+						arity = arity + (element as Declaration).signature.types.get(j).value // counts the explicit number of occurrences
 					else  
 					    arity++ // counts +1
-			   arities.put((m.elements.get(i) as Declaration).name, arity)
+			   arities.put((element as Declaration).name, arity)
 			}
 		}
 	}
@@ -252,9 +276,10 @@ class JavaYarelGenerator implements IGenerator2 {
 	 * is made through its qualified name. So there is no 
 	 * need to make the imports.
 	 * This function is still here in case for some hypotheticals 
-	 * future uses
+	 * future uses.
+	 * Made protected by Marco Ottina to avoid potential automatic deletion.
 	 */
-	private def generateImports(Model m){
+	protected def generateImports(Model m){
 		/*var r=""  
 		for(var i = 0; i < m.elements.length; i++){
 			if(m.elements.get(i).getContainerOfType(Import)!==null) {
@@ -288,12 +313,12 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def compile(IFileSystemAccess2 fsa, Model model) {
 		var definitions = model.elements.filter(Definition)
 		val folder = model.name.toFirstLower + "/"
-        for(definition: definitions) {
-        	var compilation = compile(model, definition, true)
-            fsa.generateFile(folder + definition.declarationName.name.toFirstUpper+".java", compilation)
-            compilation = compile(model, definition, false)
-            fsa.generateFile(folder + "Inv"+definition.declarationName.name.toFirstUpper+".java", compilation)
-        }
+	  for(definition: definitions) {
+	  	var compilation = compile(model, definition, true)
+			  fsa.generateFile(folder + definition.declarationName.name.toFirstUpper+".java", compilation)
+			  compilation = compile(model, definition, false)
+			  fsa.generateFile(folder + "Inv"+definition.declarationName.name.toFirstUpper+".java", compilation)
+	  }
 	}
 	    
     private def compile(Model model, Definition definition, boolean fwd) {
@@ -301,9 +326,21 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «model.name.toFirstLower»;
 		import java.util.Arrays;
 		import java.lang.Math;
+		import java.util.concurrent.ExecutorService;
+		import java.util.concurrent.Executors;
 		import yarelcore.*;	
 		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
 		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
+		    protected ExecutorService threadPoolExecutor = Executors.newWorkStealingPool(); // needed for parallel computation
+		    protected void finalize(){
+		    	this.destructor«definition.declarationName.name.toFirstUpper»();
+		    }
+		    protected void destructor«definition.declarationName.name.toFirstUpper»(){
+		    	if(threadPoolExecutor != null){
+		    		// threadPoolExecutor.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
+		    		threadPoolExecutor = null; // mark it as shut-down
+		    	}
+		    }
 		    «compile(definition.body, fwd)»
 		}'''
 	}
@@ -311,136 +348,160 @@ class JavaYarelGenerator implements IGenerator2 {
 /*Generates java code for the functions. The fwd variable is used to generate code corresponding
  * to the regular function (fwd=true) or the inverse function (fwd=false)*/
     private def String compile(Body b, boolean  fwd ) {
-        //This switch works by checking the variable type of b, similar to a java instanceof
-        switch (b) {
-          //For each type of function, different java code is generated
-          SerComp: 
-          	'''
-          	RPP l = new RPP() {
-          		«compile(b.left, fwd)»
-          	};
-          	RPP r = new RPP() {
-          		«compile(b.right, fwd)»
-          	};
-          	private final int a = l.getA();
-          	public int[] b(int[] x) { // Implements a serial composition.
-          		return «IF fwd»this.r.b(this.l.b(x))«ENDIF»«IF !fwd»this.l.b(this.r.b(x))«ENDIF»;
-          	}
-          	public int getA() { return this.a; }
-          	'''
-          ParComp: 
-          	'''
-          	RPP l = new RPP() {
-          		«compile(b.left, fwd)»
-          	};
-          	RPP r = new RPP() {
-          		«compile(b.right, fwd)»
-          	};
-          	private final int a = l.getA() + r.getA();
-          	public int[] b(int[] x) { // Implements a parallel composition
-          		return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-          		,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-          	}
-          	public int getA() { return this.a; }
-          	private int[] append(int[] l, int[] r) {
-          		int[] res = new int[l.length + r.length];
-          		for(int i = 0; i < l.length; i++)
-          			res[i] = l[i];
-          		for(int i = 0; i < r.length; i++) 
-          		  	res[i + l.length] = r[i];
-          	 	return res;
-          	}
-          '''
-          BodyId:
-          	'''
-          	private RPP f = new «IF !fwd»Inv«ENDIF»Id();
-          	private final int a = f.getA();
-          	public int[] b(int[] x) {
-          		return this.f.b(x);
-          	}
-          	public int getA() { return this.a; }
-          	''' 
-          BodyInc: 
-          	'''
-          	private RPP f = new «IF !fwd»Inv«ENDIF»Inc();
-          	private final int a = f.getA();
-          	public int[] b(int[] x) {
-          		return this.f.b(x);
-          	}
-          	public int getA() { return this.a; }
-          	'''
-          BodyDec:
-          	'''
-          	private RPP f = new «IF !fwd»Inv«ENDIF»Dec();
-          	private final int a = f.getA();
-          	public int[] b(int[] x) {
-          		return this.f.b(x);
-          	}
-          	public int getA() { return this.a; }
-          	''' 
-          BodyNeg: 
-          	'''
-          	private RPP f = new «IF !fwd»Inv«ENDIF»Neg();
-          	private final int a = f.getA();
-          	public int[] b(int[] x) {
-          		return this.f.b(x);
-          	}
-          	public int getA() { return this.a; }
-          	'''
-          BodyFun: {
-          	/*Changed by Matteo Palazzo*/
-          	val qualifiedName = qnp.getFullyQualifiedName(b.funName);
-          	val moduleName = qualifiedName.firstSegment;
-          	var functionName = (fwd ? "" : "Inv") + qualifiedName.lastSegment.toFirstUpper;
-          	if(moduleName != b.getContainerOfType(typeof(Model)).name)          	      	
-      			functionName = moduleName.toFirstLower + "." + functionName;      
-          	'''
-          	RPP function = new «functionName»();
-          	private final int a = function.getA();
-          	public int[] b(int[] x) { 
-          		  	return this.function.b(x);
-          	}
-          	 public int getA() { return this.a; }
-          	'''
-          }
-          BodyPerm:
-          	'''
-          	private final int a = «b.permutation.indexes.length»;
-          	public int[] b(int[] x) {
-          		int tmp=0;
-          		«compileBodyPerm(b.permutation, fwd)»
-          		return x;
-          	}
-          	public int getA() { return this.a; }
-	      	'''
-	      BodyInv:
-          	'''
-          	«compile(b.body, !fwd)»
-	      	'''
-	      BodyIt:
-          	'''
+	  //This switch works by checking the variable type of b, similar to a java instanceof
+	  switch (b) {
+			//For each type of function, different java code is generated
+			SerComp: 
+				'''
+				RPP l = new RPP() {
+					«compile(b.left, fwd)»
+				};
+				RPP r = new RPP() {
+					«compile(b.right, fwd)»
+				};
+				private final int a = l.getA();
+				public int getA() { return this.a; }
+				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
+					«IF fwd»
+					this.l.b(x, startIndex, endIndex);
+					this.r.b(x, startIndex, endIndex);
+					«ENDIF»
+					«IF !fwd»
+					this.r.b(x, startIndex, endIndex);
+					this.l.b(x, startIndex, endIndex);
+					«ENDIF»
+				}
+				'''
+			ParComp: 
+				'''
+				RPP l = new RPP() {
+					«compile(b.left, fwd)»
+				};
+				RPP r = new RPP() {
+					«compile(b.right, fwd)»
+				};
+				private final int a = l.getA() + r.getA();
+				public int getA() { return this.a; }
+				public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
+					Runnable leftTask, rightTask;
+					final int[] semaphore = new int[]{ 2 };
+					final int rightStartIndex = startIndex + l.getA();
+					leftTask = () -> {
+						l.b(x, startIndex, rightStartIndex);
+						synchronized (semaphore) {
+							if(--semaphore[0] <= 0){
+								semaphore.notifyAll();
+							}
+						}
+					};
+					rightTask = () -> {
+						r.b(x, rightStartIndex, rightStartIndex + r.getA());
+						synchronized (semaphore) {
+							if(--semaphore[0] <= 0){
+								semaphore.notifyAll();
+							}
+						}
+					};
+					
+					synchronized (semaphore) { // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
+						threadPoolExecutor.submit( ()-> {
+							synchronized (semaphore) { // can't run while the main thread has the lock. It's required since this task *could* be executed BEFORE the main thread sleeps.
+								threadPoolExecutor.submit(leftTask);
+								threadPoolExecutor.submit(rightTask);
+							}
+						});
+						try {
+							semaphore.wait(); // the main thread sleeps, releasing the lock and THEN allowing the parallel tasks to be exected
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			'''
+			BodyId:
+				'''
+				private RPP f = new «IF !fwd»Inv«ENDIF»Id();
+				private final int a = f.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.f.b(x, startIndex, endIndex);
+				}
+				public int getA() { return this.a; }
+				''' 
+			BodyInc: 
+				'''
+				private RPP f = new «IF !fwd»Inv«ENDIF»Inc();
+				private final int a = f.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.f.b(x, startIndex, endIndex);
+				}
+				public int getA() { return this.a; }
+				'''
+			BodyDec:
+				'''
+				private RPP f = new «IF !fwd»Inv«ENDIF»Dec();
+				private final int a = f.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.f.b(x, startIndex, endIndex);
+				}
+				public int getA() { return this.a; }
+				''' 
+			BodyNeg: 
+				'''
+				private RPP f = new «IF !fwd»Inv«ENDIF»Neg();
+				private final int a = f.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.f.b(x, startIndex, endIndex);
+				}
+				public int getA() { return this.a; }
+				'''
+			BodyFun: {
+				/*Changed by Matteo Palazzo*/
+				val qualifiedName = qnp.getFullyQualifiedName(b.funName);
+				val moduleName = qualifiedName.firstSegment;
+				var functionName = (fwd ? "" : "Inv") + qualifiedName.lastSegment.toFirstUpper;
+				if(moduleName != b.getContainerOfType(typeof(Model)).name)						
+				functionName = moduleName.toFirstLower + "." + functionName;	
+				'''
+				RPP function = new «functionName»();
+				private final int a = function.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.function.b(x, startIndex, endIndex);
+				}
+				 public int getA() { return this.a; }
+				'''
+			}
+			BodyPerm:
+			'''
+				private final int a = «b.permutation.indexes.length»;
+				public void b(int[] x, int startIndex, int endIndex) {
+					int tmp=0;
+					«compileBodyPerm(b.permutation, fwd)»
+				}
+				
+				public int getA() { return this.a; }
+			'''
+		BodyInv:
+			'''
+				«compile(b.body, !fwd)»
+			'''
+		BodyIt:
+			'''
 		  	// Iteration start
 		  	RPP function = new RPP() {
 		  		«compile(b.body,fwd)»
 		  	};
 		  	private final int a = function.getA()+1;
-		  	public int[] b(int[] x) {
-		  		int[] t=Arrays.copyOfRange(x,0,function.getA());
-		  		for(int i = 0 ; i < Math.abs(x[x.length - 1]); i++){
-		  			t = function.b(t);
+		  	public void b(int[] x, int startIndex, int endIndex) {
+		  		int iterationsLeft = Math.abs(x[(startIndex + a) - 1]);
+		  		while(iterationsLeft-->0){
+		  			function.b(x, startIndex, function.getA());
 		  		}
-		  		int[] r=new int[x.length];
-		  		for (int i=0; i<t.length; i++){
-		  			r[i]=t[i];
-		  		}
-		  		r[r.length-1]=x[x.length-1];
-		  		return r;
 		  	}
 		  	public int getA() { return this.a; } 
 		  	// Iteration stop
-	      	'''
-	      BodyFor: /*Added by Paolo Parker*/
-          	'''
+			'''
+		BodyFor: /*Added by Paolo Parker, modified to the iterative version by Marco Ottina.*/
+			'''
 		  	RPP function = new RPP() //regular function used when v > 0
 		  	{
 		  		«/*the following call generates java code for the body of the "for" statement 
@@ -454,49 +515,31 @@ class JavaYarelGenerator implements IGenerator2 {
 		  	};
 		  	
 		  	private final int a = function.getA()+1;
-		  	public int[] b(int[] x) //b stands for behaviour and x are the delta and v function parameters
-		  	{
-		  		int[] t = new int[x.length-1]; //t stands for temporary array, as it's used each time only locally
-		  		
-		  		for(int i=0; i<t.length; i++)
-		  		{
-		  			t[i] = x[i];
-		  		}
-		  		
-		  		if(x[x.length-1] > 0) //if v is greater than zero, recursion goes on and v decreases each time
-		  		{
-		  			t = function.b(t);
-		  			x[x.length-1] = x[x.length-1] - 1;
-		  			for(int i=0; i<x.length-1; i++)
-		  			{
-		  				x[i] = t[i];
-		  			}
-		  			x = b(x);
-		  			x[x.length-1] = x[x.length-1] + 1; //takes v back to its original value in the later stage of recursion
-		  		}
-		  		
-		  		if(x[x.length-1] < 0) //if v is less than zero, recursion goes on and v increases each time
-		  		{
-		  			t = inv_function.b(t);
-		  			x[x.length-1] = x[x.length-1] + 1;
-		  			for(int i=0; i<x.length-1; i++)
-		  			{
-		  				x[i] = t[i];
-		  			}
-		  			x = b(x);
-		  			x[x.length-1] = x[x.length-1] - 1; //takes v back to its original value in the later stage of recursion
-		  		}
+		  	public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
+		  		final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+		  		int repetitionCounter = x[repCounterIndex];
+		  		originalRepCounter = repetitionCounter;
 		  	
-		  		if(x[x.length-1] == 0) //when v is equal to zero, recursive calls stop as a value is returned
-		  		{
-		  			return x;
-		  		}
-		  		return x;
+		  		if(repetitionCounter > 0){ //if v is greater than zero, recursion goes on and v decreases each time
+		  			endIndex = startIndex + function.getA();
+		  			while(repetitionCounter-->0){
+		  				function.b(x, startIndex, endIndex);
+		  				x[repCounterIndex]--;
+		  			}
+		  		}else if(repetitionCounter < 0){ //if v is greater than zero, recursion goes on and v decreases each time
+		  			endIndex = startIndex + inv_function.getA();
+		  			while(repetitionCounter++<0){
+		  				inv_function.b(x, startIndex, endIndex);
+		  				x[repCounterIndex]++;
+		  			}
+		  		} //else: when v is equal to zero, recursive calls stop as a value is returned
+		  		x[repCounterIndex] = originalRepCounter;
 		  	}
 		  	public int getA() { return this.a; } 
-	      	'''
-	      BodyIf:
-          	'''
+			'''
+			
+		BodyIf:
+			'''
 	  		RPP pos=new RPP() {
 	  			«compile(b.pos,fwd)»
 	  		};
@@ -508,26 +551,18 @@ class JavaYarelGenerator implements IGenerator2 {
 	  		};
 	  		private final int a=pos.getA()+1;
 	  		public int getA() {return this.a;}
-	  		public int[] b(int[] x) {
-	  			int[] t=Arrays.copyOfRange(x,0,pos.getA());	  		
-	  			if(x[x.length-1]>0){
-	  				t=pos.b(t);
+	  		public void b(int[] x, int startIndex, int endIndex) {
+	  			final int testValue = x[(startIndex + a) - 1];
+	  			if(testValue>0){
+	  				pos.b(x, startIndex, startIndex + pos.getA());
+	  			}else if(testValue==0){
+	  				zero.b(x, startIndex, startIndex + zero.getA());
+	  			}else { // The "testValue<0" test is a tautology
+	  				neg.b(x, startIndex, startIndex + neg.getA());
 	  			}
-	  			if(x[x.length-1]==0){
-	  				t=zero.b(t);
-	  			}
-	  			if(x[x.length-1]<0){
-	  				t=neg.b(t);
-	  			}
-	  			int[] r = new int[x.length];
-	  			for (int i = 0; i < t.length; i++){
-	  				r[i]=t[i];
-	  			}
-	  			r[r.length-1]=x[x.length-1];
-	  			return r;
 	  		}
-	      	'''
-        }.toString
+			'''
+	  }.toString
     }
     
     private def update(int[]p, int[]c,int k){
@@ -537,8 +572,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		   var nonEsiste = true; 
 		   var j = 0;
 		   while (j < c.length && j < k &&  nonEsiste) {
-		      nonEsiste = i != c.get(j);
-		      j += 1;
+			nonEsiste = i != c.get(j);
+			j += 1;
 		   }
 		   trovatoInizioCiclo = nonEsiste;
   		   i = i + 1;
@@ -579,23 +614,21 @@ class JavaYarelGenerator implements IGenerator2 {
 			enterCycle = p.get(i) != startCycle
 			
 			if(enterCycle){
-				r=r+"tmp = x["+startCycle+"]; \n"
+				r=r+"tmp = x[startIndex + " +startCycle + "]; \n"
 			}
 			while(p.get(i)!=startCycle){
-				r=r+"x["+ i +"] = x["+ p.get(i) + "]; \n"
+				r=r+"x[startIndex + " + i +"] = x[startIndex + " + p.get(i) + "]; \n"
 				c.set(k, p.get(i));
 				k = k + 1;
 				i = p.get(i);	
 			}
 			
 			if (enterCycle){
-			    r=r+"x["+i+"] = tmp; \n";
+			    r=r+"x[startIndex + " + i + "] = tmp; \n";
 			}
 			    
 			i = update(p,c,k);
-							
 		}
-		
 		return r
 	}
 	
@@ -639,25 +672,25 @@ class JavaYarelGenerator implements IGenerator2 {
 		
 		//Looks for the Model in the .rl file
 		val model = resource.allContents.toIterable.filter(Model).get(0)
-        val packageName = "yarelcore"//model.name
-        fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
-        fsa.generateFile(packageName+"/RPP.java", RPPGenerator(packageName))
-        fsa.generateFile(packageName+"/Id.java", IdGenerator(packageName))
-        fsa.generateFile(packageName+"/InvId.java", InvIdGenerator(packageName))
-        fsa.generateFile(packageName+"/Inc.java", IncGenerator(packageName))
-        fsa.generateFile(packageName+"/InvInc.java", InvIncGenerator(packageName))
-        fsa.generateFile(packageName+"/Dec.java", DecGenerator(packageName))
-        fsa.generateFile(packageName+"/InvDec.java", InvDecGenerator(packageName))
-        fsa.generateFile(packageName+"/Neg.java", NegGenerator(packageName))
-        fsa.generateFile(packageName+"/InvNeg.java", InvNegGenerator(packageName))
-        collectArities(model)
-        //Generates java code starting from the Model
-        compile(fsa, model)
-       
-        //Tests
-        fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "Test.java", testFileGenerator(model))
-        
-        //Play source
-       	fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name.toFirstLower, model))
+	  val packageName = "yarelcore"//model.name
+	  fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
+	  fsa.generateFile(packageName+"/RPP.java", RPPGenerator(packageName))
+	  fsa.generateFile(packageName+"/Id.java", IdGenerator(packageName))
+	  fsa.generateFile(packageName+"/InvId.java", InvIdGenerator(packageName))
+	  fsa.generateFile(packageName+"/Inc.java", IncGenerator(packageName))
+	  fsa.generateFile(packageName+"/InvInc.java", InvIncGenerator(packageName))
+	  fsa.generateFile(packageName+"/Dec.java", DecGenerator(packageName))
+	  fsa.generateFile(packageName+"/InvDec.java", InvDecGenerator(packageName))
+	  fsa.generateFile(packageName+"/Neg.java", NegGenerator(packageName))
+	  fsa.generateFile(packageName+"/InvNeg.java", InvNegGenerator(packageName))
+	  collectArities(model)
+	  //Generates java code starting from the Model
+	  compile(fsa, model)
+	 
+	  //Tests
+	  fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "Test.java", testFileGenerator(model))
+	  
+	  //Play source
+	 	fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name.toFirstLower, model))
 	}	
 }
