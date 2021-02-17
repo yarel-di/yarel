@@ -44,6 +44,7 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import java.util.LinkedList
 
 class JavaYarelGenerator implements IGenerator2 {
 	
@@ -219,12 +220,53 @@ class JavaYarelGenerator implements IGenerator2 {
 			}
 		}
 		'''}
+		
+	//Implements usefull in parallel executions
+	private def SubBodyRunnerGenerator(String packageName) {
+		'''
+		package «packageName»;
+		public class SubBodyRunner implements Runnable{
+			protected final int startingIndex;
+			protected final int[] registers;
+			protected final RPP subBody;
+			
+			protected SubBodyRunner(int startingIndex, RPP subBody, int[] registers){
+				this.startingIndex = startingIndex;
+				this.subBody = subBody;
+				this.registers = registers;
+			}
+			
+			public int getStartingIndex(){ return this.startingIndex; }
+			public RPP getSubBody(){ return this.subBody; }
+			
+			public void run(){
+				this.subBody.b(registers, this.startingIndex, this.startingIndex + this.subBody.getA());
+			}
+		}
+		'''
+		}
 	
 	//Generates an executable java file to run a simple test on the function/s declared in the .rl file.
 	private def playGenerator(String packageName, Model model) {
 		
 		val functionNames = model.elements.filter(Definition).map[ it.declarationName.name ]
-		
+		val baseValuesData= newIntArrayOfSize(13)
+		{
+			var i = 0
+			baseValuesData.set(i++,0)
+			baseValuesData.set(i++,1)
+			baseValuesData.set(i++,-1)
+			baseValuesData.set(i++,2)
+			baseValuesData.set(i++,-2)
+			baseValuesData.set(i++,3)
+			baseValuesData.set(i++,-3)
+			baseValuesData.set(i++,4)
+			baseValuesData.set(i++,-4)
+			baseValuesData.set(i++,10)
+			baseValuesData.set(i++,-10)
+			baseValuesData.set(i++,11)
+			baseValuesData.set(i++,-11)
+		}
 		'''
 		package «packageName»;
 		import yarelcore.*;
@@ -232,14 +274,22 @@ class JavaYarelGenerator implements IGenerator2 {
 		
 		public class «packageName.toFirstUpper»PlayWith {
 			public static void main(String[] args) throws Exception {
-				 «FOR name : functionNames SEPARATOR "\n"»
-				 	RPP «name»RPP = new «packageName».«name.toFirstUpper»();
-				 	int[] data«name.toFirstUpper» = new int[] {«FOR i : 0 ..< getArity(name) - 1»«i+1»,«ENDFOR»5};
-				 	«name»RPP.b(data«name.toFirstUpper»);
-				 	for(int i : data«name.toFirstUpper») {
-				 		System.out.println(i);
-				 	}
-				 «ENDFOR»
+				«FOR name : functionNames SEPARATOR "\n\n\n"»
+					RPP «name»RPP = new «packageName».«name.toFirstUpper»();
+					«val arity = getArity(name)»
+					final int[][] datasetTest«name.toFirstUpper» = {
+						new int[]{«FOR i : 0 ..< arity - 1»«i+1»,«ENDFOR»5},
+						«FOR i : 0..< baseValuesData.size »
+							«val baseValue = baseValuesData.get(i)»
+							new int[]{«FOR rep : 0 ..< arity SEPARATOR ", "» «baseValue»«ENDFOR»},
+						«ENDFOR»
+					};
+					for( int[] data: datasetTest«name.toFirstUpper» ){
+						System.out.println("\nTesting: " + Arrays.toString(data));
+						«name»RPP.b(data);
+						System.out.println("Resulting in: " + Arrays.toString(data));
+					}
+				«ENDFOR»
 			}
 		}
 		'''}
@@ -341,6 +391,11 @@ class JavaYarelGenerator implements IGenerator2 {
 		    		threadPoolExecutor = null; // mark it as shut-down
 		    	}
 		    }
+		    
+		    public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»  getInverse(){
+		    	return new «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»();
+		    }
+		    
 		    «compile(definition.body, fwd)»
 		}'''
 	}
@@ -372,42 +427,52 @@ class JavaYarelGenerator implements IGenerator2 {
 					«ENDIF»
 				}
 				'''
-			ParComp: 
+			ParComp:{ 
+				val parallelSubBodiesReversed = new LinkedList<Body>();
+				var parallelNodeIterator = b as Body;
+				//collects ALL sub parts of a Yarel's parallel execution, running down the parse-tree
+				while(parallelNodeIterator instanceof ParComp){
+					parallelSubBodiesReversed.addFirst(parallelNodeIterator.right ); 
+					parallelNodeIterator = (parallelNodeIterator as ParComp).left;
+				}
+				parallelSubBodiesReversed.addFirst(parallelNodeIterator);
 				'''
-				RPP l = new RPP() {
-					«compile(b.left, fwd)»
+				RPP[] subtasks = new RPP[]{
+					«FOR subtask : parallelSubBodiesReversed SEPARATOR ",\n"»
+						new RPP(){
+							«compile(subtask, fwd)»
+						}
+					«ENDFOR»
 				};
-				RPP r = new RPP() {
-					«compile(b.right, fwd)»
-				};
-				private final int a = l.getA() + r.getA();
+				private final int a = «FOR i : 0..< parallelSubBodiesReversed.size SEPARATOR " + "»subtasks[«i»].getA()«ENDFOR»;
 				public int getA() { return this.a; }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
-					Runnable leftTask, rightTask;
-					final int[] semaphore = new int[]{ 2 };
-					final int rightStartIndex = startIndex + l.getA();
-					leftTask = () -> {
-						l.b(x, startIndex, rightStartIndex);
-						synchronized (semaphore) {
-							if(--semaphore[0] <= 0){
-								semaphore.notifyAll();
+					final Runnable[] tasks = new Runnable[«parallelSubBodiesReversed.size»];
+					final int[] semaphore = new int[]{ «parallelSubBodiesReversed.size» };
+					int lowerIndex = startIndex;
+					for(int i = 0; i < tasks.length; i++){
+						tasks[i] = new SubBodyRunner(lowerIndex, subtasks[i], x){
+							public void run(){
+								super.run();
+								synchronized (semaphore) {
+									if(--semaphore[0] <= 0){
+										semaphore.notifyAll();
+									}
+								}
 							}
-						}
-					};
-					rightTask = () -> {
-						r.b(x, rightStartIndex, rightStartIndex + r.getA());
-						synchronized (semaphore) {
-							if(--semaphore[0] <= 0){
-								semaphore.notifyAll();
-							}
-						}
-					};
-					
+						};
+						lowerIndex += subtasks[i].getA();
+					}
 					synchronized (semaphore) { // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
 						threadPoolExecutor.submit( ()-> {
-							synchronized (semaphore) { // can't run while the main thread has the lock. It's required since this task *could* be executed BEFORE the main thread sleeps.
-								threadPoolExecutor.submit(leftTask);
-								threadPoolExecutor.submit(rightTask);
+							/* This "submitter", whick task is to submit all parallel tasks, can't run while
+								the main thread has the lock. It's required since this task *could* be
+								executed BEFORE the main thread sleeps.
+							*/
+							synchronized (semaphore) {
+								for(Runnable t : tasks){
+									threadPoolExecutor.submit(t);
+								}
 							}
 						});
 						try {
@@ -418,6 +483,7 @@ class JavaYarelGenerator implements IGenerator2 {
 					}
 				}
 			'''
+			}
 			BodyId:
 				'''
 				private RPP f = new «IF !fwd»Inv«ENDIF»Id();
@@ -486,19 +552,20 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		BodyIt:
 			'''
-		  	// Iteration start
-		  	RPP function = new RPP() {
-		  		«compile(b.body,fwd)»
-		  	};
-		  	private final int a = function.getA()+1;
-		  	public void b(int[] x, int startIndex, int endIndex) {
-		  		int iterationsLeft = Math.abs(x[(startIndex + a) - 1]);
-		  		while(iterationsLeft-->0){
-		  			function.b(x, startIndex, function.getA());
-		  		}
-		  	}
-		  	public int getA() { return this.a; } 
-		  	// Iteration stop
+			// Iteration start
+			RPP function = new RPP() {
+				«compile(b.body,fwd)»
+			};
+			private final int a = function.getA()+1;
+			public void b(int[] x, int startIndex, int endIndex) {
+				int endIndexBody = (startIndex + a) - 1;
+				int iterationsLeft = Math.abs(x[endIndexBody]);
+				while(iterationsLeft-->0){
+					function.b(x, startIndex, endIndexBody);
+				}
+			}
+			public int getA() { return this.a; } 
+			// Iteration stop
 			'''
 		BodyFor: /*Added by Paolo Parker, modified to the iterative version by Marco Ottina.*/
 			'''
@@ -683,6 +750,8 @@ class JavaYarelGenerator implements IGenerator2 {
 	  fsa.generateFile(packageName+"/InvDec.java", InvDecGenerator(packageName))
 	  fsa.generateFile(packageName+"/Neg.java", NegGenerator(packageName))
 	  fsa.generateFile(packageName+"/InvNeg.java", InvNegGenerator(packageName))
+	  fsa.generateFile(packageName+"/SubBodyRunner.java", SubBodyRunnerGenerator(packageName))
+	  
 	  collectArities(model)
 	  //Generates java code starting from the Model
 	  compile(fsa, model)
