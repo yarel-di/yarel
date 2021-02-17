@@ -57,12 +57,12 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class WrongArityException extends RuntimeException {
-		    public WrongArityException(){
+			public WrongArityException(){
 			  super();
-		    }
-		    public WrongArityException(String message){
+			}
+			public WrongArityException(String message){
 			  super(message);
-		    }
+			}
 		}
 		'''}
 	
@@ -279,6 +279,7 @@ class JavaYarelGenerator implements IGenerator2 {
 					«val arity = getArity(name)»
 					final int[][] datasetTest«name.toFirstUpper» = {
 						new int[]{«FOR i : 0 ..< arity - 1»«i+1»,«ENDFOR»5},
+						new int[]{«FOR i : arity - 1 >..0»«i+1»,«ENDFOR»5},
 						«FOR i : 0..< baseValuesData.size »
 							«val baseValue = baseValuesData.get(i)»
 							new int[]{«FOR rep : 0 ..< arity SEPARATOR ", "» «baseValue»«ENDFOR»},
@@ -295,7 +296,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''}
 	
 	
-    /* Stores the arity of every declared name. */
+	/* Stores the arity of every declared name. */
 	val Map<String,Integer> arities = new HashMap<String,Integer>;
 	
 	/* Associates every declared name to its arity. */
@@ -308,7 +309,7 @@ class JavaYarelGenerator implements IGenerator2 {
 					if ((element as Declaration).signature.types.get(j).value != 0)
 						arity = arity + (element as Declaration).signature.types.get(j).value // counts the explicit number of occurrences
 					else  
-					    arity++ // counts +1
+						arity++ // counts +1
 			   arities.put((element as Declaration).name, arity)
 			}
 		}
@@ -370,49 +371,55 @@ class JavaYarelGenerator implements IGenerator2 {
 			  fsa.generateFile(folder + "Inv"+definition.declarationName.name.toFirstUpper+".java", compilation)
 	  }
 	}
-	    
-    private def compile(Model model, Definition definition, boolean fwd) {
-	    '''
+		
+	private def compile(Model model, Definition definition, boolean fwd) {
+		val hasParallelBlock = newBooleanArrayOfSize(1);
+		hasParallelBlock.set(0, false);
+		val compiledBody = compile(definition.body, fwd, hasParallelBlock);
+		return '''
 		package «model.name.toFirstLower»;
-		import java.util.Arrays;
-		import java.lang.Math;
+		«IF hasParallelBlock.get(0)»
 		import java.util.concurrent.ExecutorService;
 		import java.util.concurrent.Executors;
+		«ENDIF»
 		import yarelcore.*;	
+		
 		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
-		    public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
-		    protected ExecutorService threadPoolExecutor = Executors.newWorkStealingPool(); // needed for parallel computation
-		    protected void finalize(){
-		    	this.destructor«definition.declarationName.name.toFirstUpper»();
-		    }
-		    protected void destructor«definition.declarationName.name.toFirstUpper»(){
-		    	if(threadPoolExecutor != null){
-		    		// threadPoolExecutor.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
-		    		threadPoolExecutor = null; // mark it as shut-down
-		    	}
-		    }
-		    
-		    public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»  getInverse(){
-		    	return new «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»();
-		    }
-		    
-		    «compile(definition.body, fwd)»
+			public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
+			«IF hasParallelBlock.get(0)»
+			protected ExecutorService threadPoolExecutor = Executors.newWorkStealingPool(); // needed for parallel computation
+			protected void finalize(){
+				this.destructor«definition.declarationName.name.toFirstUpper»();
+			}
+			protected void destructor«definition.declarationName.name.toFirstUpper»(){
+				if(threadPoolExecutor != null){
+					// threadPoolExecutor.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
+					threadPoolExecutor = null; // mark it as shut-down
+				}
+			}
+			«ENDIF»
+			
+			public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»  getInverse(){
+				return new «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»();
+			}
+			
+			«compiledBody»
 		}'''
 	}
 
 /*Generates java code for the functions. The fwd variable is used to generate code corresponding
  * to the regular function (fwd=true) or the inverse function (fwd=false)*/
-    private def String compile(Body b, boolean  fwd ) {
+	private def String compile(Body b, boolean  fwd, boolean[] hasParallelBlock) {
 	  //This switch works by checking the variable type of b, similar to a java instanceof
 	  switch (b) {
 			//For each type of function, different java code is generated
 			SerComp: 
 				'''
 				RPP l = new RPP() {
-					«compile(b.left, fwd)»
+					«compile(b.left, fwd, hasParallelBlock)»
 				};
 				RPP r = new RPP() {
-					«compile(b.right, fwd)»
+					«compile(b.right, fwd, hasParallelBlock)»
 				};
 				private final int a = l.getA();
 				public int getA() { return this.a; }
@@ -430,6 +437,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			ParComp:{ 
 				val parallelSubBodiesReversed = new LinkedList<Body>();
 				var parallelNodeIterator = b as Body;
+				hasParallelBlock.set(0, true); 
 				//collects ALL sub parts of a Yarel's parallel execution, running down the parse-tree
 				while(parallelNodeIterator instanceof ParComp){
 					parallelSubBodiesReversed.addFirst(parallelNodeIterator.right ); 
@@ -437,18 +445,18 @@ class JavaYarelGenerator implements IGenerator2 {
 				}
 				parallelSubBodiesReversed.addFirst(parallelNodeIterator);
 				'''
-				RPP[] subtasks = new RPP[]{
+				private final RPP[] subtasks = new RPP[]{
 					«FOR subtask : parallelSubBodiesReversed SEPARATOR ",\n"»
 						new RPP(){
-							«compile(subtask, fwd)»
+							«compile(subtask, fwd, hasParallelBlock)»
 						}
 					«ENDFOR»
 				};
 				private final int a = «FOR i : 0..< parallelSubBodiesReversed.size SEPARATOR " + "»subtasks[«i»].getA()«ENDFOR»;
 				public int getA() { return this.a; }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
-					final Runnable[] tasks = new Runnable[«parallelSubBodiesReversed.size»];
-					final int[] semaphore = new int[]{ «parallelSubBodiesReversed.size» };
+					final int[] semaphore = new int[]{ subtasks.length };
+					final Runnable[] tasks = new Runnable[ semaphore[0] ];
 					int lowerIndex = startIndex;
 					for(int i = 0; i < tasks.length; i++){
 						tasks[i] = new SubBodyRunner(lowerIndex, subtasks[i], x){
@@ -548,13 +556,13 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		BodyInv:
 			'''
-				«compile(b.body, !fwd)»
+				«compile(b.body, !fwd, hasParallelBlock)»
 			'''
 		BodyIt:
 			'''
 			// Iteration start
 			RPP function = new RPP() {
-				«compile(b.body,fwd)»
+				«compile(b.body,fwd, hasParallelBlock)»
 			};
 			private final int a = function.getA()+1;
 			public void b(int[] x, int startIndex, int endIndex) {
@@ -573,12 +581,12 @@ class JavaYarelGenerator implements IGenerator2 {
 		  	{
 		  		«/*the following call generates java code for the body of the "for" statement 
 		  		  (the expression contained in its square brackets)*/
-		  		compile(b.body,fwd)»
+		  		compile(b.body,fwd, hasParallelBlock)»
 		  	};
 		  	
 		  	RPP inv_function = new RPP() //inverse function used when v < 0
 		  	{
-		  		«compile(b.body,!fwd)»
+		  		«compile(b.body,!fwd, hasParallelBlock)»
 		  	};
 		  	
 		  	private final int a = function.getA()+1;
@@ -608,13 +616,13 @@ class JavaYarelGenerator implements IGenerator2 {
 		BodyIf:
 			'''
 	  		RPP pos=new RPP() {
-	  			«compile(b.pos,fwd)»
+	  			«compile(b.pos,fwd, hasParallelBlock)»
 	  		};
 	  		RPP zero=new RPP() {
-	  			«compile(b.zero,fwd)»
+	  			«compile(b.zero,fwd, hasParallelBlock)»
 	  		};
 	  		RPP neg=new RPP() {
-	  			«compile(b.neg,fwd)»
+	  			«compile(b.neg,fwd, hasParallelBlock)»
 	  		};
 	  		private final int a=pos.getA()+1;
 	  		public int getA() {return this.a;}
@@ -630,10 +638,10 @@ class JavaYarelGenerator implements IGenerator2 {
 	  		}
 			'''
 	  }.toString
-    }
-    
-    private def update(int[]p, int[]c,int k){
-    	var i = 0;
+	}
+	
+	private def update(int[]p, int[]c,int k){
+		var i = 0;
 		var trovatoInizioCiclo = false;
 		while (i < p.length && !trovatoInizioCiclo) {
 		   var nonEsiste = true; 
@@ -646,11 +654,11 @@ class JavaYarelGenerator implements IGenerator2 {
   		   i = i + 1;
 		}
 		if (trovatoInizioCiclo)
-		    i = i - 1;
+			i = i - 1;
 		return i ;
-    }
-    
-    //Implements the permutation function
+	}
+	
+	//Implements the permutation function
 	private def compileBodyPerm(Permutation permutation, boolean fwd) {
 		var p = newIntArrayOfSize(permutation.indexes.length)
 		var pVal=0
@@ -691,9 +699,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			}
 			
 			if (enterCycle){
-			    r=r+"x[startIndex + " + i + "] = tmp; \n";
+				r=r+"x[startIndex + " + i + "] = tmp; \n";
 			}
-			    
+			
 			i = update(p,c,k);
 		}
 		return r
