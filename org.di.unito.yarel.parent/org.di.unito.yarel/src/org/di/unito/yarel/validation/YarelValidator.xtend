@@ -22,22 +22,12 @@ import com.google.inject.Inject
 import java.util.HashSet
 import org.di.unito.yarel.scoping.YarelIndex
 import org.di.unito.yarel.utils.YarelUtils
-import org.di.unito.yarel.yarel.Body
-import org.di.unito.yarel.yarel.BodyDec
-import org.di.unito.yarel.yarel.BodyFor
-import org.di.unito.yarel.yarel.BodyFun
-import org.di.unito.yarel.yarel.BodyId
 import org.di.unito.yarel.yarel.BodyIf
-import org.di.unito.yarel.yarel.BodyInc
-import org.di.unito.yarel.yarel.BodyInv
-import org.di.unito.yarel.yarel.BodyIt
-import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.Declaration
 import org.di.unito.yarel.yarel.Definition
 import org.di.unito.yarel.yarel.Import
 import org.di.unito.yarel.yarel.Model
-import org.di.unito.yarel.yarel.ParComp
 import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.YarelPackage
 import org.eclipse.xtext.validation.Check
@@ -66,37 +56,15 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_DUPLICATE_MODULE = BASE_ERROR_NAME + 'ERROR_DUPLICATE_MODULE'
 	public static val ERROR_INVALID_DEFINITION_COUNT = BASE_ERROR_NAME + 'ERROR_INVALID_DEFINITION_COUNT'
 	
-	private def dispatch int getArity(Declaration declaration) {
-		return declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
-	}
-		
-	private def dispatch int getArity(Body body) {
-		switch body {
-			SerComp: body.left.arity
-			ParComp: body.right.arity + body.left.arity
-			BodyInv : body.body.arity
-			BodyFun : body.funName.arity
-			BodyIt : 1 + body.body.arity
-			BodyFor: 1 + body.body.arity
-			BodyIf: 1 + body.pos.arity
-			BodyPerm: body.permutation.indexes.size
-			BodyInc : 1
-			BodyDec : 1
-			BodyNeg : 1
-			BodyId: 1
-			default:
-				throw new RuntimeException("Body not found " + body)
-		}
-	}
 	
 	/**
 	 * Check if arities of the three functions passed to the IF operator are equal
 	 */
 	@Check
 	def checkSelection(BodyIf selection) {
-		val posArity = selection.pos.arity
-		val negArity =  selection.neg.arity
-		val zeroArity = selection.zero.arity
+		val posArity =YarelUtils.getArity( selection.pos)
+		val negArity =  YarelUtils.getArity(selection.neg)
+		val zeroArity = YarelUtils.getArity(selection.zero)
 		if((posArity != zeroArity) || (zeroArity != negArity) || (posArity != negArity)) //TODO: Da separare per evidenziare l'errore sulla funzione giusta
 				error("Arity of positive, zero and negative functions must be equal", YarelPackage::eINSTANCE.bodyIf_Pos, ERROR_IF_FUNCTIONS_ARITY)
 	}
@@ -106,8 +74,8 @@ class YarelValidator extends AbstractYarelValidator {
 	 */
 	@Check
 	def checkSerialComposition(SerComp serial) {
-		val leftArity = serial.left.arity
-		val rightArity = serial.right.arity
+		val leftArity = YarelUtils.getArity(serial.left)
+		val rightArity = YarelUtils.getArity(serial.right)
 		
 		if(leftArity != rightArity)
 			error("Arity of left and right branch must be equal", YarelPackage::eINSTANCE.serComp_Left, ERROR_SERIAL_COMPOSITION)
@@ -118,7 +86,7 @@ class YarelValidator extends AbstractYarelValidator {
 	 */
 	@Check
 	def checkArity(Definition definition) {
-		if(definition.declarationName.arity != definition.body.arity)
+		if(YarelUtils.getArity(definition.declarationName) != YarelUtils.getArity(definition.body))
 			error("Different arities", YarelPackage::eINSTANCE.definition_Body, ERROR_ARITY)
 	}
 	
@@ -128,7 +96,7 @@ class YarelValidator extends AbstractYarelValidator {
 	@Check
 	def checkPermutationBound(BodyPerm permutationBody) {
 		val permutation = permutationBody.permutation
-		val arity = permutationBody.arity
+		val arity = YarelUtils.getArity(permutationBody)
 		
 		val outOfBoundIndexes = permutation.indexes.filter[!(1..arity).contains(it.value)]
 		
