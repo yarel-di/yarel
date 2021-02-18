@@ -225,6 +225,13 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def SubBodyRunnerGenerator(String packageName) {
 		'''
 		package «packageName»;
+		
+		/**
+		 * Defines a {@link Runnable} that performs a given operator (an {@link RPP} instance)
+		 * over a given set of registers (that is, an array of <code>int</code>). <br>
+		 * The first constructor's parameter, i.e. <code>int startingIndex</code>, is the
+		 * second parameter of {@link RPP#b(int[],int,int)}.
+		*/
 		public class SubBodyRunner implements Runnable{
 			protected final int startingIndex;
 			protected final int[] registers;
@@ -236,9 +243,24 @@ class JavaYarelGenerator implements IGenerator2 {
 				this.registers = registers;
 			}
 			
+			/**
+			 * Returns the lowest registers' index on which apply the operator (that is the result
+			 * of {@link #getSubBody()}).
+			*/
 			public int getStartingIndex(){ return this.startingIndex; }
+			
+			/**
+			 * Returns an instance of {@link RPP}, which is the operator to be executed.
+			*/
 			public RPP getSubBody(){ return this.subBody; }
 			
+			/**
+			 * Runs the operator provided upon instantiation (retrievable via {@link #getSubBody()})
+			 * over the set of registers similarly provided. <br>
+			 * Basically, delegates the job to that {@link RPP} instance.
+			 * <p>
+			 * {@inheritDocs}
+			*/
 			public void run(){
 				this.subBody.b(registers, this.startingIndex, this.startingIndex + this.subBody.getA());
 			}
@@ -272,26 +294,76 @@ class JavaYarelGenerator implements IGenerator2 {
 		import yarelcore.*;
 		import java.util.Arrays;
 		
+		/**
+		 * Automatically generated usage class.<p>
+		 *
+		 * This is a draft, providing examples of instantiation and usage and invocation,
+		 * in a Java context, of the functions/operators written in Yarel. <br>
+		 * In further developments, this will be a JUnit class.<br>
+		 * For instance, currently this tests looks like:
+		 * <pre><code>
+		 	int[] data = {8 3 0 0 0};
+		 	RPP op = new Some_5ary_Operator();
+		 	op.b(data);
+		 * </pre></code>
+		 * For further informations, check the documentation:
+		 * <ul>
+		 * <li> {@link RPP}</li>
+		«FOR name : functionNames SEPARATOR "\n"»* <li> {@link «packageName».«name.toFirstUpper»}</li>«ENDFOR»
+		 * </ul>
+		 * <p>
+		 *
+		 * NOTE:<br>
+		 * The following "usages" not tests, they are just invocations over a pre-determined dataset
+		 * that requires to be manually observed and verified and has currently nothing related
+		 * with the "semantic"/meaning/functionality of the executed operator. That means that the
+		 * inputs and the outputs are currently "static" and unrelated with the expected inputs and outputs
+		 * of the functions. (This is a "further development".)<br>
+		 * For instance, an operator could expect to receive some registers as input values and others
+		 * as 0-ancillae or 1-ancillae (or "truth-pair"). <br>
+		 * Currently, that information cannot be provided in this current version of the Yarel language,
+		 * so some automatic validation, formal or informal, cannot be performed.<br>
+		 * In short, <strong>You</strong>, the programmer, has to run the class, read the console output
+		 * and see the results.
+		 * <p>
+		 * TL;DR:<p>
+		 * This class is, or presents: <br>
+		 * <ul>
+		 * <li>Instantiation and invocation of the compiled {@link RPP} subclasses.</li>
+		 * <li>Those instances runs on meaningless example data.</li>
+		 * <li>Manual check required by <strong>You</strong> yourself by <italic>reading</italic> the <code>console output</code></li>
+		 * <li><i>Wanna-be</i> JUnit</li>
+		 * </ul>
+		*/
 		public class «packageName.toFirstUpper»PlayWith {
+			
 			public static void main(String[] args) throws Exception {
-				«FOR name : functionNames SEPARATOR "\n\n\n"»
-					RPP «name»RPP = new «packageName».«name.toFirstUpper»();
-					«val arity = getArity(name)»
-					final int[][] datasetTest«name.toFirstUpper» = {
-						new int[]{«FOR i : 0 ..< arity - 1»«i+1»,«ENDFOR»5},
-						new int[]{«FOR i : arity - 1 >..0»«i+1»,«ENDFOR»5},
-						«FOR i : 0..< baseValuesData.size »
-							«val baseValue = baseValuesData.get(i)»
-							new int[]{«FOR rep : 0 ..< arity SEPARATOR ", "» «baseValue»«ENDFOR»},
-						«ENDFOR»
-					};
-					for( int[] data: datasetTest«name.toFirstUpper» ){
-						System.out.println("\nTesting: " + Arrays.toString(data));
-						«name»RPP.b(data);
-						System.out.println("Resulting in: " + Arrays.toString(data));
-					}
+				«FOR name : functionNames SEPARATOR "\n"»
+					test«name.toFirstUpper»();
 				«ENDFOR»
 			}
+			
+			//
+			
+			«FOR name : functionNames SEPARATOR "\n\n\n"»
+			public static void test«name.toFirstUpper»(){
+				RPP «name»RPP = new «packageName».«name.toFirstUpper»();
+				«val arity = getArity(name)»
+				final int[][] datasets = {
+					new int[]{«FOR i : 0 ..< arity - 1»«i+1»,«ENDFOR»5},
+					new int[]{«FOR i : arity - 1 >..0»«i+1»,«ENDFOR»5},
+					«FOR i : 0..< baseValuesData.size »
+						«val baseValue = baseValuesData.get(i)»
+						new int[]{«FOR rep : 0 ..< arity SEPARATOR ", "» «baseValue»«ENDFOR»},
+					«ENDFOR»
+				};
+				for( int[] data: datasets ){
+					System.out.println("\nTesting the function «name» with values:" + Arrays.toString(data));
+					«name»RPP.b(data);
+					System.out.println("Resulting in: " + Arrays.toString(data));
+				}
+			}
+			«ENDFOR»
 		}
 		'''}
 	
@@ -387,6 +459,14 @@ class JavaYarelGenerator implements IGenerator2 {
 		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
 			public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
 			«IF hasParallelBlock.get(0)»
+			/**
+			 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
+			 * Instances of {@link Executors} are "natively" designed for it.<br>
+			 * The "WorkStealingPool" strategy is desidered over other due to a easier management and could use up to
+			 * the whole amount of processors the underlying machine provides. The previously chosen strategy
+			 * "CachedThreadPool" requires to be manually turned off (via invoking {@link ExecutorService#shutdown()}),
+			 * which could be tricky to be performed or easily forgotten, blocking the whole program to finish and exit.
+			*/
 			protected ExecutorService threadPoolExecutor = Executors.newWorkStealingPool(); // needed for parallel computation
 			protected void finalize(){
 				this.destructor«definition.declarationName.name.toFirstUpper»();
@@ -434,17 +514,25 @@ class JavaYarelGenerator implements IGenerator2 {
 					«ENDIF»
 				}
 				'''
-			ParComp:{ 
+			ParComp:{
+				/*Start refactoring ParComp by Marco Ottina */
 				val parallelSubBodiesReversed = new LinkedList<Body>();
 				var parallelNodeIterator = b as Body;
 				hasParallelBlock.set(0, true); 
 				//collects ALL sub parts of a Yarel's parallel execution, running down the parse-tree
 				while(parallelNodeIterator instanceof ParComp){
-					parallelSubBodiesReversed.addFirst(parallelNodeIterator.right ); 
+					// the grammar impose a left-deep tree, placing to the right the actual block of code
+					parallelSubBodiesReversed.addFirst((parallelNodeIterator as ParComp).right);
 					parallelNodeIterator = (parallelNodeIterator as ParComp).left;
 				}
 				parallelSubBodiesReversed.addFirst(parallelNodeIterator);
 				'''
+				/**
+				 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
+				 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
+				 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
+				 * The order is preserved from the Yarel source code.
+				*/
 				private final RPP[] subtasks = new RPP[]{
 					«FOR subtask : parallelSubBodiesReversed SEPARATOR ",\n"»
 						new RPP(){
@@ -455,42 +543,88 @@ class JavaYarelGenerator implements IGenerator2 {
 				private final int a = «FOR i : 0..< parallelSubBodiesReversed.size SEPARATOR " + "»subtasks[«i»].getA()«ENDFOR»;
 				public int getA() { return this.a; }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
+				
+					/**
+					 * The Yarel's compiled code runs on a single {@link Thread}, which We could name
+					 * as "the main thread", executing sequentially a "block" of code after the other.<br>
+					 * The easiest way to parallelize the "sub-blocks" of a given block is run them
+					 * in separated threads and letting the main thread wait all of their terminations.
+					 * <p>
+					 * The parallel composition execution is divided in 3 parts:
+					 * <ol>
+					 * <li>
+					 * Conversion of {@link RPP} (the sub-operators into a literally {@link Runnable} task,
+					 * ready to be run.
+					 * </li>
+					 * <li>
+					 * Makes those tasks ready to be run. To help imaging that, let's use a metaphore: <br>
+					 * all tasks are sprinters (human runners) at starting blocks, waiting the referee (the main thread)
+					 * to fire the gun to indicate that the race has started.
+					 * </li>t
+					 * <li>
+					 * The main thread (the "referee") sleeps, waiting the tasks to be completed.
+					 * </li>
+					 * </ol>
+					 * <p>
+					 * To do this, it's required a <i>semaphore</i>-like object, recording the amount of
+					 * "still running tasks", that lets the main thread to sleep and being awakened
+					 * when all of those tasks has been completed.<br>
+					 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
+					*/
+					
 					final int[] semaphore = new int[]{ subtasks.length };
 					final Runnable[] tasks = new Runnable[ semaphore[0] ];
-					int lowerIndex = startIndex;
+					int startingIndex = startIndex;
+					
+					// PHASE 1 convert the RPP in runnable tasks
 					for(int i = 0; i < tasks.length; i++){
-						tasks[i] = new SubBodyRunner(lowerIndex, subtasks[i], x){
+						tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 							public void run(){
+								// execute the main body (delegate inside the superclass implementation)
 								super.run();
+								
+								// after the body execution, manage the semaphore
 								synchronized (semaphore) {
+									// if all tasks are successfully finished, awake the main thread
 									if(--semaphore[0] <= 0){
 										semaphore.notifyAll();
 									}
 								}
 							}
 						};
-						lowerIndex += subtasks[i].getA();
+						// each tasks performs over their own registers segment, so update the starting point
+						startingIndex += subtasks[i].getA();
 					}
+					
+					// PHASE 2: put the "sprinters" at the "race's starting blocks".
 					synchronized (semaphore) { // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
 						threadPoolExecutor.submit( ()-> {
-							/* This "submitter", whick task is to submit all parallel tasks, can't run while
-								the main thread has the lock. It's required since this task *could* be
-								executed BEFORE the main thread sleeps.
+							/* This runner is the "submitter", which task is to submit all parallel tasks,
+								and can't run while the main thread has the lock, because that main thread is still working.
+								It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
+								due to race conditions.
 							*/
 							synchronized (semaphore) {
-								for(Runnable t : tasks){
+								// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
+								for(Runnable t : tasks){ // let's start the tasks
 									threadPoolExecutor.submit(t);
 								}
 							}
 						});
+						
+						// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
 						try {
-							semaphore.wait(); // the main thread sleeps, releasing the lock and THEN allowing the parallel tasks to be exected
+							semaphore.wait(); 
+							/* The "wait" let the main thread to sleep, releasing the lock.
+								NOW the submitter can submit the parallel tasks, which can then to be executed.
+							*/
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
 				}
 			'''
+				/*End refactoring ParComp by Marco Ottina */
 			}
 			BodyId:
 				'''
@@ -575,7 +709,11 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return this.a; } 
 			// Iteration stop
 			'''
-		BodyFor: /*Added by Paolo Parker, modified to the iterative version by Marco Ottina.*/
+		BodyFor:
+			/*
+			 * Added by Paolo Parker as a recursive version,
+			 * modified to the equivalent iterative version by Marco Ottina.
+			 */
 			'''
 		  	RPP function = new RPP() //regular function used when v > 0
 		  	{
@@ -598,17 +736,17 @@ class JavaYarelGenerator implements IGenerator2 {
 		  		if(repetitionCounter > 0){ //if v is greater than zero, recursion goes on and v decreases each time
 		  			endIndex = startIndex + function.getA();
 		  			while(repetitionCounter-->0){
-		  				function.b(x, startIndex, endIndex);
+		  				function.b(x, startIndex, repCounterIndex);
 		  				x[repCounterIndex]--;
 		  			}
 		  		}else if(repetitionCounter < 0){ //if v is greater than zero, recursion goes on and v decreases each time
 		  			endIndex = startIndex + inv_function.getA();
 		  			while(repetitionCounter++<0){
-		  				inv_function.b(x, startIndex, endIndex);
+		  				inv_function.b(x, startIndex, repCounterIndex);
 		  				x[repCounterIndex]++;
 		  			}
 		  		} //else: when v is equal to zero, recursive calls stop as a value is returned
-		  		x[repCounterIndex] = originalRepCounter;
+		  		x[repCounterIndex] = originalRepCounter; // restore the original value
 		  	}
 		  	public int getA() { return this.a; } 
 			'''
@@ -628,11 +766,11 @@ class JavaYarelGenerator implements IGenerator2 {
 	  		public int getA() {return this.a;}
 	  		public void b(int[] x, int startIndex, int endIndex) {
 	  			final int testValue = x[(startIndex + a) - 1];
-	  			if(testValue>0){
+	  			if(testValue > 0){
 	  				pos.b(x, startIndex, startIndex + pos.getA());
-	  			}else if(testValue==0){
+	  			} else if(testValue == 0){
 	  				zero.b(x, startIndex, startIndex + zero.getA());
-	  			}else { // The "testValue<0" test is a tautology
+	  			} else { // The "testValue<0" test is a tautology
 	  				neg.b(x, startIndex, startIndex + neg.getA());
 	  			}
 	  		}
@@ -660,15 +798,40 @@ class JavaYarelGenerator implements IGenerator2 {
 	
 	//Implements the permutation function
 	private def compileBodyPerm(Permutation permutation, boolean fwd) {
-		var p = newIntArrayOfSize(permutation.indexes.length)
+		var p = newIntArrayOfSize(permutation.indexes.length) // stores the indexes
 		var pVal=0
 		var pPos=0
 		
+		// collect all permutations indexes
 		for(var i=0; i<permutation.indexes.length; i++){
 			if (fwd){
 				p.set(i,permutation.indexes.get(i).value-1)
 			}
 			else{
+				/*
+				 * In forward, the values written in the permutation ("perm-entries") are
+				 * the indexes indicating where to take register's value,
+				 * while the "perm-entry" 's index inside the permutation is the index
+				 * telling where to put that register's value.
+				 * 
+				 * In inverse, the "perm-entry" 's value tells the index where to put the
+				 * register's value stored at tha "perm-entry" 's index.
+				 */
+				/**
+				 * <pre> 
+				 * For instance, the top permutations has the bottom ones as inverse:
+				 * /  5    1    4    2    3    7    6  /
+				 *    |    |    |    |    |    |    |
+				 *     '\__/    | _/'  _/'      \  /
+				 *        /'\_  \/   _/          ||
+				 *       /    \/'\  /3           \/
+				 *      /    / 5\_\/_            /\
+				 *    1/   2/    / \ \5_         ||
+				 *    /    /   3/  4\   \_5     /  \
+				 *    |    |    |    |    |    |    |
+				 * /  2    4    5    3    1    7    6  /
+				 * </pre>
+				 */
 				pVal = permutation.indexes.get(i).value -1
 				pPos = permutation.indexes.get(pVal).value -1
 				p.set(pPos,pVal)
@@ -679,30 +842,39 @@ class JavaYarelGenerator implements IGenerator2 {
 		var k=0
 		var startCycle=0
 		var enterCycle=false
-		var c = newIntArrayOfSize(permutation.indexes.length)
+		var c = newIntArrayOfSize(permutation.indexes.length) // stores all the cycles' steps in sequence, "k" is used as index
 		var r=""
 		
+		/**
+		 * A cycle in a permutations is a set of values which everyone "jumps" into
+		 * another place (index), whose value "jumps" somewhere else, recursively to
+		 * the last one, which jumps to the first one's place. Two example of a single
+		 * cycle are <code> /1 2/ </code> and <code> / 4 5 3 6 1 2/ </code> ("3" is not
+		 * "moving" and is not part of the cycle). Two subsequent cycles are <code> /4 3 1 2 7 5 6/ </code>
+		 * <br>
+		 * 
+		 */
+		
 		while(i<permutation.indexes.length) {
-			c.set(k,i)
+			c.set(k,i) // store the start of the cycle (for instance, "4" of the second example above)
 			k += 1
 			startCycle = i
 			enterCycle = p.get(i) != startCycle
 			
 			if(enterCycle){
-				r=r+"tmp = x[startIndex + " +startCycle + "]; \n"
+				r=r+"tmp = x[startIndex + " + startCycle + "]; \n"
 			}
 			while(p.get(i)!=startCycle){
 				r=r+"x[startIndex + " + i +"] = x[startIndex + " + p.get(i) + "]; \n"
-				c.set(k, p.get(i));
-				k = k + 1;
-				i = p.get(i);	
+				c.set(k++, p.get(i)); // store the "next step"
+				i = p.get(i); // read the "next step" as an index, which will become the "current index" in the next iteration
 			}
 			
 			if (enterCycle){
 				r=r+"x[startIndex + " + i + "] = tmp; \n";
 			}
 			
-			i = update(p,c,k);
+			i = update(p,c,k); // look for the next cycle's start's index
 		}
 		return r
 	}
