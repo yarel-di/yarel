@@ -480,7 +480,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			}
 			«ENDIF»
 			
-			public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»  getInverse(){
+			public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» getInverse(){
 				return new «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»();
 			}
 			
@@ -534,7 +534,7 @@ class JavaYarelGenerator implements IGenerator2 {
 					} else {
 						val currentBlockArity = YarelUtils.getArity(subBlockToParallelize);
 						startIndexOffset -= currentBlockArity; 
-						parallelSubBodies.add(new BodySubblockParallel(startIndexOffset, subBlockToParallelize, currentBlockArity));
+						parallelSubBodies.addFirst(new BodySubblockParallel(startIndexOffset, subBlockToParallelize, currentBlockArity));
 					}
 					parallelNodeIterator = (parallelNodeIterator as ParComp).left;
 				}
@@ -664,7 +664,7 @@ class JavaYarelGenerator implements IGenerator2 {
 					private final int a = «totalArityParallelBody»;
 					public int getA() { return this.a; }
 					public void b(int[] x, int startIndex, int endIndex) {
-						// There were only parallels identitis, nothing interesting to show and run
+						// There were only parallels identities, nothing interesting to show and run
 					}
 					'''
 				}
@@ -711,7 +711,7 @@ class JavaYarelGenerator implements IGenerator2 {
 				val qualifiedName = qnp.getFullyQualifiedName(b.funName);
 				val moduleName = qualifiedName.firstSegment;
 				var functionName = (fwd ? "" : "Inv") + qualifiedName.lastSegment.toFirstUpper;
-				if(moduleName != b.getContainerOfType(typeof(Model)).name)						
+				if(moduleName != b.getContainerOfType(typeof(Model)).name)
 				functionName = moduleName.toFirstLower + "." + functionName;	
 				'''
 				RPP function = new «functionName»();
@@ -739,7 +739,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		BodyIt:
 			'''
 			// Iteration start
-			RPP function = new RPP() {
+			RPP function = new RPP() { // «b.body.class.simpleName»
 				«compile(b.body,fwd, hasParallelBlock)»
 			};
 			private final int a = function.getA()+1;
@@ -759,65 +759,65 @@ class JavaYarelGenerator implements IGenerator2 {
 			 * modified to the equivalent iterative version by Marco Ottina.
 			 */
 			'''
-		  	RPP function = new RPP() //regular function used when v > 0
-		  	{
-		  		«/*the following call generates java code for the body of the "for" statement 
-		  		  (the expression contained in its square brackets)*/
-		  		compile(b.body,fwd, hasParallelBlock)»
-		  	};
-		  	
-		  	RPP inv_function = new RPP() //inverse function used when v < 0
-		  	{
-		  		«compile(b.body,!fwd, hasParallelBlock)»
-		  	};
-		  	
-		  	private final int a = function.getA()+1;
-		  	public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-		  		final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
-		  		int repetitionCounter = x[repCounterIndex];
-		  		originalRepCounter = repetitionCounter;
-		  	
-		  		if(repetitionCounter > 0){ //if v is greater than zero, recursion goes on and v decreases each time
-		  			endIndex = startIndex + function.getA();
-		  			while(repetitionCounter-->0){
-		  				function.b(x, startIndex, repCounterIndex);
-		  				x[repCounterIndex]--;
-		  			}
-		  		}else if(repetitionCounter < 0){ //if v is greater than zero, recursion goes on and v decreases each time
-		  			endIndex = startIndex + inv_function.getA();
-		  			while(repetitionCounter++<0){
-		  				inv_function.b(x, startIndex, repCounterIndex);
-		  				x[repCounterIndex]++;
-		  			}
-		  		} //else: when v is equal to zero, recursive calls stop as a value is returned
-		  		x[repCounterIndex] = originalRepCounter; // restore the original value
-		  	}
-		  	public int getA() { return this.a; } 
+			/** regular function used when v > 0 */
+			RPP function = new RPP() { // «b.body.class.simpleName»
+				«/*the following call generates java code for the body of the "for" statement 
+				(the expression contained in its square brackets)*/
+				compile(b.body, fwd, hasParallelBlock)»
+			};
+			
+			/** inverse function used when v < 0 */
+			RPP inv_function = new RPP() { // Inv«b.body.class.simpleName»
+				«compile(b.body,!fwd, hasParallelBlock)»
+			};
+			
+			private final int a = function.getA()+1;
+			public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
+				final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+				int repetitionCounter = x[repCounterIndex];
+				originalRepCounter = repetitionCounter;
+			
+				if(repetitionCounter > 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					endIndex = startIndex + function.getA();
+					while(repetitionCounter-->0){
+						function.b(x, startIndex, repCounterIndex);
+						x[repCounterIndex]--;
+					}
+				}else if(repetitionCounter < 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					endIndex = startIndex + inv_function.getA();
+					while(repetitionCounter++<0){
+						inv_function.b(x, startIndex, repCounterIndex);
+						x[repCounterIndex]++;
+					}
+				} //else: when v is equal to zero, recursive calls stop as a value is returned
+				x[repCounterIndex] = originalRepCounter; // restore the original value
+			}
+			public int getA() { return this.a; } 
 			'''
 			
 		BodyIf:
 			'''
-	  		RPP pos=new RPP() {
-	  			«compile(b.pos,fwd, hasParallelBlock)»
-	  		};
-	  		RPP zero=new RPP() {
-	  			«compile(b.zero,fwd, hasParallelBlock)»
-	  		};
-	  		RPP neg=new RPP() {
-	  			«compile(b.neg,fwd, hasParallelBlock)»
-	  		};
-	  		private final int a=pos.getA()+1;
-	  		public int getA() {return this.a;}
-	  		public void b(int[] x, int startIndex, int endIndex) {
-	  			final int testValue = x[(startIndex + a) - 1];
-	  			if(testValue > 0){
-	  				pos.b(x, startIndex, startIndex + pos.getA());
-	  			} else if(testValue == 0){
-	  				zero.b(x, startIndex, startIndex + zero.getA());
-	  			} else { // The "testValue<0" test is a tautology
-	  				neg.b(x, startIndex, startIndex + neg.getA());
-	  			}
-	  		}
+			RPP pos=new RPP() {
+				«compile(b.pos,fwd, hasParallelBlock)»
+			};
+			RPP zero=new RPP() {
+				«compile(b.zero,fwd, hasParallelBlock)»
+			};
+			RPP neg=new RPP() {
+				«compile(b.neg,fwd, hasParallelBlock)»
+			};
+			private final int a=pos.getA()+1;
+			public int getA() {return this.a;}
+			public void b(int[] x, int startIndex, int endIndex) {
+				final int testValue = x[(startIndex + a) - 1];
+				if(testValue > 0){
+					pos.b(x, startIndex, startIndex + pos.getA());
+				} else if(testValue == 0){
+					zero.b(x, startIndex, startIndex + zero.getA());
+				} else { // The "testValue<0" test is a tautology
+					neg.b(x, startIndex, startIndex + neg.getA());
+				}
+			}
 			'''
 	  }.toString
 	}
