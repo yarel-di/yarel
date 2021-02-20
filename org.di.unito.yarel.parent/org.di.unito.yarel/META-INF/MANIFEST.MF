@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.emf.mwe2.language;bundle-version="2.12.0",
  org.eclipse.xtext.util,
  org.eclipse.emf.common,
  org.eclipse.xtend.lib;bundle-version="2.14.0",
- org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.eclipse.xtext.xbase.testing,
+ org.eclipse.xtext.testing
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.di.unito.yarel,
  org.di.unito.yarel.generator,
@@ -28,5 +30,6 @@ Export-Package: org.di.unito.yarel,
  org.di.unito.yarel.validation,
  org.di.unito.yarel.yarel,
  org.di.unito.yarel.yarel.impl,
- org.di.unito.yarel.yarel.util
+ org.di.unito.yarel.yarel.util,
+ org.di.unito.yarel.tests;x-internal=true
 Import-Package: org.apache.log4j
