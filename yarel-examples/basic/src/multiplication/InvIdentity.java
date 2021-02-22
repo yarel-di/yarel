@@ -4,6 +4,7 @@ import yarelcore.*;
 public class InvIdentity implements RPP {
 	public InvIdentity() { }
 	
+	@Override
 	public Identity getInverse(){
 		return new Identity();
 	}

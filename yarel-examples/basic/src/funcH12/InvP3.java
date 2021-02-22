@@ -4,6 +4,7 @@ import yarelcore.*;
 public class InvP3 implements RPP {
 	public InvP3() { }
 	
+	@Override
 	public P3 getInverse(){
 		return new P3();
 	}

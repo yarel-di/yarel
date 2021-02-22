@@ -4,6 +4,7 @@ import yarelcore.*;
 public class CosmicVoid implements RPP {
 	public CosmicVoid() { }
 	
+	@Override
 	public InvCosmicVoid getInverse(){
 		return new InvCosmicVoid();
 	}

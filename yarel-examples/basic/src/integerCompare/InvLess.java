@@ -4,6 +4,7 @@ import yarelcore.*;
 public class InvLess implements RPP {
 	public InvLess() { }
 	
+	@Override
 	public Less getInverse(){
 		return new Less();
 	}

@@ -4,6 +4,7 @@ import yarelcore.*;
 public class SomeSwaps implements RPP {
 	public SomeSwaps() { }
 	
+	@Override
 	public InvSomeSwaps getInverse(){
 		return new InvSomeSwaps();
 	}

@@ -4,6 +4,7 @@ import yarelcore.*;
 public class PExample implements RPP {
 	public PExample() { }
 	
+	@Override
 	public InvPExample getInverse(){
 		return new InvPExample();
 	}

@@ -113,6 +113,13 @@ class JavaYarelGenerator implements IGenerator2 {
 			 *				   Usually this index is ignored.
 			 */
 			public void b(int[] x, int startIndex, int endIndex);
+			
+			/**
+			 * Returns the inverse of this function, i.e. a {@link RPP} function that,
+			 * if invoked on the exact same array passed to the method {@link #b(int[])},
+			 * alters that array as if the method {@link #b(int[]) has never been invoked at all.
+			*/
+			public RPP getInverse();
 		}
 		'''}
 		
@@ -124,6 +131,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			private final int a = 1;
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex){  }
+			public RPP getInverse(){
+				return new InvId();
+			}
 		}
 		'''}
 		
@@ -138,6 +148,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			public void b(int[] x, int startIndex, int endIndex){
 				this.f.b(x, startIndex, endIndex);
 			}
+			public RPP getInverse(){
+				return f;
+			}
 		}
 		'''}
 	
@@ -150,6 +163,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				x[startIndex]++;
+			}
+			public RPP getInverse(){
+				return new InvInc();
 			}
 		}
 		'''}
@@ -165,6 +181,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);
 			}
+			public RPP getInverse(){
+				return new Inc();
+			}
 		}
 		'''}
 	
@@ -177,6 +196,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				x[startIndex]--;
+			}
+			public RPP getInverse(){
+				return new InvDec();
 			}
 		}
 		'''}
@@ -192,6 +214,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);
 			}
+			public RPP getInverse(){
+				return new Dec();
+			}
 		}
 		'''}
 	
@@ -204,6 +229,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				x[startIndex] = -x[startIndex];
+			}
+			public RPP getInverse(){
+				return new InvNeg();
 			}
 		}
 		'''}
@@ -218,6 +246,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);
+			}
+			public RPP getInverse(){
+				return f;
 			}
 		}
 		'''}
@@ -480,6 +511,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			}
 			«ENDIF»
 			
+			@Override
 			public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» getInverse(){
 				return new «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»();
 			}
@@ -669,7 +701,7 @@ class JavaYarelGenerator implements IGenerator2 {
 									}
 								}
 							}
-						} while(areChildrenRunning):
+						} while(areChildrenRunning);
 					}
 				'''
 				}else { // nothing to do, also do not alter hasParallelBlock

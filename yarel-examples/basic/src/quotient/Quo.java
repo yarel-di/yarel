@@ -4,6 +4,7 @@ import yarelcore.*;
 public class Quo implements RPP {
 	public Quo() { }
 	
+	@Override
 	public InvQuo getInverse(){
 		return new InvQuo();
 	}

@@ -4,6 +4,7 @@ import yarelcore.*;
 public class T3 implements RPP {
 	public T3() { }
 	
+	@Override
 	public InvT3 getInverse(){
 		return new InvT3();
 	}

@@ -4,6 +4,7 @@ import yarelcore.*;
 public class InvMore implements RPP {
 	public InvMore() { }
 	
+	@Override
 	public More getInverse(){
 		return new More();
 	}

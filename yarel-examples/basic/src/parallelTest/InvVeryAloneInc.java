@@ -4,6 +4,7 @@ import yarelcore.*;
 public class InvVeryAloneInc implements RPP {
 	public InvVeryAloneInc() { }
 	
+	@Override
 	public VeryAloneInc getInverse(){
 		return new VeryAloneInc();
 	}

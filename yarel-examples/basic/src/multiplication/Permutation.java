@@ -4,6 +4,7 @@ import yarelcore.*;
 public class Permutation implements RPP {
 	public Permutation() { }
 	
+	@Override
 	public InvPermutation getInverse(){
 		return new InvPermutation();
 	}

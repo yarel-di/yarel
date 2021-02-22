@@ -4,6 +4,7 @@ import yarelcore.*;
 public class Sub implements RPP {
 	public Sub() { }
 	
+	@Override
 	public InvSub getInverse(){
 		return new InvSub();
 	}

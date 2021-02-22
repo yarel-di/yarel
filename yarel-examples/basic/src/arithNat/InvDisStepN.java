@@ -24,6 +24,7 @@ public class InvDisStepN implements RPP {
 		}
 	}
 	
+	@Override
 	public DisStepN getInverse(){
 		return new DisStepN();
 	}
@@ -88,6 +89,7 @@ public class InvDisStepN implements RPP {
 					 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
 					*/
 					
+					boolean areChildrenRunning = true;
 					int startingIndex;
 					final int[] semaphore = new int[]{ subtasks.length };
 					final Runnable[] tasks = new Runnable[ semaphore[0] ];
@@ -103,9 +105,8 @@ public class InvDisStepN implements RPP {
 								// after the body execution, manage the semaphore
 								synchronized (semaphore) {
 									// if all tasks are successfully finished, awake the main thread
-									if(--semaphore[0] <= 0){
-										semaphore.notifyAll();
-									}
+									semaphore[0]--;
+									semaphore.notifyAll();
 								}
 							}
 						};
@@ -138,6 +139,19 @@ public class InvDisStepN implements RPP {
 							e.printStackTrace();
 						}
 					}
+					do{
+						synchronized (semaphore) {
+							if(semaphore[0] <= 0){
+								areChildrenRunning = false;
+							} else {
+								try {
+									semaphore.wait(); // some child(dren) is still running
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					} while(areChildrenRunning);
 				}
 			};
 			RPP r = new RPP() { // BodyPermImpl

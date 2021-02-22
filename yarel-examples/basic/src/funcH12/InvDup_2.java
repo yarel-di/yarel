@@ -4,6 +4,7 @@ import yarelcore.*;
 public class InvDup_2 implements RPP {
 	public InvDup_2() { }
 	
+	@Override
 	public Dup_2 getInverse(){
 		return new Dup_2();
 	}

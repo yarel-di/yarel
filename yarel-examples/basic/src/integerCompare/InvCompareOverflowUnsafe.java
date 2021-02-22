@@ -4,6 +4,7 @@ import yarelcore.*;
 public class InvCompareOverflowUnsafe implements RPP {
 	public InvCompareOverflowUnsafe() { }
 	
+	@Override
 	public CompareOverflowUnsafe getInverse(){
 		return new CompareOverflowUnsafe();
 	}

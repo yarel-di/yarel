@@ -4,6 +4,7 @@ import yarelcore.*;
 public class SameSignLess implements RPP {
 	public SameSignLess() { }
 	
+	@Override
 	public InvSameSignLess getInverse(){
 		return new InvSameSignLess();
 	}
