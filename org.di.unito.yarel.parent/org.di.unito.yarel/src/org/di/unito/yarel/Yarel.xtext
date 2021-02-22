@@ -71,9 +71,37 @@ Atomic returns Body:
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
   | {BodyFun} funName=[Declaration | QualifiedName] 
   | {BodyPerm} permutation=Permutation;
+  // | {BodyPermIndex} permIndexed = PermutationIndexed
 
 Permutation: 
   '/' indexes+=Digit (indexes+=Digit)* '/';
-  
+
+/*
+PermutationIndexed: // total ariety is 1 + the desired permutation's ariety. (NOTE: The index is the read from the first register)
+  '/' '{' totalAriety = LinearParamIntExpression '}' '/'
+;
+
+LinearParamIntExpression: LPIExpr;
+
+LPIExpr returns LinearParamIntExpression:
+	IntExprArgument (
+		( {LPIEAddition.left = current} '+' right = IntExprArgument) 
+		| ( {LPIESubtraction.left = current} '-' right = IntExprArgument) 
+	)*
+;
+ 
+IntExprArgument returns LinearParamIntExpression:
+	Digit | Parameter | LPIExprBracket
+;
+
+LPIExprBracket:
+  '(' sub = LinearParamIntExpression ')'
+;
+
+Parameter:
+  value = ID
+;
+ */
+
 Digit:
 	value=INT;

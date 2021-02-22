@@ -1,11 +1,11 @@
 package bubble4Fili;
 import yarelcore.*;	
 
-public class InvB4sort_p1 implements RPP {
-	public InvB4sort_p1() { }
+public class B4sort_p3 implements RPP {
+	public B4sort_p3() { }
 	
-	public B4sort_p1 getInverse(){
-		return new B4sort_p1();
+	public InvB4sort_p3 getInverse(){
+		return new InvB4sort_p3();
 	}
 	
 	RPP l = new RPP() { // SerCompImpl
@@ -18,7 +18,7 @@ public class InvB4sort_p1 implements RPP {
 								RPP l = new RPP() { // SerCompImpl
 									RPP l = new RPP() { // ParCompImpl
 										private RPP f = new RPP(){
-											RPP function = new cantorPairing.InvCu();
+											RPP function = new cantorPairing.Cu();
 											private final int a = function.getA();
 											public void b(int[] x, int startIndex, int endIndex) {
 												this.function.b(x, startIndex, endIndex);
@@ -48,19 +48,21 @@ public class InvB4sort_p1 implements RPP {
 									private final int a = l.getA();
 									public int getA() { return this.a; }
 									public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-										this.r.b(x, startIndex, endIndex);
 										this.l.b(x, startIndex, endIndex);
+										this.r.b(x, startIndex, endIndex);
 									}
 								};
 								RPP r = new RPP() { // BodyPermImpl
 									private final int a = 10;
 									public void b(int[] x, int startIndex, int endIndex) {
 										int tmp=0;
-										tmp = x[startIndex + 2]; 
-										x[startIndex + 2] = x[startIndex + 6]; 
-										x[startIndex + 6] = x[startIndex + 4]; 
-										x[startIndex + 4] = tmp; 
-										tmp = x[startIndex + 3]; 
+										tmp = x[startIndex + 0]; 
+										x[startIndex + 0] = x[startIndex + 2]; 
+										x[startIndex + 2] = x[startIndex + 4]; 
+										x[startIndex + 4] = x[startIndex + 6]; 
+										x[startIndex + 6] = tmp; 
+										tmp = x[startIndex + 1]; 
+										x[startIndex + 1] = x[startIndex + 3]; 
 										x[startIndex + 3] = x[startIndex + 5]; 
 										x[startIndex + 5] = tmp; 
 									}
@@ -70,13 +72,13 @@ public class InvB4sort_p1 implements RPP {
 								private final int a = l.getA();
 								public int getA() { return this.a; }
 								public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-									this.r.b(x, startIndex, endIndex);
 									this.l.b(x, startIndex, endIndex);
+									this.r.b(x, startIndex, endIndex);
 								}
 							};
 							RPP r = new RPP() { // ParCompImpl
 								private RPP f = new RPP(){
-									RPP function = new integerCompare.InvMore();
+									RPP function = new integerCompare.More();
 									private final int a = function.getA();
 									public void b(int[] x, int startIndex, int endIndex) {
 										this.function.b(x, startIndex, endIndex);
@@ -92,21 +94,23 @@ public class InvB4sort_p1 implements RPP {
 							private final int a = l.getA();
 							public int getA() { return this.a; }
 							public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-								this.r.b(x, startIndex, endIndex);
 								this.l.b(x, startIndex, endIndex);
+								this.r.b(x, startIndex, endIndex);
 							}
 						};
 						RPP r = new RPP() { // BodyPermImpl
 							private final int a = 10;
 							public void b(int[] x, int startIndex, int endIndex) {
 								int tmp=0;
-								tmp = x[startIndex + 2]; 
-								x[startIndex + 2] = x[startIndex + 4]; 
-								x[startIndex + 4] = x[startIndex + 6]; 
-								x[startIndex + 6] = tmp; 
-								tmp = x[startIndex + 3]; 
-								x[startIndex + 3] = x[startIndex + 5]; 
-								x[startIndex + 5] = tmp; 
+								tmp = x[startIndex + 0]; 
+								x[startIndex + 0] = x[startIndex + 6]; 
+								x[startIndex + 6] = x[startIndex + 4]; 
+								x[startIndex + 4] = x[startIndex + 2]; 
+								x[startIndex + 2] = tmp; 
+								tmp = x[startIndex + 1]; 
+								x[startIndex + 1] = x[startIndex + 5]; 
+								x[startIndex + 5] = x[startIndex + 3]; 
+								x[startIndex + 3] = tmp; 
 							}
 							
 							public int getA() { return this.a; }
@@ -114,8 +118,8 @@ public class InvB4sort_p1 implements RPP {
 						private final int a = l.getA();
 						public int getA() { return this.a; }
 						public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-							this.r.b(x, startIndex, endIndex);
 							this.l.b(x, startIndex, endIndex);
+							this.r.b(x, startIndex, endIndex);
 						}
 					};
 					RPP r = new RPP() { // ParCompImpl
@@ -124,9 +128,9 @@ public class InvB4sort_p1 implements RPP {
 								private final int a = 4;
 								public void b(int[] x, int startIndex, int endIndex) {
 									int tmp=0;
-									tmp = x[startIndex + 2]; 
-									x[startIndex + 2] = x[startIndex + 3]; 
-									x[startIndex + 3] = tmp; 
+									tmp = x[startIndex + 0]; 
+									x[startIndex + 0] = x[startIndex + 1]; 
+									x[startIndex + 1] = tmp; 
 								}
 								
 								public int getA() { return this.a; }
@@ -167,8 +171,8 @@ public class InvB4sort_p1 implements RPP {
 					private final int a = l.getA();
 					public int getA() { return this.a; }
 					public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-						this.r.b(x, startIndex, endIndex);
 						this.l.b(x, startIndex, endIndex);
+						this.r.b(x, startIndex, endIndex);
 					}
 				};
 				RPP r = new RPP() { // BodyPermImpl
@@ -177,9 +181,7 @@ public class InvB4sort_p1 implements RPP {
 						int tmp=0;
 						tmp = x[startIndex + 0]; 
 						x[startIndex + 0] = x[startIndex + 1]; 
-						x[startIndex + 1] = x[startIndex + 2]; 
-						x[startIndex + 2] = x[startIndex + 3]; 
-						x[startIndex + 3] = tmp; 
+						x[startIndex + 1] = tmp; 
 						tmp = x[startIndex + 4]; 
 						x[startIndex + 4] = x[startIndex + 7]; 
 						x[startIndex + 7] = tmp; 
@@ -193,8 +195,8 @@ public class InvB4sort_p1 implements RPP {
 				private final int a = l.getA();
 				public int getA() { return this.a; }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-					this.r.b(x, startIndex, endIndex);
 					this.l.b(x, startIndex, endIndex);
+					this.r.b(x, startIndex, endIndex);
 				}
 			};
 			RPP r = new RPP() { // BodyPermImpl
@@ -202,11 +204,11 @@ public class InvB4sort_p1 implements RPP {
 				public void b(int[] x, int startIndex, int endIndex) {
 					int tmp=0;
 					tmp = x[startIndex + 5]; 
-					x[startIndex + 5] = x[startIndex + 8]; 
-					x[startIndex + 8] = x[startIndex + 6]; 
-					x[startIndex + 6] = x[startIndex + 9]; 
-					x[startIndex + 9] = x[startIndex + 7]; 
-					x[startIndex + 7] = tmp; 
+					x[startIndex + 5] = x[startIndex + 7]; 
+					x[startIndex + 7] = x[startIndex + 9]; 
+					x[startIndex + 9] = x[startIndex + 6]; 
+					x[startIndex + 6] = x[startIndex + 8]; 
+					x[startIndex + 8] = tmp; 
 				}
 				
 				public int getA() { return this.a; }
@@ -214,13 +216,13 @@ public class InvB4sort_p1 implements RPP {
 			private final int a = l.getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-				this.r.b(x, startIndex, endIndex);
 				this.l.b(x, startIndex, endIndex);
+				this.r.b(x, startIndex, endIndex);
 			}
 		};
 		RPP r = new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
-				RPP function = new cantorPairing.Cu();
+				RPP function = new cantorPairing.InvCu();
 				private final int a = function.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
@@ -236,8 +238,8 @@ public class InvB4sort_p1 implements RPP {
 		private final int a = l.getA();
 		public int getA() { return this.a; }
 		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-			this.r.b(x, startIndex, endIndex);
 			this.l.b(x, startIndex, endIndex);
+			this.r.b(x, startIndex, endIndex);
 		}
 	};
 	RPP r = new RPP() { // BodyPermImpl
@@ -245,11 +247,11 @@ public class InvB4sort_p1 implements RPP {
 		public void b(int[] x, int startIndex, int endIndex) {
 			int tmp=0;
 			tmp = x[startIndex + 5]; 
-			x[startIndex + 5] = x[startIndex + 9]; 
-			x[startIndex + 9] = x[startIndex + 8]; 
-			x[startIndex + 8] = x[startIndex + 7]; 
-			x[startIndex + 7] = x[startIndex + 6]; 
-			x[startIndex + 6] = tmp; 
+			x[startIndex + 5] = x[startIndex + 6]; 
+			x[startIndex + 6] = x[startIndex + 7]; 
+			x[startIndex + 7] = x[startIndex + 8]; 
+			x[startIndex + 8] = x[startIndex + 9]; 
+			x[startIndex + 9] = tmp; 
 		}
 		
 		public int getA() { return this.a; }
@@ -257,7 +259,7 @@ public class InvB4sort_p1 implements RPP {
 	private final int a = l.getA();
 	public int getA() { return this.a; }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		this.r.b(x, startIndex, endIndex);
 		this.l.b(x, startIndex, endIndex);
+		this.r.b(x, startIndex, endIndex);
 	}
 }

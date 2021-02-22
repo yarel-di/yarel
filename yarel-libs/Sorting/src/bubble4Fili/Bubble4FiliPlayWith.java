@@ -19,6 +19,7 @@ import java.util.Arrays;
  * <li> {@link RPP}</li>
 * <li> {@link bubble4Fili.B4sort_p1}</li>
 * <li> {@link bubble4Fili.B4sort_p2}</li>
+* <li> {@link bubble4Fili.B4sort_p3}</li>
 * <li> {@link bubble4Fili.B4sort}</li>
  * </ul>
  * <p>
@@ -51,6 +52,8 @@ public class Bubble4FiliPlayWith {
 		testB4sort_p1();
 		
 		testB4sort_p2();
+		
+		testB4sort_p3();
 		
 		testB4sort();
 	}
@@ -107,6 +110,34 @@ public class Bubble4FiliPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function b4sort_p2 with values:" + Arrays.toString(data));
 			b4sort_p2RPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testB4sort_p3(){
+		RPP b4sort_p3RPP = new bubble4Fili.B4sort_p3();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,7,8,9,5},
+			new int[]{9,8,7,6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function b4sort_p3 with values:" + Arrays.toString(data));
+			b4sort_p3RPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

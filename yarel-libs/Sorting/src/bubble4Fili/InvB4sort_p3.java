@@ -1,11 +1,11 @@
 package bubble4Fili;
 import yarelcore.*;	
 
-public class InvB4sort_p1 implements RPP {
-	public InvB4sort_p1() { }
+public class InvB4sort_p3 implements RPP {
+	public InvB4sort_p3() { }
 	
-	public B4sort_p1 getInverse(){
-		return new B4sort_p1();
+	public B4sort_p3 getInverse(){
+		return new B4sort_p3();
 	}
 	
 	RPP l = new RPP() { // SerCompImpl
@@ -56,13 +56,15 @@ public class InvB4sort_p1 implements RPP {
 									private final int a = 10;
 									public void b(int[] x, int startIndex, int endIndex) {
 										int tmp=0;
-										tmp = x[startIndex + 2]; 
-										x[startIndex + 2] = x[startIndex + 6]; 
+										tmp = x[startIndex + 0]; 
+										x[startIndex + 0] = x[startIndex + 6]; 
 										x[startIndex + 6] = x[startIndex + 4]; 
-										x[startIndex + 4] = tmp; 
-										tmp = x[startIndex + 3]; 
-										x[startIndex + 3] = x[startIndex + 5]; 
-										x[startIndex + 5] = tmp; 
+										x[startIndex + 4] = x[startIndex + 2]; 
+										x[startIndex + 2] = tmp; 
+										tmp = x[startIndex + 1]; 
+										x[startIndex + 1] = x[startIndex + 5]; 
+										x[startIndex + 5] = x[startIndex + 3]; 
+										x[startIndex + 3] = tmp; 
 									}
 									
 									public int getA() { return this.a; }
@@ -100,11 +102,13 @@ public class InvB4sort_p1 implements RPP {
 							private final int a = 10;
 							public void b(int[] x, int startIndex, int endIndex) {
 								int tmp=0;
-								tmp = x[startIndex + 2]; 
+								tmp = x[startIndex + 0]; 
+								x[startIndex + 0] = x[startIndex + 2]; 
 								x[startIndex + 2] = x[startIndex + 4]; 
 								x[startIndex + 4] = x[startIndex + 6]; 
 								x[startIndex + 6] = tmp; 
-								tmp = x[startIndex + 3]; 
+								tmp = x[startIndex + 1]; 
+								x[startIndex + 1] = x[startIndex + 3]; 
 								x[startIndex + 3] = x[startIndex + 5]; 
 								x[startIndex + 5] = tmp; 
 							}
@@ -124,9 +128,9 @@ public class InvB4sort_p1 implements RPP {
 								private final int a = 4;
 								public void b(int[] x, int startIndex, int endIndex) {
 									int tmp=0;
-									tmp = x[startIndex + 2]; 
-									x[startIndex + 2] = x[startIndex + 3]; 
-									x[startIndex + 3] = tmp; 
+									tmp = x[startIndex + 0]; 
+									x[startIndex + 0] = x[startIndex + 1]; 
+									x[startIndex + 1] = tmp; 
 								}
 								
 								public int getA() { return this.a; }
@@ -177,9 +181,7 @@ public class InvB4sort_p1 implements RPP {
 						int tmp=0;
 						tmp = x[startIndex + 0]; 
 						x[startIndex + 0] = x[startIndex + 1]; 
-						x[startIndex + 1] = x[startIndex + 2]; 
-						x[startIndex + 2] = x[startIndex + 3]; 
-						x[startIndex + 3] = tmp; 
+						x[startIndex + 1] = tmp; 
 						tmp = x[startIndex + 4]; 
 						x[startIndex + 4] = x[startIndex + 7]; 
 						x[startIndex + 7] = tmp; 
