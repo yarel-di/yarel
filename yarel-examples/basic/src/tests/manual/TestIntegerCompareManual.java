@@ -2,7 +2,7 @@ package tests.manual;
 
 import java.util.Arrays;
 
-import src.tests.junit.TestCompareJunit;
+import tests.junit.TestCompareJunit;
 import yarelcore.RPP;
 
 public class TestIntegerCompareManual {

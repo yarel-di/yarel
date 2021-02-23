@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvRearrangeLargePerm implements RPP {
 	public InvRearrangeLargePerm() { }
 	
-	@Override
 	public RearrangeLargePerm getInverse(){
 		return new RearrangeLargePerm();
 	}

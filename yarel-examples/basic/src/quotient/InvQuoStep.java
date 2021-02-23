@@ -24,7 +24,6 @@ public class InvQuoStep implements RPP {
 		}
 	}
 	
-	@Override
 	public QuoStep getInverse(){
 		return new QuoStep();
 	}

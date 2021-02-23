@@ -24,7 +24,6 @@ public class InvBiIncPar implements RPP {
 		}
 	}
 	
-	@Override
 	public BiIncPar getInverse(){
 		return new BiIncPar();
 	}

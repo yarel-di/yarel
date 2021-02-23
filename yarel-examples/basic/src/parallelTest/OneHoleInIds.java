@@ -24,7 +24,6 @@ public class OneHoleInIds implements RPP {
 		}
 	}
 	
-	@Override
 	public InvOneHoleInIds getInverse(){
 		return new InvOneHoleInIds();
 	}

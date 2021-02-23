@@ -17,6 +17,7 @@ import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.ParComp
 import org.di.unito.yarel.yarel.SerComp
+import org.di.unito.yarel.yarel.BodyPermIndex
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
@@ -68,6 +69,7 @@ class YarelUtils {
 			BodyFor: 1 + body.body.arity
 			BodyIf: 1 + body.pos.arity
 			BodyPerm: body.permutation.indexes.size
+			BodyPermIndex: 1 + body.permIndexed.permutationArity
 			BodyInc : 1
 			BodyDec : 1
 			BodyNeg : 1

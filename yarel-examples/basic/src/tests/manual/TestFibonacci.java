@@ -19,7 +19,7 @@ public class TestFibonacci {
 
 	public static void main(String[] args) {
 		int[] registers = new int[4];
-		RPP fibYarel = new Fibonacci();
+		Fibonacci fibYarel = new Fibonacci();
 		RPP fibYarelInv = fibYarel.getInverse();
 		registers[1] = registers[2] = registers[3] = 0;
 		for (int i = 0; i <= 40; i++) {

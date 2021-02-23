@@ -43,8 +43,8 @@ Signature:
 	types += Type (',' types+=Type)*;
 
 Type: 
-    {Type} value=(INT)? 'int'
-;
+    {Type} value=(INT)? 'int';
+
 Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;
 
@@ -70,17 +70,23 @@ Atomic returns Body:
   | {BodyIt}  function='it' '[' body=Body ']'
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
   | {BodyFun} funName=[Declaration | QualifiedName] 
-  | {BodyPerm} permutation=Permutation;
-  // | {BodyPermIndex} permIndexed = PermutationIndexed
+  | {BodyPerm} permutation=Permutation
+  | {BodyPermIndex} permIndexed = PermutationIndexed
+  ;
 
 Permutation: 
   '/' indexes+=Digit (indexes+=Digit)* '/';
 
-/*
-PermutationIndexed: // total ariety is 1 + the desired permutation's ariety. (NOTE: The index is the read from the first register)
-  '/' '{' totalAriety = LinearParamIntExpression '}' '/'
+/**
+ * The index stored at the end is 0-based.
+ */
+PermutationIndexed: // the total ariety is 1 + permutationAriety, that is the desired permutation's arity.
+  '/' '{'
+  permutationArity = INT // LinearParamIntExpression
+  '}' '/'
 ;
 
+/*
 LinearParamIntExpression: LPIExpr;
 
 LPIExpr returns LinearParamIntExpression:

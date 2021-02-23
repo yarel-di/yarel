@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvMultiplication implements RPP {
 	public InvMultiplication() { }
 	
-	@Override
 	public Multiplication getInverse(){
 		return new Multiplication();
 	}

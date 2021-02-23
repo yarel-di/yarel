@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvH12_v2 implements RPP {
 	public InvH12_v2() { }
 	
-	@Override
 	public H12_v2 getInverse(){
 		return new H12_v2();
 	}

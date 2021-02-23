@@ -4,7 +4,6 @@ import yarelcore.*;
 public class SumN implements RPP {
 	public SumN() { }
 	
-	@Override
 	public InvSumN getInverse(){
 		return new InvSumN();
 	}

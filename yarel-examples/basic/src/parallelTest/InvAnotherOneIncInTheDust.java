@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvAnotherOneIncInTheDust implements RPP {
 	public InvAnotherOneIncInTheDust() { }
 	
-	@Override
 	public AnotherOneIncInTheDust getInverse(){
 		return new AnotherOneIncInTheDust();
 	}

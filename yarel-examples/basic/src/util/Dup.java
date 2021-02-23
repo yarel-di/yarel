@@ -24,7 +24,6 @@ public class Dup implements RPP {
 		}
 	}
 	
-	@Override
 	public InvDup getInverse(){
 		return new InvDup();
 	}

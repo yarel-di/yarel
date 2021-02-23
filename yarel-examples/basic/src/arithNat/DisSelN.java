@@ -4,7 +4,6 @@ import yarelcore.*;
 public class DisSelN implements RPP {
 	public DisSelN() { }
 	
-	@Override
 	public InvDisSelN getInverse(){
 		return new InvDisSelN();
 	}

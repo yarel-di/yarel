@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvFib implements RPP {
 	public InvFib() { }
 	
-	@Override
 	public Fib getInverse(){
 		return new Fib();
 	}

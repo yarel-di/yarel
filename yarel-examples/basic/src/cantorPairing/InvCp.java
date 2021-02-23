@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvCp implements RPP {
 	public InvCp() { }
 	
-	@Override
 	public Cp getInverse(){
 		return new Cp();
 	}

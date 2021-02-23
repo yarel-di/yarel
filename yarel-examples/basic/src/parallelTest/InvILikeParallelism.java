@@ -24,7 +24,6 @@ public class InvILikeParallelism implements RPP {
 		}
 	}
 	
-	@Override
 	public ILikeParallelism getInverse(){
 		return new ILikeParallelism();
 	}

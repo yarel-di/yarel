@@ -24,7 +24,6 @@ public class MinH12_original implements RPP {
 		}
 	}
 	
-	@Override
 	public InvMinH12_original getInverse(){
 		return new InvMinH12_original();
 	}

@@ -24,7 +24,6 @@ public class DupStep implements RPP {
 		}
 	}
 	
-	@Override
 	public InvDupStep getInverse(){
 		return new InvDupStep();
 	}
