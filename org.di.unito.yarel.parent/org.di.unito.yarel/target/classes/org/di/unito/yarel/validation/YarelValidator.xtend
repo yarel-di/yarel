@@ -34,6 +34,7 @@ import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.validation.CheckType
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.di.unito.yarel.yarel.PermutationIndexed
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
@@ -86,8 +87,10 @@ class YarelValidator extends AbstractYarelValidator {
 	 */
 	@Check
 	def checkArity(Definition definition) {
-		if(YarelUtils.getArity(definition.declarationName) != YarelUtils.getArity(definition.body))
-			error("Different arities", YarelPackage::eINSTANCE.definition_Body, ERROR_ARITY)
+		val arityDec = YarelUtils.getArity(definition.declarationName);
+		val arityDef = YarelUtils.getArity(definition.body);
+		if(arityDec  != arityDef)
+			error('''Different arities: declarion=«arityDec»; definition=«arityDef»''', YarelPackage::eINSTANCE.definition_Body, ERROR_ARITY)
 	}
 	
 	/**
@@ -190,5 +193,15 @@ class YarelValidator extends AbstractYarelValidator {
 	  		)	
 	  	}
 	  	//else noError
+	  }
+	  
+	  @Check(CheckType::FAST)
+	  def checkBodyPermIndexArity(PermutationIndexed indexedPermutations){
+	  	if(indexedPermutations.permutationArity < 2){
+	  		error('''Indexed permutations invalid: «indexedPermutations.permutationArity». The minimum is 2.''',
+	  			YarelPackage::eINSTANCE.permutation_Indexes,
+	  			ERROR_ARITY
+	  		)
+	  	}
 	  }
 }

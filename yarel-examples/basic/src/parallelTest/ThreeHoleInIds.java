@@ -24,7 +24,6 @@ public class ThreeHoleInIds implements RPP {
 		}
 	}
 	
-	@Override
 	public InvThreeHoleInIds getInverse(){
 		return new InvThreeHoleInIds();
 	}

@@ -24,7 +24,6 @@ public class DisStepN implements RPP {
 		}
 	}
 	
-	@Override
 	public InvDisStepN getInverse(){
 		return new InvDisStepN();
 	}

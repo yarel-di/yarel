@@ -4,7 +4,6 @@ import yarelcore.*;
 public class SubN implements RPP {
 	public SubN() { }
 	
-	@Override
 	public InvSubN getInverse(){
 		return new InvSubN();
 	}

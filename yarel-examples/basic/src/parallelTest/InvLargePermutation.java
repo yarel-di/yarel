@@ -24,7 +24,6 @@ public class InvLargePermutation implements RPP {
 		}
 	}
 	
-	@Override
 	public LargePermutation getInverse(){
 		return new LargePermutation();
 	}

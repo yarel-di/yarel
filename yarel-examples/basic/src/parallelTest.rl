@@ -41,7 +41,6 @@ module ParallelTest{
 		/10 6 5 2 8 4 9 3 1 7/
 	
 	
-	
 	/* Second sequence of tests functions*/
 	
 	

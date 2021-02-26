@@ -24,7 +24,6 @@ public class UpAndDown implements RPP {
 		}
 	}
 	
-	@Override
 	public InvUpAndDown getInverse(){
 		return new InvUpAndDown();
 	}

@@ -1164,6 +1164,35 @@ ruleAtomic returns [EObject current=null]
 				)
 			)
 		)
+		    |
+		(
+			(
+				{
+					$current = forceCreateModelElement(
+						grammarAccess.getAtomicAccess().getBodyPermIndexAction_10_0(),
+						$current);
+				}
+			)
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAtomicAccess().getPermIndexedPermutationIndexedParserRuleCall_10_1_0());
+					}
+					lv_permIndexed_37_0=rulePermutationIndexed
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAtomicRule());
+						}
+						set(
+							$current,
+							"permIndexed",
+							lv_permIndexed_37_0,
+							"org.di.unito.yarel.Yarel.PermutationIndexed");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)
 	)
 ;
 
@@ -1228,6 +1257,59 @@ rulePermutation returns [EObject current=null]
 		otherlv_3='/'
 		{
 			newLeafNode(otherlv_3, grammarAccess.getPermutationAccess().getSolidusKeyword_3());
+		}
+	)
+;
+
+// Entry rule entryRulePermutationIndexed
+entryRulePermutationIndexed returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getPermutationIndexedRule()); }
+	iv_rulePermutationIndexed=rulePermutationIndexed
+	{ $current=$iv_rulePermutationIndexed.current; }
+	EOF;
+
+// Rule PermutationIndexed
+rulePermutationIndexed returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='/'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getPermutationIndexedAccess().getSolidusKeyword_0());
+		}
+		otherlv_1='{'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getPermutationIndexedAccess().getLeftCurlyBracketKeyword_1());
+		}
+		(
+			(
+				lv_permutationArity_2_0=RULE_INT
+				{
+					newLeafNode(lv_permutationArity_2_0, grammarAccess.getPermutationIndexedAccess().getPermutationArityINTTerminalRuleCall_2_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getPermutationIndexedRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"permutationArity",
+						lv_permutationArity_2_0,
+						"org.eclipse.xtext.common.Terminals.INT");
+				}
+			)
+		)
+		otherlv_3='}'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getPermutationIndexedAccess().getRightCurlyBracketKeyword_3());
+		}
+		otherlv_4='/'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getPermutationIndexedAccess().getSolidusKeyword_4());
 		}
 	)
 ;

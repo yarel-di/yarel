@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvCompare implements RPP {
 	public InvCompare() { }
 	
-	@Override
 	public Compare getInverse(){
 		return new Compare();
 	}

@@ -4,7 +4,6 @@ import yarelcore.*;
 public class Fibonacci implements RPP {
 	public Fibonacci() { }
 	
-	@Override
 	public InvFibonacci getInverse(){
 		return new InvFibonacci();
 	}

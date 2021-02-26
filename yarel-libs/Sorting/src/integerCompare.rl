@@ -94,7 +94,7 @@ module IntegerCompare{
 			if[inc|id|id, inc|id|id, sameSignCompare] // if j < 0
 		]
 		;inv[dupStep]
-		
+
 	dcl compareOverflowUnsafe : 3 int
 	def compareOverflowUnsafe :=
 		sameSignCompare

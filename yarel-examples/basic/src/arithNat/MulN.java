@@ -4,7 +4,6 @@ import yarelcore.*;
 public class MulN implements RPP {
 	public MulN() { }
 	
-	@Override
 	public InvMulN getInverse(){
 		return new InvMulN();
 	}

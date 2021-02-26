@@ -4,7 +4,6 @@ import yarelcore.*;
 public class OneDecInMiddle implements RPP {
 	public OneDecInMiddle() { }
 	
-	@Override
 	public InvOneDecInMiddle getInverse(){
 		return new InvOneDecInMiddle();
 	}

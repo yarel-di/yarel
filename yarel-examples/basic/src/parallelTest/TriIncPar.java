@@ -24,7 +24,6 @@ public class TriIncPar implements RPP {
 		}
 	}
 	
-	@Override
 	public InvTriIncPar getInverse(){
 		return new InvTriIncPar();
 	}

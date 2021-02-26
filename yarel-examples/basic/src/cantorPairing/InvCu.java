@@ -4,7 +4,6 @@ import yarelcore.*;
 public class InvCu implements RPP {
 	public InvCu() { }
 	
-	@Override
 	public Cu getInverse(){
 		return new Cu();
 	}

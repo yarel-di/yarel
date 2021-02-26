@@ -24,7 +24,6 @@ public class InvSum implements RPP {
 		}
 	}
 	
-	@Override
 	public Sum getInverse(){
 		return new Sum();
 	}

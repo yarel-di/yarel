@@ -24,7 +24,6 @@ public class WastingSomeID implements RPP {
 		}
 	}
 	
-	@Override
 	public InvWastingSomeID getInverse(){
 		return new InvWastingSomeID();
 	}

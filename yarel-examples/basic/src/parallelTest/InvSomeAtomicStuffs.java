@@ -24,7 +24,6 @@ public class InvSomeAtomicStuffs implements RPP {
 		}
 	}
 	
-	@Override
 	public SomeAtomicStuffs getInverse(){
 		return new SomeAtomicStuffs();
 	}

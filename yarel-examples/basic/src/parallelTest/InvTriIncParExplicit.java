@@ -24,7 +24,6 @@ public class InvTriIncParExplicit implements RPP {
 		}
 	}
 	
-	@Override
 	public TriIncParExplicit getInverse(){
 		return new TriIncParExplicit();
 	}
