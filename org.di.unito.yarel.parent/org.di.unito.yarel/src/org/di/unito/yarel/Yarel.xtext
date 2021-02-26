@@ -78,9 +78,9 @@ Permutation:
   '/' indexes+=Digit (indexes+=Digit)* '/';
 
 /**
- * The index stored at the end is 0-based.
+ * The index stored at the end is 1-based.
  */
-PermutationIndexed: // the total ariety is 1 + permutationAriety, that is the desired permutation's arity.
+PermutationIndexed: // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
   '/' '{'
   permutationArity = INT // LinearParamIntExpression
   '}' '/'

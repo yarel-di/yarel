@@ -748,11 +748,12 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		BodyPermIndex:
 			'''
-			private final int a = «b.permIndexed.permutationArity»;
+			private final int a = 1 + «b.permIndexed.permutationArity»;
 			public void b(int[] x, int startIndex, int endIndex) {
 				int tmp = x[startIndex], indexToWithdraw;
 				indexToWithdraw = x[startIndex + this.a];
 				if(indexToWithdraw < 0){ indexToWithdraw = -indexToWithdraw; }
+				indexToWithdraw--; // the index is 1-based
 				indexToWithdraw = startIndex + (indexToWithdraw % this.a);
 				x[startIndex] = x[indexToWithdraw];
 				x[indexToWithdraw] = tmp;

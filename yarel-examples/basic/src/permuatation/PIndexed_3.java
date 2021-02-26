@@ -184,11 +184,12 @@ public class PIndexed_3 implements RPP {
 		}
 	};
 	RPP r = new RPP() { // BodyPermIndexImpl
-		private final int a = 4;
+		private final int a = 1 + 4;
 		public void b(int[] x, int startIndex, int endIndex) {
 			int tmp = x[startIndex], indexToWithdraw;
 			indexToWithdraw = x[startIndex + this.a];
 			if(indexToWithdraw < 0){ indexToWithdraw = -indexToWithdraw; }
+			indexToWithdraw--; // the index is 1-based
 			indexToWithdraw = startIndex + (indexToWithdraw % this.a);
 			x[startIndex] = x[indexToWithdraw];
 			x[indexToWithdraw] = tmp;

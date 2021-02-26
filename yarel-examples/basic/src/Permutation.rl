@@ -25,7 +25,7 @@ module permuatation {
 	def pIndexed_3 :=
 		pInd_dataset| (inc;inc;inc);
 		/ {4} /
-	
+
 	dcl pIndexed_4 : 5 int
 	def pIndexed_4 :=
 		pInd_dataset| (inc;inc;inc;inc);
@@ -86,4 +86,34 @@ module permuatation {
 		pInd_dataset | dec;
 		/ {4} /
 
+
+//
+
+//	dcl shiftLeft10IntsArray1Place : 13 int //return: 0 L(ength) int[10] 0
+//	def shiftLeft10IntsArray1Place :=               // 0 0 L(ength) a:=int[10]
+//		id|for[inc]|id|id|id|id|id|id|id|id|id|id   // 0 L L a
+//		;/2 1/|id|id|id|id|id|id|id|id|id|id|id     // L 0 
+//		;/{12}/                                 // L a[L] a[1..L-1] L
+//		
+//		// L 0 a L
+//		// L-2 0 a[L-1] L-1
+//		;for[
+//			inc| id|id|id|id|id|id|id|id|id|id|id
+//			;/{11}/
+//		] //0 a[L] a[1..L-1] L
+//		;id|id|id|id|id|id|id|id|id|id|id|dec // 0 a[L] a[1..L-1] L-1
+//		(for[inc];
+//		inc|id
+//			)|id|id|id|id|id|id|id|id|id|id // L+1 L a
+//		;/{11}/ // L+1 a[L] a[1..L-1] L // "a[L-1]" if 
+//		;it[/{11}/
+//			;id|id|id|id|id|id|id|id|id|id|id|dec
+//		]
+
+		// /1 4 5 6 7 8 9 10 11 12 13 2 3/
+//	dcl shiftLeft10IntsArray1Place : 13 int // return: 0 L(ength) a:=int[10] 0
+//	def shiftLeft10IntsArray1Place :=               // 0 0 L(ength) a:=int[10]
+//		id|for[inc]|id|id|id|id|id|id|id|id|id|id   // 0 L L a
+//		;/2 1/|id|id|id|id|id|id|id|id|id|id|id     // L 0 
+//		;/{12}/                                 // L a[L] a[1..L-1] L
 }

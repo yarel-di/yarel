@@ -21,6 +21,7 @@ import yarelcore.RPP;
 public class TestPermutationIndexed {
 
 	public static void main(String[] args) {
+		int i;
 		int[] regs = new int[5];
 		RPP[] perms = { //
 				new PIndexed_0(), //
@@ -45,5 +46,19 @@ public class TestPermutationIndexed {
 			pi.b(regs);
 			System.out.println("\tgot: " + Arrays.toString(regs));
 		}
+
+//		System.out.println("\n\n\n\n---------------------------");
+//		regs = new int[12];
+//		Arrays.fill(regs, 0);
+//		regs[1] = 10; // length
+//		i = 2;
+//		for (int x : new int[] { 7, 0, 5, 3, -2, 14, 6, 777, -1000, 8 }) {
+//			regs[i++] = x;
+//		}
+//		System.out.println("Shifting regs: " + Arrays.toString(regs));
+//		ShiftLeft10IntsArray1Place shifterOne = new ShiftLeft10IntsArray1Place();
+//		shifterOne.b(regs);
+//		System.out.println("Shifting regs got: " + Arrays.toString(regs));
+
 	}
 }
