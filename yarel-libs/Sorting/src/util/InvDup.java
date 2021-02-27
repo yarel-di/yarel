@@ -53,7 +53,7 @@ public class InvDup implements RPP {
 				*/
 				private final RPP[] subtasks = new RPP[]{
 					new RPP(){ // BodyDecImpl
-						private RPP f = new InvDec();
+						private RPP f = InvDec.SINGLETON_InvDec;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -62,7 +62,7 @@ public class InvDup implements RPP {
 					},
 					
 					new RPP(){ // BodyIncImpl
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -183,7 +183,7 @@ public class InvDup implements RPP {
 			private RPP f = new RPP(){
 				// Iteration start
 				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -211,7 +211,7 @@ public class InvDup implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP pos=new RPP() {
-					private RPP f = new InvId();
+					private RPP f = InvId.SINGLETON_InvId;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -219,7 +219,7 @@ public class InvDup implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP zero=new RPP() {
-					private RPP f = new InvId();
+					private RPP f = InvId.SINGLETON_InvId;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -227,7 +227,7 @@ public class InvDup implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP neg=new RPP() {
-					private RPP f = new InvNeg();
+					private RPP f = InvNeg.SINGLETON_InvNeg;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

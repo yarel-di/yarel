@@ -38,7 +38,7 @@ public class InvPInd_dataset implements RPP {
 		new RPP(){ // SerCompImpl
 			private final RPP[] steps = new RPP[]{
 				new RPP() { // BodyDecImpl
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -47,7 +47,7 @@ public class InvPInd_dataset implements RPP {
 				},
 				
 				new RPP() { // BodyDecImpl
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -56,7 +56,7 @@ public class InvPInd_dataset implements RPP {
 				},
 				
 				new RPP() { // BodyDecImpl
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -78,7 +78,7 @@ public class InvPInd_dataset implements RPP {
 		new RPP(){ // SerCompImpl
 			private final RPP[] steps = new RPP[]{
 				new RPP() { // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -87,7 +87,7 @@ public class InvPInd_dataset implements RPP {
 				},
 				
 				new RPP() { // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -107,7 +107,7 @@ public class InvPInd_dataset implements RPP {
 		},
 		
 		new RPP(){ // BodyIncImpl
-			private RPP f = new InvInc();
+			private RPP f = InvInc.SINGLETON_InvInc;
 			private final int a = f.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);

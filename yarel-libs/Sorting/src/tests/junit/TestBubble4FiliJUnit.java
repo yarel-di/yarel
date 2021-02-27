@@ -22,6 +22,7 @@ public class TestBubble4FiliJUnit {
 	public void testAllZeros() {
 		int[] registers = newRegisters(0, 0, 0, 0);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(0, 0, 0, 0));
 	}
 
@@ -29,6 +30,7 @@ public class TestBubble4FiliJUnit {
 	public void testAllEqualsOne() {
 		int[] registers = newRegisters(1, 1, 1, 1);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(1, 1, 1, 1));
 	}
 
@@ -36,6 +38,7 @@ public class TestBubble4FiliJUnit {
 	public void testAllEquals() {
 		int[] registers = newRegisters(7, 7, 7, 7);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(7, 7, 7, 7));
 	}
 
@@ -43,6 +46,7 @@ public class TestBubble4FiliJUnit {
 	public void testAllEqualsOneNegative() {
 		int[] registers = newRegisters(-1, -1, -1, -1);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(-1, -1, -1, -1));
 	}
 
@@ -50,6 +54,7 @@ public class TestBubble4FiliJUnit {
 	public void testAllEqualsNegative() {
 		int[] registers = newRegisters(-7, -7, -7, -7);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(-7, -7, -7, -7));
 	}
 
@@ -57,6 +62,7 @@ public class TestBubble4FiliJUnit {
 	public void testAlreadySorted() {
 		int[] registers = newRegisters(-2, 0, 1, 3);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(-2, 0, 1, 3));
 	}
 
@@ -64,6 +70,7 @@ public class TestBubble4FiliJUnit {
 	public void testSortedInverted() {
 		int[] registers = newRegisters(5, 2, -1, -10);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(-10, -1, 2, 5));
 	}
 
@@ -71,6 +78,7 @@ public class TestBubble4FiliJUnit {
 	public void test3MixTop() {
 		int[] registers = newRegisters(22, 100, 5, 1000);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(5, 22, 100, 1000));
 	}
 
@@ -78,6 +86,7 @@ public class TestBubble4FiliJUnit {
 	public void test3MixBottom() {
 		int[] registers = newRegisters(0, 7, -3, 1);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(-3, 0, 1, 7));
 	}
 
@@ -85,13 +94,15 @@ public class TestBubble4FiliJUnit {
 	public void testPairSwappedTop() {
 		int[] registers = newRegisters(2, -5, 3, 10);
 		bubble4Fili.b(registers);
-		assertArrayEquals(registers, newRegisters(-5, 2, 5, 10));
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
+		assertArrayEquals(registers, newRegisters(-5, 2, 3, 10));
 	}
 
 	@Test
 	public void testPairSwappedMiddle() {
 		int[] registers = newRegisters(-2, 5, 3, 10);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(-2, 3, 5, 10));
 	}
 
@@ -99,6 +110,7 @@ public class TestBubble4FiliJUnit {
 	public void testPairSwappedBottom() {
 		int[] registers = newRegisters(1, 2, 4, 3);
 		bubble4Fili.b(registers);
+		registers = newRegisters(registers[0], registers[1], registers[2], registers[3]);
 		assertArrayEquals(registers, newRegisters(1, 2, 3, 4));
 	}
 

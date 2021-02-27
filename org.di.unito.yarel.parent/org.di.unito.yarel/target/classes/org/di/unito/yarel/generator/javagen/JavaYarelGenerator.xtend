@@ -122,6 +122,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class Id implements RPP {
+			public static final RPP SINGLETON_Id = new Id();
 			private final int a = 1;
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex){  }
@@ -133,7 +134,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class InvId implements RPP {
-			private RPP f = new Id();
+			public static final RPP SINGLETON_InvId = new InvId();
+			private RPP f = Id.SINGLETON_Id;
 			private final int a = this.f.getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex){
@@ -147,6 +149,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class Inc implements RPP {
+			public static final RPP SINGLETON_Inc = new Inc();
 			private final int a = 1;
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
@@ -160,7 +163,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class InvInc implements RPP {
-			private RPP f = new Dec();
+			public static final RPP SINGLETON_InvInc = new InvInc();
+			private RPP f = Dec.SINGLETON_Dec;
 			private final int a = this.f.getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
@@ -174,6 +178,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class Dec implements RPP {
+			public static final RPP SINGLETON_Dec = new Dec();
 			private final int a = 1;
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
@@ -187,7 +192,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class InvDec implements RPP {
-			private RPP f = new Inc();
+			public static final RPP SINGLETON_InvDec = new InvDec();
+			private RPP f = Inc.SINGLETON_Inc;
 			private final int a = this.f.getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
@@ -201,6 +207,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class Neg implements RPP {
+			public static final RPP SINGLETON_Neg = new Neg();
 			private final int a = 1;
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
@@ -214,7 +221,8 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		package «packageName»;
 		public class InvNeg implements RPP {
-			private RPP f = new Neg();
+			public static final RPP SINGLETON_InvNeg = new InvNeg();
+			private RPP f = Neg.SINGLETON_Neg;
 			private final int a = this.f.getA();;
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) {
@@ -697,7 +705,7 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		BodyId:
 			'''
-			private RPP f = new «IF !fwd»Inv«ENDIF»Id();
+			private RPP f = «IF !fwd»Inv«ENDIF»Id.SINGLETON_«IF !fwd»Inv«ENDIF»Id;
 			private final int a = f.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);
@@ -706,7 +714,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			''' 
 		BodyInc: 
 			'''
-			private RPP f = new «IF !fwd»Inv«ENDIF»Inc();
+			private RPP f = «IF !fwd»Inv«ENDIF»Inc.SINGLETON_«IF !fwd»Inv«ENDIF»Inc;
 			private final int a = f.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);
@@ -715,7 +723,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		BodyDec:
 			'''
-			private RPP f = new «IF !fwd»Inv«ENDIF»Dec();
+			private RPP f = «IF !fwd»Inv«ENDIF»Dec.SINGLETON_«IF !fwd»Inv«ENDIF»Dec;
 			private final int a = f.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);
@@ -724,7 +732,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			''' 
 		BodyNeg: 
 			'''
-			private RPP f = new «IF !fwd»Inv«ENDIF»Neg();
+			private RPP f = «IF !fwd»Inv«ENDIF»Neg.SINGLETON_«IF !fwd»Inv«ENDIF»Neg;
 			private final int a = f.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);

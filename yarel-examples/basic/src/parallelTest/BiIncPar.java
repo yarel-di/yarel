@@ -36,7 +36,7 @@ public class BiIncPar implements RPP {
 	*/
 	private final RPP[] subtasks = new RPP[]{
 		new RPP(){ // BodyIncImpl
-			private RPP f = new Inc();
+			private RPP f = Inc.SINGLETON_Inc;
 			private final int a = f.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);
@@ -45,7 +45,7 @@ public class BiIncPar implements RPP {
 		},
 		
 		new RPP(){ // BodyIncImpl
-			private RPP f = new Inc();
+			private RPP f = Inc.SINGLETON_Inc;
 			private final int a = f.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex, endIndex);

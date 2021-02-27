@@ -57,7 +57,7 @@ public class InvLargePermutation implements RPP {
 			*/
 			private final RPP[] subtasks = new RPP[]{
 				new RPP(){ // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -66,7 +66,7 @@ public class InvLargePermutation implements RPP {
 				},
 				
 				new RPP(){ // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -83,7 +83,7 @@ public class InvLargePermutation implements RPP {
 					*/
 					private final RPP[] subtasks = new RPP[]{
 						new RPP(){ // BodyDecImpl
-							private RPP f = new InvDec();
+							private RPP f = InvDec.SINGLETON_InvDec;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -92,7 +92,7 @@ public class InvLargePermutation implements RPP {
 						},
 						
 						new RPP(){ // BodyDecImpl
-							private RPP f = new InvDec();
+							private RPP f = InvDec.SINGLETON_InvDec;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -199,7 +199,7 @@ public class InvLargePermutation implements RPP {
 				},
 				
 				new RPP(){ // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -208,7 +208,7 @@ public class InvLargePermutation implements RPP {
 				},
 				
 				new RPP(){ // BodyNegImpl
-					private RPP f = new InvNeg();
+					private RPP f = InvNeg.SINGLETON_InvNeg;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -217,7 +217,7 @@ public class InvLargePermutation implements RPP {
 				},
 				
 				new RPP(){ // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -226,7 +226,7 @@ public class InvLargePermutation implements RPP {
 				},
 				
 				new RPP(){ // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -235,7 +235,7 @@ public class InvLargePermutation implements RPP {
 				},
 				
 				new RPP(){ // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

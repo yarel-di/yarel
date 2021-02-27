@@ -9,7 +9,7 @@ public class InvOneNegAtStart implements RPP {
 	}
 	
 	private RPP f = new RPP(){
-		private RPP f = new InvNeg();
+		private RPP f = InvNeg.SINGLETON_InvNeg;
 		private final int a = f.getA();
 		public void b(int[] x, int startIndex, int endIndex) {
 			this.f.b(x, startIndex, endIndex);

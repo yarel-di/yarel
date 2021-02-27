@@ -52,7 +52,7 @@ public class UpAndDown implements RPP {
 				new RPP(){ // BodyItImpl
 					// Iteration start
 					RPP function = new RPP() { // BodyDecImpl
-						private RPP f = new Dec();
+						private RPP f = Dec.SINGLETON_Dec;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -74,7 +74,7 @@ public class UpAndDown implements RPP {
 				new RPP(){ // BodyItImpl
 					// Iteration start
 					RPP function = new RPP() { // BodyIncImpl
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);

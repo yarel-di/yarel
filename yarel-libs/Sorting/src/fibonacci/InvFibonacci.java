@@ -42,7 +42,7 @@ public class InvFibonacci implements RPP {
 			private RPP f = new RPP(){
 				// Iteration start
 				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

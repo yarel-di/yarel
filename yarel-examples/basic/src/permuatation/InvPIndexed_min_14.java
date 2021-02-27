@@ -49,7 +49,7 @@ public class InvPIndexed_min_14 implements RPP {
 				new RPP(){ // BodyInvImpl
 					private final RPP[] steps = new RPP[]{
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -58,7 +58,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -67,7 +67,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -76,7 +76,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -85,7 +85,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -94,7 +94,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -103,7 +103,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -112,7 +112,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -121,7 +121,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -130,7 +130,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -139,7 +139,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -148,7 +148,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -157,7 +157,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -166,7 +166,7 @@ public class InvPIndexed_min_14 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);

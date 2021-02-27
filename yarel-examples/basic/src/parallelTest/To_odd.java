@@ -26,7 +26,7 @@ public class To_odd implements RPP {
 			RPP function = new RPP() { // SerCompImpl
 				private final RPP[] steps = new RPP[]{
 					new RPP() { // BodyIncImpl
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -35,7 +35,7 @@ public class To_odd implements RPP {
 					},
 					
 					new RPP() { // BodyIncImpl
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -58,7 +58,7 @@ public class To_odd implements RPP {
 			RPP inv_function = new RPP() { // InvSerCompImpl
 				private final RPP[] steps = new RPP[]{
 					new RPP() { // BodyIncImpl
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -67,7 +67,7 @@ public class To_odd implements RPP {
 					},
 					
 					new RPP() { // BodyIncImpl
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -112,7 +112,7 @@ public class To_odd implements RPP {
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
-				private RPP f = new Inc();
+				private RPP f = Inc.SINGLETON_Inc;
 				private final int a = f.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);

@@ -47,7 +47,7 @@ public class PIndexed_1 implements RPP {
 				},
 				
 				new RPP(){ // BodyIncImpl
-					private RPP f = new Inc();
+					private RPP f = Inc.SINGLETON_Inc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

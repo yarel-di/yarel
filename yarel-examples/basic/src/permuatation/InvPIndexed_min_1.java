@@ -47,7 +47,7 @@ public class InvPIndexed_min_1 implements RPP {
 				},
 				
 				new RPP(){ // BodyDecImpl
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

@@ -54,7 +54,7 @@ public class InvCu implements RPP {
 			};
 			RPP zero=new RPP() {
 				private RPP f = new RPP(){
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -104,7 +104,7 @@ public class InvCu implements RPP {
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
-				private RPP f = new InvDec();
+				private RPP f = InvDec.SINGLETON_InvDec;
 				private final int a = f.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);

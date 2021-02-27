@@ -75,7 +75,7 @@ public class ThreeHoleInIds implements RPP {
 			RPP function = new RPP() { // BodyForImpl
 				/** regular function used when v > 0 */
 				RPP function = new RPP() { // BodyDecImpl
-					private RPP f = new Dec();
+					private RPP f = Dec.SINGLETON_Dec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -85,7 +85,7 @@ public class ThreeHoleInIds implements RPP {
 				
 				/** inverse function used when v < 0 */
 				RPP inv_function = new RPP() { // InvBodyDecImpl
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -121,7 +121,7 @@ public class ThreeHoleInIds implements RPP {
 			RPP inv_function = new RPP() { // InvBodyForImpl
 				/** regular function used when v > 0 */
 				RPP function = new RPP() { // BodyDecImpl
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -131,7 +131,7 @@ public class ThreeHoleInIds implements RPP {
 				
 				/** inverse function used when v < 0 */
 				RPP inv_function = new RPP() { // InvBodyDecImpl
-					private RPP f = new Dec();
+					private RPP f = Dec.SINGLETON_Dec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

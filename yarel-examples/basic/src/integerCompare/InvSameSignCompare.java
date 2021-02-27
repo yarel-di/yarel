@@ -13,7 +13,7 @@ public class InvSameSignCompare implements RPP {
 			private RPP f = new RPP(){
 				/** regular function used when v > 0 */
 				RPP function = new RPP() { // BodyDecImpl
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -23,7 +23,7 @@ public class InvSameSignCompare implements RPP {
 				
 				/** inverse function used when v < 0 */
 				RPP inv_function = new RPP() { // InvBodyDecImpl
-					private RPP f = new Dec();
+					private RPP f = Dec.SINGLETON_Dec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -76,7 +76,7 @@ public class InvSameSignCompare implements RPP {
 		new RPP() { // BodyIfImpl
 			RPP pos=new RPP() {
 				private RPP f = new RPP(){
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -98,7 +98,7 @@ public class InvSameSignCompare implements RPP {
 			};
 			RPP neg=new RPP() {
 				private RPP f = new RPP(){
-					private RPP f = new InvDec();
+					private RPP f = InvDec.SINGLETON_InvDec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -141,7 +141,7 @@ public class InvSameSignCompare implements RPP {
 			private RPP f = new RPP(){
 				/** regular function used when v > 0 */
 				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = new InvInc();
+					private RPP f = InvInc.SINGLETON_InvInc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -151,7 +151,7 @@ public class InvSameSignCompare implements RPP {
 				
 				/** inverse function used when v < 0 */
 				RPP inv_function = new RPP() { // InvBodyIncImpl
-					private RPP f = new Inc();
+					private RPP f = Inc.SINGLETON_Inc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

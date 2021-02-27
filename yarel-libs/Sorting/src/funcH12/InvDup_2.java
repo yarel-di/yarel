@@ -24,7 +24,7 @@ public class InvDup_2 implements RPP {
 		new RPP() { // BodyItImpl
 			// Iteration start
 			RPP function = new RPP() { // BodyIncImpl
-				private RPP f = new InvInc();
+				private RPP f = InvInc.SINGLETON_InvInc;
 				private final int a = f.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);
@@ -45,7 +45,7 @@ public class InvDup_2 implements RPP {
 		
 		new RPP() { // BodyIfImpl
 			RPP pos=new RPP() {
-				private RPP f = new InvId();
+				private RPP f = InvId.SINGLETON_InvId;
 				private final int a = f.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);
@@ -53,7 +53,7 @@ public class InvDup_2 implements RPP {
 				public int getA() { return this.a; }
 			};
 			RPP zero=new RPP() {
-				private RPP f = new InvId();
+				private RPP f = InvId.SINGLETON_InvId;
 				private final int a = f.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);
@@ -61,7 +61,7 @@ public class InvDup_2 implements RPP {
 				public int getA() { return this.a; }
 			};
 			RPP neg=new RPP() {
-				private RPP f = new InvNeg();
+				private RPP f = InvNeg.SINGLETON_InvNeg;
 				private final int a = f.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);

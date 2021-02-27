@@ -12,7 +12,7 @@ public class DisSelN implements RPP {
 		private final RPP[] steps = new RPP[]{
 			new RPP() { // BodyIfImpl
 				RPP pos=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -20,7 +20,7 @@ public class DisSelN implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP zero=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -28,7 +28,7 @@ public class DisSelN implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP neg=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -71,7 +71,7 @@ public class DisSelN implements RPP {
 		private final RPP[] steps = new RPP[]{
 			new RPP() { // BodyIfImpl
 				RPP pos=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -79,7 +79,7 @@ public class DisSelN implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP zero=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -87,7 +87,7 @@ public class DisSelN implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP neg=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -110,7 +110,7 @@ public class DisSelN implements RPP {
 			
 			new RPP() { // ParCompImpl
 				private RPP f = new RPP(){
-					private RPP f = new Inc();
+					private RPP f = Inc.SINGLETON_Inc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -138,7 +138,7 @@ public class DisSelN implements RPP {
 		private final RPP[] steps = new RPP[]{
 			new RPP() { // BodyIfImpl
 				RPP pos=new RPP() {
-					private RPP f = new Dec();
+					private RPP f = Dec.SINGLETON_Dec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -146,7 +146,7 @@ public class DisSelN implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP zero=new RPP() {
-					private RPP f = new Dec();
+					private RPP f = Dec.SINGLETON_Dec;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -154,7 +154,7 @@ public class DisSelN implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP neg=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -177,7 +177,7 @@ public class DisSelN implements RPP {
 			
 			new RPP() { // ParCompImpl
 				private RPP f = new RPP(){
-					private RPP f = new Inc();
+					private RPP f = Inc.SINGLETON_Inc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

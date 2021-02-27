@@ -49,7 +49,7 @@ public class PIndexed_2 implements RPP {
 				new RPP(){ // SerCompImpl
 					private final RPP[] steps = new RPP[]{
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);
@@ -58,7 +58,7 @@ public class PIndexed_2 implements RPP {
 						},
 						
 						new RPP() { // BodyIncImpl
-							private RPP f = new Inc();
+							private RPP f = Inc.SINGLETON_Inc;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);

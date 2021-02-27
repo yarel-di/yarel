@@ -30,7 +30,7 @@ public class InvLess implements RPP {
 				};
 				RPP zero=new RPP() {
 					private RPP f = new RPP(){
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -45,7 +45,7 @@ public class InvLess implements RPP {
 				};
 				RPP neg=new RPP() {
 					private RPP f = new RPP(){
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -88,7 +88,7 @@ public class InvLess implements RPP {
 				};
 				RPP neg=new RPP() {
 					private RPP f = new RPP(){
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);

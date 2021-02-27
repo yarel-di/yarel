@@ -64,7 +64,7 @@ public class P3sub implements RPP {
 					
 					new RPP() { // ParCompImpl
 						private RPP f = new RPP(){
-							private RPP f = new Dec();
+							private RPP f = Dec.SINGLETON_Dec;
 							private final int a = f.getA();
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.f.b(x, startIndex, endIndex);

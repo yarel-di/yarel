@@ -58,7 +58,7 @@ public class More implements RPP {
 			RPP zero=new RPP() {
 				RPP pos=new RPP() {
 					private RPP f = new RPP(){
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -101,7 +101,7 @@ public class More implements RPP {
 			RPP neg=new RPP() {
 				RPP pos=new RPP() {
 					private RPP f = new RPP(){
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -116,7 +116,7 @@ public class More implements RPP {
 				};
 				RPP zero=new RPP() {
 					private RPP f = new RPP(){
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);

@@ -122,7 +122,7 @@ public class Sum implements RPP {
 						private final RPP[] steps = new RPP[]{
 							new RPP() { // ParCompImpl
 								private RPP f = new RPP(){
-									private RPP f = new Neg();
+									private RPP f = Neg.SINGLETON_Neg;
 									private final int a = f.getA();
 									public void b(int[] x, int startIndex, int endIndex) {
 										this.f.b(x, startIndex, endIndex);
@@ -147,7 +147,7 @@ public class Sum implements RPP {
 							
 							new RPP() { // ParCompImpl
 								private RPP f = new RPP(){
-									private RPP f = new Neg();
+									private RPP f = Neg.SINGLETON_Neg;
 									private final int a = f.getA();
 									public void b(int[] x, int startIndex, int endIndex) {
 										this.f.b(x, startIndex, endIndex);
@@ -196,7 +196,7 @@ public class Sum implements RPP {
 						private final RPP[] steps = new RPP[]{
 							new RPP() { // ParCompImpl
 								private RPP f = new RPP(){
-									private RPP f = new Neg();
+									private RPP f = Neg.SINGLETON_Neg;
 									private final int a = f.getA();
 									public void b(int[] x, int startIndex, int endIndex) {
 										this.f.b(x, startIndex, endIndex);
@@ -221,7 +221,7 @@ public class Sum implements RPP {
 							
 							new RPP() { // ParCompImpl
 								private RPP f = new RPP(){
-									private RPP f = new Neg();
+									private RPP f = Neg.SINGLETON_Neg;
 									private final int a = f.getA();
 									public void b(int[] x, int startIndex, int endIndex) {
 										this.f.b(x, startIndex, endIndex);
@@ -263,7 +263,7 @@ public class Sum implements RPP {
 								*/
 								private final RPP[] subtasks = new RPP[]{
 									new RPP(){ // BodyNegImpl
-										private RPP f = new Neg();
+										private RPP f = Neg.SINGLETON_Neg;
 										private final int a = f.getA();
 										public void b(int[] x, int startIndex, int endIndex) {
 											this.f.b(x, startIndex, endIndex);
@@ -272,7 +272,7 @@ public class Sum implements RPP {
 									},
 									
 									new RPP(){ // BodyNegImpl
-										private RPP f = new Neg();
+										private RPP f = Neg.SINGLETON_Neg;
 										private final int a = f.getA();
 										public void b(int[] x, int startIndex, int endIndex) {
 											this.f.b(x, startIndex, endIndex);
@@ -396,7 +396,7 @@ public class Sum implements RPP {
 								*/
 								private final RPP[] subtasks = new RPP[]{
 									new RPP(){ // BodyNegImpl
-										private RPP f = new Neg();
+										private RPP f = Neg.SINGLETON_Neg;
 										private final int a = f.getA();
 										public void b(int[] x, int startIndex, int endIndex) {
 											this.f.b(x, startIndex, endIndex);
@@ -405,7 +405,7 @@ public class Sum implements RPP {
 									},
 									
 									new RPP(){ // BodyNegImpl
-										private RPP f = new Neg();
+										private RPP f = Neg.SINGLETON_Neg;
 										private final int a = f.getA();
 										public void b(int[] x, int startIndex, int endIndex) {
 											this.f.b(x, startIndex, endIndex);

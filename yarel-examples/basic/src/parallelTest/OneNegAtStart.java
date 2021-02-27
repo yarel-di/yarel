@@ -9,7 +9,7 @@ public class OneNegAtStart implements RPP {
 	}
 	
 	private RPP f = new RPP(){
-		private RPP f = new Neg();
+		private RPP f = Neg.SINGLETON_Neg;
 		private final int a = f.getA();
 		public void b(int[] x, int startIndex, int endIndex) {
 			this.f.b(x, startIndex, endIndex);

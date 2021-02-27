@@ -53,7 +53,7 @@ public class DupStep implements RPP {
 				new RPP(){ // BodyForImpl
 					/** regular function used when v > 0 */
 					RPP function = new RPP() { // BodyIncImpl
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -63,7 +63,7 @@ public class DupStep implements RPP {
 					
 					/** inverse function used when v < 0 */
 					RPP inv_function = new RPP() { // InvBodyIncImpl
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -98,7 +98,7 @@ public class DupStep implements RPP {
 				new RPP(){ // BodyForImpl
 					/** regular function used when v > 0 */
 					RPP function = new RPP() { // BodyIncImpl
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -108,7 +108,7 @@ public class DupStep implements RPP {
 					
 					/** inverse function used when v < 0 */
 					RPP inv_function = new RPP() { // InvBodyIncImpl
-						private RPP f = new InvInc();
+						private RPP f = InvInc.SINGLETON_InvInc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);

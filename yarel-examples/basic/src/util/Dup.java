@@ -53,7 +53,7 @@ public class Dup implements RPP {
 				*/
 				private final RPP[] subtasks = new RPP[]{
 					new RPP(){ // BodyDecImpl
-						private RPP f = new Dec();
+						private RPP f = Dec.SINGLETON_Dec;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -62,7 +62,7 @@ public class Dup implements RPP {
 					},
 					
 					new RPP(){ // BodyIncImpl
-						private RPP f = new Inc();
+						private RPP f = Inc.SINGLETON_Inc;
 						private final int a = f.getA();
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.f.b(x, startIndex, endIndex);
@@ -183,7 +183,7 @@ public class Dup implements RPP {
 			private RPP f = new RPP(){
 				// Iteration start
 				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = new Inc();
+					private RPP f = Inc.SINGLETON_Inc;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -211,7 +211,7 @@ public class Dup implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP pos=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -219,7 +219,7 @@ public class Dup implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP zero=new RPP() {
-					private RPP f = new Id();
+					private RPP f = Id.SINGLETON_Id;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
@@ -227,7 +227,7 @@ public class Dup implements RPP {
 					public int getA() { return this.a; }
 				};
 				RPP neg=new RPP() {
-					private RPP f = new Neg();
+					private RPP f = Neg.SINGLETON_Neg;
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);

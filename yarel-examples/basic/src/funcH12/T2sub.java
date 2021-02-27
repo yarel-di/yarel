@@ -11,7 +11,7 @@ public class T2sub implements RPP {
 	private final RPP[] steps = new RPP[]{
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
-				private RPP f = new Inc();
+				private RPP f = Inc.SINGLETON_Inc;
 				private final int a = f.getA();
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);
