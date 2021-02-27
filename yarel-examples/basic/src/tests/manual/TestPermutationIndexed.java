@@ -2,6 +2,8 @@ package tests.manual;
 
 import java.util.Arrays;
 
+import permuatation.InvShiftLastToFirst10;
+import permuatation.InvShiftLastToFirst5;
 import permuatation.PIndexed_1;
 import permuatation.PIndexed_10;
 import permuatation.PIndexed_12;
@@ -15,6 +17,8 @@ import permuatation.PIndexed_8;
 import permuatation.PIndexed_min_1;
 import permuatation.PIndexed_min_11;
 import permuatation.PIndexed_min_14;
+import permuatation.ShiftLastToFirst10;
+import permuatation.ShiftLastToFirst5;
 import yarelcore.RPP;
 
 public class TestPermutationIndexed {
@@ -45,7 +49,29 @@ public class TestPermutationIndexed {
 			System.out.println("\tgot: " + Arrays.toString(regs));
 		}
 
-//		System.out.println("\n\n\n\n---------------------------");
+		System.out.println("\n\n\n\n---------------------------");
+		System.out.println("start ShiftLastToFirst5");
+		regs = new int[] { 5, 8, 0, 13, -7, 0, 5 };
+		ShiftLastToFirst5 shifter5 = new ShiftLastToFirst5();
+		System.out.println("shifter 5 registers was: " + Arrays.toString(regs));
+		shifter5.b(regs);
+		System.out.println("\t shifter 5 regs now is: " + Arrays.toString(regs));
+		(new InvShiftLastToFirst5()).b(regs);
+		System.out.println("\t shifter 5 regs after inverse call: " + Arrays.toString(regs));
+		System.out.println("END ShiftLastToFirst5");
+
+		System.out.println("\n\n\n\n---------------------------");
+		System.out.println("start ShiftLastToFirst10");
+		regs = new int[] { 5, 8, 0, 13, -7, 666, -777, 88, 1024, 3, 0, 10 };
+		ShiftLastToFirst10 shifter10 = new ShiftLastToFirst10();
+		System.out.println("shifter 5 registers was: " + Arrays.toString(regs));
+		shifter10.b(regs);
+		System.out.println("\t shifter 5 regs now is: " + Arrays.toString(regs));
+		(new InvShiftLastToFirst10()).b(regs);
+		System.out.println("\t shifter 5 regs after inverse call: " + Arrays.toString(regs));
+		System.out.println("END ShiftLastToFirst10");
+
+		// System.out.println("\n\n\n\n---------------------------");
 //		regs = new int[12];
 //		Arrays.fill(regs, 0);
 //		regs[1] = 10; // length

@@ -47,6 +47,7 @@ import static extension org.eclipse.xtext.EcoreUtil2.*
 import java.util.LinkedList
 import org.di.unito.yarel.utils.YarelUtils
 import org.di.unito.yarel.yarel.BodyPermIndex
+import org.di.unito.yarel.yarel.BodyParamId
 
 class JavaYarelGenerator implements IGenerator2 {
 	
@@ -457,6 +458,10 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def compile(Model model, Definition definition, boolean fwd) {
 		val hasParallelBlock = newBooleanArrayOfSize(1);
 		hasParallelBlock.set(0, false);
+//		val decl = model.declarations;
+		
+		// «IF definition.»  «ENDIF»
+		
 		val compiledBody = compile(definition.body, fwd, hasParallelBlock);
 		return '''
 		package «model.name.toFirstLower»;
@@ -711,7 +716,13 @@ class JavaYarelGenerator implements IGenerator2 {
 				this.f.b(x, startIndex, endIndex);
 			}
 			public int getA() { return this.a; }
-			''' 
+			'''
+		BodyParamId:
+			'''
+			private final int a = «YarelUtils.calculateParametricArity(b.paramId.arity)»;
+			public void b(int[] x, int startIndex, int endIndex) { }
+			public int getA() { return this.a; }
+			'''
 		BodyInc: 
 			'''
 			private RPP f = «IF !fwd»Inv«ENDIF»Inc.SINGLETON_«IF !fwd»Inv«ENDIF»Inc;
@@ -767,7 +778,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		BodyPermIndex:
 			'''
-			private final int permutArity = «b.permIndexed.permutationArity»;
+			private final int permutArity = «YarelUtils.calculateParametricArity(b.permIndexed.permutationArity)»;
 			private final int a = 1 + permutArity;
 			public void b(int[] x, int startIndex, int endIndex) {
 				int tmp = x[startIndex], indexToWithdraw;

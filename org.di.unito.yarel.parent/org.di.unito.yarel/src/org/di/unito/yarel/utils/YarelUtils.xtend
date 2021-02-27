@@ -17,8 +17,12 @@ import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.ParComp
 import org.di.unito.yarel.yarel.SerComp
-import org.di.unito.yarel.yarel.BodyPermIndex
+import org.di.unito.yarel.yarel.ParametricArity
+import org.di.unito.yarel.yarel.ParamArityExprPlus
+import org.di.unito.yarel.yarel.ParamArityExprMinus
+import org.di.unito.yarel.yarel.BodyPermIndex 
 import java.util.LinkedList
+import org.di.unito.yarel.yarel.BodyParamId
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
@@ -55,6 +59,20 @@ class YarelUtils {
 		else return null
 	}
 	
+	static def int calculateParametricArity(ParametricArity pa){
+		if(pa.constantArityVariant !== null){
+			return "+".equals(pa.sign)
+				? (pa.constantArityVariant as ParamArityExprPlus).constantArity
+				: -((pa.constantArityVariant as ParamArityExprMinus).constantArity);
+		}
+		return ( pa.paramName === null || "".equals(pa.paramName.trim)) ? pa.constantArity : 0;
+	}
+	
+	static def String parametricArityToCompilable(ParametricArity pa){
+		if(pa.constantArityVariant !== null){
+//			return 
+		}
+	}
 	
 	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Body rootBody){
 		var Body body = rootBody;
@@ -66,7 +84,7 @@ class YarelUtils {
 		allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
 		return allBodies
 	}
-	
+
 	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Definition defin){
 		return getAllSequentialBodyBlocks(defin.body)
 	}
@@ -86,7 +104,8 @@ class YarelUtils {
 			BodyFor: 1 + body.body.arity
 			BodyIf: 1 + body.pos.arity
 			BodyPerm: body.permutation.indexes.size
-			BodyPermIndex: 1 + body.permIndexed.permutationArity
+			BodyPermIndex: 1  + calculateParametricArity(body.permIndexed.permutationArity)
+			BodyParamId : calculateParametricArity(body.paramId.arity)
 			BodyInc : 1
 			BodyDec : 1
 			BodyNeg : 1
@@ -94,5 +113,26 @@ class YarelUtils {
 			default:
 				throw new RuntimeException("Body not found " + body)
 		}
+	}
+	
+	
+	
+	private static def void getAllAtomicBodiesRecursivePart(LinkedList<Body> list, Body body){
+		if((body instanceof SerComp) || (body instanceof ParComp)){
+			val isSer = (body instanceof SerComp);
+			val left = isSer? ((body as SerComp).left) : ((body as ParComp).left);
+			val right = isSer? ((body as SerComp).right) : ((body as ParComp).right);
+			getAllAtomicBodiesRecursivePart(list, left)
+			getAllAtomicBodiesRecursivePart(list, right)
+		}
+		// TODO else parts
+	}
+	static def dispatch LinkedList<Body> getAllAtomicBodies(Body body){
+		val allBodies = new LinkedList<Body>();
+		getAllAtomicBodiesRecursivePart(allBodies, body);
+		return allBodies;
+	}
+	static def dispatch LinkedList<Body> getAllAtomicBodies(Definition defin){
+		return getAllAtomicBodies(defin.body);
 	}
 }

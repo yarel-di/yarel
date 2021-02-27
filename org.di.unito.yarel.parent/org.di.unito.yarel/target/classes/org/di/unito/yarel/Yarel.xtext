@@ -40,10 +40,15 @@ Declaration:
 	'dcl' name=ID ':' signature=Signature;
 
 Signature:
-	types += Type (',' types+=Type)*;
+	types += Type (',' types+=Type)*
+	('+' params += TypeParam ('+' params += TypeParam)* )?
+	;
 
 Type: 
     {Type} value=(INT)? 'int';
+
+TypeParam:
+	{TypeParam} parName=ID;
 
 Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;
@@ -72,6 +77,7 @@ Atomic returns Body:
   | {BodyFun} funName=[Declaration | QualifiedName] 
   | {BodyPerm} permutation=Permutation
   | {BodyPermIndex} permIndexed = PermutationIndexed
+  | {BodyParamId} paramId = ParametricId
   ;
 
 Permutation: 
@@ -82,8 +88,41 @@ Permutation:
  */
 PermutationIndexed: // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
   '/' '{'
-  permutationArity = INT // LinearParamIntExpression
+    permutationArity = ParametricArity
+//  permutationArity = INT // LinearParamIntExpression
   '}' '/'
+;
+
+ParametricId:
+	'id' '{' arity=ParametricArity '}'
+;
+
+
+ParametricArity:
+	ConstantArity | ParametrizedArity //| ParametrizedArityExpr
+;
+
+ConstantArity returns ParametricArity:
+	constantArity=INT
+;
+
+//ParametrizedArity returns ParametricArity:
+//	paramName = ID
+//;
+
+ParametrizedArity /*Expr*/ returns ParametricArity:
+	paramName = ID
+	(
+		 (sign?='+' constantArityVariant=ParamArityExprPlus)
+		|(sign?='-' constantArityVariant= ParamArityExprMinus)
+	)?
+;
+
+ParamArityExprPlus:
+	'+' constantArity=INT
+;
+ParamArityExprMinus:
+	'-' constantArity=INT
 ;
 
 /*

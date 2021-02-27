@@ -86,6 +86,32 @@ module permuatation {
 		/ {4} /
 
 
+	dcl shiftLastToFirst5: 7 int
+	def shiftLastToFirst5 := // a[1..5] 0 5
+		id{5} | for[inc]     // a[1..5] 5 5
+		;for[
+			/{5}/
+			;id{5}|dec
+		]
+
+	dcl shiftLastToFirst10: 12 int
+	def shiftLastToFirst10 := // a[1..10] 0 10
+		id{10} | for[inc]     // a[1..10] 10 10
+		;for[
+			/{10}/
+			;id{10}|dec
+		]
+
+	dcl shiftLastToFirstK: 2 int + K
+	def shiftLastToFirstK := // a[1..10] 0 10
+		id{K} | for[inc]     // a[1..10] 10 10
+		;for[
+			/{K}/
+			;id{K}|dec
+		]
+
+//		BodyParamId
+
 //
 
 

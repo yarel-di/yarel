@@ -35,6 +35,13 @@ import org.eclipse.xtext.validation.CheckType
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import org.di.unito.yarel.yarel.PermutationIndexed
+import java.util.Comparator
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EReference
+import java.util.Map
+import java.util.function.Function
+import java.util.TreeMap
+import org.di.unito.yarel.yarel.TypeParam
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
@@ -57,6 +64,13 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_DUPLICATE_MODULE = BASE_ERROR_NAME + 'ERROR_DUPLICATE_MODULE'
 	public static val ERROR_INVALID_DEFINITION_COUNT = BASE_ERROR_NAME + 'ERROR_INVALID_DEFINITION_COUNT'
 	
+	
+	protected static Comparator<String> STRING_COMPARATOR = [String s1, String s2 |
+		if(s1==s2){return 0;}
+		else if (s1 === null ){return -1;}
+		else if (s2 === null ){return 1;}
+		else return s1.compareTo(s2);
+	];
 	
 	/**
 	 * Check if arities of the three functions passed to the IF operator are equal
@@ -128,80 +142,131 @@ class YarelValidator extends AbstractYarelValidator {
 	 * And if the imported function of the imported module exist
 	 * Added by: Matteo Palazzo
 	 */
-	 @Check(CheckType::NORMAL)
-	 def checkImport(Import impt){
-	 	val importedModule = impt.visibleModules.findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
-	 	if(importedModule === null){//check if the module exist
-	 		error(
-	 			''''«impt.importedModule»' cannot be resolved as a module''', 
-	 			YarelPackage::eINSTANCE.import_ImportedNamespace, 
-	 			ERROR_IMPORT
-	 		)
-	 	}
-	 	else{//Check that the imported function is declared in the imported module
-	 		val importedFunction = impt.importedFunction
-	 		if(importedFunction != '*'){//the wildcard is not used
-	 			if(!importedModule.declarations.map[name].contains(importedFunction)){//check if the imported module contain the function
-	 				error(
-	 					"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
+	@Check(CheckType::NORMAL)
+	def checkImport(Import impt){
+		val importedModule = impt.visibleModules.findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
+		if(importedModule === null){//check if the module exist
+			error(
+				''''«impt.importedModule»' cannot be resolved as a module''', 
+				YarelPackage::eINSTANCE.import_ImportedNamespace, 
+				ERROR_IMPORT
+			)
+		}
+		else{//Check that the imported function is declared in the imported module
+			val importedFunction = impt.importedFunction
+			if(importedFunction != '*'){//the wildcard is not used
+				if(!importedModule.declarations.map[name].contains(importedFunction)){//check if the imported module contain the function
+					error(
+						"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
 						YarelPackage::eINSTANCE.import_ImportedNamespace, 
 						ERROR_IMPORT)	
-	 			}
-	 		}		
-	 	}
-	 }
+				}
+			}		
+		}
+	}
 	 
-	 /**
-	  * Check if there aren't module duplicate
-	  * Added by: Matteo Palazzo
-	  */
-	  @Check(CheckType::NORMAL)
-	  def checkModuleDuplicate(Model currentModule){
-	  	if(currentModule.visibleModules.exists[mod | mod != currentModule && mod.name == currentModule.name]){
-	  		error(
-	  			'''The module '«currentModule.name»' is already defined''',
-	  			YarelPackage::eINSTANCE.model_Name,
-	  			ERROR_DUPLICATE_MODULE
-	  		)
-	  	}
-	  }
-	  
-	  /**
-	   * Check that every declared function has just one definition
-	   * also check that every declared function has a definition inside the same module
-	   * Added by Matteo Palazzo
-	   */
-	  @Check
-	  def checkOneDefinition(Declaration decl){
-	  	val currentModule = decl.getContainerOfType(typeof(Model))
-	  	var count = 0
-	  	var i = 0
-	  	while(count < 2 && i < currentModule.definitions.size){//count the number of definition
-	  		if(currentModule.definitions.get(i).declarationName == decl) count++
-	  		i++
-	  	}
-	  	if(count >= 2){//check if the declaration has no definition
-	  		error('''The declared function '«decl.name»' has multiple definitions''',
-	  			YarelPackage::eINSTANCE.declaration_Name,
-	  			ERROR_INVALID_DEFINITION_COUNT
-	  		)
-	  	}
-	  	else if(count == 0){//check if the declaration has multiple definition
-	  		error('''The declared function '«decl.name»' has no definition''',
-	  			YarelPackage::eINSTANCE.declaration_Name,
-	  			ERROR_INVALID_DEFINITION_COUNT
-	  		)	
-	  	}
-	  	//else noError
-	  }
-	  
-	  @Check(CheckType::FAST)
-	  def checkBodyPermIndexArity(PermutationIndexed indexedPermutations){
-	  	if(indexedPermutations.permutationArity < 2){
-	  		error('''Indexed permutations invalid: «indexedPermutations.permutationArity». The minimum is 2.''',
-	  			YarelPackage::eINSTANCE.permutation_Indexes,
-	  			ERROR_ARITY
-	  		)
-	  	}
-	  }
+	/**
+	 * Check if there aren't module duplicate
+	 * Added by: Matteo Palazzo
+	 */
+	 @Check(CheckType::NORMAL)
+	def checkModuleDuplicate(Model currentModule){
+		if(currentModule.visibleModules.exists[mod | mod != currentModule && mod.name == currentModule.name]){
+			error(
+				'''The module '«currentModule.name»' is already defined''',
+				YarelPackage::eINSTANCE.model_Name,
+				ERROR_DUPLICATE_MODULE
+			)
+		}
+	}
+	
+	/**
+	 * Check that every declared function has just one definition
+	 * also check that every declared function has a definition inside the same module
+	 * Added by Matteo Palazzo
+	 */
+	@Check
+	def checkOneDefinition(Declaration decl){
+		val currentModule = decl.getContainerOfType(typeof(Model))
+		var count = 0
+		var i = 0
+		while(count < 2 && i < currentModule.definitions.size){//count the number of definition
+			if(currentModule.definitions.get(i).declarationName == decl) count++
+			i++
+		}
+		if(count >= 2){//check if the declaration has no definition
+			error('''The declared function '«decl.name»' has multiple definitions''',
+				YarelPackage::eINSTANCE.declaration_Name,
+				ERROR_INVALID_DEFINITION_COUNT
+			)
+		}
+		else if(count == 0){//check if the declaration has multiple definition
+			error('''The declared function '«decl.name»' has no definition''',
+				YarelPackage::eINSTANCE.declaration_Name,
+				ERROR_INVALID_DEFINITION_COUNT
+			)	
+		}
+		//else noError
+	}
+	
+//	@Check(CheckType::FAST)
+//	def checkBodyPermIndexArity(PermutationIndexed indexedPermutations){
+//		if(indexedPermutations.permutationArity < 2){
+//			error('''Indexed permutations invalid: «indexedPermutations.permutationArity». The minimum is 2.''',
+//				YarelPackage::eINSTANCE.permutation_Indexes,
+//				ERROR_ARITY
+//			)
+//		}
+//	}
+	
+	def <E> pinpointDuplicate(EList<E> list, EReference literal, Map<String,Integer> elementToIndexMap, 
+		Function<E,String> elementToStringMapper, String listName){
+		elementToIndexMap.clear;
+		for (var i= 0; i < list.size ; i++){
+			var name =elementToStringMapper.apply(list.get(i));
+			if(elementToIndexMap.containsKey(name)){
+				error("Duplicate element \"" + name + "\" in "+listName+" list at index "+(i+1)+":(it was the " +
+						(elementToIndexMap.get(name) +1) +"-th element).", 
+						literal, i
+					);
+			}else{
+				elementToIndexMap.put(name,i);
+			}
+		}
+		elementToIndexMap.clear;
+	}
+	
+//	@Check
+//	def checkDefinitionParametersUniqueness(Declaration decl){
+//		if(decl.signature.params!==null && (!decl.signature.params.empty)){
+//		val paramsMap= new TreeMap<String,Integer>(STRING_COMPARATOR);
+//			pinpointDuplicate(decl.signature.params, YarelPackage::eINSTANCE.signature_Params, paramsMap,
+//				[ TypeParam parType | parType.parName], "function's parameters"
+//			)
+//		}
+//	}
+	
+//	@Check
+//	def warnIfMultipleParametricInvocations(Definition defin){
+//		
+//	}
+	
+//	@Check
+//	def checkParametersExisting(ParametricArity parmArity){
+////		if(para)
+//	}
+//	def checkParametersExisting(Definition defin){
+//		val currentModule = defin.getContainerOfType(typeof(Model));
+//		if(currentModule.declarations.size>0){//count the number of definition
+//			if(currentModule.declarations
+//				.map[Declaration decl|decl.name]
+//				.contains(defin.declarationName.name)
+//			){
+//				
+//			//.get(i).declarationName == decl) 
+////		permutationArity =
+////		defin.
+//			}
+//		}
+//	}
 }
