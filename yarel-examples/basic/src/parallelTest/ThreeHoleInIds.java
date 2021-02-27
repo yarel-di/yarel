@@ -36,31 +36,37 @@ public class ThreeHoleInIds implements RPP {
 	*/
 	private final RPP[] subtasks = new RPP[]{
 		new RPP(){ // SerCompImpl
-			RPP l = new RPP() { // BodyPermImpl
-				private final int a = 3;
-				public void b(int[] x, int startIndex, int endIndex) {
-					int tmp=0;
-					tmp = x[startIndex + 0]; 
-					x[startIndex + 0] = x[startIndex + 1]; 
-					x[startIndex + 1] = x[startIndex + 2]; 
-					x[startIndex + 2] = tmp; 
-				}
+			private final RPP[] steps = new RPP[]{
+				new RPP() { // BodyPermImpl
+					private final int a = 3;
+					public void b(int[] x, int startIndex, int endIndex) {
+						int tmp=0;
+						tmp = x[startIndex + 0]; 
+						x[startIndex + 0] = x[startIndex + 1]; 
+						x[startIndex + 1] = x[startIndex + 2]; 
+						x[startIndex + 2] = tmp; 
+					}
+					
+					public int getA() { return this.a; }
+				},
 				
-				public int getA() { return this.a; }
-			};
-			RPP r = new RPP() { // BodyFunImpl
-				RPP function = new Empty3();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+				new RPP() { // BodyFunImpl
+					RPP function = new Empty3();
+					private final int a = function.getA();
+					public void b(int[] x, int startIndex, int endIndex) {
+						this.function.b(x, startIndex, endIndex);
+					}
+					 public int getA() { return this.a; }
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = l.getA();
+			private final int a = steps[0].getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-				this.l.b(x, startIndex, endIndex);
-				this.r.b(x, startIndex, endIndex);
+				int i;
+				i = -1;
+				while( ++i < steps.length ){
+					steps[i].b(x, startIndex, endIndex);
+				}
 			}
 		},
 		

@@ -8,8 +8,8 @@ public class InvDup_2 implements RPP {
 		return new Dup_2();
 	}
 	
-	RPP l = new RPP() { // SerCompImpl
-		RPP l = new RPP() { // BodyPermImpl
+	private final RPP[] steps = new RPP[]{
+		new RPP() { // BodyPermImpl
 			private final int a = 2;
 			public void b(int[] x, int startIndex, int endIndex) {
 				int tmp=0;
@@ -19,8 +19,9 @@ public class InvDup_2 implements RPP {
 			}
 			
 			public int getA() { return this.a; }
-		};
-		RPP r = new RPP() { // BodyItImpl
+		},
+		
+		new RPP() { // BodyItImpl
 			// Iteration start
 			RPP function = new RPP() { // BodyIncImpl
 				private RPP f = new InvInc();
@@ -40,56 +41,54 @@ public class InvDup_2 implements RPP {
 			}
 			public int getA() { return this.a; } 
 			// Iteration stop
-		};
-		private final int a = l.getA();
-		public int getA() { return this.a; }
-		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-			this.r.b(x, startIndex, endIndex);
-			this.l.b(x, startIndex, endIndex);
-		}
-	};
-	RPP r = new RPP() { // BodyIfImpl
-		RPP pos=new RPP() {
-			private RPP f = new InvId();
-			private final int a = f.getA();
+		},
+		
+		new RPP() { // BodyIfImpl
+			RPP pos=new RPP() {
+				private RPP f = new InvId();
+				private final int a = f.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.f.b(x, startIndex, endIndex);
+				}
+				public int getA() { return this.a; }
+			};
+			RPP zero=new RPP() {
+				private RPP f = new InvId();
+				private final int a = f.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.f.b(x, startIndex, endIndex);
+				}
+				public int getA() { return this.a; }
+			};
+			RPP neg=new RPP() {
+				private RPP f = new InvNeg();
+				private final int a = f.getA();
+				public void b(int[] x, int startIndex, int endIndex) {
+					this.f.b(x, startIndex, endIndex);
+				}
+				public int getA() { return this.a; }
+			};
+			private final int a=pos.getA()+1;
+			public int getA() {return this.a;}
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
-			}
-			public int getA() { return this.a; }
-		};
-		RPP zero=new RPP() {
-			private RPP f = new InvId();
-			private final int a = f.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
-			}
-			public int getA() { return this.a; }
-		};
-		RPP neg=new RPP() {
-			private RPP f = new InvNeg();
-			private final int a = f.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
-			}
-			public int getA() { return this.a; }
-		};
-		private final int a=pos.getA()+1;
-		public int getA() {return this.a;}
-		public void b(int[] x, int startIndex, int endIndex) {
-			final int testValue = x[(startIndex + a) - 1];
-			if(testValue > 0){
-				pos.b(x, startIndex, startIndex + pos.getA());
-			} else if(testValue == 0){
-				zero.b(x, startIndex, startIndex + zero.getA());
-			} else { // The "testValue<0" test is a tautology
-				neg.b(x, startIndex, startIndex + neg.getA());
+				final int testValue = x[(startIndex + a) - 1];
+				if(testValue > 0){
+					pos.b(x, startIndex, startIndex + pos.getA());
+				} else if(testValue == 0){
+					zero.b(x, startIndex, startIndex + zero.getA());
+				} else { // The "testValue<0" test is a tautology
+					neg.b(x, startIndex, startIndex + neg.getA());
+				}
 			}
 		}
 	};
-	private final int a = l.getA();
+	private final int a = steps[0].getA();
 	public int getA() { return this.a; }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		this.r.b(x, startIndex, endIndex);
-		this.l.b(x, startIndex, endIndex);
+		int i;
+		i = steps.length;
+		while( i-->0 ){
+			steps[i].b(x, startIndex, endIndex);
+		}
 	}
 }

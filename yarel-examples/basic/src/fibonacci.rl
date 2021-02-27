@@ -13,8 +13,7 @@ module Fibonacci {
 			id|id   // impossible
 		]
 		;/3 2 1/
-		
-//		;inc|id|id
+
  
 	dcl fibonacci: 4 int // n 0 0 0
 	def fibonacci := // n fib(n) 0 0

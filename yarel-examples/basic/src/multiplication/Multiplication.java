@@ -8,16 +8,17 @@ public class Multiplication implements RPP {
 		return new InvMultiplication();
 	}
 	
-	RPP l = new RPP() { // SerCompImpl
-		RPP l = new RPP() { // BodyFunImpl
+	private final RPP[] steps = new RPP[]{
+		new RPP() { // BodyFunImpl
 			RPP function = new Permutation();
 			private final int a = function.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
 			 public int getA() { return this.a; }
-		};
-		RPP r = new RPP() { // BodyItImpl
+		},
+		
+		new RPP() { // BodyItImpl
 			// Iteration start
 			RPP function = new RPP() { // BodyItImpl
 				// Iteration start
@@ -50,26 +51,24 @@ public class Multiplication implements RPP {
 			}
 			public int getA() { return this.a; } 
 			// Iteration stop
-		};
-		private final int a = l.getA();
-		public int getA() { return this.a; }
-		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-			this.l.b(x, startIndex, endIndex);
-			this.r.b(x, startIndex, endIndex);
+		},
+		
+		new RPP() { // BodyInvImpl
+			RPP function = new InvPermutation();
+			private final int a = function.getA();
+			public void b(int[] x, int startIndex, int endIndex) {
+				this.function.b(x, startIndex, endIndex);
+			}
+			 public int getA() { return this.a; }
 		}
 	};
-	RPP r = new RPP() { // BodyInvImpl
-		RPP function = new InvPermutation();
-		private final int a = function.getA();
-		public void b(int[] x, int startIndex, int endIndex) {
-			this.function.b(x, startIndex, endIndex);
-		}
-		 public int getA() { return this.a; }
-	};
-	private final int a = l.getA();
+	private final int a = steps[0].getA();
 	public int getA() { return this.a; }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		this.l.b(x, startIndex, endIndex);
-		this.r.b(x, startIndex, endIndex);
+		int i;
+		i = -1;
+		while( ++i < steps.length ){
+			steps[i].b(x, startIndex, endIndex);
+		}
 	}
 }

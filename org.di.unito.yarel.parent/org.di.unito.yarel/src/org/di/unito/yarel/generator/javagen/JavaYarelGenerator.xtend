@@ -495,27 +495,38 @@ class JavaYarelGenerator implements IGenerator2 {
 	  //This switch works by checking the variable type of b, similar to a java instanceof
 	  switch (b) {
 		//For each type of function, different java code is generated
-		SerComp: 
-			'''
-			RPP l = new RPP() { // «b.left.class.simpleName»
-				«compile(b.left, fwd, hasParallelBlock)»
-			};
-			RPP r = new RPP() { // «b.right.class.simpleName»
-				«compile(b.right, fwd, hasParallelBlock)»
-			};
-			private final int a = l.getA();
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-				«IF fwd»
-				this.l.b(x, startIndex, endIndex);
-				this.r.b(x, startIndex, endIndex);
-				«ENDIF»
-				«IF !fwd»
-				this.r.b(x, startIndex, endIndex);
-				this.l.b(x, startIndex, endIndex);
-				«ENDIF»
+		SerComp: {
+			val serialSubblocksSequence = YarelUtils.getAllSequentialBodyBlocks(b)
+			if(serialSubblocksSequence.size <= 1){
+				'''
+				«compile(b, fwd, hasParallelBlock)»
+				'''
+			}else{
+				'''
+				private final RPP[] steps = new RPP[]{
+					«FOR step : serialSubblocksSequence SEPARATOR ",\n"»
+					new RPP() { // «step.class.simpleName»
+						«compile(step, fwd, hasParallelBlock)»
+					}
+					«ENDFOR»
+				};
+				private final int a = steps[0].getA();
+				public int getA() { return this.a; }
+				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
+					int i;
+					«IF fwd»
+					i = -1;
+					while( ++i < steps.length ){
+					«ELSE»
+					i = steps.length;
+					while( i-->0 ){
+					«ENDIF»
+						steps[i].b(x, startIndex, endIndex);
+					}
+				}
+				'''
 			}
-			'''
+			}
 		ParComp:{
 			/*Start refactoring ParComp by Marco Ottina */
 			val totalArityParallelBody = YarelUtils.getArity(b as Body);
@@ -748,13 +759,14 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		BodyPermIndex:
 			'''
-			private final int a = 1 + «b.permIndexed.permutationArity»;
+			private final int permutArity = «b.permIndexed.permutationArity»;
+			private final int a = 1 + permutArity;
 			public void b(int[] x, int startIndex, int endIndex) {
 				int tmp = x[startIndex], indexToWithdraw;
-				indexToWithdraw = x[startIndex + this.a];
+				indexToWithdraw = x[startIndex + this.permutArity];
 				if(indexToWithdraw < 0){ indexToWithdraw = -indexToWithdraw; }
 				indexToWithdraw--; // the index is 1-based
-				indexToWithdraw = startIndex + (indexToWithdraw % this.a);
+				indexToWithdraw = startIndex + (indexToWithdraw % this.permutArity);
 				x[startIndex] = x[indexToWithdraw];
 				x[indexToWithdraw] = tmp;
 			}

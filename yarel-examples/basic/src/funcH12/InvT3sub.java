@@ -8,8 +8,8 @@ public class InvT3sub implements RPP {
 		return new T3sub();
 	}
 	
-	RPP l = new RPP() { // SerCompImpl
-		RPP l = new RPP() { // BodyPermImpl
+	private final RPP[] steps = new RPP[]{
+		new RPP() { // BodyPermImpl
 			private final int a = 3;
 			public void b(int[] x, int startIndex, int endIndex) {
 				int tmp=0;
@@ -20,8 +20,9 @@ public class InvT3sub implements RPP {
 			}
 			
 			public int getA() { return this.a; }
-		};
-		RPP r = new RPP() { // BodyItImpl
+		},
+		
+		new RPP() { // BodyItImpl
 			// Iteration start
 			RPP function = new RPP() { // BodyFunImpl
 				RPP function = new InvT2sub();
@@ -41,30 +42,28 @@ public class InvT3sub implements RPP {
 			}
 			public int getA() { return this.a; } 
 			// Iteration stop
-		};
-		private final int a = l.getA();
-		public int getA() { return this.a; }
-		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-			this.r.b(x, startIndex, endIndex);
-			this.l.b(x, startIndex, endIndex);
-		}
-	};
-	RPP r = new RPP() { // BodyPermImpl
-		private final int a = 3;
-		public void b(int[] x, int startIndex, int endIndex) {
-			int tmp=0;
-			tmp = x[startIndex + 0]; 
-			x[startIndex + 0] = x[startIndex + 1]; 
-			x[startIndex + 1] = x[startIndex + 2]; 
-			x[startIndex + 2] = tmp; 
-		}
+		},
 		
-		public int getA() { return this.a; }
+		new RPP() { // BodyPermImpl
+			private final int a = 3;
+			public void b(int[] x, int startIndex, int endIndex) {
+				int tmp=0;
+				tmp = x[startIndex + 0]; 
+				x[startIndex + 0] = x[startIndex + 1]; 
+				x[startIndex + 1] = x[startIndex + 2]; 
+				x[startIndex + 2] = tmp; 
+			}
+			
+			public int getA() { return this.a; }
+		}
 	};
-	private final int a = l.getA();
+	private final int a = steps[0].getA();
 	public int getA() { return this.a; }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		this.r.b(x, startIndex, endIndex);
-		this.l.b(x, startIndex, endIndex);
+		int i;
+		i = steps.length;
+		while( i-->0 ){
+			steps[i].b(x, startIndex, endIndex);
+		}
 	}
 }

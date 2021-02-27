@@ -8,16 +8,17 @@ public class Compare implements RPP {
 		return new InvCompare();
 	}
 	
-	RPP l = new RPP() { // SerCompImpl
-		RPP l = new RPP() { // BodyFunImpl
+	private final RPP[] steps = new RPP[]{
+		new RPP() { // BodyFunImpl
 			RPP function = new DupStep();
 			private final int a = function.getA();
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
 			 public int getA() { return this.a; }
-		};
-		RPP r = new RPP() { // BodyIfImpl
+		},
+		
+		new RPP() { // BodyIfImpl
 			RPP pos=new RPP() {
 				RPP pos=new RPP() {
 					RPP function = new SameSignCompare();
@@ -185,26 +186,24 @@ public class Compare implements RPP {
 					neg.b(x, startIndex, startIndex + neg.getA());
 				}
 			}
-		};
-		private final int a = l.getA();
-		public int getA() { return this.a; }
-		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-			this.l.b(x, startIndex, endIndex);
-			this.r.b(x, startIndex, endIndex);
+		},
+		
+		new RPP() { // BodyInvImpl
+			RPP function = new InvDupStep();
+			private final int a = function.getA();
+			public void b(int[] x, int startIndex, int endIndex) {
+				this.function.b(x, startIndex, endIndex);
+			}
+			 public int getA() { return this.a; }
 		}
 	};
-	RPP r = new RPP() { // BodyInvImpl
-		RPP function = new InvDupStep();
-		private final int a = function.getA();
-		public void b(int[] x, int startIndex, int endIndex) {
-			this.function.b(x, startIndex, endIndex);
-		}
-		 public int getA() { return this.a; }
-	};
-	private final int a = l.getA();
+	private final int a = steps[0].getA();
 	public int getA() { return this.a; }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		this.l.b(x, startIndex, endIndex);
-		this.r.b(x, startIndex, endIndex);
+		int i;
+		i = -1;
+		while( ++i < steps.length ){
+			steps[i].b(x, startIndex, endIndex);
+		}
 	}
 }

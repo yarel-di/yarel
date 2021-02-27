@@ -36,68 +36,73 @@ public class InvPInd_dataset implements RPP {
 	*/
 	private final RPP[] subtasks = new RPP[]{
 		new RPP(){ // SerCompImpl
-			RPP l = new RPP() { // SerCompImpl
-				RPP l = new RPP() { // BodyDecImpl
+			private final RPP[] steps = new RPP[]{
+				new RPP() { // BodyDecImpl
 					private RPP f = new InvDec();
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
 					public int getA() { return this.a; }
-				};
-				RPP r = new RPP() { // BodyDecImpl
+				},
+				
+				new RPP() { // BodyDecImpl
 					private RPP f = new InvDec();
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
 					public int getA() { return this.a; }
-				};
-				private final int a = l.getA();
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-					this.r.b(x, startIndex, endIndex);
-					this.l.b(x, startIndex, endIndex);
+				},
+				
+				new RPP() { // BodyDecImpl
+					private RPP f = new InvDec();
+					private final int a = f.getA();
+					public void b(int[] x, int startIndex, int endIndex) {
+						this.f.b(x, startIndex, endIndex);
+					}
+					public int getA() { return this.a; }
 				}
 			};
-			RPP r = new RPP() { // BodyDecImpl
-				private RPP f = new InvDec();
-				private final int a = f.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex, endIndex);
-				}
-				public int getA() { return this.a; }
-			};
-			private final int a = l.getA();
+			private final int a = steps[0].getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-				this.r.b(x, startIndex, endIndex);
-				this.l.b(x, startIndex, endIndex);
+				int i;
+				i = steps.length;
+				while( i-->0 ){
+					steps[i].b(x, startIndex, endIndex);
+				}
 			}
 		},
 		
 		new RPP(){ // SerCompImpl
-			RPP l = new RPP() { // BodyIncImpl
-				private RPP f = new InvInc();
-				private final int a = f.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex, endIndex);
+			private final RPP[] steps = new RPP[]{
+				new RPP() { // BodyIncImpl
+					private RPP f = new InvInc();
+					private final int a = f.getA();
+					public void b(int[] x, int startIndex, int endIndex) {
+						this.f.b(x, startIndex, endIndex);
+					}
+					public int getA() { return this.a; }
+				},
+				
+				new RPP() { // BodyIncImpl
+					private RPP f = new InvInc();
+					private final int a = f.getA();
+					public void b(int[] x, int startIndex, int endIndex) {
+						this.f.b(x, startIndex, endIndex);
+					}
+					public int getA() { return this.a; }
 				}
-				public int getA() { return this.a; }
 			};
-			RPP r = new RPP() { // BodyIncImpl
-				private RPP f = new InvInc();
-				private final int a = f.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex, endIndex);
-				}
-				public int getA() { return this.a; }
-			};
-			private final int a = l.getA();
+			private final int a = steps[0].getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-				this.r.b(x, startIndex, endIndex);
-				this.l.b(x, startIndex, endIndex);
+				int i;
+				i = steps.length;
+				while( i-->0 ){
+					steps[i].b(x, startIndex, endIndex);
+				}
 			}
 		},
 		

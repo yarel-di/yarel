@@ -18,6 +18,7 @@ import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.ParComp
 import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.BodyPermIndex
+import java.util.LinkedList
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
@@ -52,6 +53,22 @@ class YarelUtils {
 			return importedNamespace.substring(splitIndex + 1)
 		}
 		else return null
+	}
+	
+	
+	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Body rootBody){
+		var Body body = rootBody;
+		val allBodies = new LinkedList<Body>();
+		while(body instanceof SerComp){// all second-to-last steps (whose are atomic or parallel sub-bodies), if any
+			allBodies.addFirst(body.right)
+			body = body.left
+		}
+		allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
+		return allBodies
+	}
+	
+	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Definition defin){
+		return getAllSequentialBodyBlocks(defin.body)
 	}
 	
 	

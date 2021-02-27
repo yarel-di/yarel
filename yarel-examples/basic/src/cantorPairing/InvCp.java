@@ -8,8 +8,8 @@ public class InvCp implements RPP {
 		return new Cp();
 	}
 	
-	RPP l = new RPP() { // SerCompImpl
-		RPP l = new RPP() { // BodyPermImpl
+	private final RPP[] steps = new RPP[]{
+		new RPP() { // BodyPermImpl
 			private final int a = 3;
 			public void b(int[] x, int startIndex, int endIndex) {
 				int tmp=0;
@@ -19,8 +19,9 @@ public class InvCp implements RPP {
 			}
 			
 			public int getA() { return this.a; }
-		};
-		RPP r = new RPP() { // ParCompImpl
+		},
+		
+		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSumN();
 				private final int a = function.getA();
@@ -34,26 +35,24 @@ public class InvCp implements RPP {
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
 			}
-		};
-		private final int a = l.getA();
-		public int getA() { return this.a; }
-		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-			this.r.b(x, startIndex, endIndex);
-			this.l.b(x, startIndex, endIndex);
+		},
+		
+		new RPP() { // BodyFunImpl
+			RPP function = new funcH12.InvP3();
+			private final int a = function.getA();
+			public void b(int[] x, int startIndex, int endIndex) {
+				this.function.b(x, startIndex, endIndex);
+			}
+			 public int getA() { return this.a; }
 		}
 	};
-	RPP r = new RPP() { // BodyFunImpl
-		RPP function = new funcH12.InvP3();
-		private final int a = function.getA();
-		public void b(int[] x, int startIndex, int endIndex) {
-			this.function.b(x, startIndex, endIndex);
-		}
-		 public int getA() { return this.a; }
-	};
-	private final int a = l.getA();
+	private final int a = steps[0].getA();
 	public int getA() { return this.a; }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		this.r.b(x, startIndex, endIndex);
-		this.l.b(x, startIndex, endIndex);
+		int i;
+		i = steps.length;
+		while( i-->0 ){
+			steps[i].b(x, startIndex, endIndex);
+		}
 	}
 }

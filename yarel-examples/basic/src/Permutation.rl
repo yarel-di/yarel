@@ -6,14 +6,13 @@ module permuatation {
 	def pInd_dataset :=
 		id| (dec;dec;dec) | (inc;inc)|inc 
 	
-	dcl pIndexed_0 : 5 int
-	def pIndexed_0 :=
-		pInd_dataset| id;
-		/ {4} /
+	/* indexes in both name and registers are meant as
+	 * Yarel does: arrays are 1-based
+	 */
 	
 	dcl pIndexed_1 : 5 int
 	def pIndexed_1 :=
-		pInd_dataset| (inc);
+		pInd_dataset| (inc); 
 		/ {4} /
 	
 	dcl pIndexed_2 : 5 int
@@ -88,6 +87,7 @@ module permuatation {
 
 
 //
+
 
 //	dcl shiftLeft10IntsArray1Place : 13 int //return: 0 L(ength) int[10] 0
 //	def shiftLeft10IntsArray1Place :=               // 0 0 L(ength) a:=int[10]

@@ -19,7 +19,6 @@ import java.util.Arrays;
  * <li> {@link RPP}</li>
 * <li> {@link permuatation.PExample}</li>
 * <li> {@link permuatation.PInd_dataset}</li>
-* <li> {@link permuatation.PIndexed_0}</li>
 * <li> {@link permuatation.PIndexed_1}</li>
 * <li> {@link permuatation.PIndexed_2}</li>
 * <li> {@link permuatation.PIndexed_3}</li>
@@ -64,8 +63,6 @@ public class PermuatationPlayWith {
 		testPExample();
 		
 		testPInd_dataset();
-		
-		testPIndexed_0();
 		
 		testPIndexed_1();
 		
@@ -146,34 +143,6 @@ public class PermuatationPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function pInd_dataset with values:" + Arrays.toString(data));
 			pInd_datasetRPP.b(data);
-			System.out.println("Resulting in: " + Arrays.toString(data));
-		}
-	}
-	
-	
-	
-	public static void testPIndexed_0(){
-		RPP pIndexed_0RPP = new permuatation.PIndexed_0();
-		final int[][] datasets = {
-			new int[]{1,2,3,4,5},
-			new int[]{4,3,2,1,5},
-			new int[]{ 0,  0,  0,  0,  0},
-			new int[]{ 1,  1,  1,  1,  1},
-			new int[]{ -1,  -1,  -1,  -1,  -1},
-			new int[]{ 2,  2,  2,  2,  2},
-			new int[]{ -2,  -2,  -2,  -2,  -2},
-			new int[]{ 3,  3,  3,  3,  3},
-			new int[]{ -3,  -3,  -3,  -3,  -3},
-			new int[]{ 4,  4,  4,  4,  4},
-			new int[]{ -4,  -4,  -4,  -4,  -4},
-			new int[]{ 10,  10,  10,  10,  10},
-			new int[]{ -10,  -10,  -10,  -10,  -10},
-			new int[]{ 11,  11,  11,  11,  11},
-			new int[]{ -11,  -11,  -11,  -11,  -11},
-		};
-		for( int[] data: datasets ){
-			System.out.println("\nTesting the function pIndexed_0 with values:" + Arrays.toString(data));
-			pIndexed_0RPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

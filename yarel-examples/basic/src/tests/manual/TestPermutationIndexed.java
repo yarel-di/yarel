@@ -2,7 +2,6 @@ package tests.manual;
 
 import java.util.Arrays;
 
-import permuatation.PIndexed_0;
 import permuatation.PIndexed_1;
 import permuatation.PIndexed_10;
 import permuatation.PIndexed_12;
@@ -24,7 +23,6 @@ public class TestPermutationIndexed {
 		int i;
 		int[] regs = new int[5];
 		RPP[] perms = { //
-				new PIndexed_0(), //
 				new PIndexed_1(), //
 				new PIndexed_2(), //
 				new PIndexed_3(), //

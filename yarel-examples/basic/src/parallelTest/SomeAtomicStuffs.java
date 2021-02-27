@@ -54,47 +54,53 @@ public class SomeAtomicStuffs implements RPP {
 		},
 		
 		new RPP(){ // SerCompImpl
-			RPP l = new RPP() { // BodyItImpl
-				// Iteration start
-				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = new Inc();
-					private final int a = f.getA();
+			private final RPP[] steps = new RPP[]{
+				new RPP() { // BodyItImpl
+					// Iteration start
+					RPP function = new RPP() { // BodyIncImpl
+						private RPP f = new Inc();
+						private final int a = f.getA();
+						public void b(int[] x, int startIndex, int endIndex) {
+							this.f.b(x, startIndex, endIndex);
+						}
+						public int getA() { return this.a; }
+					};
+					private final int a = function.getA()+1;
 					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+						int endIndexBody = (startIndex + a) - 1;
+						int iterationsLeft = Math.abs(x[endIndexBody]);
+						while(iterationsLeft-->0){
+							function.b(x, startIndex, endIndexBody);
+						}
 					}
+					public int getA() { return this.a; } 
+					// Iteration stop
+				},
+				
+				new RPP() { // ParCompImpl
+					private RPP f = new RPP(){
+						private RPP f = new Neg();
+						private final int a = f.getA();
+						public void b(int[] x, int startIndex, int endIndex) {
+							this.f.b(x, startIndex, endIndex);
+						}
+						public int getA() { return this.a; }
+					};
+					private final int a = 2 ;
 					public int getA() { return this.a; }
-				};
-				private final int a = function.getA()+1;
-				public void b(int[] x, int startIndex, int endIndex) {
-					int endIndexBody = (startIndex + a) - 1;
-					int iterationsLeft = Math.abs(x[endIndexBody]);
-					while(iterationsLeft-->0){
-						function.b(x, startIndex, endIndexBody);
+					public void b(int[] x, int startIndex, int endIndex) {
+						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
 					}
 				}
-				public int getA() { return this.a; } 
-				// Iteration stop
 			};
-			RPP r = new RPP() { // ParCompImpl
-				private RPP f = new RPP(){
-					private RPP f = new Neg();
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
-					}
-					public int getA() { return this.a; }
-				};
-				private final int a = 2 ;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 0, startIndex + this.a + 0);
-				}
-			};
-			private final int a = l.getA();
+			private final int a = steps[0].getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-				this.l.b(x, startIndex, endIndex);
-				this.r.b(x, startIndex, endIndex);
+				int i;
+				i = -1;
+				while( ++i < steps.length ){
+					steps[i].b(x, startIndex, endIndex);
+				}
 			}
 		},
 		
@@ -108,43 +114,42 @@ public class SomeAtomicStuffs implements RPP {
 		},
 		
 		new RPP(){ // SerCompImpl
-			RPP l = new RPP() { // SerCompImpl
-				RPP l = new RPP() { // BodyIncImpl
+			private final RPP[] steps = new RPP[]{
+				new RPP() { // BodyIncImpl
 					private RPP f = new Inc();
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
 					public int getA() { return this.a; }
-				};
-				RPP r = new RPP() { // BodyIncImpl
+				},
+				
+				new RPP() { // BodyIncImpl
 					private RPP f = new Inc();
 					private final int a = f.getA();
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
 					public int getA() { return this.a; }
-				};
-				private final int a = l.getA();
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-					this.l.b(x, startIndex, endIndex);
-					this.r.b(x, startIndex, endIndex);
+				},
+				
+				new RPP() { // BodyIncImpl
+					private RPP f = new Inc();
+					private final int a = f.getA();
+					public void b(int[] x, int startIndex, int endIndex) {
+						this.f.b(x, startIndex, endIndex);
+					}
+					public int getA() { return this.a; }
 				}
 			};
-			RPP r = new RPP() { // BodyIncImpl
-				private RPP f = new Inc();
-				private final int a = f.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex, endIndex);
-				}
-				public int getA() { return this.a; }
-			};
-			private final int a = l.getA();
+			private final int a = steps[0].getA();
 			public int getA() { return this.a; }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-				this.l.b(x, startIndex, endIndex);
-				this.r.b(x, startIndex, endIndex);
+				int i;
+				i = -1;
+				while( ++i < steps.length ){
+					steps[i].b(x, startIndex, endIndex);
+				}
 			}
 		}
 	};
