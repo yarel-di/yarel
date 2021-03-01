@@ -3,16 +3,13 @@
  */
 package org.di.unito.yarel.scoping
 
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.emf.ecore.EObject
-import org.di.unito.yarel.yarel.YarelPackage
-import org.di.unito.yarel.yarel.Declaration
-import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.di.unito.yarel.yarel.Model
-import org.di.unito.yarel.utils.YarelUtils
-import com.google.inject.Inject
-import org.eclipse.xtext.scoping.Scopes
 import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.Model
+import org.di.unito.yarel.yarel.YarelPackage
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.xtext.scoping.Scopes
 
 /**
  * This class contains custom scoping description.
@@ -23,18 +20,17 @@ import org.di.unito.yarel.yarel.Definition
  
 /* Added by Matteo Palazzo */
 class YarelScopeProvider extends AbstractYarelScopeProvider {
-	@Inject extension YarelUtils
 	
 	/*
 	 * Define the scope of the Definition.
 	 * In this way the user can define only the function that are declared in the same module
 	 * where the definition is made
 	 */
-	override getScope(EObject context, EReference reference){	
-		if(reference == YarelPackage::eINSTANCE.definition_DeclarationName){		
-			if(context instanceof Definition){									
-				val dclFuns = context.getContainerOfType(typeof(Model))
-									 .declarations
+	override getScope(EObject context, EReference reference){
+		if(reference == YarelPackage::eINSTANCE.definition_DeclarationName){
+			if(context instanceof Definition){
+				val model = EcoreUtil2.getContainerOfType(context, typeof(Model))
+				val dclFuns = YarelIndex.declarations(model)
 				return Scopes::scopeFor(dclFuns)
 			}		
 		}

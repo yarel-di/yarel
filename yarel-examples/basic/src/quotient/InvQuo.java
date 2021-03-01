@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvQuo implements RPP {
 	public InvQuo() { }
+
 	
 	public Quo getInverse(){
 		return new Quo();
@@ -21,23 +22,23 @@ public class InvQuo implements RPP {
 				x[startIndex + 4] = x[startIndex + 5]; 
 				x[startIndex + 5] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSumN();
-				private final int a = function.getA();
+				 public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 6 ;
-			public int getA() { return this.a; }
+			public int getA() { return 6; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				this.f.b(x,
+					startIndex + 0,
+					startIndex + (0) + (1)
+					);
 			}
 		},
 		
@@ -53,7 +54,6 @@ public class InvQuo implements RPP {
 				x[startIndex + 2] = x[startIndex + 1]; 
 				x[startIndex + 1] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -64,16 +64,17 @@ public class InvQuo implements RPP {
 					new RPP() { // ParCompImpl
 						private RPP f = new RPP(){
 							RPP function = new InvQuoStep();
-							private final int a = function.getA();
+							 public int getA() { return function.getA(); }
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.function.b(x, startIndex, endIndex);
 							}
-							 public int getA() { return this.a; }
 						};
-						private final int a = 5 ;
-						public int getA() { return this.a; }
+						public int getA() { return 5; }
 						public void b(int[] x, int startIndex, int endIndex) {
-							this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+							this.f.b(x,
+								startIndex + 0,
+								startIndex + (0) + (1)
+								);
 						}
 					},
 					
@@ -85,21 +86,18 @@ public class InvQuo implements RPP {
 							x[startIndex + 3] = x[startIndex + 4]; 
 							x[startIndex + 4] = tmp; 
 						}
-						
 						public int getA() { return this.a; }
 					},
 					
 					new RPP() { // BodyIfImpl
 						RPP pos=new RPP() {
-							private final int a = 4;
-							public int getA() { return this.a; }
+							public int getA() { return 4; }
 							public void b(int[] x, int startIndex, int endIndex) {
 								// There were only parallels identities, nothing interesting to show and run
 							}
 						};
 						RPP zero=new RPP() {
-							private final int a = 4;
-							public int getA() { return this.a; }
+							public int getA() { return 4; }
 							public void b(int[] x, int startIndex, int endIndex) {
 								// There were only parallels identities, nothing interesting to show and run
 							}
@@ -113,16 +111,17 @@ public class InvQuo implements RPP {
 								}
 								public int getA() { return this.a; }
 							};
-							private final int a = 4 ;
-							public int getA() { return this.a; }
+							public int getA() { return 4; }
 							public void b(int[] x, int startIndex, int endIndex) {
-								this.f.b(x, startIndex + 3, startIndex + this.a + 3);
+								this.f.b(x,
+									startIndex + 3,
+									startIndex + (3) + (1)
+									);
 							}
 						};
-						private final int a=pos.getA()+1;
-						public int getA() {return this.a;}
+						public int getA() {return this.pos.getA()+1;}
 						public void b(int[] x, int startIndex, int endIndex) {
-							final int testValue = x[(startIndex + a) - 1];
+							final int testValue = x[(startIndex + this.getA()) - 1];
 							if(testValue > 0){
 								pos.b(x, startIndex, startIndex + pos.getA());
 							} else if(testValue == 0){
@@ -141,7 +140,6 @@ public class InvQuo implements RPP {
 							x[startIndex + 3] = x[startIndex + 4]; 
 							x[startIndex + 4] = tmp; 
 						}
-						
 						public int getA() { return this.a; }
 					},
 					
@@ -157,23 +155,23 @@ public class InvQuo implements RPP {
 										x[startIndex + 2] = x[startIndex + 3]; 
 										x[startIndex + 3] = tmp; 
 									}
-									
 									public int getA() { return this.a; }
 								},
 								
 								new RPP() { // ParCompImpl
 									private RPP f = new RPP(){
 										RPP function = new arithNat.InvSumN();
-										private final int a = function.getA();
+										 public int getA() { return function.getA(); }
 										public void b(int[] x, int startIndex, int endIndex) {
 											this.function.b(x, startIndex, endIndex);
 										}
-										 public int getA() { return this.a; }
 									};
-									private final int a = 4 ;
-									public int getA() { return this.a; }
+									public int getA() { return 4; }
 									public void b(int[] x, int startIndex, int endIndex) {
-										this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+										this.f.b(x,
+											startIndex + 1,
+											startIndex + (1) + (2)
+											);
 									}
 								},
 								
@@ -186,12 +184,10 @@ public class InvQuo implements RPP {
 										x[startIndex + 3] = x[startIndex + 2]; 
 										x[startIndex + 2] = tmp; 
 									}
-									
 									public int getA() { return this.a; }
 								}
 							};
-							private final int a = steps[0].getA();
-							public int getA() { return this.a; }
+							public int getA() { return this.steps[0].getA(); }
 							public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 								int i;
 								i = steps.length;
@@ -201,23 +197,20 @@ public class InvQuo implements RPP {
 							}
 						};
 						RPP zero=new RPP() {
-							private final int a = 4;
-							public int getA() { return this.a; }
+							public int getA() { return 4; }
 							public void b(int[] x, int startIndex, int endIndex) {
 								// There were only parallels identities, nothing interesting to show and run
 							}
 						};
 						RPP neg=new RPP() {
-							private final int a = 4;
-							public int getA() { return this.a; }
+							public int getA() { return 4; }
 							public void b(int[] x, int startIndex, int endIndex) {
 								// There were only parallels identities, nothing interesting to show and run
 							}
 						};
-						private final int a=pos.getA()+1;
-						public int getA() {return this.a;}
+						public int getA() {return this.pos.getA()+1;}
 						public void b(int[] x, int startIndex, int endIndex) {
-							final int testValue = x[(startIndex + a) - 1];
+							final int testValue = x[(startIndex + this.getA()) - 1];
 							if(testValue > 0){
 								pos.b(x, startIndex, startIndex + pos.getA());
 							} else if(testValue == 0){
@@ -228,8 +221,7 @@ public class InvQuo implements RPP {
 						}
 					}
 				};
-				private final int a = steps[0].getA();
-				public int getA() { return this.a; }
+				public int getA() { return this.steps[0].getA(); }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 					int i;
 					i = steps.length;
@@ -238,31 +230,31 @@ public class InvQuo implements RPP {
 					}
 				}
 			};
-			private final int a = function.getA()+1;
+			public int getA() { return function.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				int endIndexBody = (startIndex + a) - 1;
+				int endIndexBody = (startIndex + this.getA()) - 1;
 				int iterationsLeft = Math.abs(x[endIndexBody]);
 				while(iterationsLeft-->0){
 					function.b(x, startIndex, endIndexBody);
 				}
 			}
-			public int getA() { return this.a; } 
 			// Iteration stop
 		},
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSubN();
-				private final int a = function.getA();
+				 public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 6 ;
-			public int getA() { return this.a; }
+			public int getA() { return 6; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 4, startIndex + this.a + 4);
+				this.f.b(x,
+					startIndex + 4,
+					startIndex + (4) + (2)
+					);
 			}
 		},
 		
@@ -275,23 +267,23 @@ public class InvQuo implements RPP {
 				x[startIndex + 3] = x[startIndex + 4]; 
 				x[startIndex + 4] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSumN();
-				private final int a = function.getA();
+				 public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 6 ;
-			public int getA() { return this.a; }
+			public int getA() { return 6; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 2, startIndex + this.a + 2);
+				this.f.b(x,
+					startIndex + 2,
+					startIndex + (2) + (2)
+					);
 			}
 		},
 		
@@ -305,12 +297,10 @@ public class InvQuo implements RPP {
 				x[startIndex + 2] = x[startIndex + 5]; 
 				x[startIndex + 5] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = steps.length;

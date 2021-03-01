@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvMore implements RPP {
 	public InvMore() { }
+
 	
 	public More getInverse(){
 		return new More();
@@ -11,41 +12,36 @@ public class InvMore implements RPP {
 	private final RPP[] steps = new RPP[]{
 		new RPP() { // BodyFunImpl
 			RPP function = new InvDupStep();
-			private final int a = function.getA();
+			 public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
-			 public int getA() { return this.a; }
 		},
 		
 		new RPP() { // BodyIfImpl
 			RPP pos=new RPP() {
 				RPP pos=new RPP() {
 					RPP function = new InvSameSignMore();
-					private final int a = function.getA();
+					 public int getA() { return function.getA(); }
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.function.b(x, startIndex, endIndex);
 					}
-					 public int getA() { return this.a; }
 				};
 				RPP zero=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
+					public int getA() { return 3; }
 					public void b(int[] x, int startIndex, int endIndex) {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
 				RPP neg=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
+					public int getA() { return 3; }
 					public void b(int[] x, int startIndex, int endIndex) {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
+				public int getA() {return this.pos.getA()+1;}
 				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
+					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
 						pos.b(x, startIndex, startIndex + pos.getA());
 					} else if(testValue == 0){
@@ -65,30 +61,29 @@ public class InvMore implements RPP {
 						}
 						public int getA() { return this.a; }
 					};
-					private final int a = 3 ;
-					public int getA() { return this.a; }
+					public int getA() { return 3; }
 					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+						this.f.b(x,
+							startIndex + 0,
+							startIndex + (0) + (1)
+							);
 					}
 				};
 				RPP zero=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
+					public int getA() { return 3; }
 					public void b(int[] x, int startIndex, int endIndex) {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
 				RPP neg=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
+					public int getA() { return 3; }
 					public void b(int[] x, int startIndex, int endIndex) {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
+				public int getA() {return this.pos.getA()+1;}
 				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
+					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
 						pos.b(x, startIndex, startIndex + pos.getA());
 					} else if(testValue == 0){
@@ -108,10 +103,12 @@ public class InvMore implements RPP {
 						}
 						public int getA() { return this.a; }
 					};
-					private final int a = 3 ;
-					public int getA() { return this.a; }
+					public int getA() { return 3; }
 					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+						this.f.b(x,
+							startIndex + 0,
+							startIndex + (0) + (1)
+							);
 					}
 				};
 				RPP zero=new RPP() {
@@ -123,24 +120,24 @@ public class InvMore implements RPP {
 						}
 						public int getA() { return this.a; }
 					};
-					private final int a = 3 ;
-					public int getA() { return this.a; }
+					public int getA() { return 3; }
 					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+						this.f.b(x,
+							startIndex + 0,
+							startIndex + (0) + (1)
+							);
 					}
 				};
 				RPP neg=new RPP() {
 					RPP function = new InvSameSignMore();
-					private final int a = function.getA();
+					 public int getA() { return function.getA(); }
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.function.b(x, startIndex, endIndex);
 					}
-					 public int getA() { return this.a; }
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
+				public int getA() {return this.pos.getA()+1;}
 				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
+					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
 						pos.b(x, startIndex, startIndex + pos.getA());
 					} else if(testValue == 0){
@@ -150,10 +147,9 @@ public class InvMore implements RPP {
 					}
 				}
 			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
+			public int getA() {return this.pos.getA()+1;}
 			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
+				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){
 					pos.b(x, startIndex, startIndex + pos.getA());
 				} else if(testValue == 0){
@@ -166,15 +162,13 @@ public class InvMore implements RPP {
 		
 		new RPP() { // BodyInvImpl
 			RPP function = new DupStep();
-			private final int a = function.getA();
+			 public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
-			 public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = steps.length;

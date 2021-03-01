@@ -41,7 +41,7 @@ Declaration:
 
 Signature:
 	types += Type (',' types+=Type)*
-	('+' params += TypeParam ('+' params += TypeParam)* )?
+	(',' params += TypeParam (',' params += TypeParam)* )?
 	;
 
 Type: 
@@ -64,6 +64,18 @@ ParComp returns Body:
 BodyBase returns Body: 
    '(' Body ')' | Atomic;
 
+Permutation: 
+  '/' indexes+=Digit (indexes+=Digit)* '/';
+
+ParametricId:
+	'id' '{' arity=ParametricArity '}'
+;
+
+FunctionInvocation:
+	funName=[Declaration | QualifiedName]
+	('{' parameters += ParametricArity (',' parameters+=ParametricArity)* '}')?
+;
+
 
 Atomic returns Body: 
     {BodyId}  funName='id' 
@@ -74,14 +86,15 @@ Atomic returns Body:
   | {BodyInv} function='inv' '[' body=Body ']'
   | {BodyIt}  function='it' '[' body=Body ']'
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
-  | {BodyFun} funName=[Declaration | QualifiedName] 
+  | {BodyFun} function=FunctionInvocation
   | {BodyPerm} permutation=Permutation
   | {BodyPermIndex} permIndexed = PermutationIndexed
   | {BodyParamId} paramId = ParametricId
+  | {BodyParamInc} funName='inc' ( ('[' repetitions= ParametricArity']') | ('{' arity = ParametricArity '}'))
+  | {BodyParamDec} funName='dec' ( ('[' repetitions= ParametricArity']') | ('{' arity = ParametricArity '}'))
+  | {BodySwapc} funName='swap' '{' arity = ParametricArity '}' '(' firstIndex = ParametricArity ',' secondIndex = ParametricArity')'
   ;
 
-Permutation: 
-  '/' indexes+=Digit (indexes+=Digit)* '/';
 
 /**
  * The index stored at the end is 1-based.
@@ -89,64 +102,60 @@ Permutation:
 PermutationIndexed: // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
   '/' '{'
     permutationArity = ParametricArity
-//  permutationArity = INT // LinearParamIntExpression
   '}' '/'
 ;
 
-ParametricId:
-	'id' '{' arity=ParametricArity '}'
-;
-
-
 ParametricArity:
-	ConstantArity | ParametrizedArity //| ParametrizedArityExpr
+	arity = LinearExpressionWithParameters
 ;
 
-ConstantArity returns ParametricArity:
-	constantArity=INT
+
+/** LINEAR EXPRESSION (enhanced with parameters)
+ * 
+ * Note:
+ * right now, only additions and subtractions are allowed and implemented.
+ * */
+
+LinearExpressionWithParameters:
+	LEWP
 ;
 
-//ParametrizedArity returns ParametricArity:
-//	paramName = ID
-//;
-
-ParametrizedArity /*Expr*/ returns ParametricArity:
-	paramName = ID
-	(
-		 (sign?='+' constantArityVariant=ParamArityExprPlus)
-		|(sign?='-' constantArityVariant= ParamArityExprMinus)
-	)?
-;
-
-ParamArityExprPlus:
-	'+' constantArity=INT
-;
-ParamArityExprMinus:
-	'-' constantArity=INT
-;
-
-/*
-LinearParamIntExpression: LPIExpr;
-
-LPIExpr returns LinearParamIntExpression:
-	IntExprArgument (
-		( {LPIEAddition.left = current} '+' right = IntExprArgument) 
-		| ( {LPIESubtraction.left = current} '-' right = IntExprArgument) 
+LEWP returns LinearExpressionWithParameters:
+	BinaryArgLEWP (
+		({AdditionLEWP.left = current} '+' right = BinaryArgLEWP)
+		|({SubtractionLEWP.left = current} '-' right = BinaryArgLEWP)
 	)*
 ;
- 
-IntExprArgument returns LinearParamIntExpression:
-	Digit | Parameter | LPIExprBracket
+
+BinaryArgLEWP returns LinearExpressionWithParameters:
+	PlusLEWP | MinusLEWP | BranchLEWP
 ;
 
-LPIExprBracket:
-  '(' sub = LinearParamIntExpression ')'
+
+MinusLEWP returns LinearExpressionWithParameters:
+	{MinusLEWP} '-' sub = BranchLEWP
 ;
 
-Parameter:
-  value = ID
+PlusLEWP returns LinearExpressionWithParameters:
+	{PlusLEWP} '+' sub = BranchLEWP
 ;
- */
+
+BranchLEWP returns LinearExpressionWithParameters:
+	BracketLEWP | AtomLEWP 
+;
+
+AtomLEWP returns LinearExpressionWithParameters:
+	  {IntLEWP}   value = Digit
+	| {ParamLEWP} value = ParameterLEWP
+;
+
+BracketLEWP:
+	'(' sub= LinearExpressionWithParameters ')'
+;
+
+ParameterLEWP:
+	paramName = ID
+;
 
 Digit:
 	value=INT;

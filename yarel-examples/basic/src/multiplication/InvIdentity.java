@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvIdentity implements RPP {
 	public InvIdentity() { }
+
 	
 	public Identity getInverse(){
 		return new Identity();
@@ -11,24 +12,21 @@ public class InvIdentity implements RPP {
 	private final RPP[] steps = new RPP[]{
 		new RPP() { // BodyFunImpl
 			RPP function = new InvMultiplication();
-			private final int a = function.getA();
+			 public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
-			 public int getA() { return this.a; }
 		},
 		
 		new RPP() { // BodyInvImpl
 			RPP function = new Multiplication();
-			private final int a = function.getA();
+			 public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
-			 public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = steps.length;

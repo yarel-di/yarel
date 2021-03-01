@@ -21,6 +21,7 @@ import java.util.Arrays;
 * <li> {@link parallelTest.BiIncPar}</li>
 * <li> {@link parallelTest.TriIncPar}</li>
 * <li> {@link parallelTest.TriIncParExplicit}</li>
+* <li> {@link parallelTest.EsaIncParExplicit}</li>
 * <li> {@link parallelTest.Mult}</li>
 * <li> {@link parallelTest.UpAndDown}</li>
 * <li> {@link parallelTest.SomeSwaps}</li>
@@ -73,6 +74,8 @@ public class ParallelTestPlayWith {
 		testTriIncPar();
 		
 		testTriIncParExplicit();
+		
+		testEsaIncParExplicit();
 		
 		testMult();
 		
@@ -217,6 +220,34 @@ public class ParallelTestPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function triIncParExplicit with values:" + Arrays.toString(data));
 			triIncParExplicitRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testEsaIncParExplicit(){
+		RPP esaIncParExplicitRPP = new parallelTest.EsaIncParExplicit();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,5},
+			new int[]{5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function esaIncParExplicit with values:" + Arrays.toString(data));
+			esaIncParExplicitRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

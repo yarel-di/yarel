@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvDisSelN implements RPP {
 	public InvDisSelN() { }
+
 	
 	public DisSelN getInverse(){
 		return new DisSelN();
@@ -17,7 +18,7 @@ public class InvDisSelN implements RPP {
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return f.getA(); }
 				};
 				RPP zero=new RPP() {
 					private RPP f = InvId.SINGLETON_InvId;
@@ -25,7 +26,7 @@ public class InvDisSelN implements RPP {
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return f.getA(); }
 				};
 				RPP neg=new RPP() {
 					private RPP f = InvId.SINGLETON_InvId;
@@ -33,12 +34,11 @@ public class InvDisSelN implements RPP {
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return f.getA(); }
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
+				public int getA() {return this.pos.getA()+1;}
 				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
+					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
 						pos.b(x, startIndex, startIndex + pos.getA());
 					} else if(testValue == 0){
@@ -50,15 +50,13 @@ public class InvDisSelN implements RPP {
 			},
 			
 			new RPP() { // ParCompImpl
-				private final int a = 2;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			}
 		};
-		private final int a = steps[0].getA();
-		public int getA() { return this.a; }
+		public int getA() { return this.steps[0].getA(); }
 		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 			int i;
 			i = steps.length;
@@ -76,7 +74,7 @@ public class InvDisSelN implements RPP {
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return f.getA(); }
 				};
 				RPP zero=new RPP() {
 					private RPP f = InvId.SINGLETON_InvId;
@@ -84,7 +82,7 @@ public class InvDisSelN implements RPP {
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return f.getA(); }
 				};
 				RPP neg=new RPP() {
 					private RPP f = InvId.SINGLETON_InvId;
@@ -92,12 +90,11 @@ public class InvDisSelN implements RPP {
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return f.getA(); }
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
+				public int getA() {return this.pos.getA()+1;}
 				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
+					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
 						pos.b(x, startIndex, startIndex + pos.getA());
 					} else if(testValue == 0){
@@ -117,15 +114,16 @@ public class InvDisSelN implements RPP {
 					}
 					public int getA() { return this.a; }
 				};
-				private final int a = 2 ;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+					this.f.b(x,
+						startIndex + 1,
+						startIndex + (1) + (1)
+						);
 				}
 			}
 		};
-		private final int a = steps[0].getA();
-		public int getA() { return this.a; }
+		public int getA() { return this.steps[0].getA(); }
 		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 			int i;
 			i = steps.length;
@@ -159,12 +157,11 @@ public class InvDisSelN implements RPP {
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.f.b(x, startIndex, endIndex);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return f.getA(); }
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
+				public int getA() {return this.pos.getA()+1;}
 				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
+					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
 						pos.b(x, startIndex, startIndex + pos.getA());
 					} else if(testValue == 0){
@@ -184,15 +181,16 @@ public class InvDisSelN implements RPP {
 					}
 					public int getA() { return this.a; }
 				};
-				private final int a = 2 ;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+					this.f.b(x,
+						startIndex + 1,
+						startIndex + (1) + (1)
+						);
 				}
 			}
 		};
-		private final int a = steps[0].getA();
-		public int getA() { return this.a; }
+		public int getA() { return this.steps[0].getA(); }
 		public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 			int i;
 			i = steps.length;
@@ -201,10 +199,9 @@ public class InvDisSelN implements RPP {
 			}
 		}
 	};
-	private final int a=pos.getA()+1;
-	public int getA() {return this.a;}
+	public int getA() {return this.pos.getA()+1;}
 	public void b(int[] x, int startIndex, int endIndex) {
-		final int testValue = x[(startIndex + a) - 1];
+		final int testValue = x[(startIndex + this.getA()) - 1];
 		if(testValue > 0){
 			pos.b(x, startIndex, startIndex + pos.getA());
 		} else if(testValue == 0){

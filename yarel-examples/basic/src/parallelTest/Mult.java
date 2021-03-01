@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class Mult implements RPP {
 	public Mult() { }
+
 	
 	public InvMult getInverse(){
 		return new InvMult();
@@ -17,7 +18,6 @@ public class Mult implements RPP {
 				x[startIndex + 0] = x[startIndex + 2]; 
 				x[startIndex + 2] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -44,9 +44,9 @@ public class Mult implements RPP {
 					public int getA() { return this.a; }
 				};
 				
-				private final int a = function.getA()+1;
+				public int getA() { return function.getA()+1; } 
 				public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-					final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+					final int repCounterIndex = (startIndex + this.getA()) - 1, originalRepCounter;
 					int repetitionCounter = x[repCounterIndex];
 					originalRepCounter = repetitionCounter;
 				
@@ -65,7 +65,6 @@ public class Mult implements RPP {
 					} //else: when v is equal to zero, recursive calls stop as a value is returned
 					x[repCounterIndex] = originalRepCounter; // restore the original value
 				}
-				public int getA() { return this.a; } 
 			};
 			
 			/** inverse function used when v < 0 */
@@ -90,9 +89,9 @@ public class Mult implements RPP {
 					public int getA() { return this.a; }
 				};
 				
-				private final int a = function.getA()+1;
+				public int getA() { return function.getA()+1; } 
 				public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-					final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+					final int repCounterIndex = (startIndex + this.getA()) - 1, originalRepCounter;
 					int repetitionCounter = x[repCounterIndex];
 					originalRepCounter = repetitionCounter;
 				
@@ -111,12 +110,11 @@ public class Mult implements RPP {
 					} //else: when v is equal to zero, recursive calls stop as a value is returned
 					x[repCounterIndex] = originalRepCounter; // restore the original value
 				}
-				public int getA() { return this.a; } 
 			};
 			
-			private final int a = function.getA()+1;
+			public int getA() { return function.getA()+1; } 
 			public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-				final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+				final int repCounterIndex = (startIndex + this.getA()) - 1, originalRepCounter;
 				int repetitionCounter = x[repCounterIndex];
 				originalRepCounter = repetitionCounter;
 			
@@ -135,7 +133,6 @@ public class Mult implements RPP {
 				} //else: when v is equal to zero, recursive calls stop as a value is returned
 				x[repCounterIndex] = originalRepCounter; // restore the original value
 			}
-			public int getA() { return this.a; } 
 		},
 		
 		new RPP() { // BodyPermImpl
@@ -146,12 +143,10 @@ public class Mult implements RPP {
 				x[startIndex + 0] = x[startIndex + 2]; 
 				x[startIndex + 2] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = -1;

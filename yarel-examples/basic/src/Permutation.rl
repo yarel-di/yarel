@@ -5,21 +5,21 @@ module permuatation {
 	dcl pInd_dataset : 4 int
 	def pInd_dataset :=
 		id| (dec;dec;dec) | (inc;inc)|inc 
-	
+
 	/* indexes in both name and registers are meant as
 	 * Yarel does: arrays are 1-based
 	 */
-	
+
 	dcl pIndexed_1 : 5 int
 	def pIndexed_1 :=
 		pInd_dataset| (inc); 
 		/ {4} /
-	
+
 	dcl pIndexed_2 : 5 int
 	def pIndexed_2 :=
 		pInd_dataset| (inc;inc);
 		/ {4} /
-	
+
 	dcl pIndexed_3 : 5 int
 	def pIndexed_3 :=
 		pInd_dataset| (inc;inc;inc);
@@ -34,7 +34,7 @@ module permuatation {
 	def pIndexed_5 :=
 		pInd_dataset| (inc;inc;inc;inc;inc);
 		/ {4} /
-	
+
 	dcl pIndexed_6 : 5 int
 	def pIndexed_6 :=
 		pInd_dataset| (inc;inc;inc;inc;inc;inc);
@@ -102,44 +102,4 @@ module permuatation {
 			;id{10}|dec
 		]
 
-	dcl shiftLastToFirstK: 2 int + K
-	def shiftLastToFirstK := // a[1..10] 0 10
-		id{K} | for[inc]     // a[1..10] 10 10
-		;for[
-			/{K}/
-			;id{K}|dec
-		]
-
-//		BodyParamId
-
-//
-
-
-//	dcl shiftLeft10IntsArray1Place : 13 int //return: 0 L(ength) int[10] 0
-//	def shiftLeft10IntsArray1Place :=               // 0 0 L(ength) a:=int[10]
-//		id|for[inc]|id|id|id|id|id|id|id|id|id|id   // 0 L L a
-//		;/2 1/|id|id|id|id|id|id|id|id|id|id|id     // L 0 
-//		;/{12}/                                 // L a[L] a[1..L-1] L
-//		
-//		// L 0 a L
-//		// L-2 0 a[L-1] L-1
-//		;for[
-//			inc| id|id|id|id|id|id|id|id|id|id|id
-//			;/{11}/
-//		] //0 a[L] a[1..L-1] L
-//		;id|id|id|id|id|id|id|id|id|id|id|dec // 0 a[L] a[1..L-1] L-1
-//		(for[inc];
-//		inc|id
-//			)|id|id|id|id|id|id|id|id|id|id // L+1 L a
-//		;/{11}/ // L+1 a[L] a[1..L-1] L // "a[L-1]" if 
-//		;it[/{11}/
-//			;id|id|id|id|id|id|id|id|id|id|id|dec
-//		]
-
-		// /1 4 5 6 7 8 9 10 11 12 13 2 3/
-//	dcl shiftLeft10IntsArray1Place : 13 int // return: 0 L(ength) a:=int[10] 0
-//	def shiftLeft10IntsArray1Place :=               // 0 0 L(ength) a:=int[10]
-//		id|for[inc]|id|id|id|id|id|id|id|id|id|id   // 0 L L a
-//		;/2 1/|id|id|id|id|id|id|id|id|id|id|id     // L 0 
-//		;/{12}/                                 // L a[L] a[1..L-1] L
 }

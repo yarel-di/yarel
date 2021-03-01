@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class To_odd implements RPP {
 	public To_odd() { }
+
 	
 	public InvTo_odd getInverse(){
 		return new InvTo_odd();
@@ -17,7 +18,6 @@ public class To_odd implements RPP {
 				x[startIndex + 0] = x[startIndex + 1]; 
 				x[startIndex + 1] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -43,8 +43,7 @@ public class To_odd implements RPP {
 						public int getA() { return this.a; }
 					}
 				};
-				private final int a = steps[0].getA();
-				public int getA() { return this.a; }
+				public int getA() { return this.steps[0].getA(); }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 					int i;
 					i = -1;
@@ -75,8 +74,7 @@ public class To_odd implements RPP {
 						public int getA() { return this.a; }
 					}
 				};
-				private final int a = steps[0].getA();
-				public int getA() { return this.a; }
+				public int getA() { return this.steps[0].getA(); }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 					int i;
 					i = steps.length;
@@ -86,9 +84,9 @@ public class To_odd implements RPP {
 				}
 			};
 			
-			private final int a = function.getA()+1;
+			public int getA() { return function.getA()+1; } 
 			public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-				final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+				final int repCounterIndex = (startIndex + this.getA()) - 1, originalRepCounter;
 				int repetitionCounter = x[repCounterIndex];
 				originalRepCounter = repetitionCounter;
 			
@@ -107,7 +105,6 @@ public class To_odd implements RPP {
 				} //else: when v is equal to zero, recursive calls stop as a value is returned
 				x[repCounterIndex] = originalRepCounter; // restore the original value
 			}
-			public int getA() { return this.a; } 
 		},
 		
 		new RPP() { // ParCompImpl
@@ -119,10 +116,12 @@ public class To_odd implements RPP {
 				}
 				public int getA() { return this.a; }
 			};
-			private final int a = 2 ;
-			public int getA() { return this.a; }
+			public int getA() { return 2; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				this.f.b(x,
+					startIndex + 0,
+					startIndex + (0) + (1)
+					);
 			}
 		},
 		
@@ -134,12 +133,10 @@ public class To_odd implements RPP {
 				x[startIndex + 0] = x[startIndex + 1]; 
 				x[startIndex + 1] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = -1;

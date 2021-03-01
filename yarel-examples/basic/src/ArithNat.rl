@@ -5,7 +5,7 @@
  */
 module arithNat { 
 
-	//////// sum	
+	//////// sum
 	dcl sumN : 2 int
 	/* in : x    , y both equal or greater than 0
 	 * out: x + y, y
@@ -21,7 +21,7 @@ module arithNat {
 	 * Behavior achieved by inverting sum, i.e. by iterating the inverse of inc.
 	 */
 	def subN := inv[sumN]
-	
+
 	//////// multiplication	
 	dcl mulN : 3 int
 	/* in : x        , y, a
@@ -30,7 +30,7 @@ module arithNat {
 	 * ancilla a as a starting point.
 	 */
 	def mulN := /3 1 2/;it[sumN] 
-	
+
 	//////// quotient
 	dcl disSelN: 3 int
 	/* in : q(otient) , n(egative)o(verflow)c(ounter), r(eminder)

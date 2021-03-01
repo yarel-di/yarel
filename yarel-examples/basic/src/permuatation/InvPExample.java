@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvPExample implements RPP {
 	public InvPExample() { }
+
 	
 	public PExample getInverse(){
 		return new PExample();
@@ -18,6 +19,5 @@ public class InvPExample implements RPP {
 		x[startIndex + 1] = x[startIndex + 3]; 
 		x[startIndex + 3] = tmp; 
 	}
-	
 	public int getA() { return this.a; }
 }

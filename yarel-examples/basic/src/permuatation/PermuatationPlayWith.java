@@ -34,7 +34,6 @@ import java.util.Arrays;
 * <li> {@link permuatation.PIndexed_min_1}</li>
 * <li> {@link permuatation.ShiftLastToFirst5}</li>
 * <li> {@link permuatation.ShiftLastToFirst10}</li>
-* <li> {@link permuatation.ShiftLastToFirstK}</li>
  * </ul>
  * <p>
  *
@@ -96,8 +95,6 @@ public class PermuatationPlayWith {
 		testShiftLastToFirst5();
 		
 		testShiftLastToFirst10();
-		
-		testShiftLastToFirstK();
 	}
 	
 	//
@@ -572,34 +569,6 @@ public class PermuatationPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function shiftLastToFirst10 with values:" + Arrays.toString(data));
 			shiftLastToFirst10RPP.b(data);
-			System.out.println("Resulting in: " + Arrays.toString(data));
-		}
-	}
-	
-	
-	
-	public static void testShiftLastToFirstK(){
-		RPP shiftLastToFirstKRPP = new permuatation.ShiftLastToFirstK();
-		final int[][] datasets = {
-			new int[]{1,5},
-			new int[]{1,5},
-			new int[]{ 0,  0},
-			new int[]{ 1,  1},
-			new int[]{ -1,  -1},
-			new int[]{ 2,  2},
-			new int[]{ -2,  -2},
-			new int[]{ 3,  3},
-			new int[]{ -3,  -3},
-			new int[]{ 4,  4},
-			new int[]{ -4,  -4},
-			new int[]{ 10,  10},
-			new int[]{ -10,  -10},
-			new int[]{ 11,  11},
-			new int[]{ -11,  -11},
-		};
-		for( int[] data: datasets ){
-			System.out.println("\nTesting the function shiftLastToFirstK with values:" + Arrays.toString(data));
-			shiftLastToFirstKRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class VeryAloneInc implements RPP {
 	public VeryAloneInc() { }
+
 	
 	public InvVeryAloneInc getInverse(){
 		return new InvVeryAloneInc();
@@ -16,9 +17,11 @@ public class VeryAloneInc implements RPP {
 		}
 		public int getA() { return this.a; }
 	};
-	private final int a = 10 ;
-	public int getA() { return this.a; }
+	public int getA() { return 10; }
 	public void b(int[] x, int startIndex, int endIndex) {
-		this.f.b(x, startIndex + 3, startIndex + this.a + 3);
+		this.f.b(x,
+			startIndex + 3,
+			startIndex + (3) + (1)
+			);
 	}
 }

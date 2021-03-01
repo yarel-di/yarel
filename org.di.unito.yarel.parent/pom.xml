@@ -9,8 +9,9 @@
 	<properties>
 		<xtextVersion>2.15.0</xtextVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<junit-platform.version>5.3.1</junit-platform.version>
 		<!-- Tycho settings -->
 		<tycho-version>1.2.0</tycho-version>
 		<!-- Define overridable properties for tycho-surefire-plugin -->
@@ -31,8 +32,30 @@
 		<module>org.di.unito.yarel.ui.tests</module>
 		<module>org.di.unito.yarel.update</module>
 	</modules>
+	
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit-platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
 	<build>
 		<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+            </plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
@@ -323,6 +346,4 @@
 		</profile>
 	</profiles>
 
-	<dependencies>
-	</dependencies>
 </project>

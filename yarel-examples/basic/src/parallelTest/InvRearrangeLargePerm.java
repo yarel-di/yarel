@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvRearrangeLargePerm implements RPP {
 	public InvRearrangeLargePerm() { }
+
 	
 	public RearrangeLargePerm getInverse(){
 		return new RearrangeLargePerm();
@@ -22,6 +23,5 @@ public class InvRearrangeLargePerm implements RPP {
 		x[startIndex + 2] = x[startIndex + 5]; 
 		x[startIndex + 5] = tmp; 
 	}
-	
 	public int getA() { return this.a; }
 }

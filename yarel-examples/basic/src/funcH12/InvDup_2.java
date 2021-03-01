@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvDup_2 implements RPP {
 	public InvDup_2() { }
+
 	
 	public Dup_2 getInverse(){
 		return new Dup_2();
@@ -17,7 +18,6 @@ public class InvDup_2 implements RPP {
 				x[startIndex + 0] = x[startIndex + 1]; 
 				x[startIndex + 1] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -31,15 +31,14 @@ public class InvDup_2 implements RPP {
 				}
 				public int getA() { return this.a; }
 			};
-			private final int a = function.getA()+1;
+			public int getA() { return function.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				int endIndexBody = (startIndex + a) - 1;
+				int endIndexBody = (startIndex + this.getA()) - 1;
 				int iterationsLeft = Math.abs(x[endIndexBody]);
 				while(iterationsLeft-->0){
 					function.b(x, startIndex, endIndexBody);
 				}
 			}
-			public int getA() { return this.a; } 
 			// Iteration stop
 		},
 		
@@ -50,7 +49,7 @@ public class InvDup_2 implements RPP {
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);
 				}
-				public int getA() { return this.a; }
+				public int getA() { return f.getA(); }
 			};
 			RPP zero=new RPP() {
 				private RPP f = InvId.SINGLETON_InvId;
@@ -58,7 +57,7 @@ public class InvDup_2 implements RPP {
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.f.b(x, startIndex, endIndex);
 				}
-				public int getA() { return this.a; }
+				public int getA() { return f.getA(); }
 			};
 			RPP neg=new RPP() {
 				private RPP f = InvNeg.SINGLETON_InvNeg;
@@ -68,10 +67,9 @@ public class InvDup_2 implements RPP {
 				}
 				public int getA() { return this.a; }
 			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
+			public int getA() {return this.pos.getA()+1;}
 			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
+				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){
 					pos.b(x, startIndex, startIndex + pos.getA());
 				} else if(testValue == 0){
@@ -82,8 +80,7 @@ public class InvDup_2 implements RPP {
 			}
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = steps.length;

@@ -34,4 +34,5 @@ module arithInt {
 	 */
 	dcl sub : 5 int
 	def sub := inv[sum]
+
 }

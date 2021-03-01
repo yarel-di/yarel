@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class OneDecInMiddle implements RPP {
 	public OneDecInMiddle() { }
+
 	
 	public InvOneDecInMiddle getInverse(){
 		return new InvOneDecInMiddle();
@@ -16,9 +17,11 @@ public class OneDecInMiddle implements RPP {
 		}
 		public int getA() { return this.a; }
 	};
-	private final int a = 3 ;
-	public int getA() { return this.a; }
+	public int getA() { return 3; }
 	public void b(int[] x, int startIndex, int endIndex) {
-		this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+		this.f.b(x,
+			startIndex + 1,
+			startIndex + (1) + (1)
+			);
 	}
 }

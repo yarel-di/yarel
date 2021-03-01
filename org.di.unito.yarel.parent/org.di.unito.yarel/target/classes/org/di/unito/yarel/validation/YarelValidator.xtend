@@ -20,7 +20,11 @@ package org.di.unito.yarel.validation
 
 import com.google.inject.Inject
 import java.util.HashSet
+import java.util.Map
+import java.util.TreeMap
+import java.util.function.Function
 import org.di.unito.yarel.scoping.YarelIndex
+import org.di.unito.yarel.utils.Utils
 import org.di.unito.yarel.utils.YarelUtils
 import org.di.unito.yarel.yarel.BodyIf
 import org.di.unito.yarel.yarel.BodyPerm
@@ -28,26 +32,26 @@ import org.di.unito.yarel.yarel.Declaration
 import org.di.unito.yarel.yarel.Definition
 import org.di.unito.yarel.yarel.Import
 import org.di.unito.yarel.yarel.Model
+import org.di.unito.yarel.yarel.ParameterLEWP
 import org.di.unito.yarel.yarel.SerComp
+import org.di.unito.yarel.yarel.TypeParam
 import org.di.unito.yarel.yarel.YarelPackage
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.validation.CheckType
 
-import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.di.unito.yarel.yarel.PermutationIndexed
-import java.util.Comparator
-import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.ecore.EReference
-import java.util.Map
-import java.util.function.Function
-import java.util.TreeMap
-import org.di.unito.yarel.yarel.TypeParam
+import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
+import org.di.unito.yarel.yarel.FunctionInvocation
+import org.di.unito.yarel.utils.ComposedArity
+import org.di.unito.yarel.yarel.ParametricArity
+import org.di.unito.yarel.yarel.impl.ParamLEWPImpl
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
  */
 class YarelValidator extends AbstractYarelValidator {
-	@Inject extension YarelIndex
+//	@Inject extension YarelIndex
 	@Inject extension YarelUtils
 
 	//Error ids
@@ -63,25 +67,46 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_IMPORT = BASE_ERROR_NAME + 'ERROR_IMPORT'
 	public static val ERROR_DUPLICATE_MODULE = BASE_ERROR_NAME + 'ERROR_DUPLICATE_MODULE'
 	public static val ERROR_INVALID_DEFINITION_COUNT = BASE_ERROR_NAME + 'ERROR_INVALID_DEFINITION_COUNT'
+	public static val ERROR_FUNCTION_PARAM_OUTSIDE_DEFINITION = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAM_OUTSIDE_DEFINITION'
+	public static val ERROR_DUPLICATE_PARAMETER_DEFINITION = BASE_ERROR_NAME + 'ERROR_DUPLICATE_PARAMETER_DEFINITION'
+	public static val ERROR_WRONG_PARAMETERS_AMOUNT_ON_FUNCTION_CALL = BASE_ERROR_NAME + 'ERROR_WRONG_PARAMETERS_AMOUNT_ON_FUNCTION_CALL'
 	
+
 	
-	protected static Comparator<String> STRING_COMPARATOR = [String s1, String s2 |
-		if(s1==s2){return 0;}
-		else if (s1 === null ){return -1;}
-		else if (s2 === null ){return 1;}
-		else return s1.compareTo(s2);
-	];
 	
 	/**
 	 * Check if arities of the three functions passed to the IF operator are equal
 	 */
 	@Check
 	def checkSelection(BodyIf selection) {
-		val posArity =YarelUtils.getArity( selection.pos)
+		val posArity =  YarelUtils.getArity(selection.pos)
 		val negArity =  YarelUtils.getArity(selection.neg)
 		val zeroArity = YarelUtils.getArity(selection.zero)
-		if((posArity != zeroArity) || (zeroArity != negArity) || (posArity != negArity)) //TODO: Da separare per evidenziare l'errore sulla funzione giusta
-				error("Arity of positive, zero and negative functions must be equal", YarelPackage::eINSTANCE.bodyIf_Pos, ERROR_IF_FUNCTIONS_ARITY)
+		val boolean posEqualsZero = posArity.equals(zeroArity)
+		val boolean negEqualsZero = negArity.equals(zeroArity)
+		val boolean posEqualsNeg  = posArity.equals(negArity)
+		if(! (posEqualsZero && negEqualsZero && posEqualsNeg)){ // the last is redundant ..
+			if(posEqualsZero){
+				error("Arity of negative function ["+negArity.toString()+"] is not equal to the others: [" + posArity.toString() + "]"
+					, YarelPackage::eINSTANCE.bodyIf_Neg, ERROR_IF_FUNCTIONS_ARITY
+				)
+			} else if(negEqualsZero){
+				error("Arity of positive function ["+posArity.toString()+"] is not equal to the others: [" + negEqualsZero.toString() + "]"
+					, YarelPackage::eINSTANCE.bodyIf_Pos, ERROR_IF_FUNCTIONS_ARITY
+				)
+			} else if(posEqualsNeg){
+				error("Arity of zero-case function ["+zeroArity.toString()+"] is not equal to the others: [" + posArity.toString() + "]"
+					, YarelPackage::eINSTANCE.bodyIf_Zero, ERROR_IF_FUNCTIONS_ARITY
+				)
+			} else {
+				error("All functions arities must be equal, but are all different:"
+						+"\n\tpos : [" + posArity.toString() + "]"
+						+"\n\tzero: [" + zeroArity.toString() + "]"
+						+"\n\tneg : [" + negArity.toString() + "]"
+					, YarelPackage::eINSTANCE.bodyIf_Function, ERROR_IF_FUNCTIONS_ARITY
+				)
+			}
+		}
 	}
 	
 	/**
@@ -92,8 +117,11 @@ class YarelValidator extends AbstractYarelValidator {
 		val leftArity = YarelUtils.getArity(serial.left)
 		val rightArity = YarelUtils.getArity(serial.right)
 		
-		if(leftArity != rightArity)
-			error("Arity of left and right branch must be equal", YarelPackage::eINSTANCE.serComp_Left, ERROR_SERIAL_COMPOSITION)
+		if(!leftArity.equals(rightArity))
+			error("Arity of left and right branch in serial composition must be equal: LEFT:["
+				+ leftArity.toString() + "] , right:["+rightArity.toString()+"]"
+				, YarelPackage::eINSTANCE.serComp_Left, ERROR_SERIAL_COMPOSITION
+			)
 	}
 	
 	/**
@@ -103,8 +131,8 @@ class YarelValidator extends AbstractYarelValidator {
 	def checkArity(Definition definition) {
 		val arityDec = YarelUtils.getArity(definition.declarationName);
 		val arityDef = YarelUtils.getArity(definition.body);
-		if(arityDec  != arityDef)
-			error('''Different arities: declarion=«arityDec»; definition=«arityDef»''', YarelPackage::eINSTANCE.definition_Body, ERROR_ARITY)
+		if(!arityDec.equals(arityDef))
+			error('''Different arities:\n\tdeclarion=[«arityDec»];\n\tdefinition=[«arityDef»]''', YarelPackage::eINSTANCE.definition_Body, ERROR_ARITY)
 	}
 	
 	/**
@@ -114,11 +142,12 @@ class YarelValidator extends AbstractYarelValidator {
 	def checkPermutationBound(BodyPerm permutationBody) {
 		val permutation = permutationBody.permutation
 		val arity = YarelUtils.getArity(permutationBody)
-		
-		val outOfBoundIndexes = permutation.indexes.filter[!(1..arity).contains(it.value)]
+		val intArityPart = arity.scalar
+		val indexes = 1..intArityPart
+		val outOfBoundIndexes = permutation.indexes.filter[!indexes.contains(it.value)]
 		
 		if(outOfBoundIndexes.size > 0)
-				error("Index of permutation out of bound, it must be between 1 and " + arity, YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_BOUND)
+				error("Index of permutation out of bound, it must be between 1 and " + intArityPart, YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_BOUND)
 	}	
 	
 	/**
@@ -144,7 +173,7 @@ class YarelValidator extends AbstractYarelValidator {
 	 */
 	@Check(CheckType::NORMAL)
 	def checkImport(Import impt){
-		val importedModule = impt.visibleModules.findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
+		val importedModule = YarelIndex.getVisibleModules(impt).findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
 		if(importedModule === null){//check if the module exist
 			error(
 				''''«impt.importedModule»' cannot be resolved as a module''', 
@@ -155,7 +184,7 @@ class YarelValidator extends AbstractYarelValidator {
 		else{//Check that the imported function is declared in the imported module
 			val importedFunction = impt.importedFunction
 			if(importedFunction != '*'){//the wildcard is not used
-				if(!importedModule.declarations.map[name].contains(importedFunction)){//check if the imported module contain the function
+				if(!YarelIndex.declarations(importedModule).map[name].contains(importedFunction)){//check if the imported module contain the function
 					error(
 						"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
 						YarelPackage::eINSTANCE.import_ImportedNamespace, 
@@ -171,7 +200,7 @@ class YarelValidator extends AbstractYarelValidator {
 	 */
 	 @Check(CheckType::NORMAL)
 	def checkModuleDuplicate(Model currentModule){
-		if(currentModule.visibleModules.exists[mod | mod != currentModule && mod.name == currentModule.name]){
+		if(YarelIndex.getVisibleModules(currentModule).exists[mod | mod != currentModule && mod.name == currentModule.name]){
 			error(
 				'''The module '«currentModule.name»' is already defined''',
 				YarelPackage::eINSTANCE.model_Name,
@@ -190,8 +219,9 @@ class YarelValidator extends AbstractYarelValidator {
 		val currentModule = decl.getContainerOfType(typeof(Model))
 		var count = 0
 		var i = 0
-		while(count < 2 && i < currentModule.definitions.size){//count the number of definition
-			if(currentModule.definitions.get(i).declarationName == decl) count++
+		val defs = YarelIndex.definitions( currentModule)
+		while(count < 2 && i < defs.size){//count the number of definition
+			if(defs.get(i).declarationName == decl) count++
 			i++
 		}
 		if(count >= 2){//check if the declaration has no definition
@@ -204,30 +234,22 @@ class YarelValidator extends AbstractYarelValidator {
 			error('''The declared function '«decl.name»' has no definition''',
 				YarelPackage::eINSTANCE.declaration_Name,
 				ERROR_INVALID_DEFINITION_COUNT
-			)	
+			)
 		}
 		//else noError
 	}
 	
-//	@Check(CheckType::FAST)
-//	def checkBodyPermIndexArity(PermutationIndexed indexedPermutations){
-//		if(indexedPermutations.permutationArity < 2){
-//			error('''Indexed permutations invalid: «indexedPermutations.permutationArity». The minimum is 2.''',
-//				YarelPackage::eINSTANCE.permutation_Indexes,
-//				ERROR_ARITY
-//			)
-//		}
-//	}
 	
+	/*Added by Marco Ottina*/
 	def <E> pinpointDuplicate(EList<E> list, EReference literal, Map<String,Integer> elementToIndexMap, 
 		Function<E,String> elementToStringMapper, String listName){
 		elementToIndexMap.clear;
 		for (var i= 0; i < list.size ; i++){
-			var name =elementToStringMapper.apply(list.get(i));
+			var name = elementToStringMapper.apply(list.get(i));
 			if(elementToIndexMap.containsKey(name)){
-				error("Duplicate element \"" + name + "\" in "+listName+" list at index "+(i+1)+":(it was the " +
-						(elementToIndexMap.get(name) +1) +"-th element).", 
-						literal, i
+				error(
+					'''Duplicate element "«name»" in «listName» list at index «(i+1)» (it was the «(elementToIndexMap.get(name) +1)»-th element).'''
+						,literal, i
 					);
 			}else{
 				elementToIndexMap.put(name,i);
@@ -236,20 +258,78 @@ class YarelValidator extends AbstractYarelValidator {
 		elementToIndexMap.clear;
 	}
 	
-//	@Check
-//	def checkDefinitionParametersUniqueness(Declaration decl){
-//		if(decl.signature.params!==null && (!decl.signature.params.empty)){
-//		val paramsMap= new TreeMap<String,Integer>(STRING_COMPARATOR);
-//			pinpointDuplicate(decl.signature.params, YarelPackage::eINSTANCE.signature_Params, paramsMap,
-//				[ TypeParam parType | parType.parName], "function's parameters"
-//			)
-//		}
-//	}
+	@Check
+	def checkDefinitionParametersUniqueness(Declaration decl){
+		if(decl.signature.params !== null && (!decl.signature.params.empty)){
+			val paramsMap = new TreeMap<String,Integer>(Utils.STRING_COMPARATOR);
+			pinpointDuplicate(decl.signature.params, YarelPackage::eINSTANCE.declaration_Signature, paramsMap,
+				[ TypeParam parType | parType.parName], "function's parameters"
+			)
+		}
+	}
 	
-//	@Check
-//	def warnIfMultipleParametricInvocations(Definition defin){
-//		
-//	}
+	@Check
+	def checkParameterExisting(ParameterLEWP parName){
+		var boolean outsideDefinition = false;
+		val Definition defContext = parName.getContainerOfType(typeof(Definition));
+		if(defContext !== null){
+			val Declaration decl = YarelUtils.getDeclaration(defContext)
+			if(decl !== null){
+				if(! decl.signature.params.map[ parType | parType.parName].contains(parName.paramName)){
+					error(
+						"Undefined parameter: " + parName.paramName,
+						YarelPackage::eINSTANCE.parameterLEWP_ParamName,
+						ERROR_DUPLICATE_PARAMETER_DEFINITION
+					)
+				}
+			}else{
+				outsideDefinition = true;
+			}
+		}else if(parName.getContainerOfType(typeof(Declaration)) === null){
+			outsideDefinition = true;
+		}
+		if(outsideDefinition){
+			warning("Parameter invocation or allocation outside a Definition (a code block) or a function's Declaration.",
+				parName,
+				YarelPackage::eINSTANCE.parameterLEWP_ParamName,
+				ERROR_FUNCTION_PARAM_OUTSIDE_DEFINITION
+			)
+		}
+	}
+
+	@Check
+	def checkEnoughParametersToFunction(FunctionInvocation function ){
+		val ComposedArity caFuncDef = YarelUtils.getArityOfFunctionName(function, function.funName.name);
+		if(caFuncDef ===null){
+			return; // neither the model or the function's Declarations exists
+		}
+		if (
+			(function.parameters===null && caFuncDef.parametersAmount != 0) ||
+			(function.parameters !== null && (function.parameters.size != caFuncDef.parametersAmount))
+			){
+			if (function.parameters === null){
+				error("Wrong function's parameter provided (between curly brackets): "
+					+ caFuncDef.parametersAmount + " expected, "+
+					(function.parameters===null ? 0 : function.parameters.size) + " provided.",
+					YarelPackage::eINSTANCE.functionInvocation_Parameters,
+					ERROR_WRONG_PARAMETERS_AMOUNT_ON_FUNCTION_CALL
+				)
+			}
+		}
+	}
+
+	@Check
+	def warnIfNegativeParameters(ParametricArity pa){
+		val composedArity = YarelUtils.getArity(pa.arity);
+		composedArity.parametersCoefficients.forEach[parName, parCoeff, index|
+			if(parCoeff < 0){
+				warning("Parameter \""+parName+"\"'s coefficient should not be negative: "+parCoeff,
+					YarelPackage::eINSTANCE.parametricArity_Arity,index,
+					BASE_ERROR_NAME + "WARNING_ARITY"
+				)
+			}
+		]
+	}
 	
 //	@Check
 //	def checkParametersExisting(ParametricArity parmArity){
@@ -267,6 +347,17 @@ class YarelValidator extends AbstractYarelValidator {
 ////		permutationArity =
 ////		defin.
 //			}
+//		}
+//	}
+
+
+//	@Check(CheckType::FAST)
+//	def checkBodyPermIndexArity(PermutationIndexed indexedPermutations){
+//		if(indexedPermutations.permutationArity < 2){
+//			error('''Indexed permutations invalid: «indexedPermutations.permutationArity». The minimum is 2.''',
+//				YarelPackage::eINSTANCE.permutation_Indexes,
+//				ERROR_ARITY
+//			)
 //		}
 //	}
 }

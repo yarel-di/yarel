@@ -1,24 +1,23 @@
 package org.di.unito.yarel.scoping
 
-import org.eclipse.emf.ecore.EObject
 import com.google.inject.Inject
-import org.eclipse.xtext.mwe.ResourceDescriptionsProvider
-import org.eclipse.xtext.resource.IContainer
-import org.di.unito.yarel.yarel.YarelPackage
+import org.di.unito.yarel.yarel.Declaration
+import org.di.unito.yarel.yarel.Definition
 import org.di.unito.yarel.yarel.Model
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.common.util.URI
-import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.di.unito.yarel.yarel.YarelPackage
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.resource.IContainer
+import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider
 
 /*Added by Matteo Palazzo */
 class YarelIndex {
-	@Inject org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider rdp
-	@Inject IContainer$Manager cm
+	@Inject static ResourceDescriptionsProvider rdp
+	@Inject static IContainer.Manager cm
 	
 	/*
 	 * Return all the visible modules from the object o
 	 */
-	def getVisibleModules(EObject o){
+	def static getVisibleModules(EObject o){
 		val index = rdp.getResourceDescriptions(o.eResource)
  		val rd = index.getResourceDescription(o.eResource.URI)
  		cm.getVisibleContainers(rd, index)
@@ -33,5 +32,38 @@ class YarelIndex {
  				}
  				modObj as Model
  			]
+	}
+	
+	// moved here by Marco Ottina
+	/*
+	 * Return all the declarations of a module
+	 */
+	def static declarations(Model module){module.elements.filter(typeof(Declaration))}
+
+	// moved here by Marco Ottina
+	/*
+	 * Return all the definitions of a module
+	 */
+	def static definitions(Model module){module.elements.filter(typeof(Definition))}
+	
+	
+	/*Added by Marco Ottina */
+	
+	
+	def static Model getModelOfFunction(EObject contextFunctionInvocation, String functionName){
+		return contextFunctionInvocation.visibleModules.findFirst[
+			mod |
+				mod.declarations.map[ declInMod|
+						declInMod.name
+					].contains(functionName)
+		]
+	}
+	
+	def static dispatch Model getModelContaining(Declaration decl){
+		return getModelOfFunction(decl, decl.name)
+	}
+	
+	def static dispatch Model getModelContaining(Definition deff){
+		return getModelOfFunction(deff, deff.declarationName.name)
 	}
 }

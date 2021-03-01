@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvAnotherOneIncInTheDust implements RPP {
 	public InvAnotherOneIncInTheDust() { }
+
 	
 	public AnotherOneIncInTheDust getInverse(){
 		return new AnotherOneIncInTheDust();
@@ -16,9 +17,11 @@ public class InvAnotherOneIncInTheDust implements RPP {
 		}
 		public int getA() { return this.a; }
 	};
-	private final int a = 3 ;
-	public int getA() { return this.a; }
+	public int getA() { return 3; }
 	public void b(int[] x, int startIndex, int endIndex) {
-		this.f.b(x, startIndex + 2, startIndex + this.a + 2);
+		this.f.b(x,
+			startIndex + 2,
+			startIndex + (2) + (1)
+			);
 	}
 }

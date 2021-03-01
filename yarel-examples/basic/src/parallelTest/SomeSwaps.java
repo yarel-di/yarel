@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class SomeSwaps implements RPP {
 	public SomeSwaps() { }
+
 	
 	public InvSomeSwaps getInverse(){
 		return new InvSomeSwaps();
@@ -25,6 +26,5 @@ public class SomeSwaps implements RPP {
 		x[startIndex + 4] = x[startIndex + 7]; 
 		x[startIndex + 7] = tmp; 
 	}
-	
 	public int getA() { return this.a; }
 }

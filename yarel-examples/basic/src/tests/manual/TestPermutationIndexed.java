@@ -2,6 +2,10 @@ package tests.manual;
 
 import java.util.Arrays;
 
+import parametricStuffs.InvShiftFirstToLastK;
+import parametricStuffs.InvShiftLastToFirstK;
+import parametricStuffs.ShiftFirstToLastK;
+import parametricStuffs.ShiftLastToFirstK;
 import permuatation.InvShiftLastToFirst10;
 import permuatation.InvShiftLastToFirst5;
 import permuatation.PIndexed_1;
@@ -24,7 +28,7 @@ import yarelcore.RPP;
 public class TestPermutationIndexed {
 
 	public static void main(String[] args) {
-		int i;
+//		int i;
 		int[] regs = new int[5];
 		RPP[] perms = { //
 				new PIndexed_1(), //
@@ -70,6 +74,49 @@ public class TestPermutationIndexed {
 		(new InvShiftLastToFirst10()).b(regs);
 		System.out.println("\t shifter 5 regs after inverse call: " + Arrays.toString(regs));
 		System.out.println("END ShiftLastToFirst10");
+
+		System.out.println("\n\n\n\n---------------------------");
+		System.out.println("start ShiftLastToFirstK");
+		regs = new int[] { //
+				1, 2, 3, 4, 5, //
+				6, 7, 8, 9, 0, //
+				-1, -2, -3, -4, -5, //
+				0, 15 //
+		};
+		int k = regs.length - 2;
+		ShiftLastToFirstK shifterK = new ShiftLastToFirstK(k);
+		System.out.println("shifter K registers was: " + Arrays.toString(regs));
+		shifterK.b(regs);
+		System.out.println("\t shifter K regs now is: " + Arrays.toString(regs));
+		(new InvShiftLastToFirstK(k)).b(regs);
+		System.out.println("\t shifter K regs after inverse call: " + Arrays.toString(regs));
+		System.out.println("END ShiftLastToFirstK");
+
+		k = 7;
+		System.out.println("redo ShiftLastToFirstK with k=" + k);
+		shifterK = new ShiftLastToFirstK(k);
+		System.out.println("new shifterK has arity: " + shifterK.getA());
+//		regs[regs.length - 1] = k;
+		regs[k + 1] = k;
+		regs[k] = 0;
+		System.out.println("shifter K registers was: " + Arrays.toString(regs));
+		shifterK.b(regs);
+		System.out.println("\t shifter K regs now is: " + Arrays.toString(regs));
+		(new InvShiftLastToFirstK(k)).b(regs);
+		System.out.println("\t shifter K regs after inverse call: " + Arrays.toString(regs));
+		System.out.println("END ShiftLastToFirstK with k=7");
+
+		regs[k + 1] = k + 2;
+		regs[k] = k + 1;
+		k = 15;
+		System.out.println("Now ShiftFirstToLastK with k=" + k);
+		ShiftFirstToLastK shiftFTLk = new ShiftFirstToLastK(k);
+		System.out.println("ShiftFirstToLastK K registers was: " + Arrays.toString(regs));
+		shiftFTLk.b(regs);
+		System.out.println("\t shifter K regs now is: " + Arrays.toString(regs));
+		(new InvShiftFirstToLastK(k)).b(regs);
+		System.out.println("\t shifter K regs after inverse call: " + Arrays.toString(regs));
+		System.out.println("END ShiftFirstToLastK with k=" + k);
 
 		// System.out.println("\n\n\n\n---------------------------");
 //		regs = new int[12];

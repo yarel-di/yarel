@@ -14,7 +14,6 @@ module Fibonacci {
 		]
 		;/3 2 1/
 
- 
 	dcl fibonacci: 4 int // n 0 0 0
 	def fibonacci := // n fib(n) 0 0
 		fib|id         // n fib(n) fib(n-1) 0

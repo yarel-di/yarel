@@ -3,6 +3,7 @@ import yarelcore.*;
 
 public class InvPermutation implements RPP {
 	public InvPermutation() { }
+
 	
 	public Permutation getInverse(){
 		return new Permutation();
@@ -16,6 +17,5 @@ public class InvPermutation implements RPP {
 		x[startIndex + 1] = x[startIndex + 2]; 
 		x[startIndex + 2] = tmp; 
 	}
-	
 	public int getA() { return this.a; }
 }

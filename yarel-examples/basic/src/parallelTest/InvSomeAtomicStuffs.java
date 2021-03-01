@@ -1,10 +1,12 @@
 package parallelTest;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Supplier;
 import yarelcore.*;	
 
 public class InvSomeAtomicStuffs implements RPP {
 	public InvSomeAtomicStuffs() { }
+
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
 	 * Instances of {@link Executors} are "natively" designed for it.<br>
@@ -65,15 +67,14 @@ public class InvSomeAtomicStuffs implements RPP {
 						}
 						public int getA() { return this.a; }
 					};
-					private final int a = function.getA()+1;
+					public int getA() { return function.getA()+1; }
 					public void b(int[] x, int startIndex, int endIndex) {
-						int endIndexBody = (startIndex + a) - 1;
+						int endIndexBody = (startIndex + this.getA()) - 1;
 						int iterationsLeft = Math.abs(x[endIndexBody]);
 						while(iterationsLeft-->0){
 							function.b(x, startIndex, endIndexBody);
 						}
 					}
-					public int getA() { return this.a; } 
 					// Iteration stop
 				},
 				
@@ -86,15 +87,16 @@ public class InvSomeAtomicStuffs implements RPP {
 						}
 						public int getA() { return this.a; }
 					};
-					private final int a = 2 ;
-					public int getA() { return this.a; }
+					public int getA() { return 2; }
 					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+						this.f.b(x,
+							startIndex + 0,
+							startIndex + (0) + (1)
+							);
 					}
 				}
 			};
-			private final int a = steps[0].getA();
-			public int getA() { return this.a; }
+			public int getA() { return this.steps[0].getA(); }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 				int i;
 				i = steps.length;
@@ -142,8 +144,7 @@ public class InvSomeAtomicStuffs implements RPP {
 					public int getA() { return this.a; }
 				}
 			};
-			private final int a = steps[0].getA();
-			public int getA() { return this.a; }
+			public int getA() { return this.steps[0].getA(); }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 				int i;
 				i = steps.length;
@@ -153,9 +154,14 @@ public class InvSomeAtomicStuffs implements RPP {
 			}
 		}
 	};
-	private final int[] startIndexOffsets = { 0,1,3,5,6 };
-	private final int a = 7;
-	public int getA() { return this.a; }
+	private final AritySupplier[] startIndexOffsetSuppliers = { //
+		() -> { return 0;}; }, //
+		() -> { return 1;}; }, //
+		() -> { return 3;}; }, //
+		() -> { return 5;}; }, //
+		() -> { return 6;}
+	};
+	public int getA() { return (7); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
 		/**
 		 * The Yarel's compiled code runs on a single {@link Thread}, which We could name
@@ -185,14 +191,14 @@ public class InvSomeAtomicStuffs implements RPP {
 		 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
 		*/
 		
-		boolean areChildrenRunning = true;
+		boolean areChildrenRunning = true, neverStarted;
 		int startingIndex;
 		final int[] semaphore = new int[]{ subtasks.length };
 		final Runnable[] tasks = new Runnable[ semaphore[0] ];
 	
 		// PHASE 1 convert the RPP in runnable tasks
 		for(int i = 0; i < tasks.length; i++){
-			startingIndex = startIndex + startIndexOffsets[i];
+			startingIndex = startIndex + startIndexOffsetSuppliers[i].get();
 			tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 				public void run(){
 					// execute the main body (delegate inside the superclass implementation)
@@ -208,40 +214,35 @@ public class InvSomeAtomicStuffs implements RPP {
 			};
 			// each tasks performs over their own registers segment, so update the starting point
 		}
-		
-		// PHASE 2: put the "sprinters" at the "race's starting blocks".
-		synchronized (semaphore) { // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
-			threadPoolExecutor.submit( ()-> {
-				/* This runner is the "submitter", which task is to submit all parallel tasks,
-					and can't run while the main thread has the lock, because that main thread is still working.
-					It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
-					due to race conditions.
-				*/
-				synchronized (semaphore) {
-					// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
-					for(Runnable t : tasks){ // let's start the tasks
-						threadPoolExecutor.submit(t);
-					}
-				}
-			});
-			
-			// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
-			try {
-				semaphore.wait(); 
-				/* The "wait" let the main thread to sleep, releasing the lock.
-					NOW the submitter can submit the parallel tasks, which can then to be executed.
-				*/
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		neverStarted = true;
 		do{
-			synchronized (semaphore) {
-				if(semaphore[0] <= 0){
-					areChildrenRunning = false;
-				} else {
+			synchronized (semaphore) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
+				if(neverStarted){
+					neverStarted = false;
+				// PHASE 2: put the "sprinters" at the "race's starting blocks".
+					threadPoolExecutor.submit( ()-> {
+						/* This runner is the "submitter", which task is to submit all parallel tasks,
+							and can't run while the main thread has the lock, because that main thread is still working.
+							It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
+							due to race conditions.
+						*/
+						synchronized (semaphore) {
+							// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
+							for(Runnable t : tasks){ // let's start the tasks
+								threadPoolExecutor.submit(t);
+							}
+						}
+					});
+				}
+				
+				areChildrenRunning = semaphore[0] > 0;
+				if(areChildrenRunning){
+				// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
 					try {
-						semaphore.wait(); // some child(dren) is still running
+						/* The "wait" let the main thread to sleep, releasing the lock.
+							NOW the submitter can submit the parallel tasks, which can then to be executed.
+						*/
+						semaphore.wait(); // some child(dren) is(are) still running
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
