@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class SameSignCompare implements RPP {
 	public SameSignCompare() { }
+	
+	
 
 	
 	public InvSameSignCompare getInverse(){
@@ -115,7 +117,7 @@ public class SameSignCompare implements RPP {
 						);
 				}
 			};
-			public int getA() {return this.pos.getA()+1;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){

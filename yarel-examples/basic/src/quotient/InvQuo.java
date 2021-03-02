@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvQuo implements RPP {
 	public InvQuo() { }
+	
+	
 
 	
 	public Quo getInverse(){
@@ -28,7 +30,7 @@ public class InvQuo implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSumN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -64,7 +66,7 @@ public class InvQuo implements RPP {
 					new RPP() { // ParCompImpl
 						private RPP f = new RPP(){
 							RPP function = new InvQuoStep();
-							 public int getA() { return function.getA(); }
+							public int getA() { return function.getA(); }
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.function.b(x, startIndex, endIndex);
 							}
@@ -119,7 +121,7 @@ public class InvQuo implements RPP {
 									);
 							}
 						};
-						public int getA() {return this.pos.getA()+1;}
+						public int getA() { return this.pos.getA()+1; }
 						public void b(int[] x, int startIndex, int endIndex) {
 							final int testValue = x[(startIndex + this.getA()) - 1];
 							if(testValue > 0){
@@ -161,7 +163,7 @@ public class InvQuo implements RPP {
 								new RPP() { // ParCompImpl
 									private RPP f = new RPP(){
 										RPP function = new arithNat.InvSumN();
-										 public int getA() { return function.getA(); }
+										public int getA() { return function.getA(); }
 										public void b(int[] x, int startIndex, int endIndex) {
 											this.function.b(x, startIndex, endIndex);
 										}
@@ -208,7 +210,7 @@ public class InvQuo implements RPP {
 								// There were only parallels identities, nothing interesting to show and run
 							}
 						};
-						public int getA() {return this.pos.getA()+1;}
+						public int getA() { return this.pos.getA()+1; }
 						public void b(int[] x, int startIndex, int endIndex) {
 							final int testValue = x[(startIndex + this.getA()) - 1];
 							if(testValue > 0){
@@ -244,7 +246,7 @@ public class InvQuo implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSubN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -273,7 +275,7 @@ public class InvQuo implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSumN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

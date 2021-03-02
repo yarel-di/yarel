@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvCu implements RPP {
 	public InvCu() { }
+	
+	
 
 	
 	public Cu getInverse(){
@@ -23,7 +25,7 @@ public class InvCu implements RPP {
 		
 		new RPP() { // BodyFunImpl
 			RPP function = new boundedMin.InvMinH12();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
@@ -72,7 +74,7 @@ public class InvCu implements RPP {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			public int getA() {return this.pos.getA()+1;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){
@@ -119,7 +121,7 @@ public class InvCu implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new funcH12.InvH12_v2();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -136,7 +138,7 @@ public class InvCu implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.InvSubN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

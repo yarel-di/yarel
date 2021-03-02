@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class Cp implements RPP {
 	public Cp() { }
+	
+	
 
 	
 	public InvCp getInverse(){
@@ -24,7 +26,7 @@ public class Cp implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.SumN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -40,7 +42,7 @@ public class Cp implements RPP {
 		
 		new RPP() { // BodyFunImpl
 			RPP function = new funcH12.P3();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}

@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class Empty3 implements RPP {
 	public Empty3() { }
+	
+	
 
 	
 	public InvEmpty3 getInverse(){

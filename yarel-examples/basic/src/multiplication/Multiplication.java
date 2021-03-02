@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class Multiplication implements RPP {
 	public Multiplication() { }
+	
+	
 
 	
 	public InvMultiplication getInverse(){
@@ -12,7 +14,7 @@ public class Multiplication implements RPP {
 	private final RPP[] steps = new RPP[]{
 		new RPP() { // BodyFunImpl
 			RPP function = new Permutation();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
@@ -53,7 +55,7 @@ public class Multiplication implements RPP {
 		
 		new RPP() { // BodyInvImpl
 			RPP function = new InvPermutation();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}

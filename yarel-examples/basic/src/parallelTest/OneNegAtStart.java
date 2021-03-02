@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class OneNegAtStart implements RPP {
 	public OneNegAtStart() { }
+	
+	
 
 	
 	public InvOneNegAtStart getInverse(){

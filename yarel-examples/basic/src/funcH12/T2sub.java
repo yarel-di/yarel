@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class T2sub implements RPP {
 	public T2sub() { }
+	
+	
 
 	
 	public InvT2sub getInverse(){
@@ -41,7 +43,7 @@ public class T2sub implements RPP {
 		
 		new RPP() { // BodyFunImpl
 			RPP function = new arithNat.SubN();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}

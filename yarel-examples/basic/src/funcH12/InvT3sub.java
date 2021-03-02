@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvT3sub implements RPP {
 	public InvT3sub() { }
+	
+	
 
 	
 	public T3sub getInverse(){
@@ -26,7 +28,7 @@ public class InvT3sub implements RPP {
 			// Iteration start
 			RPP function = new RPP() { // BodyFunImpl
 				RPP function = new InvT2sub();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

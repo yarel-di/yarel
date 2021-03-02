@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvCompareOverflowUnsafe implements RPP {
 	public InvCompareOverflowUnsafe() { }
+	
+	
 
 	
 	public CompareOverflowUnsafe getInverse(){
@@ -10,7 +12,7 @@ public class InvCompareOverflowUnsafe implements RPP {
 	}
 	
 	RPP function = new InvSameSignCompare();
-	 public int getA() { return function.getA(); }
+	public int getA() { return function.getA(); }
 	public void b(int[] x, int startIndex, int endIndex) {
 		this.function.b(x, startIndex, endIndex);
 	}

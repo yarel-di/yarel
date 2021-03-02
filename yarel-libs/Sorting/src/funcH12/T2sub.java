@@ -4,6 +4,9 @@ import yarelcore.*;
 public class T2sub implements RPP {
 	public T2sub() { }
 	
+	
+
+	
 	public InvT2sub getInverse(){
 		return new InvT2sub();
 	}
@@ -18,10 +21,12 @@ public class T2sub implements RPP {
 				}
 				public int getA() { return this.a; }
 			};
-			private final int a = 2 ;
-			public int getA() { return this.a; }
+			public int getA() { return 2; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				this.f.b(x,
+					startIndex + 0,
+					startIndex + (0) + (1)
+					);
 			}
 		},
 		
@@ -33,17 +38,15 @@ public class T2sub implements RPP {
 				x[startIndex + 0] = x[startIndex + 1]; 
 				x[startIndex + 1] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
 		new RPP() { // BodyFunImpl
 			RPP function = new arithNat.SubN();
-			private final int a = function.getA();
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
-			 public int getA() { return this.a; }
 		},
 		
 		new RPP() { // BodyPermImpl
@@ -54,12 +57,10 @@ public class T2sub implements RPP {
 				x[startIndex + 0] = x[startIndex + 1]; 
 				x[startIndex + 1] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = -1;

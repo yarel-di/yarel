@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvAnotherOneIncInTheDust implements RPP {
 	public InvAnotherOneIncInTheDust() { }
+	
+	
 
 	
 	public AnotherOneIncInTheDust getInverse(){

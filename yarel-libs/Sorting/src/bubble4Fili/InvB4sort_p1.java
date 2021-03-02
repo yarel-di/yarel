@@ -4,6 +4,9 @@ import yarelcore.*;
 public class InvB4sort_p1 implements RPP {
 	public InvB4sort_p1() { }
 	
+	
+
+	
 	public B4sort_p1 getInverse(){
 		return new B4sort_p1();
 	}
@@ -12,16 +15,17 @@ public class InvB4sort_p1 implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new cantorPairing.InvCu();
-				private final int a = function.getA();
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 10 ;
-			public int getA() { return this.a; }
+			public int getA() { return 10; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 4, startIndex + this.a + 4);
+				this.f.b(x,
+					startIndex + 4,
+					startIndex + (4) + (5)
+					);
 			}
 		},
 		
@@ -36,7 +40,6 @@ public class InvB4sort_p1 implements RPP {
 				x[startIndex + 6] = x[startIndex + 8]; 
 				x[startIndex + 8] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -52,23 +55,23 @@ public class InvB4sort_p1 implements RPP {
 				x[startIndex + 3] = x[startIndex + 5]; 
 				x[startIndex + 5] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new integerCompare.InvMore();
-				private final int a = function.getA();
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 10 ;
-			public int getA() { return this.a; }
+			public int getA() { return 10; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 2, startIndex + this.a + 2);
+				this.f.b(x,
+					startIndex + 2,
+					startIndex + (2) + (5)
+					);
 			}
 		},
 		
@@ -84,7 +87,6 @@ public class InvB4sort_p1 implements RPP {
 				x[startIndex + 3] = x[startIndex + 5]; 
 				x[startIndex + 5] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -98,27 +100,23 @@ public class InvB4sort_p1 implements RPP {
 						x[startIndex + 2] = x[startIndex + 3]; 
 						x[startIndex + 3] = tmp; 
 					}
-					
 					public int getA() { return this.a; }
 				};
 				RPP zero=new RPP() {
-					private final int a = 4;
-					public int getA() { return this.a; }
+					public int getA() { return 4; }
 					public void b(int[] x, int startIndex, int endIndex) {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
 				RPP neg=new RPP() {
-					private final int a = 4;
-					public int getA() { return this.a; }
+					public int getA() { return 4; }
 					public void b(int[] x, int startIndex, int endIndex) {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
+				public int getA() { return this.pos.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
+					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
 						pos.b(x, startIndex, startIndex + pos.getA());
 					} else if(testValue == 0){
@@ -128,10 +126,12 @@ public class InvB4sort_p1 implements RPP {
 					}
 				}
 			};
-			private final int a = 10 ;
-			public int getA() { return this.a; }
+			public int getA() { return 10; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				this.f.b(x,
+					startIndex + 0,
+					startIndex + (0) + (1)
+					);
 			}
 		},
 		
@@ -151,7 +151,6 @@ public class InvB4sort_p1 implements RPP {
 				x[startIndex + 8] = x[startIndex + 9]; 
 				x[startIndex + 9] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -166,23 +165,23 @@ public class InvB4sort_p1 implements RPP {
 				x[startIndex + 9] = x[startIndex + 7]; 
 				x[startIndex + 7] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new cantorPairing.Cu();
-				private final int a = function.getA();
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 10 ;
-			public int getA() { return this.a; }
+			public int getA() { return 10; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 5, startIndex + this.a + 5);
+				this.f.b(x,
+					startIndex + 5,
+					startIndex + (5) + (5)
+					);
 			}
 		},
 		
@@ -197,12 +196,10 @@ public class InvB4sort_p1 implements RPP {
 				x[startIndex + 7] = x[startIndex + 6]; 
 				x[startIndex + 6] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = steps.length;

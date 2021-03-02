@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvIdentity implements RPP {
 	public InvIdentity() { }
+	
+	
 
 	
 	public Identity getInverse(){
@@ -12,7 +14,7 @@ public class InvIdentity implements RPP {
 	private final RPP[] steps = new RPP[]{
 		new RPP() { // BodyFunImpl
 			RPP function = new InvMultiplication();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
@@ -20,7 +22,7 @@ public class InvIdentity implements RPP {
 		
 		new RPP() { // BodyInvImpl
 			RPP function = new Multiplication();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}

@@ -1,11 +1,13 @@
 package parallelTest;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 import yarelcore.*;	
 
 public class ThreeHoleInIds implements RPP {
 	public ThreeHoleInIds() { }
+	
+	
 
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
@@ -53,7 +55,7 @@ public class ThreeHoleInIds implements RPP {
 				
 				new RPP() { // BodyFunImpl
 					RPP function = new Empty3();
-					 public int getA() { return function.getA(); }
+					public int getA() { return function.getA(); }
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.function.b(x, startIndex, endIndex);
 					}
@@ -185,16 +187,23 @@ public class ThreeHoleInIds implements RPP {
 		
 		new RPP(){ // BodyFunImpl
 			RPP function = new Empty2();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
 		}
 	};
+	/*
 	private final AritySupplier[] startIndexOffsetSuppliers = { //
-		() -> { return 2;}; }, //
-		() -> { return 6;}; }, //
+		() -> { return 2;}, //
+		() -> { return 6;}, //
 		() -> { return 10;}
+	};
+	*/
+	private final int[] startIndexOffset = {
+		2, //
+		6, //
+		10
 	};
 	public int getA() { return (13); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
@@ -233,7 +242,7 @@ public class ThreeHoleInIds implements RPP {
 	
 		// PHASE 1 convert the RPP in runnable tasks
 		for(int i = 0; i < tasks.length; i++){
-			startingIndex = startIndex + startIndexOffsetSuppliers[i].get();
+			startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
 			tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 				public void run(){
 					// execute the main body (delegate inside the superclass implementation)

@@ -1,11 +1,13 @@
 package quotient;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 import yarelcore.*;	
 
 public class QuoStep implements RPP {
 	public QuoStep() { }
+	
+	
 
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
@@ -47,7 +49,7 @@ public class QuoStep implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.SumN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -75,7 +77,7 @@ public class QuoStep implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.SubN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -112,7 +114,7 @@ public class QuoStep implements RPP {
 				private final RPP[] subtasks = new RPP[]{
 					new RPP(){ // BodyFunImpl
 						RPP function = new arithNat.SubN();
-						 public int getA() { return function.getA(); }
+						public int getA() { return function.getA(); }
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.function.b(x, startIndex, endIndex);
 						}
@@ -127,9 +129,15 @@ public class QuoStep implements RPP {
 						public int getA() { return this.a; }
 					}
 				};
+				/*
 				private final AritySupplier[] startIndexOffsetSuppliers = { //
-					() -> { return 0;}; }, //
+					() -> { return 0;}, //
 					() -> { return 2;}
+				};
+				*/
+				private final int[] startIndexOffset = {
+					0, //
+					2
 				};
 				public int getA() { return (3); }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
@@ -168,7 +176,7 @@ public class QuoStep implements RPP {
 				
 					// PHASE 1 convert the RPP in runnable tasks
 					for(int i = 0; i < tasks.length; i++){
-						startingIndex = startIndex + startIndexOffsetSuppliers[i].get();
+						startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
 						tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 							public void run(){
 								// execute the main body (delegate inside the superclass implementation)
@@ -231,7 +239,7 @@ public class QuoStep implements RPP {
 				private final RPP[] subtasks = new RPP[]{
 					new RPP(){ // BodyFunImpl
 						RPP function = new arithNat.SubN();
-						 public int getA() { return function.getA(); }
+						public int getA() { return function.getA(); }
 						public void b(int[] x, int startIndex, int endIndex) {
 							this.function.b(x, startIndex, endIndex);
 						}
@@ -246,9 +254,15 @@ public class QuoStep implements RPP {
 						public int getA() { return this.a; }
 					}
 				};
+				/*
 				private final AritySupplier[] startIndexOffsetSuppliers = { //
-					() -> { return 0;}; }, //
+					() -> { return 0;}, //
 					() -> { return 2;}
+				};
+				*/
+				private final int[] startIndexOffset = {
+					0, //
+					2
 				};
 				public int getA() { return (3); }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
@@ -287,7 +301,7 @@ public class QuoStep implements RPP {
 				
 					// PHASE 1 convert the RPP in runnable tasks
 					for(int i = 0; i < tasks.length; i++){
-						startingIndex = startIndex + startIndexOffsetSuppliers[i].get();
+						startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
 						tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 							public void run(){
 								// execute the main body (delegate inside the superclass implementation)
@@ -346,7 +360,7 @@ public class QuoStep implements RPP {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			public int getA() {return this.pos.getA()+1;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){
@@ -375,7 +389,7 @@ public class QuoStep implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.SubN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

@@ -1,11 +1,13 @@
 package boundedMin;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 import yarelcore.*;	
 
 public class MinH12 implements RPP {
 	public MinH12() { }
+	
+	
 
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
@@ -47,7 +49,7 @@ public class MinH12 implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.SumN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -81,7 +83,7 @@ public class MinH12 implements RPP {
 					new RPP() { // ParCompImpl
 						private RPP f = new RPP(){
 							RPP function = new funcH12.H12_v2();
-							 public int getA() { return function.getA(); }
+							public int getA() { return function.getA(); }
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.function.b(x, startIndex, endIndex);
 							}
@@ -137,7 +139,7 @@ public class MinH12 implements RPP {
 									);
 							}
 						};
-						public int getA() {return this.pos.getA()+1;}
+						public int getA() { return this.pos.getA()+1; }
 						public void b(int[] x, int startIndex, int endIndex) {
 							final int testValue = x[(startIndex + this.getA()) - 1];
 							if(testValue > 0){
@@ -165,7 +167,7 @@ public class MinH12 implements RPP {
 					new RPP() { // ParCompImpl
 						private RPP f = new RPP(){
 							RPP function = new funcH12.InvH12_v2();
-							 public int getA() { return function.getA(); }
+							public int getA() { return function.getA(); }
 							public void b(int[] x, int startIndex, int endIndex) {
 								this.function.b(x, startIndex, endIndex);
 							}
@@ -205,9 +207,15 @@ public class MinH12 implements RPP {
 								public int getA() { return this.a; }
 							}
 						};
+						/*
 						private final AritySupplier[] startIndexOffsetSuppliers = { //
-							() -> { return 0;}; }, //
+							() -> { return 0;}, //
 							() -> { return 3;}
+						};
+						*/
+						private final int[] startIndexOffset = {
+							0, //
+							3
 						};
 						public int getA() { return (4); }
 						public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
@@ -246,7 +254,7 @@ public class MinH12 implements RPP {
 						
 							// PHASE 1 convert the RPP in runnable tasks
 							for(int i = 0; i < tasks.length; i++){
-								startingIndex = startIndex + startIndexOffsetSuppliers[i].get();
+								startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
 								tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 									public void run(){
 										// execute the main body (delegate inside the superclass implementation)
@@ -336,7 +344,7 @@ public class MinH12 implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.SubN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -353,7 +361,7 @@ public class MinH12 implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new arithNat.SubN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

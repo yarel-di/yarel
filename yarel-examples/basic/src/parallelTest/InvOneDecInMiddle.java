@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvOneDecInMiddle implements RPP {
 	public InvOneDecInMiddle() { }
+	
+	
 
 	
 	public OneDecInMiddle getInverse(){

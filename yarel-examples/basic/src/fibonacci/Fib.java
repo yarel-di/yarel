@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class Fib implements RPP {
 	public Fib() { }
+	
+	
 
 	
 	public InvFib getInverse(){
@@ -148,7 +150,7 @@ public class Fib implements RPP {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			public int getA() {return this.pos.getA()+1;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){

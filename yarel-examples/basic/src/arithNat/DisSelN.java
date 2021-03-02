@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class DisSelN implements RPP {
 	public DisSelN() { }
+	
+	
 
 	
 	public InvDisSelN getInverse(){
@@ -36,7 +38,7 @@ public class DisSelN implements RPP {
 					}
 					public int getA() { return f.getA(); }
 				};
-				public int getA() {return this.pos.getA()+1;}
+				public int getA() { return this.pos.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
@@ -92,7 +94,7 @@ public class DisSelN implements RPP {
 					}
 					public int getA() { return f.getA(); }
 				};
-				public int getA() {return this.pos.getA()+1;}
+				public int getA() { return this.pos.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
@@ -159,7 +161,7 @@ public class DisSelN implements RPP {
 					}
 					public int getA() { return f.getA(); }
 				};
-				public int getA() {return this.pos.getA()+1;}
+				public int getA() { return this.pos.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
@@ -199,7 +201,7 @@ public class DisSelN implements RPP {
 			}
 		}
 	};
-	public int getA() {return this.pos.getA()+1;}
+	public int getA() { return this.pos.getA()+1; }
 	public void b(int[] x, int startIndex, int endIndex) {
 		final int testValue = x[(startIndex + this.getA()) - 1];
 		if(testValue > 0){

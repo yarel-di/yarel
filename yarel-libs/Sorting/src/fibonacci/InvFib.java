@@ -4,6 +4,9 @@ import yarelcore.*;
 public class InvFib implements RPP {
 	public InvFib() { }
 	
+	
+
+	
 	public Fib getInverse(){
 		return new Fib();
 	}
@@ -17,7 +20,6 @@ public class InvFib implements RPP {
 				x[startIndex + 0] = x[startIndex + 2]; 
 				x[startIndex + 2] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -30,10 +32,12 @@ public class InvFib implements RPP {
 				}
 				public int getA() { return this.a; }
 			};
-			private final int a = 3 ;
-			public int getA() { return this.a; }
+			public int getA() { return 3; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				this.f.b(x,
+					startIndex + 0,
+					startIndex + (0) + (1)
+					);
 			}
 		},
 		
@@ -62,9 +66,9 @@ public class InvFib implements RPP {
 							public int getA() { return this.a; }
 						};
 						
-						private final int a = function.getA()+1;
+						public int getA() { return function.getA()+1; } 
 						public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-							final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+							final int repCounterIndex = (startIndex + this.getA()) - 1, originalRepCounter;
 							int repetitionCounter = x[repCounterIndex];
 							originalRepCounter = repetitionCounter;
 						
@@ -83,7 +87,6 @@ public class InvFib implements RPP {
 							} //else: when v is equal to zero, recursive calls stop as a value is returned
 							x[repCounterIndex] = originalRepCounter; // restore the original value
 						}
-						public int getA() { return this.a; } 
 					},
 					
 					new RPP() { // BodyPermImpl
@@ -94,12 +97,10 @@ public class InvFib implements RPP {
 							x[startIndex + 0] = x[startIndex + 1]; 
 							x[startIndex + 1] = tmp; 
 						}
-						
 						public int getA() { return this.a; }
 					}
 				};
-				private final int a = steps[0].getA();
-				public int getA() { return this.a; }
+				public int getA() { return this.steps[0].getA(); }
 				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 					int i;
 					i = steps.length;
@@ -108,22 +109,20 @@ public class InvFib implements RPP {
 					}
 				}
 			};
-			private final int a = function.getA()+1;
+			public int getA() { return function.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				int endIndexBody = (startIndex + a) - 1;
+				int endIndexBody = (startIndex + this.getA()) - 1;
 				int iterationsLeft = Math.abs(x[endIndexBody]);
 				while(iterationsLeft-->0){
 					function.b(x, startIndex, endIndexBody);
 				}
 			}
-			public int getA() { return this.a; } 
 			// Iteration stop
 		},
 		
 		new RPP() { // BodyIfImpl
 			RPP pos=new RPP() {
-				private final int a = 2;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
@@ -137,23 +136,23 @@ public class InvFib implements RPP {
 					}
 					public int getA() { return this.a; }
 				};
-				private final int a = 2 ;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+					this.f.b(x,
+						startIndex + 0,
+						startIndex + (0) + (1)
+						);
 				}
 			};
 			RPP neg=new RPP() {
-				private final int a = 2;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
+				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){
 					pos.b(x, startIndex, startIndex + pos.getA());
 				} else if(testValue == 0){
@@ -172,12 +171,10 @@ public class InvFib implements RPP {
 				x[startIndex + 0] = x[startIndex + 2]; 
 				x[startIndex + 2] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = steps.length;

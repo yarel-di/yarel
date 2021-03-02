@@ -37,17 +37,25 @@ QualifiedNameWithWildcard:
     ID ('.' ID)* '.' (ID | '*');  //Changed by Matteo Palazzo
 
 Declaration:
-	'dcl' name=ID ':' signature=Signature;
+	'dcl' name=ID 
+	( '(' invocParamsSignat = InvocationParametersSignature ')')?
+	':'
+	aritySignature = AritySignature
+	;
 
-Signature:
+InvocationParametersSignature:
+	invocParam += TypeParam (',' invocParam += TypeParam)*
+;
+
+AritySignature:
 	types += Type (',' types+=Type)*
-	(',' params += TypeParam (',' params += TypeParam)* )?
+	(',' parametricArities += TypeParam (',' parametricArities += TypeParam)* )?
 	;
 
 Type: 
     {Type} value=(INT)? 'int';
 
-TypeParam:
+TypeParam: // "int" type assumed 
 	{TypeParam} parName=ID;
 
 Definition:
@@ -66,44 +74,72 @@ BodyBase returns Body:
 
 Permutation: 
   '/' indexes+=Digit (indexes+=Digit)* '/';
-
-ParametricId:
-	'id' '{' arity=ParametricArity '}'
-;
+ 
 
 FunctionInvocation:
 	funName=[Declaration | QualifiedName]
-	('{' parameters += ParametricArity (',' parameters+=ParametricArity)* '}')?
+	( aritiesAssign = AritiesAssignment)?
+	( paramsAssign = ParametersAssignment)?
+;
+
+AritiesAssignment:
+	'{' arities += ParametricArity ((',' arities+=ParametricArity)*) '}'
 ;
 
 
+ParametersAssignment:
+	'(' parameters += ParametricArity (',' parameters+=ParametricArity)* ')'
+;
+
+/**
+ * Indexes are 1-based.
+ */
 Atomic returns Body: 
-    {BodyId}  funName='id' 
-  | {BodyInc} funName='inc' 
-  | {BodyDec} funName='dec'
-  | {BodyNeg} funName='neg'
+    {BodyId}  funName ='id' 
+  | {BodyInc} funName ='inc' 
+  | {BodyDec} funName ='dec'
+  | {BodyNeg} funName ='neg'
   | {BodyFor} function='for' '[' body=Body ']'
   | {BodyInv} function='inv' '[' body=Body ']'
   | {BodyIt}  function='it' '[' body=Body ']'
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
   | {BodyFun} function=FunctionInvocation
   | {BodyPerm} permutation=Permutation
-  | {BodyPermIndex} permIndexed = PermutationIndexed
-  | {BodyParamId} paramId = ParametricId
-  | {BodyParamInc} funName='inc' ( ('[' repetitions= ParametricArity']') | ('{' arity = ParametricArity '}'))
-  | {BodyParamDec} funName='dec' ( ('[' repetitions= ParametricArity']') | ('{' arity = ParametricArity '}'))
-  | {BodySwapc} funName='swap' '{' arity = ParametricArity '}' '(' firstIndex = ParametricArity ',' secondIndex = ParametricArity')'
-  ;
-
-
-/**
- * The index stored at the end is 1-based.
- */
-PermutationIndexed: // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
-  '/' '{'
-    permutationArity = ParametricArity
-  '}' '/'
+//  | {BodySwap}function= SwapIndexed
+  | AtomicParametricArity
 ;
+
+
+AtomicParametricArity returns Body:
+	  AtomicParArityOperator
+	| AtomicParametricRepetition
+	| {BodySwap} function = SwapIndexed
+;
+
+AtomicParArityOperator returns Body:
+	  ({BodyParamPerm}        '/' arity = AritiesAssignment '/') // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
+	| ({BodyParamId} funName='id' arity = AritiesAssignment)
+;
+
+AtomicParametricRepetition returns Body:
+	AtomicParRep
+	arity = AritiesAssignment
+	( paramsAssign = ParametersAssignment )? // "repetitions" values could be taken from funtion's "invocation parameters" or "arity parameters"
+;
+
+AtomicParRep :
+	  {BodyParamInc} funName='inc'
+	| {BodyParamDec} funName='dec'
+	| {BodyParamNeg} funName='neg'
+;
+
+SwapIndexed : // requires also 1 more register (for RPP-like implementations)
+//	{SwapIndexed}
+	funName= 'swap'
+	arity = AritiesAssignment
+	paramsAssign = ParametersAssignment
+;
+
 
 ParametricArity:
 	arity = LinearExpressionWithParameters

@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class To_odd implements RPP {
 	public To_odd() { }
+	
+	
 
 	
 	public InvTo_odd getInverse(){

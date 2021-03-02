@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class Fibonacci implements RPP {
 	public Fibonacci() { }
+	
+	
 
 	
 	public InvFibonacci getInverse(){
@@ -13,7 +15,7 @@ public class Fibonacci implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new Fib();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -84,7 +86,7 @@ public class Fibonacci implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new InvFib();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

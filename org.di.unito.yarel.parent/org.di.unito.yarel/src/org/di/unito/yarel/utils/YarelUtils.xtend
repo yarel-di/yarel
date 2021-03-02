@@ -1,6 +1,7 @@
 package org.di.unito.yarel.utils
 
 import java.util.LinkedList
+import org.di.unito.yarel.scoping.YarelIndex
 import org.di.unito.yarel.yarel.AdditionLEWP
 import org.di.unito.yarel.yarel.Body
 import org.di.unito.yarel.yarel.BodyDec
@@ -12,45 +13,41 @@ import org.di.unito.yarel.yarel.BodyInc
 import org.di.unito.yarel.yarel.BodyInv
 import org.di.unito.yarel.yarel.BodyIt
 import org.di.unito.yarel.yarel.BodyNeg
-import org.di.unito.yarel.yarel.BodyParamId
+import org.di.unito.yarel.yarel.BodyParamPerm
 import org.di.unito.yarel.yarel.BodyPerm
-import org.di.unito.yarel.yarel.BodyPermIndex
+import org.di.unito.yarel.yarel.BodySwap
 import org.di.unito.yarel.yarel.BracketLEWP
 import org.di.unito.yarel.yarel.Declaration
 import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.FunctionInvocation
 import org.di.unito.yarel.yarel.Import
 import org.di.unito.yarel.yarel.IntLEWP
 import org.di.unito.yarel.yarel.LinearExpressionWithParameters
+import org.di.unito.yarel.yarel.MinusLEWP
 import org.di.unito.yarel.yarel.Model
 import org.di.unito.yarel.yarel.ParComp
 import org.di.unito.yarel.yarel.ParamLEWP
 import org.di.unito.yarel.yarel.ParametricArity
+import org.di.unito.yarel.yarel.PlusLEWP
 import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.SubtractionLEWP
-
-import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
-import static extension org.di.unito.yarel.scoping.YarelIndex.*
 import org.eclipse.emf.ecore.EObject
-import org.di.unito.yarel.yarel.FunctionInvocation
-import org.di.unito.yarel.scoping.YarelIndex
-import org.di.unito.yarel.yarel.MinusLEWP
-import org.di.unito.yarel.yarel.PlusLEWP
+
+import static extension org.di.unito.yarel.scoping.YarelIndex.*
+import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
+import org.di.unito.yarel.yarel.AritiesAssignment
+import org.di.unito.yarel.yarel.BodyParamId
+import org.di.unito.yarel.yarel.BodyParamInc
+import org.di.unito.yarel.yarel.BodyParamNeg
+import org.di.unito.yarel.yarel.BodyParamDec
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
 	
 	def static Definition getDefinition(Declaration decl){
-		var i = 0
-		var Definition deff = null
 		val currentModule = decl.getContainerOfType(typeof(Model))
-		val defs = currentModule.definitions
-		while(deff === null && i < defs.size){
-			if(defs.get(i).declarationName == decl){
-				deff = defs.get(i)
-			}
-			i++
-		}
-		return deff;
+		val declName = decl.name
+		return currentModule.definitions.findFirst[it.declarationName.name == declName]
 	}
 	
 	def static Declaration getDeclaration(Definition deff){
@@ -94,7 +91,9 @@ class YarelUtils {
 	}
 
 
-	/*Start added by Marco Ottina */
+
+/*Start added/modified by Marco Ottina */
+
 
 	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Body rootBody){
 		var Body body = rootBody;
@@ -110,6 +109,18 @@ class YarelUtils {
 	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Definition defin){
 		return getAllSequentialBodyBlocks(defin.body)
 	}
+
+	static def dispatch boolean hasSomeParameters(FunctionInvocation fun){
+		return (fun.aritiesAssign !== null && fun.aritiesAssign.arities.size > 0)
+			|| (fun.paramsAssign !== null && fun.paramsAssign.parameters.size > 0);
+	}
+
+	static def dispatch boolean hasSomeParameters(Declaration decl){
+		return ( decl.aritySignature !== null && decl.aritySignature.parametricArities.size > 0)
+			|| (decl.invocParamsSignat !== null && decl.invocParamsSignat.invocParam.size > 0);
+	}
+
+	/* start ARITY COMPUTATION BLOCK */
 
 
 	private static def void lewpToArity(ComposedArity ca, LinearExpressionWithParameters lewp, boolean isAdding){
@@ -143,7 +154,8 @@ class YarelUtils {
 	}
 	
 	static def ComposedArity linearExpressionParametrizableToArity(LinearExpressionWithParameters lewp){
-		val ComposedArity ca = new ComposedArity();
+		if(lewp === null) return null;
+		val ComposedArity ca = new ComposedArity(0);
 		lewpToArity(ca, lewp, true);
 		return ca;
 	}
@@ -159,24 +171,14 @@ class YarelUtils {
 	
 	static def dispatch ComposedArity getArity(Declaration declaration) {
 		val ComposedArity ca = new ComposedArity ();
-		ca.scalar = declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
-		if(declaration.signature.params !== null ){
-			declaration.signature.params.forEach[ param |
+		ca.scalar = declaration.aritySignature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
+		if(declaration.aritySignature.parametricArities !== null ){
+			declaration.aritySignature.parametricArities .forEach[ param |
 				ca.addParameterCoefficient(param.parName)
 			]
 		}
 		return ca;
 	}
-//	static def ComposedArity getArityDeclaration(Declaration declaration) {
-//		val ComposedArity ca = new ComposedArity ();
-//		ca.scalar = declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
-//		if(declaration.signature.params !== null ){
-//			declaration.signature.params.forEach[ param |
-//				ca.addParameterCoefficient(param.parName)
-//			]
-//		}
-//		return ca;
-//	}
 	
 	static def dispatch ComposedArity getArity(Definition defin){
 		return getArity(defin.body)
@@ -187,24 +189,34 @@ class YarelUtils {
 //		return getArityOfFunctionName(fun, fun.funName.name);
 	}
 	
+	static def dispatch ComposedArity getArity(AritiesAssignment aa){
+		return aa.arities.map[ar| getArity(ar)].reduce[p1, p2| p1.sum(p2)]
+	}
+	
+	
 	
 	/*Modified by Marco Ottina */
 	static def dispatch ComposedArity getArity(Body body) {
 		switch body {
-			SerComp : body.left.arity
-			ParComp : body.right.arity.sum(body.left.arity)
-			BodyInv : body.body.arity
-			BodyFun : body.function.arity
-			BodyIt  : body.body.arity.addScalar(1)
-			BodyFor : body.body.arity.addScalar(1)
-			BodyIf  : body.pos.arity.addScalar(1)
-			BodyPerm: new ComposedArity(body.permutation.indexes.size)
-			BodyInc : new ComposedArity(1)
-			BodyDec : new ComposedArity(1)
-			BodyNeg : new ComposedArity(1)
-			BodyId  : new ComposedArity(1)
-			BodyPermIndex: getArity(body.permIndexed.permutationArity).addScalar(1)
-			BodyParamId  : getArity(body.paramId.arity)
+			BodyId       : new ComposedArity(1)
+			BodyInc      : new ComposedArity(1)
+			BodyDec      : new ComposedArity(1)
+			BodyNeg      : new ComposedArity(1)
+			BodyPerm     : new ComposedArity(body.permutation.indexes.size)
+			SerComp      : getArity(body.left)
+			ParComp      : getArity(body.right).sum(getArity(body.left))
+			BodyInv      : getArity(body.body)
+			BodyIt       : getArity(body.body).addScalar(1)
+			BodyFor      : getArity(body.body).addScalar(1)
+			BodyIf       : getArity(body.pos).addScalar(1)
+			BodyFun      : getArity(body.function)
+			BodySwap     : getArity(body.function.arity).addScalar(1)
+			BodyParamPerm: getArity(body.arity).addScalar(1)
+			BodyParamId  : getArity(body.arity)
+			BodyParamInc : getArity(body.arity)
+			BodyParamDec : getArity(body.arity)
+			BodyParamNeg : getArity(body.arity)
+//			AtomicParametricArity: getArity(body.arity)
 			default:
 				throw new RuntimeException("Body unrecognized to compute arity: " + body)
 		}
@@ -222,25 +234,7 @@ class YarelUtils {
 		return null;
 	}
 	
-	/*End added by Marco Ottina */
+	/* end ARITY COMPUTATION BLOCK */
 	
-	
-//	private static def void getAllAtomicBodiesRecursivePart(LinkedList<Body> list, Body body){
-//		if((body instanceof SerComp) || (body instanceof ParComp)){
-//			val isSer = (body instanceof SerComp);
-//			val left = isSer? ((body as SerComp).left) : ((body as ParComp).left);
-//			val right = isSer? ((body as SerComp).right) : ((body as ParComp).right);
-//			getAllAtomicBodiesRecursivePart(list, left)
-//			getAllAtomicBodiesRecursivePart(list, right)
-//		}
-//		// TODO else parts
-//	}
-//	static def dispatch LinkedList<Body> getAllAtomicBodies(Body body){
-//		val allBodies = new LinkedList<Body>();
-//		getAllAtomicBodiesRecursivePart(allBodies, body);
-//		return allBodies;
-//	}
-//	static def dispatch LinkedList<Body> getAllAtomicBodies(Definition defin){
-//		return getAllAtomicBodies(defin.body);
-//	}
+/*End added by Marco Ottina */
 }

@@ -4,6 +4,9 @@ import yarelcore.*;
 public class SumN implements RPP {
 	public SumN() { }
 	
+	
+
+	
 	public InvSumN getInverse(){
 		return new InvSumN();
 	}
@@ -17,14 +20,13 @@ public class SumN implements RPP {
 		}
 		public int getA() { return this.a; }
 	};
-	private final int a = function.getA()+1;
+	public int getA() { return function.getA()+1; }
 	public void b(int[] x, int startIndex, int endIndex) {
-		int endIndexBody = (startIndex + a) - 1;
+		int endIndexBody = (startIndex + this.getA()) - 1;
 		int iterationsLeft = Math.abs(x[endIndexBody]);
 		while(iterationsLeft-->0){
 			function.b(x, startIndex, endIndexBody);
 		}
 	}
-	public int getA() { return this.a; } 
 	// Iteration stop
 }

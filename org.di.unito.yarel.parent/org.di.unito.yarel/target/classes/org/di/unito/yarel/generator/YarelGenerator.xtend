@@ -27,7 +27,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import com.google.inject.Inject
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.eclipse.xtext.resource.ILocationInFileProvider
 
 /**
  * Generates code from your model files on save.
@@ -48,6 +47,11 @@ class YarelGenerator extends AbstractGenerator {
     override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
        latexGenerator.doGenerate(resource, fsa, context);
        sageMathGenerator.doGenerate(resource, fsa, context);
-       javaGenerator.doGenerate(resource, fsa, context, qnp);
+       try{
+       	javaGenerator.doGenerate(resource, fsa, context, qnp);
+       }catch(Exception e){
+        e.printStackTrace
+        javaGenerator.doGenerate(resource, fsa, context);
+       }
     }
 }

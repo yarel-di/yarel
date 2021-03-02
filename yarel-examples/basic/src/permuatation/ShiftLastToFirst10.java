@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class ShiftLastToFirst10 implements RPP {
 	public ShiftLastToFirst10() { }
+	
+	
 
 	
 	public InvShiftLastToFirst10 getInverse(){
@@ -67,10 +69,10 @@ public class ShiftLastToFirst10 implements RPP {
 			/** regular function used when v > 0 */
 			RPP function = new RPP() { // SerCompImpl
 				private final RPP[] steps = new RPP[]{
-					new RPP() { // BodyPermIndexImpl
+					new RPP() { // BodyParamPermImpl
 						public int getA() { return 1 + 10; }
 						public void b(int[] x, int startIndex, int endIndex) {
-							final int permutArity = 10;
+							final int permutArity = this.getA() - 1;
 							int tmp = x[startIndex], indexToWithdraw;
 							indexToWithdraw = x[startIndex + permutArity];
 							if(indexToWithdraw < 0){ indexToWithdraw = -indexToWithdraw; }
@@ -79,7 +81,6 @@ public class ShiftLastToFirst10 implements RPP {
 							x[startIndex] = x[indexToWithdraw];
 							x[indexToWithdraw] = tmp;
 						}
-						
 					},
 					
 					new RPP() { // ParCompImpl
@@ -113,10 +114,10 @@ public class ShiftLastToFirst10 implements RPP {
 			/** inverse function used when v < 0 */
 			RPP inv_function = new RPP() { // InvSerCompImpl
 				private final RPP[] steps = new RPP[]{
-					new RPP() { // BodyPermIndexImpl
+					new RPP() { // BodyParamPermImpl
 						public int getA() { return 1 + 10; }
 						public void b(int[] x, int startIndex, int endIndex) {
-							final int permutArity = 10;
+							final int permutArity = this.getA() - 1;
 							int tmp = x[startIndex], indexToWithdraw;
 							indexToWithdraw = x[startIndex + permutArity];
 							if(indexToWithdraw < 0){ indexToWithdraw = -indexToWithdraw; }
@@ -125,7 +126,6 @@ public class ShiftLastToFirst10 implements RPP {
 							x[startIndex] = x[indexToWithdraw];
 							x[indexToWithdraw] = tmp;
 						}
-						
 					},
 					
 					new RPP() { // ParCompImpl

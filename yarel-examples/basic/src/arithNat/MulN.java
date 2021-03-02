@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class MulN implements RPP {
 	public MulN() { }
+	
+	
 
 	
 	public InvMulN getInverse(){
@@ -26,7 +28,7 @@ public class MulN implements RPP {
 			// Iteration start
 			RPP function = new RPP() { // BodyFunImpl
 				RPP function = new SumN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

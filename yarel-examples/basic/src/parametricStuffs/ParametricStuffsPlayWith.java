@@ -17,11 +17,14 @@ import java.util.Arrays;
  * For further informations, check the documentation:
  * <ul>
  * <li> {@link RPP}</li>
-* <li> {@link parametricStuffs.ShiftLastToFirstK}</li>
-* <li> {@link parametricStuffs.ShiftFirstToLastK}</li>
+* <li> {@link parametricStuffs.ShiftLastToFirstK_OLD}</li>
+* <li> {@link parametricStuffs.ShiftFirstToLastK_OLD}</li>
 * <li> {@link parametricStuffs.ParamSum}</li>
 * <li> {@link parametricStuffs.NegativeParamWarning}</li>
 * <li> {@link parametricStuffs.Hello}</li>
+* <li> {@link parametricStuffs.ShiftFirstToLastK}</li>
+* <li> {@link parametricStuffs.ShiftLastToFirstK}</li>
+* <li> {@link parametricStuffs.SwapNonNative}</li>
  * </ul>
  * <p>
  *
@@ -50,69 +53,75 @@ import java.util.Arrays;
 public class ParametricStuffsPlayWith {
 	
 	public static void main(String[] args) throws Exception {
-		testShiftLastToFirstK();
+		testShiftLastToFirstK_OLD();
 		
-		testShiftFirstToLastK();
+		testShiftFirstToLastK_OLD();
 		
 		testParamSum();
 		
 		testNegativeParamWarning();
 		
 		testHello();
+		
+		testShiftFirstToLastK();
+		
+		testShiftLastToFirstK();
+		
+		testSwapNonNative();
 	}
 	
 	//
 	
-	public static void testShiftLastToFirstK(){
-		RPP shiftLastToFirstKRPP = new parametricStuffs.ShiftLastToFirstK();
+	public static void testShiftLastToFirstK_OLD(){
+		RPP shiftLastToFirstK_OLDRPP = new parametricStuffs.ShiftLastToFirstK_OLD();
 		final int[][] datasets = {
-			new int[]{1,5},
-			new int[]{1,5},
-			new int[]{ 0,  0},
-			new int[]{ 1,  1},
-			new int[]{ -1,  -1},
-			new int[]{ 2,  2},
-			new int[]{ -2,  -2},
-			new int[]{ 3,  3},
-			new int[]{ -3,  -3},
-			new int[]{ 4,  4},
-			new int[]{ -4,  -4},
-			new int[]{ 10,  10},
-			new int[]{ -10,  -10},
-			new int[]{ 11,  11},
-			new int[]{ -11,  -11},
+			new int[]{1,2,5},
+			new int[]{2,1,5},
+			new int[]{ 0,  0,  0},
+			new int[]{ 1,  1,  1},
+			new int[]{ -1,  -1,  -1},
+			new int[]{ 2,  2,  2},
+			new int[]{ -2,  -2,  -2},
+			new int[]{ 3,  3,  3},
+			new int[]{ -3,  -3,  -3},
+			new int[]{ 4,  4,  4},
+			new int[]{ -4,  -4,  -4},
+			new int[]{ 10,  10,  10},
+			new int[]{ -10,  -10,  -10},
+			new int[]{ 11,  11,  11},
+			new int[]{ -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function shiftLastToFirstK with values:" + Arrays.toString(data));
-			shiftLastToFirstKRPP.b(data);
+			System.out.println("\nTesting the function shiftLastToFirstK_OLD with values:" + Arrays.toString(data));
+			shiftLastToFirstK_OLDRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}
 	
 	
 	
-	public static void testShiftFirstToLastK(){
-		RPP shiftFirstToLastKRPP = new parametricStuffs.ShiftFirstToLastK();
+	public static void testShiftFirstToLastK_OLD(){
+		RPP shiftFirstToLastK_OLDRPP = new parametricStuffs.ShiftFirstToLastK_OLD();
 		final int[][] datasets = {
-			new int[]{1,5},
-			new int[]{1,5},
-			new int[]{ 0,  0},
-			new int[]{ 1,  1},
-			new int[]{ -1,  -1},
-			new int[]{ 2,  2},
-			new int[]{ -2,  -2},
-			new int[]{ 3,  3},
-			new int[]{ -3,  -3},
-			new int[]{ 4,  4},
-			new int[]{ -4,  -4},
-			new int[]{ 10,  10},
-			new int[]{ -10,  -10},
-			new int[]{ 11,  11},
-			new int[]{ -11,  -11},
+			new int[]{1,2,5},
+			new int[]{2,1,5},
+			new int[]{ 0,  0,  0},
+			new int[]{ 1,  1,  1},
+			new int[]{ -1,  -1,  -1},
+			new int[]{ 2,  2,  2},
+			new int[]{ -2,  -2,  -2},
+			new int[]{ 3,  3,  3},
+			new int[]{ -3,  -3,  -3},
+			new int[]{ 4,  4,  4},
+			new int[]{ -4,  -4,  -4},
+			new int[]{ 10,  10,  10},
+			new int[]{ -10,  -10,  -10},
+			new int[]{ 11,  11,  11},
+			new int[]{ -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function shiftFirstToLastK with values:" + Arrays.toString(data));
-			shiftFirstToLastKRPP.b(data);
+			System.out.println("\nTesting the function shiftFirstToLastK_OLD with values:" + Arrays.toString(data));
+			shiftFirstToLastK_OLDRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}
@@ -122,21 +131,21 @@ public class ParametricStuffsPlayWith {
 	public static void testParamSum(){
 		RPP paramSumRPP = new parametricStuffs.ParamSum();
 		final int[][] datasets = {
-			new int[]{1,5},
-			new int[]{1,5},
-			new int[]{ 0,  0},
-			new int[]{ 1,  1},
-			new int[]{ -1,  -1},
-			new int[]{ 2,  2},
-			new int[]{ -2,  -2},
-			new int[]{ 3,  3},
-			new int[]{ -3,  -3},
-			new int[]{ 4,  4},
-			new int[]{ -4,  -4},
-			new int[]{ 10,  10},
-			new int[]{ -10,  -10},
-			new int[]{ 11,  11},
-			new int[]{ -11,  -11},
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function paramSum with values:" + Arrays.toString(data));
@@ -150,6 +159,34 @@ public class ParametricStuffsPlayWith {
 	public static void testNegativeParamWarning(){
 		RPP negativeParamWarningRPP = new parametricStuffs.NegativeParamWarning();
 		final int[][] datasets = {
+			new int[]{1,2,3,5},
+			new int[]{3,2,1,5},
+			new int[]{ 0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function negativeParamWarning with values:" + Arrays.toString(data));
+			negativeParamWarningRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testHello(){
+		RPP helloRPP = new parametricStuffs.Hello();
+		final int[][] datasets = {
 			new int[]{1,5},
 			new int[]{1,5},
 			new int[]{ 0,  0},
@@ -167,36 +204,92 @@ public class ParametricStuffsPlayWith {
 			new int[]{ -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function negativeParamWarning with values:" + Arrays.toString(data));
-			negativeParamWarningRPP.b(data);
+			System.out.println("\nTesting the function hello with values:" + Arrays.toString(data));
+			helloRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}
 	
 	
 	
-	public static void testHello(){
-		RPP helloRPP = new parametricStuffs.Hello();
+	public static void testShiftFirstToLastK(){
+		RPP shiftFirstToLastKRPP = new parametricStuffs.ShiftFirstToLastK();
 		final int[][] datasets = {
-			new int[]{5},
-			new int[]{5},
-			new int[]{ 0},
-			new int[]{ 1},
-			new int[]{ -1},
-			new int[]{ 2},
-			new int[]{ -2},
-			new int[]{ 3},
-			new int[]{ -3},
-			new int[]{ 4},
-			new int[]{ -4},
-			new int[]{ 10},
-			new int[]{ -10},
-			new int[]{ 11},
-			new int[]{ -11},
+			new int[]{1,2,5},
+			new int[]{2,1,5},
+			new int[]{ 0,  0,  0},
+			new int[]{ 1,  1,  1},
+			new int[]{ -1,  -1,  -1},
+			new int[]{ 2,  2,  2},
+			new int[]{ -2,  -2,  -2},
+			new int[]{ 3,  3,  3},
+			new int[]{ -3,  -3,  -3},
+			new int[]{ 4,  4,  4},
+			new int[]{ -4,  -4,  -4},
+			new int[]{ 10,  10,  10},
+			new int[]{ -10,  -10,  -10},
+			new int[]{ 11,  11,  11},
+			new int[]{ -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function hello with values:" + Arrays.toString(data));
-			helloRPP.b(data);
+			System.out.println("\nTesting the function shiftFirstToLastK with values:" + Arrays.toString(data));
+			shiftFirstToLastKRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testShiftLastToFirstK(){
+		RPP shiftLastToFirstKRPP = new parametricStuffs.ShiftLastToFirstK();
+		final int[][] datasets = {
+			new int[]{1,2,5},
+			new int[]{2,1,5},
+			new int[]{ 0,  0,  0},
+			new int[]{ 1,  1,  1},
+			new int[]{ -1,  -1,  -1},
+			new int[]{ 2,  2,  2},
+			new int[]{ -2,  -2,  -2},
+			new int[]{ 3,  3,  3},
+			new int[]{ -3,  -3,  -3},
+			new int[]{ 4,  4,  4},
+			new int[]{ -4,  -4,  -4},
+			new int[]{ 10,  10,  10},
+			new int[]{ -10,  -10,  -10},
+			new int[]{ 11,  11,  11},
+			new int[]{ -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function shiftLastToFirstK with values:" + Arrays.toString(data));
+			shiftLastToFirstKRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testSwapNonNative(){
+		RPP swapNonNativeRPP = new parametricStuffs.SwapNonNative();
+		final int[][] datasets = {
+			new int[]{1,5},
+			new int[]{1,5},
+			new int[]{ 0,  0},
+			new int[]{ 1,  1},
+			new int[]{ -1,  -1},
+			new int[]{ 2,  2},
+			new int[]{ -2,  -2},
+			new int[]{ 3,  3},
+			new int[]{ -3,  -3},
+			new int[]{ 4,  4},
+			new int[]{ -4,  -4},
+			new int[]{ 10,  10},
+			new int[]{ -10,  -10},
+			new int[]{ 11,  11},
+			new int[]{ -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function swapNonNative with values:" + Arrays.toString(data));
+			swapNonNativeRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

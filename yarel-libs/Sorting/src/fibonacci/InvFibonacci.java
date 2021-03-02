@@ -4,6 +4,9 @@ import yarelcore.*;
 public class InvFibonacci implements RPP {
 	public InvFibonacci() { }
 	
+	
+
+	
 	public Fibonacci getInverse(){
 		return new Fibonacci();
 	}
@@ -12,16 +15,17 @@ public class InvFibonacci implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new InvFib();
-				private final int a = function.getA();
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 4 ;
-			public int getA() { return this.a; }
+			public int getA() { return 4; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				this.f.b(x,
+					startIndex + 0,
+					startIndex + (0) + (1)
+					);
 			}
 		},
 		
@@ -34,7 +38,6 @@ public class InvFibonacci implements RPP {
 				x[startIndex + 3] = x[startIndex + 2]; 
 				x[startIndex + 2] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -49,21 +52,22 @@ public class InvFibonacci implements RPP {
 					}
 					public int getA() { return this.a; }
 				};
-				private final int a = function.getA()+1;
+				public int getA() { return function.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
-					int endIndexBody = (startIndex + a) - 1;
+					int endIndexBody = (startIndex + this.getA()) - 1;
 					int iterationsLeft = Math.abs(x[endIndexBody]);
 					while(iterationsLeft-->0){
 						function.b(x, startIndex, endIndexBody);
 					}
 				}
-				public int getA() { return this.a; } 
 				// Iteration stop
 			};
-			private final int a = 4 ;
-			public int getA() { return this.a; }
+			public int getA() { return 4; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 2, startIndex + this.a + 2);
+				this.f.b(x,
+					startIndex + 2,
+					startIndex + (2) + (2)
+					);
 			}
 		},
 		
@@ -76,23 +80,23 @@ public class InvFibonacci implements RPP {
 				x[startIndex + 2] = x[startIndex + 3]; 
 				x[startIndex + 3] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new Fib();
-				private final int a = function.getA();
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 4 ;
-			public int getA() { return this.a; }
+			public int getA() { return 4; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				this.f.b(x,
+					startIndex + 0,
+					startIndex + (0) + (1)
+					);
 			}
 		},
 		
@@ -105,12 +109,10 @@ public class InvFibonacci implements RPP {
 				x[startIndex + 2] = x[startIndex + 3]; 
 				x[startIndex + 3] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = steps.length;

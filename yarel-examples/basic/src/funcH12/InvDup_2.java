@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvDup_2 implements RPP {
 	public InvDup_2() { }
+	
+	
 
 	
 	public Dup_2 getInverse(){
@@ -67,7 +69,7 @@ public class InvDup_2 implements RPP {
 				}
 				public int getA() { return this.a; }
 			};
-			public int getA() {return this.pos.getA()+1;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){

@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class Mult implements RPP {
 	public Mult() { }
+	
+	
 
 	
 	public InvMult getInverse(){

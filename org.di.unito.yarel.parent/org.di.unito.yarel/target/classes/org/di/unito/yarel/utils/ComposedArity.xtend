@@ -15,7 +15,7 @@ class ComposedArity {
 	
 	new(int scalar){
 		this.scalar = scalar
-		this.parametersCoefficients = new TreeMap<String,Integer>(Utils.STRING_COMPARATOR);
+		this.parametersCoefficients = new LinkedHashMap<String,Integer>();
 	}
 	new(){
 		this(0);

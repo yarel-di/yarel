@@ -15,6 +15,7 @@ module permuatation {
 		pInd_dataset| (inc); 
 		/ {4} /
 
+
 	dcl pIndexed_2 : 5 int
 	def pIndexed_2 :=
 		pInd_dataset| (inc;inc);
@@ -78,7 +79,7 @@ module permuatation {
 	def pIndexed_min_11 :=
 		pInd_dataset|
 		 inv[inc;inc;inc;inc;inc;inc;inc;inc;inc;inc;inc];
-		/ {4} /
+		/ {4}/
 	
 	dcl pIndexed_min_1 : 5 int
 	def pIndexed_min_1 :=

@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvQuoN implements RPP {
 	public InvQuoN() { }
+	
+	
 
 	
 	public QuoN getInverse(){
@@ -26,7 +28,7 @@ public class InvQuoN implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new InvSumN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}
@@ -58,7 +60,7 @@ public class InvQuoN implements RPP {
 			// Iteration start
 			RPP function = new RPP() { // BodyFunImpl
 				RPP function = new InvDisStepN();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

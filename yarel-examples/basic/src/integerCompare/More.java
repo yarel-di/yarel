@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class More implements RPP {
 	public More() { }
+	
+	
 
 	
 	public InvMore getInverse(){
@@ -12,7 +14,7 @@ public class More implements RPP {
 	private final RPP[] steps = new RPP[]{
 		new RPP() { // BodyFunImpl
 			RPP function = new DupStep();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
@@ -22,7 +24,7 @@ public class More implements RPP {
 			RPP pos=new RPP() {
 				RPP pos=new RPP() {
 					RPP function = new SameSignMore();
-					 public int getA() { return function.getA(); }
+					public int getA() { return function.getA(); }
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.function.b(x, startIndex, endIndex);
 					}
@@ -39,7 +41,7 @@ public class More implements RPP {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
-				public int getA() {return this.pos.getA()+1;}
+				public int getA() { return this.pos.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
@@ -81,7 +83,7 @@ public class More implements RPP {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
-				public int getA() {return this.pos.getA()+1;}
+				public int getA() { return this.pos.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
@@ -130,12 +132,12 @@ public class More implements RPP {
 				};
 				RPP neg=new RPP() {
 					RPP function = new SameSignMore();
-					 public int getA() { return function.getA(); }
+					public int getA() { return function.getA(); }
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.function.b(x, startIndex, endIndex);
 					}
 				};
-				public int getA() {return this.pos.getA()+1;}
+				public int getA() { return this.pos.getA()+1; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					final int testValue = x[(startIndex + this.getA()) - 1];
 					if(testValue > 0){
@@ -147,7 +149,7 @@ public class More implements RPP {
 					}
 				}
 			};
-			public int getA() {return this.pos.getA()+1;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
 				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){
@@ -162,7 +164,7 @@ public class More implements RPP {
 		
 		new RPP() { // BodyInvImpl
 			RPP function = new InvDupStep();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}

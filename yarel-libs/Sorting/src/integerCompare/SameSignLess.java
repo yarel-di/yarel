@@ -4,6 +4,9 @@ import yarelcore.*;
 public class SameSignLess implements RPP {
 	public SameSignLess() { }
 	
+	
+
+	
 	public InvSameSignLess getInverse(){
 		return new InvSameSignLess();
 	}
@@ -31,9 +34,9 @@ public class SameSignLess implements RPP {
 					public int getA() { return this.a; }
 				};
 				
-				private final int a = function.getA()+1;
+				public int getA() { return function.getA()+1; } 
 				public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-					final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+					final int repCounterIndex = (startIndex + this.getA()) - 1, originalRepCounter;
 					int repetitionCounter = x[repCounterIndex];
 					originalRepCounter = repetitionCounter;
 				
@@ -52,12 +55,13 @@ public class SameSignLess implements RPP {
 					} //else: when v is equal to zero, recursive calls stop as a value is returned
 					x[repCounterIndex] = originalRepCounter; // restore the original value
 				}
-				public int getA() { return this.a; } 
 			};
-			private final int a = 3 ;
-			public int getA() { return this.a; }
+			public int getA() { return 3; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+				this.f.b(x,
+					startIndex + 1,
+					startIndex + (1) + (2)
+					);
 			}
 		},
 		
@@ -69,21 +73,18 @@ public class SameSignLess implements RPP {
 				x[startIndex + 1] = x[startIndex + 2]; 
 				x[startIndex + 2] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
 		new RPP() { // BodyIfImpl
 			RPP pos=new RPP() {
-				private final int a = 2;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
 			RPP zero=new RPP() {
-				private final int a = 2;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
@@ -97,16 +98,17 @@ public class SameSignLess implements RPP {
 					}
 					public int getA() { return this.a; }
 				};
-				private final int a = 2 ;
-				public int getA() { return this.a; }
+				public int getA() { return 2; }
 				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+					this.f.b(x,
+						startIndex + 0,
+						startIndex + (0) + (1)
+						);
 				}
 			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
+			public int getA() { return this.pos.getA()+1; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
+				final int testValue = x[(startIndex + this.getA()) - 1];
 				if(testValue > 0){
 					pos.b(x, startIndex, startIndex + pos.getA());
 				} else if(testValue == 0){
@@ -125,7 +127,6 @@ public class SameSignLess implements RPP {
 				x[startIndex + 1] = x[startIndex + 2]; 
 				x[startIndex + 2] = tmp; 
 			}
-			
 			public int getA() { return this.a; }
 		},
 		
@@ -151,9 +152,9 @@ public class SameSignLess implements RPP {
 					public int getA() { return this.a; }
 				};
 				
-				private final int a = function.getA()+1;
+				public int getA() { return function.getA()+1; } 
 				public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-					final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
+					final int repCounterIndex = (startIndex + this.getA()) - 1, originalRepCounter;
 					int repetitionCounter = x[repCounterIndex];
 					originalRepCounter = repetitionCounter;
 				
@@ -172,17 +173,17 @@ public class SameSignLess implements RPP {
 					} //else: when v is equal to zero, recursive calls stop as a value is returned
 					x[repCounterIndex] = originalRepCounter; // restore the original value
 				}
-				public int getA() { return this.a; } 
 			};
-			private final int a = 3 ;
-			public int getA() { return this.a; }
+			public int getA() { return 3; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+				this.f.b(x,
+					startIndex + 1,
+					startIndex + (1) + (2)
+					);
 			}
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
+	public int getA() { return this.steps[0].getA(); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
 		int i;
 		i = -1;

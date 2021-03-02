@@ -1,11 +1,13 @@
 package parallelTest;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 import yarelcore.*;	
 
 public class InvWastingSomeID implements RPP {
 	public InvWastingSomeID() { }
+	
+	
 
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
@@ -55,9 +57,15 @@ public class InvWastingSomeID implements RPP {
 			public int getA() { return this.a; }
 		}
 	};
+	/*
 	private final AritySupplier[] startIndexOffsetSuppliers = { //
-		() -> { return 0;}; }, //
+		() -> { return 0;}, //
 		() -> { return 4;}
+	};
+	*/
+	private final int[] startIndexOffset = {
+		0, //
+		4
 	};
 	public int getA() { return (5); }
 	public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
@@ -96,7 +104,7 @@ public class InvWastingSomeID implements RPP {
 	
 		// PHASE 1 convert the RPP in runnable tasks
 		for(int i = 0; i < tasks.length; i++){
-			startingIndex = startIndex + startIndexOffsetSuppliers[i].get();
+			startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
 			tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 				public void run(){
 					// execute the main body (delegate inside the superclass implementation)

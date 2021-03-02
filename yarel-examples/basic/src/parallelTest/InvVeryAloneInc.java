@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvVeryAloneInc implements RPP {
 	public InvVeryAloneInc() { }
+	
+	
 
 	
 	public VeryAloneInc getInverse(){

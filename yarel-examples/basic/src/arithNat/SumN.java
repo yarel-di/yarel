@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class SumN implements RPP {
 	public SumN() { }
+	
+	
 
 	
 	public InvSumN getInverse(){

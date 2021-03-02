@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class H12 implements RPP {
 	public H12() { }
+	
+	
 
 	
 	public InvH12 getInverse(){
@@ -23,7 +25,7 @@ public class H12 implements RPP {
 		
 		new RPP() { // BodyFunImpl
 			RPP function = new T3sub();
-			 public int getA() { return function.getA(); }
+			public int getA() { return function.getA(); }
 			public void b(int[] x, int startIndex, int endIndex) {
 				this.function.b(x, startIndex, endIndex);
 			}
@@ -32,7 +34,7 @@ public class H12 implements RPP {
 		new RPP() { // ParCompImpl
 			private RPP f = new RPP(){
 				RPP function = new InvDup_2();
-				 public int getA() { return function.getA(); }
+				public int getA() { return function.getA(); }
 				public void b(int[] x, int startIndex, int endIndex) {
 					this.function.b(x, startIndex, endIndex);
 				}

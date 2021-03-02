@@ -3,6 +3,8 @@ import yarelcore.*;
 
 public class InvSub implements RPP {
 	public InvSub() { }
+	
+	
 
 	
 	public Sub getInverse(){
@@ -10,7 +12,7 @@ public class InvSub implements RPP {
 	}
 	
 	RPP function = new Sum();
-	 public int getA() { return function.getA(); }
+	public int getA() { return function.getA(); }
 	public void b(int[] x, int startIndex, int endIndex) {
 		this.function.b(x, startIndex, endIndex);
 	}

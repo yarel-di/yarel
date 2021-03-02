@@ -1,11 +1,13 @@
 package permuatation;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 import yarelcore.*;	
 
 public class InvPIndexed_2 implements RPP {
 	public InvPIndexed_2() { }
+	
+	
 
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
@@ -41,7 +43,7 @@ public class InvPIndexed_2 implements RPP {
 			private final RPP[] subtasks = new RPP[]{
 				new RPP(){ // BodyFunImpl
 					RPP function = new InvPInd_dataset();
-					 public int getA() { return function.getA(); }
+					public int getA() { return function.getA(); }
 					public void b(int[] x, int startIndex, int endIndex) {
 						this.function.b(x, startIndex, endIndex);
 					}
@@ -77,9 +79,15 @@ public class InvPIndexed_2 implements RPP {
 					}
 				}
 			};
+			/*
 			private final AritySupplier[] startIndexOffsetSuppliers = { //
-				() -> { return 0;}; }, //
+				() -> { return 0;}, //
 				() -> { return 4;}
+			};
+			*/
+			private final int[] startIndexOffset = {
+				0, //
+				4
 			};
 			public int getA() { return (5); }
 			public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
@@ -118,7 +126,7 @@ public class InvPIndexed_2 implements RPP {
 			
 				// PHASE 1 convert the RPP in runnable tasks
 				for(int i = 0; i < tasks.length; i++){
-					startingIndex = startIndex + startIndexOffsetSuppliers[i].get();
+					startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
 					tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
 						public void run(){
 							// execute the main body (delegate inside the superclass implementation)
@@ -172,10 +180,10 @@ public class InvPIndexed_2 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermIndexImpl
+		new RPP() { // BodyParamPermImpl
 			public int getA() { return 1 + 4; }
 			public void b(int[] x, int startIndex, int endIndex) {
-				final int permutArity = 4;
+				final int permutArity = this.getA() - 1;
 				int tmp = x[startIndex], indexToWithdraw;
 				indexToWithdraw = x[startIndex + permutArity];
 				if(indexToWithdraw < 0){ indexToWithdraw = -indexToWithdraw; }
@@ -184,7 +192,6 @@ public class InvPIndexed_2 implements RPP {
 				x[startIndex] = x[indexToWithdraw];
 				x[indexToWithdraw] = tmp;
 			}
-			
 		}
 	};
 	public int getA() { return this.steps[0].getA(); }
