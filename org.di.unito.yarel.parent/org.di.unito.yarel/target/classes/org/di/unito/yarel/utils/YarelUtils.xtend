@@ -40,6 +40,11 @@ import org.di.unito.yarel.yarel.BodyParamId
 import org.di.unito.yarel.yarel.BodyParamInc
 import org.di.unito.yarel.yarel.BodyParamNeg
 import org.di.unito.yarel.yarel.BodyParamDec
+import java.util.List
+import org.di.unito.yarel.yarel.AritySignature
+import org.di.unito.yarel.yarel.ParametersAssignment
+import org.eclipse.emf.common.util.EList
+import org.di.unito.yarel.yarel.Type
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
@@ -160,40 +165,54 @@ class YarelUtils {
 		return ca;
 	}
 	
+	
 	static def dispatch ComposedArity getArity(LinearExpressionWithParameters lewp){
-		return linearExpressionParametrizableToArity(lewp)
+		return linearExpressionParametrizableToArity(lewp);
 	}
  
 	static def dispatch ComposedArity getArity(ParametricArity pa){
-		return linearExpressionParametrizableToArity(pa.arity)
+		return linearExpressionParametrizableToArity(pa.arity);
 	}
 	
+	static def dispatch ComposedArity getArity(EList<ParametricArity> parArities){
+		return parArities.map[par| getArity(par)].reduce[p1, p2| p1.sum(p2)];
+	}
 	
-	static def dispatch ComposedArity getArity(Declaration declaration) {
+	static def dispatch ComposedArity getArity(AritiesAssignment aa){
+		return getArity(aa.arities);
+	}
+	
+	static def dispatch ComposedArity getArity(ParametersAssignment parAss){
+		return getArity(parAss.parameters);
+	}
+	
+	static def dispatch ComposedArity getArity(AritySignature aritySignature){
 		val ComposedArity ca = new ComposedArity ();
-		ca.scalar = declaration.aritySignature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
-		if(declaration.aritySignature.parametricArities !== null ){
-			declaration.aritySignature.parametricArities .forEach[ param |
+		ca.scalar = (aritySignature.types === null || aritySignature.types.empty ) ? 0 :
+			getFixedRegistersRequired(aritySignature)
+		if(aritySignature.parametricArities !== null ){
+			aritySignature.parametricArities .forEach[ param |
 				ca.addParameterCoefficient(param.parName)
 			]
 		}
 		return ca;
 	}
 	
+	static def dispatch ComposedArity getArity(Declaration declaration) {
+		return getArity(declaration.aritySignature);
+	}
+	
 	static def dispatch ComposedArity getArity(Definition defin){
-		return getArity(defin.body)
+		return getArity(defin.body);
 	}
 	
 	static def dispatch ComposedArity getArity(FunctionInvocation fun){
-		return getArity(fun.funName)
-//		return getArityOfFunctionName(fun, fun.funName.name);
+		val Declaration decl = fun.funName
+		var ComposedArity ca = new ComposedArity (decl.aritySignature.fixedRegistersRequired);
+		// paramAssign is not required here ("aritiesAssign" exists exactly to calculate, as the name suggests, the arity)
+		return (fun.aritiesAssign !== null && fun.aritiesAssign.arities !== null && fun.aritiesAssign.arities.size > 0)
+			? ca.sum(getArity(fun.aritiesAssign)) : ca;
 	}
-	
-	static def dispatch ComposedArity getArity(AritiesAssignment aa){
-		return aa.arities.map[ar| getArity(ar)].reduce[p1, p2| p1.sum(p2)]
-	}
-	
-	
 	
 	/*Modified by Marco Ottina */
 	static def dispatch ComposedArity getArity(Body body) {
@@ -233,6 +252,44 @@ class YarelUtils {
 		}
 		return null;
 	}
+	
+	def static dispatch int getFixedRegistersRequired(EList<Type> registersAllocations){
+		return registersAllocations.empty ? 0 :
+			registersAllocations.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
+	}
+	
+	def static dispatch int getFixedRegistersRequired(AritySignature arSign){
+		return getFixedRegistersRequired(arSign.types);
+	}
+	
+	private static def void unsafeReplaceNames(List<String> source,
+		ComposedArity compAr, List<String> dest){
+			val iterSource = source.iterator;
+			val iterDest = dest.iterator;
+			while(iterSource.hasNext && iterDest.hasNext){
+				val oldName = iterSource.next
+				val newName = iterDest.next
+				val value = compAr.getParameterCoefficient(oldName)
+				compAr.removeParameterCoefficient(oldName)
+				compAr.addParameterCoefficient(newName, value)
+			}
+		}
+	static def void renameAritiesParams(List<String> sourceArities,List<String> sourceParameters,
+		ComposedArity compAr, List<String> destArities,List<String> destParameters){
+		if(destArities !== null){
+			if(sourceArities !== null){
+				unsafeReplaceNames(destArities, compAr, sourceArities)
+			}else{
+				destArities.forEach[ name|
+					compAr.addParameterCoefficient(name)
+				]
+			}
+		}
+	}
+	
+//	static def boolean canBeInvoked(Declaration originalFunDecl, FunctionInvocation funInvok){
+//		return false;
+//	}
 	
 	/* end ARITY COMPUTATION BLOCK */
 	

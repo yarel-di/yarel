@@ -1,7 +1,6 @@
 package org.di.unito.yarel.utils
 
 import java.util.Map
-import java.util.TreeMap
 import java.util.LinkedHashMap
 
 /**
@@ -35,6 +34,14 @@ class ComposedArity {
 	
 	def int getParametersAmount(){
 		return this.parametersCoefficients.size;
+	}
+	
+	def boolean hasParameterCoefficient(String paramName){
+		return this.parametersCoefficients.containsKey(paramName);
+	}
+	
+	def int getParameterCoefficient(String paramName){
+		return this.parametersCoefficients.get(paramName);
 	}
 	
 	def ComposedArity addScalar(int value){
@@ -184,6 +191,31 @@ class ComposedArity {
 					return false;
 				}
 			}else{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	def boolean equalsIgnoreCoefficients(Object o){
+		var ComposedArity ca;
+		if(o === null) return false;
+		if(o === this) return true;
+		if(!(o instanceof ComposedArity)) return false;
+		ca = o as ComposedArity;
+		if(ca.scalar != this.scalar) return false;
+		if(ca.parametersCoefficients.size != this.parametersCoefficients.size) return false;
+		val thisParamCoeffIterator = this.parametersCoefficients.entrySet.iterator;
+		val caParamCoeffIterator = ca.parametersCoefficients.entrySet.iterator;
+		while(thisParamCoeffIterator.hasNext){
+			val param = thisParamCoeffIterator.next;
+			if(!ca.parametersCoefficients.containsKey(param.key)){
+				return false;
+			}
+		}
+		while(caParamCoeffIterator.hasNext){
+			val param = caParamCoeffIterator.next;
+			if(!this.parametersCoefficients.containsKey(param.key)){
 				return false;
 			}
 		}

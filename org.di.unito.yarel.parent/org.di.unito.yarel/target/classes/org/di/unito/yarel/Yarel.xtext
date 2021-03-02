@@ -44,19 +44,26 @@ Declaration:
 	;
 
 InvocationParametersSignature:
-	invocParam += TypeParam (',' invocParam += TypeParam)*
+	invocParam += ParamName (',' invocParam += ParamName)*
 ;
 
 AritySignature:
-	types += Type (',' types+=Type)*
-	(',' parametricArities += TypeParam (',' parametricArities += TypeParam)* )?
+//	types += Type (',' types+=Type)*
+//	(',' parametricArities += ParamName (',' parametricArities += ParamName)* )?
+	  (types += Type (',' types+=Type)*)
+	| (parametricArities += ParamName (',' parametricArities += ParamName)* )
+	| (
+		types += Type (',' types+=Type)*
+		','
+		parametricArities += ParamName (',' parametricArities += ParamName)*
+		)
 	;
 
-Type: 
+Type:
     {Type} value=(INT)? 'int';
 
-TypeParam: // "int" type assumed 
-	{TypeParam} parName=ID;
+ParamName: // "int" type assumed 
+	{ParamName} parName=ID;
 
 Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;

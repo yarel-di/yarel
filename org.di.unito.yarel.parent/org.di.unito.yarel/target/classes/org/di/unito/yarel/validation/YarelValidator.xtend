@@ -41,7 +41,7 @@ import org.di.unito.yarel.yarel.ParameterLEWP
 import org.di.unito.yarel.yarel.ParametersAssignment
 import org.di.unito.yarel.yarel.ParametricArity
 import org.di.unito.yarel.yarel.SerComp
-import org.di.unito.yarel.yarel.TypeParam
+import org.di.unito.yarel.yarel.ParamName
 import org.di.unito.yarel.yarel.YarelPackage
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EReference
@@ -97,10 +97,9 @@ class YarelValidator extends AbstractYarelValidator {
 	protected static val Set<String> FORBIDDEN_KEYWORD = {
 		val Set<String> s = new TreeSet(Utils.STRING_COMPARATOR);
 		s.addAll("int", "A", "return", "inverse", "class","public","private","protected","final","[","]","(",")","{","}",
-		",",".","\"", "RPP","f","inc","dec","id","for","if","while",";","/","\\",
-		"startIndex", "endIndex", "this", "new", "null", "b", "theWholeBody", "x", "steps", "function",
-		"subtasks", "repCounterIndex", "repetitionCounter", "originalRepCounter", "startIndexOffset"
-		, "semaphore", "synchronized", "threadPoolExecutor", "neverStarted"
+		",",".","\"", "RPP","inc","dec","id","for","if","while",";","/","\\", "this", "new", "null", "synchronized", "static",
+		"__startIndex__","__endIndex__","__theWholeBody__","__x__","__steps__","__function__","__semaphore__","__threadPoolExecutor__","__neverStarted__",
+		"__subtasks__","__repCounterIndex__","__repetitionCounter__","__originalRepCounter__","__startIndexOffset__"
 		);
 		s;
 	}
@@ -294,10 +293,10 @@ class YarelValidator extends AbstractYarelValidator {
 	}
 	
 	@Check
-	def checkForbiddenVariableName(TypeParam varName){
+	def checkForbiddenVariableName(ParamName varName){
 		if(isForbidden(varName.parName)){
 			error("Forbidden keyword: "+varName.parName,
-				YarelPackage::eINSTANCE.typeParam_ParName,
+				YarelPackage::eINSTANCE.paramName_ParName,
 				ERROR_FORBIDDEN_KEYWORD
 			)
 		}
@@ -314,7 +313,7 @@ class YarelValidator extends AbstractYarelValidator {
 				decl.aritySignature.parametricArities,
 				YarelPackage::eINSTANCE.declaration_AritySignature,
 				paramsMap,
-				[ TypeParam parType | parType.parName],
+				[ ParamName parType | parType.parName],
 				"function's parameters",
 				ERROR_DUPLICATE_PARAMETER_DEFINITION
 				);
@@ -324,7 +323,7 @@ class YarelValidator extends AbstractYarelValidator {
 				decl.invocParamsSignat.invocParam,
 				YarelPackage::eINSTANCE.declaration_InvocParamsSignat,
 				paramsMap,
-				[ TypeParam parType | parType.parName],
+				[ ParamName parType | parType.parName],
 				"function's parameters",
 				ERROR_DUPLICATE_PARAMETER_DEFINITION
 				);
@@ -479,7 +478,7 @@ class YarelValidator extends AbstractYarelValidator {
 		if(funcDecl === null){
 			// neither the model or the function's Declarations exists
 			error(
-				"Function "+function.toString()+ " declaration not found.",
+				"Function " + function.toString()+ " declaration not found.",
 				YarelPackage::eINSTANCE.functionInvocation_FunName,
 				ERROR_FUNCTION_NOT_FOUND
 			)

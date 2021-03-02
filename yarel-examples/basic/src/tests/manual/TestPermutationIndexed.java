@@ -81,7 +81,7 @@ public class TestPermutationIndexed {
 				1, 2, 3, 4, 5, //
 				6, 7, 8, 9, 0, //
 				-1, -2, -3, -4, -5, //
-				0, 15 //
+				0, 0 //
 		};
 		int k = regs.length - 2;
 		ShiftLastToFirstK shifterK = new ShiftLastToFirstK(k);
@@ -93,11 +93,12 @@ public class TestPermutationIndexed {
 		System.out.println("END ShiftLastToFirstK");
 
 		k = 7;
+		regs[regs.length - 1] = 0;
 		System.out.println("redo ShiftLastToFirstK with k=" + k);
 		shifterK = new ShiftLastToFirstK(k);
 		System.out.println("new shifterK has arity: " + shifterK.getA());
 //		regs[regs.length - 1] = k;
-		regs[k + 1] = k;
+		regs[k + 1] = 0;
 		regs[k] = 0;
 		System.out.println("shifter K registers was: " + Arrays.toString(regs));
 		shifterK.b(regs);
@@ -109,6 +110,7 @@ public class TestPermutationIndexed {
 		regs[k + 1] = k + 2;
 		regs[k] = k + 1;
 		k = 15;
+		regs[regs.length - 1] = 0;
 		System.out.println("Now ShiftFirstToLastK with k=" + k);
 		ShiftFirstToLastK shiftFTLk = new ShiftFirstToLastK(k);
 		System.out.println("ShiftFirstToLastK K registers was: " + Arrays.toString(regs));

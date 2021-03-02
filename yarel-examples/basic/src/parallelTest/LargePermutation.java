@@ -8,6 +8,7 @@ public class LargePermutation implements RPP {
 	public LargePermutation() { }
 	
 	
+	
 
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
@@ -17,14 +18,14 @@ public class LargePermutation implements RPP {
 	 * "CachedThreadPool" requires to be manually turned off (via invoking {@link ExecutorService#shutdown()}),
 	 * which could be tricky to be performed or easily forgotten, blocking the whole program to finish and exit.
 	*/
-	protected ExecutorService threadPoolExecutor = Executors.newWorkStealingPool(); // needed for parallel computation
+	protected ExecutorService __threadPoolExecutor__ = Executors.newWorkStealingPool(); // needed for parallel computation
 	protected void finalize(){
 		this.destructorLargePermutation();
 	}
 	protected void destructorLargePermutation(){
-		if(threadPoolExecutor != null){
-			// threadPoolExecutor.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
-			threadPoolExecutor = null; // mark it as shut-down
+		if(__threadPoolExecutor__ != null){
+			// __threadPoolExecutor__.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
+			__threadPoolExecutor__ = null; // mark it as shut-down
 		}
 	}
 	
@@ -32,23 +33,23 @@ public class LargePermutation implements RPP {
 		return new InvLargePermutation();
 	}
 	
-	private final RPP[] steps = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{
 		new RPP() { // BodyPermImpl
-			private final int a = 10;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 0]; 
-				x[startIndex + 0] = x[startIndex + 7]; 
-				x[startIndex + 7] = x[startIndex + 8]; 
-				x[startIndex + 8] = x[startIndex + 6]; 
-				x[startIndex + 6] = x[startIndex + 9]; 
-				x[startIndex + 9] = x[startIndex + 4]; 
-				x[startIndex + 4] = tmp; 
-				tmp = x[startIndex + 2]; 
-				x[startIndex + 2] = x[startIndex + 5]; 
-				x[startIndex + 5] = tmp; 
+			private final int __a__ = 10;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 7]; 
+				__x__[__startIndex__ + 7] = __x__[__startIndex__ + 8]; 
+				__x__[__startIndex__ + 8] = __x__[__startIndex__ + 6]; 
+				__x__[__startIndex__ + 6] = __x__[__startIndex__ + 9]; 
+				__x__[__startIndex__ + 9] = __x__[__startIndex__ + 4]; 
+				__x__[__startIndex__ + 4] = __tmp__; 
+				__tmp__ = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __x__[__startIndex__ + 5]; 
+				__x__[__startIndex__ + 5] = __tmp__; 
 			}
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
 		new RPP() { // ParCompImpl
@@ -58,24 +59,26 @@ public class LargePermutation implements RPP {
 			 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 			 * The order is preserved from the Yarel source code.
 			*/
-			private final RPP[] subtasks = new RPP[]{
+			private final RPP[] __subtasks__ = new RPP[]{
 				new RPP(){ // BodyIncImpl
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				},
 				
+				
 				new RPP(){ // BodyIncImpl
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				},
+				
 				
 				new RPP(){ // ParCompImpl
 					/**
@@ -84,37 +87,39 @@ public class LargePermutation implements RPP {
 					 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 					 * The order is preserved from the Yarel source code.
 					*/
-					private final RPP[] subtasks = new RPP[]{
+					private final RPP[] __subtasks__ = new RPP[]{
 						new RPP(){ // BodyDecImpl
-							private RPP f = Dec.SINGLETON_Dec;
-							private final int a = f.getA();
-							public void b(int[] x, int startIndex, int endIndex) {
-								this.f.b(x, startIndex, endIndex);
+							private RPP __f__ = Dec.SINGLETON_Dec;
+							private final int __a__ = __f__.getA();
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								this.__f__.b(__x__, __startIndex__, __endIndex__);
 							}
-							public int getA() { return this.a; }
+							public int getA() { return this.__a__; }
 						},
 						
+						
 						new RPP(){ // BodyDecImpl
-							private RPP f = Dec.SINGLETON_Dec;
-							private final int a = f.getA();
-							public void b(int[] x, int startIndex, int endIndex) {
-								this.f.b(x, startIndex, endIndex);
+							private RPP __f__ = Dec.SINGLETON_Dec;
+							private final int __a__ = __f__.getA();
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								this.__f__.b(__x__, __startIndex__, __endIndex__);
 							}
-							public int getA() { return this.a; }
+							public int getA() { return this.__a__; }
 						}
+						
 					};
 					/*
-					private final AritySupplier[] startIndexOffsetSuppliers = { //
+					private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
 						() -> { return 0;}, //
 						() -> { return 1;}
 					};
 					*/
-					private final int[] startIndexOffset = {
+					private final int[] __startIndexOffset__ = {
 						0, //
 						1
 					};
 					public int getA() { return (2); }
-					public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a parallel composition
 						/**
 						 * The Yarel's compiled code runs on a single {@link Thread}, which We could name
 						 * as "the main thread", executing sequentially a "block" of code after the other.<br>
@@ -137,120 +142,126 @@ public class LargePermutation implements RPP {
 						 * </li>
 						 * </ol>
 						 * <p>
-						 * To do this, it's required a <i>semaphore</i>-like object, recording the amount of
+						 * To do this, it's required a <i>__semaphore__</i>-like object, recording the amount of
 						 * "still running tasks", that lets the main thread to sleep and being awakened
 						 * when all of those tasks has been completed.<br>
 						 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
 						*/
 						
-						boolean areChildrenRunning = true, neverStarted;
-						int startingIndex;
-						final int[] semaphore = new int[]{ subtasks.length };
-						final Runnable[] tasks = new Runnable[ semaphore[0] ];
+						boolean __areChildrenRunning__ = true, __neverStarted__;
+						int __startingIndex__;
+						final int[] __semaphore__ = new int[]{ __subtasks__.length };
+						final Runnable[] __tasks__ = new Runnable[ __semaphore__[0] ];
 					
 						// PHASE 1 convert the RPP in runnable tasks
-						for(int i = 0; i < tasks.length; i++){
-							startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
-							tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
+						for(int __i__ = 0; __i__ < __tasks__.length; __i__++){
+							__startingIndex__ = __startIndex__ + __startIndexOffset__[__i__]; // __startIndexOffsetSuppliers__[__i__].get();
+							__tasks__[__i__] = new SubBodyRunner(__startingIndex__, __subtasks__[__i__], __x__){
 								public void run(){
 									// execute the main body (delegate inside the superclass implementation)
 									super.run();
 									
-									// after the body execution, manage the semaphore
-									synchronized (semaphore) {
+									// after the body execution, manage the __semaphore__
+									synchronized (__semaphore__) {
 										// if all tasks are successfully finished, awake the main thread
-										semaphore[0]--;
-										semaphore.notifyAll();
+										__semaphore__[0]--;
+										__semaphore__.notifyAll();
 									}
 								}
 							};
 							// each tasks performs over their own registers segment, so update the starting point
 						}
-						neverStarted = true;
+						__neverStarted__ = true;
 						do{
-							synchronized (semaphore) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
-								if(neverStarted){
-									neverStarted = false;
+							synchronized (__semaphore__) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
+								if(__neverStarted__){
+									__neverStarted__ = false;
 								// PHASE 2: put the "sprinters" at the "race's starting blocks".
-									threadPoolExecutor.submit( ()-> {
+									__threadPoolExecutor__.submit( ()-> {
 										/* This runner is the "submitter", which task is to submit all parallel tasks,
 											and can't run while the main thread has the lock, because that main thread is still working.
 											It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
 											due to race conditions.
 										*/
-										synchronized (semaphore) {
+										synchronized (__semaphore__) {
 											// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
-											for(Runnable t : tasks){ // let's start the tasks
-												threadPoolExecutor.submit(t);
+											for(Runnable __t__ : __tasks__){ // let's start the tasks
+												__threadPoolExecutor__.submit(__t__);
 											}
 										}
 									});
 								}
 								
-								areChildrenRunning = semaphore[0] > 0;
-								if(areChildrenRunning){
+								__areChildrenRunning__ = __semaphore__[0] > 0;
+								if(__areChildrenRunning__){
 								// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
 									try {
 										/* The "wait" let the main thread to sleep, releasing the lock.
 											NOW the submitter can submit the parallel tasks, which can then to be executed.
 										*/
-										semaphore.wait(); // some child(dren) is(are) still running
-									} catch (InterruptedException e) {
-										e.printStackTrace();
+										__semaphore__.wait(); // some child(dren) is(are) still running
+									} catch (InterruptedException __e__) {
+										__e__.printStackTrace();
 									}
 								}
 							}
-						} while(areChildrenRunning);
+						} while(__areChildrenRunning__);
 					}
 				},
 				
+				
 				new RPP(){ // BodyIncImpl
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				},
+				
 				
 				new RPP(){ // BodyNegImpl
-					private RPP f = Neg.SINGLETON_Neg;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+					private RPP __f__ = Neg.SINGLETON_Neg;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				},
 				
-				new RPP(){ // BodyIncImpl
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
-					}
-					public int getA() { return this.a; }
-				},
 				
 				new RPP(){ // BodyIncImpl
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				},
 				
+				
 				new RPP(){ // BodyIncImpl
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
+				},
+				
+				
+				new RPP(){ // BodyIncImpl
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
+					}
+					public int getA() { return this.__a__; }
 				}
+				
 			};
 			/*
-			private final AritySupplier[] startIndexOffsetSuppliers = { //
+			private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
 				() -> { return 0;}, //
 				() -> { return 2;}, //
 				() -> { return 3;}, //
@@ -261,7 +272,7 @@ public class LargePermutation implements RPP {
 				() -> { return 9;}
 			};
 			*/
-			private final int[] startIndexOffset = {
+			private final int[] __startIndexOffset__ = {
 				0, //
 				2, //
 				3, //
@@ -272,7 +283,7 @@ public class LargePermutation implements RPP {
 				9
 			};
 			public int getA() { return (10); }
-			public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a parallel composition
 				/**
 				 * The Yarel's compiled code runs on a single {@link Thread}, which We could name
 				 * as "the main thread", executing sequentially a "block" of code after the other.<br>
@@ -295,79 +306,79 @@ public class LargePermutation implements RPP {
 				 * </li>
 				 * </ol>
 				 * <p>
-				 * To do this, it's required a <i>semaphore</i>-like object, recording the amount of
+				 * To do this, it's required a <i>__semaphore__</i>-like object, recording the amount of
 				 * "still running tasks", that lets the main thread to sleep and being awakened
 				 * when all of those tasks has been completed.<br>
 				 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
 				*/
 				
-				boolean areChildrenRunning = true, neverStarted;
-				int startingIndex;
-				final int[] semaphore = new int[]{ subtasks.length };
-				final Runnable[] tasks = new Runnable[ semaphore[0] ];
+				boolean __areChildrenRunning__ = true, __neverStarted__;
+				int __startingIndex__;
+				final int[] __semaphore__ = new int[]{ __subtasks__.length };
+				final Runnable[] __tasks__ = new Runnable[ __semaphore__[0] ];
 			
 				// PHASE 1 convert the RPP in runnable tasks
-				for(int i = 0; i < tasks.length; i++){
-					startingIndex = startIndex + startIndexOffset[i]; // startIndexOffsetSuppliers[i].get();
-					tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
+				for(int __i__ = 0; __i__ < __tasks__.length; __i__++){
+					__startingIndex__ = __startIndex__ + __startIndexOffset__[__i__]; // __startIndexOffsetSuppliers__[__i__].get();
+					__tasks__[__i__] = new SubBodyRunner(__startingIndex__, __subtasks__[__i__], __x__){
 						public void run(){
 							// execute the main body (delegate inside the superclass implementation)
 							super.run();
 							
-							// after the body execution, manage the semaphore
-							synchronized (semaphore) {
+							// after the body execution, manage the __semaphore__
+							synchronized (__semaphore__) {
 								// if all tasks are successfully finished, awake the main thread
-								semaphore[0]--;
-								semaphore.notifyAll();
+								__semaphore__[0]--;
+								__semaphore__.notifyAll();
 							}
 						}
 					};
 					// each tasks performs over their own registers segment, so update the starting point
 				}
-				neverStarted = true;
+				__neverStarted__ = true;
 				do{
-					synchronized (semaphore) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
-						if(neverStarted){
-							neverStarted = false;
+					synchronized (__semaphore__) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
+						if(__neverStarted__){
+							__neverStarted__ = false;
 						// PHASE 2: put the "sprinters" at the "race's starting blocks".
-							threadPoolExecutor.submit( ()-> {
+							__threadPoolExecutor__.submit( ()-> {
 								/* This runner is the "submitter", which task is to submit all parallel tasks,
 									and can't run while the main thread has the lock, because that main thread is still working.
 									It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
 									due to race conditions.
 								*/
-								synchronized (semaphore) {
+								synchronized (__semaphore__) {
 									// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
-									for(Runnable t : tasks){ // let's start the tasks
-										threadPoolExecutor.submit(t);
+									for(Runnable __t__ : __tasks__){ // let's start the tasks
+										__threadPoolExecutor__.submit(__t__);
 									}
 								}
 							});
 						}
 						
-						areChildrenRunning = semaphore[0] > 0;
-						if(areChildrenRunning){
+						__areChildrenRunning__ = __semaphore__[0] > 0;
+						if(__areChildrenRunning__){
 						// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
 							try {
 								/* The "wait" let the main thread to sleep, releasing the lock.
 									NOW the submitter can submit the parallel tasks, which can then to be executed.
 								*/
-								semaphore.wait(); // some child(dren) is(are) still running
-							} catch (InterruptedException e) {
-								e.printStackTrace();
+								__semaphore__.wait(); // some child(dren) is(are) still running
+							} catch (InterruptedException __e__) {
+								__e__.printStackTrace();
 							}
 						}
 					}
-				} while(areChildrenRunning);
+				} while(__areChildrenRunning__);
 			}
 		}
 	};
-	public int getA() { return this.steps[0].getA(); }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = -1;
-		while( ++i < steps.length ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+		while( ++__i__ < __steps__.length ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

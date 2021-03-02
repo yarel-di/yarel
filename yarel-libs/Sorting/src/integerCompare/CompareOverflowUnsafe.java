@@ -5,15 +5,16 @@ public class CompareOverflowUnsafe implements RPP {
 	public CompareOverflowUnsafe() { }
 	
 	
+	
 
 	
 	public InvCompareOverflowUnsafe getInverse(){
 		return new InvCompareOverflowUnsafe();
 	}
 	
-	RPP function = new SameSignCompare();
-	public int getA() { return function.getA(); }
-	public void b(int[] x, int startIndex, int endIndex) {
-		this.function.b(x, startIndex, endIndex);
+	RPP __function__ = new SameSignCompare();
+	public int getA() { return __function__.getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+		this.__function__.b(__x__, __startIndex__, __endIndex__);
 	}
 }

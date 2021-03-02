@@ -5,63 +5,64 @@ public class InvT3sub implements RPP {
 	public InvT3sub() { }
 	
 	
+	
 
 	
 	public T3sub getInverse(){
 		return new T3sub();
 	}
 	
-	private final RPP[] steps = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{
 		new RPP() { // BodyPermImpl
-			private final int a = 3;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 0]; 
-				x[startIndex + 0] = x[startIndex + 2]; 
-				x[startIndex + 2] = x[startIndex + 1]; 
-				x[startIndex + 1] = tmp; 
+			private final int __a__ = 3;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
 			}
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
 		new RPP() { // BodyItImpl
 			// Iteration start
-			RPP function = new RPP() { // BodyFunImpl
-				RPP function = new InvT2sub();
-				public int getA() { return function.getA(); }
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+			RPP __function__ = new RPP() { // BodyFunImpl
+				RPP __function__ = new InvT2sub();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
 			};
-			public int getA() { return function.getA()+1; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				int endIndexBody = (startIndex + this.getA()) - 1;
-				int iterationsLeft = Math.abs(x[endIndexBody]);
-				while(iterationsLeft-->0){
-					function.b(x, startIndex, endIndexBody);
+			public int getA() { return __function__.getA()+1; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+				int __iterationsLeft__ = Math.abs(__x__[__endIndexBody__]);
+				while(__iterationsLeft__-->0){
+					__function__.b(__x__, __startIndex__, __endIndexBody__);
 				}
 			}
 			// Iteration stop
 		},
 		
 		new RPP() { // BodyPermImpl
-			private final int a = 3;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 0]; 
-				x[startIndex + 0] = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+			private final int __a__ = 3;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		}
 	};
-	public int getA() { return this.steps[0].getA(); }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = steps.length;
-		while( i-->0 ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = __steps__.length;
+		while( __i__-->0 ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

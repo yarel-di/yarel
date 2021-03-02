@@ -5,21 +5,22 @@ public class InvPExample implements RPP {
 	public InvPExample() { }
 	
 	
+	
 
 	
 	public PExample getInverse(){
 		return new PExample();
 	}
 	
-	private final int a = 4;
-	public void b(int[] x, int startIndex, int endIndex) {
-		int tmp=0;
-		tmp = x[startIndex + 0]; 
-		x[startIndex + 0] = x[startIndex + 2]; 
-		x[startIndex + 2] = tmp; 
-		tmp = x[startIndex + 1]; 
-		x[startIndex + 1] = x[startIndex + 3]; 
-		x[startIndex + 3] = tmp; 
+	private final int __a__ = 4;
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+		int __tmp__=0;
+		__tmp__ = __x__[__startIndex__ + 0]; 
+		__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+		__x__[__startIndex__ + 2] = __tmp__; 
+		__tmp__ = __x__[__startIndex__ + 1]; 
+		__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+		__x__[__startIndex__ + 3] = __tmp__; 
 	}
-	public int getA() { return this.a; }
+	public int getA() { return this.__a__; }
 }
