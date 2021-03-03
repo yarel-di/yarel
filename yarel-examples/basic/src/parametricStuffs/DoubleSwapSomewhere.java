@@ -8,7 +8,7 @@ public class DoubleSwapSomewhere implements RPP {
 	public DoubleSwapSomewhere(//arities:
 		int a, int B
 		){
-		this.__fixedRegistersAmount__ = 8;
+		this.__fixedRegistersAmount__ = 7;
 		if(a < 0){ throw new WrongArityException("The arity \"a\" cannot be negative: " + a); }
 		this.a = a;
 		
@@ -79,9 +79,9 @@ public class DoubleSwapSomewhere implements RPP {
 					
 					
 					new RPP(){ // BodySwapImpl
-						public int getA() { return 1 + 0 + (1*a); }
+						public int getA() { return 0 + (1*a); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA() - 1;
+							int __arity__ = this.getA(); // "- 1" is removed
 							RPP __f__ = new Swap(
 								__arity__, //
 								((2) - 1) % __arity__, // Yarel's indexes are 1-based
@@ -180,21 +180,21 @@ public class DoubleSwapSomewhere implements RPP {
 				private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
 					() -> { return 0;}, //
 					() -> { return 2;}, //
-					() -> { return 3 + (1*a);}, //
-					() -> { return 5 + (1*a);}, //
-					() -> { return 6 + (1*B) + (1*a);}, //
-					() -> { return 7 + (1*B) + (1*a);}
+					() -> { return 2 + (1*a);}, //
+					() -> { return 4 + (1*a);}, //
+					() -> { return 5 + (1*B) + (1*a);}, //
+					() -> { return 6 + (1*B) + (1*a);}
 				};
 				*/
 				private final int[] __startIndexOffset__ = {
 					0, //
 					2, //
-					3 + (1*a), //
-					5 + (1*a), //
-					6 + (1*B) + (1*a), //
-					7 + (1*B) + (1*a)
+					2 + (1*a), //
+					4 + (1*a), //
+					5 + (1*B) + (1*a), //
+					6 + (1*B) + (1*a)
 				};
-				public int getA() { return (8 + (1*B) + (1*a)); }
+				public int getA() { return (7 + (1*B) + (1*a)); }
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a parallel composition
 					/**
 					 * The Yarel's compiled code runs on a single {@link Thread}, which We could name

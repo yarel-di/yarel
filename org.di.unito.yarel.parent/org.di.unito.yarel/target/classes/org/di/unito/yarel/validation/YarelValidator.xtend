@@ -33,7 +33,6 @@ import org.di.unito.yarel.yarel.AritiesAssignment
 import org.di.unito.yarel.yarel.BodyIf
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.Declaration
-import org.di.unito.yarel.yarel.Definition
 import org.di.unito.yarel.yarel.FunctionInvocation
 import org.di.unito.yarel.yarel.Import
 import org.di.unito.yarel.yarel.Model
@@ -59,6 +58,9 @@ import org.di.unito.yarel.yarel.BodyParamInc
 import org.di.unito.yarel.yarel.BodyParamNeg
 import org.di.unito.yarel.yarel.BodyParamDec
 import org.di.unito.yarel.yarel.SwapIndexed
+import java.util.function.Supplier
+import org.eclipse.emf.ecore.EObject
+import org.di.unito.yarel.yarel.Definition
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
@@ -89,6 +91,7 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_PARAM_BOTH_IN_ARITY_INVOCATION = BASE_ERROR_NAME + 'ERROR_PARAM_BOTH_IN_ARITY_INVOCATION';
 	public static val ERROR_DUPLICATE_PARAMETER_DEFINITION = BASE_ERROR_NAME + 'ERROR_DUPLICATE_PARAMETER_DEFINITION'
 	public static val ERROR_UNDEFINED_PARAM_IN_ARITY_ASSIGN = BASE_ERROR_NAME + 'ERROR_UNDEFINED_PARAM_IN_ARITY_ASSIGN'
+	public static val ERROR_UNDEFINED_PARAM_IN_PARAM_ASSIGN = BASE_ERROR_NAME + 'ERROR_UNDEFINED_PARAM_IN_PARAM_ASSIGN'
 	public static val ERROR_FUNCTION_PARAM_OUTSIDE_DEFINITION = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAM_OUTSIDE_DEFINITION'
 	public static val ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL = BASE_ERROR_NAME + 'ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL'
 	public static val ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH'
@@ -147,16 +150,30 @@ class YarelValidator extends AbstractYarelValidator {
 	 * Check if the number of parameters of each branch of the serial composition are equal
 	 */
 	@Check
-	def checkSerialComposition(SerComp serial) {
-		val leftArity = YarelUtils.getArity(serial.left)
-		val rightArity = YarelUtils.getArity(serial.right)
-		
-		if(!leftArity.equals(rightArity))
-			error("Arity of left and right branch in serial composition must be equal: LEFT:["
-				+ leftArity.toString() + "] , right:["+rightArity.toString()+"]"
-				, YarelPackage::eINSTANCE.serComp_Left, ERROR_SERIAL_COMPOSITION
-			)
+	def checkSerialComposition(Definition deff){
+		val deffArity = YarelUtils.getArity(deff.declarationName)
+		val allSequentialBlocks = YarelUtils.getAllSequentialBodyBlocks(deff.body)
+		allSequentialBlocks.forEach[ b, index|
+			val bodyArity = YarelUtils.getArity(b)
+			if(!deffArity.equals(bodyArity)){
+				error("Arity of "+index+"-th serial-composition's block must be equal to the declaration (the \"dcl\" of the function):<br><ul><li>The declared one:[ "
+					+ deffArity.toString() + " ]</li> <li> the block's one: [ "+
+					bodyArity.toString()+" ] </li></ul>."
+					, YarelPackage::eINSTANCE.definition_Body, index, ERROR_SERIAL_COMPOSITION
+				)
+			}
+		]
 	}
+//	def checkSerialComposition(SerComp serial) {
+//		val leftArity = YarelUtils.getArity(serial.left)
+//		val rightArity = YarelUtils.getArity(serial.right)
+//		
+//		if(!leftArity.equals(rightArity))
+//			error("Arity of left and right branch in serial composition must be equal: LEFT:["
+//				+ leftArity.toString() + "] , right:["+rightArity.toString()+"]"
+//				, YarelPackage::eINSTANCE.serComp_Left, ERROR_SERIAL_COMPOSITION
+//			)
+//	}
 	
 	/**
 	 * Check if the declared arity of the function declaration is equal to the arity of the function definition
@@ -222,9 +239,9 @@ class YarelValidator extends AbstractYarelValidator {
 					error(
 						"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
 						YarelPackage::eINSTANCE.import_ImportedNamespace, 
-						ERROR_IMPORT)	
+						ERROR_IMPORT)
 				}
-			}		
+			}
 		}
 	}
 	 
@@ -419,8 +436,7 @@ class YarelValidator extends AbstractYarelValidator {
 	 * but upon arity assignment only arity's parameters (of the caller function)
 	 * can be used, to allow clean and clear arity checks.
 	 */
-	@Check
-	def checkParameterExisting(ParameterLEWP parName){
+	def checkParameterExisting_V1(ParameterLEWP parName){
 		var boolean errorManaged = false;
 		/* check if this parameter is used in function's invocation [parameters' passage]
 		 * or just in arity definition [native parametric operators or function's arity definition]
@@ -467,6 +483,57 @@ class YarelValidator extends AbstractYarelValidator {
 				YarelPackage::eINSTANCE.parameterLEWP_ParamName)
 		}
 	}
+	
+	private def void checkParExist(EObject parCallingContext, EList<ParametricArity> setOfParamsAssignement,
+		EReference refError, String errorCode
+	){
+		val sovrafunctionCallerDefinition = parCallingContext.getContainerOfType(typeof(Definition))
+		
+ 		if(sovrafunctionCallerDefinition === null){
+ 			return;
+ 		}
+ 		val funCallerDecl = sovrafunctionCallerDefinition.declarationName
+		val allowedParamsName = new HashSet<String>();
+		if(funCallerDecl.aritySignature.parametricArities !== null ){
+			funCallerDecl.aritySignature.parametricArities.forEach[allowedParamsName.add(it.parName)]
+		}
+		if(funCallerDecl.invocParamsSignat !== null && funCallerDecl.invocParamsSignat.invocParam !== null){
+			funCallerDecl.invocParamsSignat.invocParam .forEach[allowedParamsName.add(it.parName)]
+		}
+//		if(allowedParamsName.empty){
+//			error("Inside the function "+funCallerDecl.name+", the parameter \""+parName.paramName+"\" is used in a unrecognized context.",
+//				YarelPackage::eINSTANCE.parameterLEWP_ParamName)
+//		}
+		
+		setOfParamsAssignement.forEach[ pa, indexPa|
+			val compAr = YarelUtils.getArity(pa)
+			if(compAr.isParametric){
+				compAr.parametersCoefficients.forEach([paName, coeff|
+					if(!allowedParamsName.contains(paName)){
+						error(
+							"Inside the function "+funCallerDecl.name+", the parameter \""+paName+"\" is not an arity parameter, invocation parameter or is undefined.",
+							refError, indexPa, errorCode
+	 					)
+ 					}
+				])
+			}
+		]
+	}
+	
+	@Check(CheckType::NORMAL)
+	def checkParametersExisting(AritiesAssignment arityAssign){
+		checkParExist(arityAssign, arityAssign.arities,
+			YarelPackage::eINSTANCE.aritiesAssignment_Arities,
+			ERROR_UNDEFINED_PARAM_IN_ARITY_ASSIGN
+		)
+	}
+	@Check(CheckType::NORMAL)
+	def checkParametersExisting(ParametersAssignment parAssign){
+		checkParExist(parAssign, parAssign.parameters,
+			YarelPackage::eINSTANCE.parametersAssignment_Parameters,
+			ERROR_UNDEFINED_PARAM_IN_PARAM_ASSIGN
+		)
+	}
 
 	@Check
 	def checkEnoughParametersToFunctionCall(FunctionInvocation function ){
@@ -495,7 +562,6 @@ class YarelValidator extends AbstractYarelValidator {
 				ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH
 			)
 		}
-
 		// check the parameters assignment
 		expectedParamsAmount = (funcDecl.invocParamsSignat === null || funcDecl.invocParamsSignat.invocParam === null) ? 0:
 				funcDecl.invocParamsSignat.invocParam.size;
@@ -603,4 +669,6 @@ class YarelValidator extends AbstractYarelValidator {
 //			)
 //		}
 //	}
+
+	static interface AritySupplier extends Supplier<ComposedArity>{}
 }

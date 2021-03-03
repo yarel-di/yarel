@@ -60,9 +60,9 @@ public class Hello implements RPP {
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
 					new RPP() { // BodySwapImpl
-						public int getA() { return 1 + 0 + (1*K); }
+						public int getA() { return 1 + (1*K); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA() - 1;
+							int __arity__ = this.getA(); // "- 1" is removed
 							RPP __f__ = new Swap(
 								__arity__, //
 								((2) - 1) % __arity__, // Yarel's indexes are 1-based

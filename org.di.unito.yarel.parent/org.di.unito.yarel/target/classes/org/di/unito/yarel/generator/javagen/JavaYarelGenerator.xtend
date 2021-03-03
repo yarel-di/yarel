@@ -261,7 +261,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			protected final int __arity__;
 			protected final int __firstIndex__;
 			protected final int __secondIndex__;
-			public int getA() { return 1 + this.__arity__; }
+			public int getA() { return this.__arity__; } // "1 +" is removed
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __temp__ = __x__[__startIndex__ + this.__firstIndex__]; 
 				__x__[__startIndex__ + this.__firstIndex__] = __x__[__startIndex__ + this.__secondIndex__];
@@ -581,7 +581,7 @@ class JavaYarelGenerator implements IGenerator2 {
 				this.«par.key.replace('\b', '_')» = «par.key.replace('\b', '_')»;
 				«ENDFOR»
 				«IF hasDeclParams»«FOR par: declParams»
-				if(«par.replace('\b', '_')» < 0){ throw new WrongArityException("The parameter \"«par.replace('\b', '_')»\" cannot be negative: " + «par.replace('\b', '_')»); }
+				// if(«par.replace('\b', '_')» < 0){ throw new WrongArityException("The parameter \"«par.replace('\b', '_')»\" cannot be negative: " + «par.replace('\b', '_')»); }
 				this.«par.replace('\b', '_')» = «par.replace('\b', '_')»;
 				«ENDFOR»«ENDIF»
 			}
@@ -998,9 +998,9 @@ class JavaYarelGenerator implements IGenerator2 {
 			val firstIndex = YarelUtils.getArity(swapFun.paramsAssign.parameters.get(0))
 			val secondIndex= YarelUtils.getArity(swapFun.paramsAssign.parameters.get(1))
 			'''
-			public int getA() { return 1 + «swapArity.toString()»; }
+			public int getA() { return «swapArity.toString()»; } // "1 +" is removed
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-				int __arity__ = this.getA() - 1;
+				int __arity__ = this.getA(); // "- 1" is removed
 				RPP __f__ = new «IF !fwd»Inv«ENDIF»Swap(
 					__arity__, //
 					((«firstIndex.toString()») - 1) % __arity__, // Yarel's indexes are 1-based

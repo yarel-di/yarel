@@ -1,6 +1,6 @@
 package tests.junit;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
@@ -110,12 +110,15 @@ public class TestCompareJunit {
 
 	@Test
 	public void datTest() {
-		boolean allOk = true;
+		int errorsAmount;
 		IntCompTest[] tests = IntCompTest.values();
+		errorsAmount = 0;
 		for (IntCompTest t : tests) {
-			allOk &= test(t);
+//			allOk &= 
+			errorsAmount += test(t) ? 0 : 1;
 		}
-		assertTrue(allOk);
+//		assertTrue(allOk);
+		assertEquals(0, errorsAmount);
 	}
 
 	public static boolean test(IntCompTest itc) {

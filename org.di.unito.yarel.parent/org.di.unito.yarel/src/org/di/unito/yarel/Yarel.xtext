@@ -112,7 +112,6 @@ Atomic returns Body:
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
   | {BodyFun} function=FunctionInvocation
   | {BodyPerm} permutation=Permutation
-//  | {BodySwap}function= SwapIndexed
   | AtomicParametricArity
 ;
 
@@ -140,8 +139,7 @@ AtomicParRep :
 	| {BodyParamNeg} funName='neg'
 ;
 
-SwapIndexed : // requires also 1 more register (for RPP-like implementations)
-//	{SwapIndexed}
+SwapIndexed :
 	funName= 'swap'
 	arity = AritiesAssignment
 	paramsAssign = ParametersAssignment

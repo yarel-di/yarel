@@ -5,13 +5,13 @@ public class InvSwapParamHelper implements RPP {
 	public InvSwapParamHelper(//arities:
 		int K
 		,
-		int I
+		int Index
 		){
 		this.__fixedRegistersAmount__ = 1;
 		if(K < 0){ throw new WrongArityException("The arity \"K\" cannot be negative: " + K); }
 		this.K = K;
-		if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
-		this.I = I;
+		// if(Index < 0){ throw new WrongArityException("The parameter \"Index\" cannot be negative: " + Index); }
+		this.Index = Index;
 	}
 	protected InvSwapParamHelper(){
 		this(1,0);
@@ -19,20 +19,20 @@ public class InvSwapParamHelper implements RPP {
 	
 	protected final int __fixedRegistersAmount__;
 	protected final int K;
-	protected final int I;
+	protected final int Index;
 	
 	
 	public int getFixedRegistersAmount(){
 		return this.__fixedRegistersAmount__;
 	}
 	public int getK(){ return this.K; }
-	public int getI(){ return this.I; }
+	public int getIndex(){ return this.Index; }
 	
 	protected RPP __theWholeBody__ = null;
 
 	
 	public SwapParamHelper getInverse(){
-		return new SwapParamHelper(this.K,I);
+		return new SwapParamHelper(this.K,Index);
 	}
 	
 	public int getA() {
@@ -54,7 +54,7 @@ public class InvSwapParamHelper implements RPP {
 							public int getA() { return 1; }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								int __arity__ = this.getA();
-								int __repsAmount__ = 0 + (1*I);
+								int __repsAmount__ = 0 + (1*Index);
 								for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
 								for(int __i__ = 0; __i__ < __arity__; __i__++){
 									this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
@@ -91,7 +91,7 @@ public class InvSwapParamHelper implements RPP {
 							public int getA() { return 1; }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								int __arity__ = this.getA();
-								int __repsAmount__ = 0 + (1*I);
+								int __repsAmount__ = 0 + (1*Index);
 								for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
 								for(int __i__ = 0; __i__ < __arity__; __i__++){
 									this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"

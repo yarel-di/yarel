@@ -107,7 +107,7 @@ class YarelUtils {
 			allBodies.addFirst(body.right)
 			body = body.left
 		}
-		allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
+		if(body !== null) allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
 		return allBodies
 	}
 
@@ -183,7 +183,8 @@ class YarelUtils {
 	}
 	
 	static def dispatch ComposedArity getArity(ParametersAssignment parAss){
-		return getArity(parAss.parameters);
+		return (parAss === null || parAss.parameters === null)
+			? new ComposedArity() : getArity(parAss.parameters);
 	}
 	
 	static def dispatch ComposedArity getArity(AritySignature aritySignature){
@@ -229,7 +230,7 @@ class YarelUtils {
 			BodyFor      : getArity(body.body).addScalar(1)
 			BodyIf       : getArity(body.pos).addScalar(1)
 			BodyFun      : getArity(body.function)
-			BodySwap     : getArity(body.function.arity).addScalar(1)
+			BodySwap     : getArity(body.function.arity) // .addScalar(1)
 			BodyParamPerm: getArity(body.arity).addScalar(1)
 			BodyParamId  : getArity(body.arity)
 			BodyParamInc : getArity(body.arity)

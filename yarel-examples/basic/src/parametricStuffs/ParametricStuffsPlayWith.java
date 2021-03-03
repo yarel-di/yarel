@@ -230,21 +230,21 @@ public class ParametricStuffsPlayWith {
 	public static void testDoubleSwapSomewhere(){
 		RPP doubleSwapSomewhereRPP = new parametricStuffs.DoubleSwapSomewhere();
 		final int[][] datasets = {
-			new int[]{1,2,3,4,5,6,7,8,9,5},
-			new int[]{9,8,7,6,5,4,3,2,1,5},
-			new int[]{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
-			new int[]{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
-			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
-			new int[]{ 2,  2,  2,  2,  2,  2,  2,  2,  2,  2},
-			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2},
-			new int[]{ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3},
-			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3},
-			new int[]{ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4},
-			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4},
-			new int[]{ 10,  10,  10,  10,  10,  10,  10,  10,  10,  10},
-			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10},
-			new int[]{ 11,  11,  11,  11,  11,  11,  11,  11,  11,  11},
-			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
+			new int[]{1,2,3,4,5,6,7,8,5},
+			new int[]{8,7,6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function doubleSwapSomewhere with values:" + Arrays.toString(data));

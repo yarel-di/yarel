@@ -2,7 +2,7 @@ module ParametricStuffs{
 	
 	dcl shiftLastToFirstK_OLD: 2 int , K
 	def shiftLastToFirstK_OLD := // a[1..K] 0 K
-		id{K} | for[inc]     // a[1..K] K K
+		id{K} | for[inc]         // a[1..K] K K
 		;for[
 			/{K}/
 			;id{K}|dec
@@ -28,15 +28,15 @@ module ParametricStuffs{
 	def negativeParamWarning :=
 		id{J-3} |id{K}  |inc{-(-5)-K}  |id{K}
 		;id{J} | for[inc] |id{K} 
-		;swap{K+J+1}( K-1, J+K-2)
-	 
+		;swap{K+J+2}( K-1, J+K-2)
+	
 	dcl hello: int , K
 	def hello:=	
-		swap{K}(2,4)
+		swap{K+1}(2,4)
 		;id|neg{2}(3)|inc{K-2}
 		;neg{1}(4)|id|id|inc{K-2}(4)
 		
-	dcl doubleSwapSomewhere : 8 int , a, B
+	dcl doubleSwapSomewhere : 7 int , a, B
 	def doubleSwapSomewhere :=
 		dec|id|swap{a}(2, a-2)|for[inc]|swapSRLlike{B}(3,B-3)|neg|inc{1}(a+B)
 
@@ -86,5 +86,5 @@ module ParametricStuffs{
 		;swapParamHelper{K}(E) //a[1, 2, .. E, S+1,.., S, E+1, .., K], 0
 
 
-	
+
 }

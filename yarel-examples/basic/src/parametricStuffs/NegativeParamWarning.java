@@ -118,9 +118,9 @@ public class NegativeParamWarning implements RPP {
 					},
 					
 					new RPP() { // BodySwapImpl
-						public int getA() { return 1 + 1 + (1*K) + (1*J); }
+						public int getA() { return 2 + (1*K) + (1*J); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA() - 1;
+							int __arity__ = this.getA(); // "- 1" is removed
 							RPP __f__ = new Swap(
 								__arity__, //
 								((-1 + (1*K)) - 1) % __arity__, // Yarel's indexes are 1-based

@@ -4,10 +4,16 @@
 package org.di.unito.yarel.ui
 
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
+import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider
+import org.di.unito.yarel.ui.documentation.YarelEObjectHoverProvider
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
  */
 @FinalFieldsConstructor
 class YarelUiModule extends AbstractYarelUiModule {
+	
+	def  Class<? extends IEObjectHoverProvider> bindIEObjectHoverProvider() {
+		return  typeof(YarelEObjectHoverProvider);
+	}
 }
