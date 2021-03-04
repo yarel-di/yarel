@@ -128,7 +128,7 @@ class YarelValidator extends AbstractYarelValidator {
 					, YarelPackage::eINSTANCE.bodyIf_Neg, ERROR_IF_FUNCTIONS_ARITY
 				)
 			} else if(negEqualsZero){
-				error("Arity of positive function ["+posArity.toString()+"] is not equal to the others: [" + negEqualsZero.toString() + "]"
+				error("Arity of positive function ["+posArity.toString()+"] is not equal to the others: [" + negArity.toString() + "]"
 					, YarelPackage::eINSTANCE.bodyIf_Pos, ERROR_IF_FUNCTIONS_ARITY
 				)
 			} else if(posEqualsNeg){
@@ -136,10 +136,10 @@ class YarelValidator extends AbstractYarelValidator {
 					, YarelPackage::eINSTANCE.bodyIf_Zero, ERROR_IF_FUNCTIONS_ARITY
 				)
 			} else {
-				error("All functions arities must be equal, but are all different:"
-						+"\n\tpos : [" + posArity.toString() + "]"
-						+"\n\tzero: [" + zeroArity.toString() + "]"
-						+"\n\tneg : [" + negArity.toString() + "]"
+				error("All functions arities must be equal, but are all different:<ul>"
+						+"<li>pos : [" + posArity.toString() + "]</li>"
+						+"<li>zero: [" + zeroArity.toString() + "]</li>"
+						+"<li>neg : [" + negArity.toString() + "]</li></ul>"
 					, YarelPackage::eINSTANCE.bodyIf_Function, ERROR_IF_FUNCTIONS_ARITY
 				)
 			}
@@ -577,11 +577,11 @@ class YarelValidator extends AbstractYarelValidator {
 	}
 
 	@Check
-	def warnIfNegativeParameters(ParametricArity pa){
+	def infoIfNegativeParameters(ParametricArity pa){
 		val composedArity = YarelUtils.getArity(pa.arity);
 		composedArity.parametersCoefficients.forEach[parName, parCoeff, index|
 			if(parCoeff < 0){
-				warning("Parameter \""+parName+"\"'s coefficient should not be negative: "+parCoeff,
+				info("Parameter \""+parName+"\"'s coefficient should not be negative: "+parCoeff,
 					YarelPackage::eINSTANCE.parametricArity_Arity,index,
 					BASE_ERROR_NAME + "WARNING_ARITY"
 				)

@@ -11,7 +11,7 @@ public class MoreThan implements RPP {
 		int Q,
 		int K
 		){
-		this.__fixedRegistersAmount__ = 1;
+		this.__fixedRegistersAmount__ = 2;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
@@ -96,11 +96,11 @@ public class MoreThan implements RPP {
 								this.__function__.b(__x__, __startIndex__, __endIndex__);
 							}
 						};
-						public int getA() { return 1 + (1*M); }
+						public int getA() { return 2 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0,
-								__startIndex__ + (0) + (-4 + (1*M))
+								__startIndex__ + (0) + (-3 + (1*M))
 								);
 						}
 					},

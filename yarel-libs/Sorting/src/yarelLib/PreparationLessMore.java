@@ -11,7 +11,7 @@ public class PreparationLessMore implements RPP {
 		int Q,
 		int K
 		){
-		this.__fixedRegistersAmount__ = 1;
+		this.__fixedRegistersAmount__ = 2;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
@@ -72,68 +72,29 @@ public class PreparationLessMore implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodySwapImpl
-						public int getA() { return 1 + (1*M); } // "1 +" is removed
+					new RPP() { // BodyFunImpl
+						RPP __function__ = new SwapSRLlike(
+							0 + (1*M)
+							,
+							1,
+							0 + (1*K)
+						);
+						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new Swap(
-								__arity__, //
-								((1) - 1) % __arity__, // Yarel's indexes are 1-based
-								((0 + (1*K)) - 1) % __arity__ //
-							);
-							__f__.b(__x__, __startIndex__, __endIndex__);
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
 						}
 					},
 					
-					new RPP() { // BodySwapImpl
-						public int getA() { return 1 + (1*M); } // "1 +" is removed
+					new RPP() { // BodyFunImpl
+						RPP __function__ = new SwapSRLlike(
+							0 + (1*M)
+							,
+							2,
+							0 + (1*P)
+						);
+						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new Swap(
-								__arity__, //
-								((2) - 1) % __arity__, // Yarel's indexes are 1-based
-								((0 + (1*P)) - 1) % __arity__ //
-							);
-							__f__.b(__x__, __startIndex__, __endIndex__);
-						}
-					},
-					
-					new RPP() { // BodySwapImpl
-						public int getA() { return 1 + (1*M); } // "1 +" is removed
-						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new Swap(
-								__arity__, //
-								((3) - 1) % __arity__, // Yarel's indexes are 1-based
-								((0 + (1*Q)) - 1) % __arity__ //
-							);
-							__f__.b(__x__, __startIndex__, __endIndex__);
-						}
-					},
-					
-					new RPP() { // BodySwapImpl
-						public int getA() { return 1 + (1*M); } // "1 +" is removed
-						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new Swap(
-								__arity__, //
-								((4) - 1) % __arity__, // Yarel's indexes are 1-based
-								((0 + (1*I)) - 1) % __arity__ //
-							);
-							__f__.b(__x__, __startIndex__, __endIndex__);
-						}
-					},
-					
-					new RPP() { // BodySwapImpl
-						public int getA() { return 1 + (1*M); } // "1 +" is removed
-						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new Swap(
-								__arity__, //
-								((5) - 1) % __arity__, // Yarel's indexes are 1-based
-								((0 + (1*J)) - 1) % __arity__ //
-							);
-							__f__.b(__x__, __startIndex__, __endIndex__);
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
 						}
 					}
 				};

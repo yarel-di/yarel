@@ -26,6 +26,7 @@ import java.util.Arrays;
 * <li> {@link yarelLib.AddFrom}</li>
 * <li> {@link yarelLib.SubFrom}</li>
 * <li> {@link yarelLib.PreparationLessMore}</li>
+* <li> {@link yarelLib.SameSignY}</li>
 * <li> {@link yarelLib.LessThan}</li>
 * <li> {@link yarelLib.MoreThan}</li>
  * </ul>
@@ -73,6 +74,8 @@ public class YarelLibPlayWith {
 		testSubFrom();
 		
 		testPreparationLessMore();
+		
+		testSameSignY();
 		
 		testLessThan();
 		
@@ -308,21 +311,21 @@ public class YarelLibPlayWith {
 	public static void testPreparationLessMore(){
 		RPP preparationLessMoreRPP = new yarelLib.PreparationLessMore();
 		final int[][] datasets = {
-			new int[]{1,5},
-			new int[]{1,5},
-			new int[]{ 0,  0},
-			new int[]{ 1,  1},
-			new int[]{ -1,  -1},
-			new int[]{ 2,  2},
-			new int[]{ -2,  -2},
-			new int[]{ 3,  3},
-			new int[]{ -3,  -3},
-			new int[]{ 4,  4},
-			new int[]{ -4,  -4},
-			new int[]{ 10,  10},
-			new int[]{ -10,  -10},
-			new int[]{ 11,  11},
-			new int[]{ -11,  -11},
+			new int[]{1,2,5},
+			new int[]{2,1,5},
+			new int[]{ 0,  0,  0},
+			new int[]{ 1,  1,  1},
+			new int[]{ -1,  -1,  -1},
+			new int[]{ 2,  2,  2},
+			new int[]{ -2,  -2,  -2},
+			new int[]{ 3,  3,  3},
+			new int[]{ -3,  -3,  -3},
+			new int[]{ 4,  4,  4},
+			new int[]{ -4,  -4,  -4},
+			new int[]{ 10,  10,  10},
+			new int[]{ -10,  -10,  -10},
+			new int[]{ 11,  11,  11},
+			new int[]{ -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function preparationLessMore with values:" + Arrays.toString(data));
@@ -333,24 +336,52 @@ public class YarelLibPlayWith {
 	
 	
 	
+	public static void testSameSignY(){
+		RPP sameSignYRPP = new yarelLib.SameSignY();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function sameSignY with values:" + Arrays.toString(data));
+			sameSignYRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
 	public static void testLessThan(){
 		RPP lessThanRPP = new yarelLib.LessThan();
 		final int[][] datasets = {
-			new int[]{1,5},
-			new int[]{1,5},
-			new int[]{ 0,  0},
-			new int[]{ 1,  1},
-			new int[]{ -1,  -1},
-			new int[]{ 2,  2},
-			new int[]{ -2,  -2},
-			new int[]{ 3,  3},
-			new int[]{ -3,  -3},
-			new int[]{ 4,  4},
-			new int[]{ -4,  -4},
-			new int[]{ 10,  10},
-			new int[]{ -10,  -10},
-			new int[]{ 11,  11},
-			new int[]{ -11,  -11},
+			new int[]{1,2,3,4,5,6,5},
+			new int[]{6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function lessThan with values:" + Arrays.toString(data));
@@ -364,21 +395,21 @@ public class YarelLibPlayWith {
 	public static void testMoreThan(){
 		RPP moreThanRPP = new yarelLib.MoreThan();
 		final int[][] datasets = {
-			new int[]{1,5},
-			new int[]{1,5},
-			new int[]{ 0,  0},
-			new int[]{ 1,  1},
-			new int[]{ -1,  -1},
-			new int[]{ 2,  2},
-			new int[]{ -2,  -2},
-			new int[]{ 3,  3},
-			new int[]{ -3,  -3},
-			new int[]{ 4,  4},
-			new int[]{ -4,  -4},
-			new int[]{ 10,  10},
-			new int[]{ -10,  -10},
-			new int[]{ 11,  11},
-			new int[]{ -11,  -11},
+			new int[]{1,2,5},
+			new int[]{2,1,5},
+			new int[]{ 0,  0,  0},
+			new int[]{ 1,  1,  1},
+			new int[]{ -1,  -1,  -1},
+			new int[]{ 2,  2,  2},
+			new int[]{ -2,  -2,  -2},
+			new int[]{ 3,  3,  3},
+			new int[]{ -3,  -3,  -3},
+			new int[]{ 4,  4,  4},
+			new int[]{ -4,  -4,  -4},
+			new int[]{ 10,  10,  10},
+			new int[]{ -10,  -10,  -10},
+			new int[]{ 11,  11,  11},
+			new int[]{ -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function moreThan with values:" + Arrays.toString(data));
