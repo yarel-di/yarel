@@ -25,10 +25,15 @@ import java.util.Arrays;
 * <li> {@link yarelLib.Decrement}</li>
 * <li> {@link yarelLib.AddFrom}</li>
 * <li> {@link yarelLib.SubFrom}</li>
-* <li> {@link yarelLib.PreparationLessMore}</li>
-* <li> {@link yarelLib.SameSignY}</li>
+* <li> {@link yarelLib.SameSignYLess}</li>
+* <li> {@link yarelLib.SameSignYMore}</li>
+* <li> {@link yarelLib.SameSignYCompare}</li>
+* <li> {@link yarelLib.DupNumbersStep}</li>
 * <li> {@link yarelLib.LessThan}</li>
 * <li> {@link yarelLib.MoreThan}</li>
+* <li> {@link yarelLib.CompareThan}</li>
+* <li> {@link yarelLib.CompareThanOverflowUnsafe}</li>
+* <li> {@link yarelLib.Mult}</li>
  * </ul>
  * <p>
  *
@@ -73,13 +78,23 @@ public class YarelLibPlayWith {
 		
 		testSubFrom();
 		
-		testPreparationLessMore();
+		testSameSignYLess();
 		
-		testSameSignY();
+		testSameSignYMore();
+		
+		testSameSignYCompare();
+		
+		testDupNumbersStep();
 		
 		testLessThan();
 		
 		testMoreThan();
+		
+		testCompareThan();
+		
+		testCompareThanOverflowUnsafe();
+		
+		testMult();
 	}
 	
 	//
@@ -308,36 +323,8 @@ public class YarelLibPlayWith {
 	
 	
 	
-	public static void testPreparationLessMore(){
-		RPP preparationLessMoreRPP = new yarelLib.PreparationLessMore();
-		final int[][] datasets = {
-			new int[]{1,2,5},
-			new int[]{2,1,5},
-			new int[]{ 0,  0,  0},
-			new int[]{ 1,  1,  1},
-			new int[]{ -1,  -1,  -1},
-			new int[]{ 2,  2,  2},
-			new int[]{ -2,  -2,  -2},
-			new int[]{ 3,  3,  3},
-			new int[]{ -3,  -3,  -3},
-			new int[]{ 4,  4,  4},
-			new int[]{ -4,  -4,  -4},
-			new int[]{ 10,  10,  10},
-			new int[]{ -10,  -10,  -10},
-			new int[]{ 11,  11,  11},
-			new int[]{ -11,  -11,  -11},
-		};
-		for( int[] data: datasets ){
-			System.out.println("\nTesting the function preparationLessMore with values:" + Arrays.toString(data));
-			preparationLessMoreRPP.b(data);
-			System.out.println("Resulting in: " + Arrays.toString(data));
-		}
-	}
-	
-	
-	
-	public static void testSameSignY(){
-		RPP sameSignYRPP = new yarelLib.SameSignY();
+	public static void testSameSignYLess(){
+		RPP sameSignYLessRPP = new yarelLib.SameSignYLess();
 		final int[][] datasets = {
 			new int[]{1,2,3,4,5},
 			new int[]{4,3,2,1,5},
@@ -356,8 +343,92 @@ public class YarelLibPlayWith {
 			new int[]{ -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function sameSignY with values:" + Arrays.toString(data));
-			sameSignYRPP.b(data);
+			System.out.println("\nTesting the function sameSignYLess with values:" + Arrays.toString(data));
+			sameSignYLessRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testSameSignYMore(){
+		RPP sameSignYMoreRPP = new yarelLib.SameSignYMore();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function sameSignYMore with values:" + Arrays.toString(data));
+			sameSignYMoreRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testSameSignYCompare(){
+		RPP sameSignYCompareRPP = new yarelLib.SameSignYCompare();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function sameSignYCompare with values:" + Arrays.toString(data));
+			sameSignYCompareRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testDupNumbersStep(){
+		RPP dupNumbersStepRPP = new yarelLib.DupNumbersStep();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,5},
+			new int[]{6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function dupNumbersStep with values:" + Arrays.toString(data));
+			dupNumbersStepRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}
@@ -395,25 +466,109 @@ public class YarelLibPlayWith {
 	public static void testMoreThan(){
 		RPP moreThanRPP = new yarelLib.MoreThan();
 		final int[][] datasets = {
-			new int[]{1,2,5},
-			new int[]{2,1,5},
-			new int[]{ 0,  0,  0},
-			new int[]{ 1,  1,  1},
-			new int[]{ -1,  -1,  -1},
-			new int[]{ 2,  2,  2},
-			new int[]{ -2,  -2,  -2},
-			new int[]{ 3,  3,  3},
-			new int[]{ -3,  -3,  -3},
-			new int[]{ 4,  4,  4},
-			new int[]{ -4,  -4,  -4},
-			new int[]{ 10,  10,  10},
-			new int[]{ -10,  -10,  -10},
-			new int[]{ 11,  11,  11},
-			new int[]{ -11,  -11,  -11},
+			new int[]{1,2,3,4,5,6,5},
+			new int[]{6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function moreThan with values:" + Arrays.toString(data));
 			moreThanRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testCompareThan(){
+		RPP compareThanRPP = new yarelLib.CompareThan();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,5},
+			new int[]{6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function compareThan with values:" + Arrays.toString(data));
+			compareThanRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testCompareThanOverflowUnsafe(){
+		RPP compareThanOverflowUnsafeRPP = new yarelLib.CompareThanOverflowUnsafe();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function compareThanOverflowUnsafe with values:" + Arrays.toString(data));
+			compareThanOverflowUnsafeRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testMult(){
+		RPP multRPP = new yarelLib.Mult();
+		final int[][] datasets = {
+			new int[]{1,2,3,5},
+			new int[]{3,2,1,5},
+			new int[]{ 0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function mult with values:" + Arrays.toString(data));
+			multRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

@@ -1,8 +1,8 @@
 package yarelLib;
 import yarelcore.*;	
 
-public class LessThan implements RPP {
-	public LessThan(//arities:
+public class InvCompareThan implements RPP {
+	public InvCompareThan(//arities:
 		int M
 		,
 		int I,
@@ -25,7 +25,7 @@ public class LessThan implements RPP {
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
 		this.K = K;
 	}
-	protected LessThan(){
+	protected InvCompareThan(){
 		this(1,0, 0, 0, 0, 0);
 	}
 	
@@ -55,8 +55,8 @@ public class LessThan implements RPP {
 	protected RPP __theWholeBody__ = null;
 
 	
-	public InvLessThan getInverse(){
-		return new InvLessThan(this.M,I, J, P, Q, K);
+	public CompareThan getInverse(){
+		return new CompareThan(this.M,I, J, P, Q, K);
 	}
 	
 	public int getA() {
@@ -73,7 +73,7 @@ public class LessThan implements RPP {
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
 					new RPP() { // BodyFunImpl
-						RPP __function__ = new DupNumbersStep(
+						RPP __function__ = new InvDupNumbersStep(
 							0 + (1*M)
 							,
 							0 + (1*I),
@@ -91,7 +91,7 @@ public class LessThan implements RPP {
 					new RPP() { // BodyIfImpl
 						RPP __pos__=new RPP() {
 							RPP __pos__=new RPP() {
-								RPP __function__ = new SameSignYLess(
+								RPP __function__ = new InvSameSignYCompare(
 									0 + (1*M)
 									,
 									0 + (1*K),
@@ -105,7 +105,7 @@ public class LessThan implements RPP {
 							};
 							RPP __zero__=new RPP() {
 								private RPP __f__ = new RPP(){
-									private RPP __f__ = Inc.SINGLETON_Inc;
+									private RPP __f__ = InvDec.SINGLETON_InvDec;
 									private final int __a__ = __f__.getA();
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -122,7 +122,7 @@ public class LessThan implements RPP {
 							};
 							RPP __neg__=new RPP() {
 								private RPP __f__ = new RPP(){
-									private RPP __f__ = Inc.SINGLETON_Inc;
+									private RPP __f__ = InvDec.SINGLETON_InvDec;
 									private final int __a__ = __f__.getA();
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -151,8 +151,21 @@ public class LessThan implements RPP {
 						};
 						RPP __zero__=new RPP() {
 							RPP __pos__=new RPP() {
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = InvInc.SINGLETON_InvInc;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								};
 								public int getA() { return 4 + (1*M); }
-								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + -1 + (1*K),
+										__startIndex__ + (-1 + (1*K)) + (1)
+										);
+								}
 							};
 							RPP __zero__=new RPP() {
 								public int getA() { return 4 + (1*M); }
@@ -160,7 +173,7 @@ public class LessThan implements RPP {
 							};
 							RPP __neg__=new RPP() {
 								private RPP __f__ = new RPP(){
-									private RPP __f__ = Inc.SINGLETON_Inc;
+									private RPP __f__ = InvDec.SINGLETON_InvDec;
 									private final int __a__ = __f__.getA();
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -189,15 +202,41 @@ public class LessThan implements RPP {
 						};
 						RPP __neg__=new RPP() {
 							RPP __pos__=new RPP() {
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = InvInc.SINGLETON_InvInc;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								};
 								public int getA() { return 4 + (1*M); }
-								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + -1 + (1*K),
+										__startIndex__ + (-1 + (1*K)) + (1)
+										);
+								}
 							};
 							RPP __zero__=new RPP() {
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = InvInc.SINGLETON_InvInc;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								};
 								public int getA() { return 4 + (1*M); }
-								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + -1 + (1*K),
+										__startIndex__ + (-1 + (1*K)) + (1)
+										);
+								}
 							};
 							RPP __neg__=new RPP() {
-								RPP __function__ = new SameSignYLess(
+								RPP __function__ = new InvSameSignYCompare(
 									0 + (1*M)
 									,
 									0 + (1*K),
@@ -235,7 +274,7 @@ public class LessThan implements RPP {
 					},
 					
 					new RPP() { // BodyInvImpl
-						RPP __function__ = new InvDupNumbersStep(
+						RPP __function__ = new DupNumbersStep(
 							0 + (1*M)
 							,
 							0 + (1*I),
@@ -253,8 +292,8 @@ public class LessThan implements RPP {
 				public int getA() { return this.__steps__[0].getA(); }
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
 					int __i__;
-					__i__ = -1;
-					while( ++__i__ < __steps__.length ){
+					__i__ = __steps__.length;
+					while( __i__-->0 ){
 						__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 					}
 				}

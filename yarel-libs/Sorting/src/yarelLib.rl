@@ -125,58 +125,65 @@ module YarelLib{
 		;swapSRLlike{M+2}(J, M+2) //a[1, .., I-1, I+J, I+1, .., J-1, J, J +1, .., M] 0 0 0 0
 
 
-	dcl preparationLessMore(I,J,P,Q,K) : 2 int, M
-	def preparationLessMore :=
-		swapSRLlike{M}(1,K)
-		;swapSRLlike{M}(2,P)
-//		;swapSRLlike{M}(3,Q)
-//		;swapSRLlike{M}(4,I)
-//		;swapSRLlike{M}(5,J)
 
-//		swap{M+1}(1,K)
-//		;swap{M+1}(2,P)
-//		;swap{M+1}(3,Q)
-//		;swap{M+1}(4,I)
-//		;swap{M+1}(5,J)
-
-
-	dcl sameSignY(K,P,Q): 4 int , M
-	def sameSignY :=
+	dcl sameSignYLess(K,P,Q): 4 int , M
+	def sameSignYLess :=
 		subFrom{M}(Q,P)
 		;swapSRLlike{M+2}(Q,  M+2)//a[] 0 Q-P 0 0
 		;id{M} | /1 4 3 2/       // a[] 0 0 0 Q-P
 		;if[
-			// V1
 			id{K-1}|inc|id{3+M-K},
 			id{M+3},
 			id{M+3}
-			//V2
-//			id{M+3},
-//			id{M+3},
-//			id{K-1}|inc|id{3+M-K}
-//			//V3
-//			id{K-1}|inc|id{3+M-K},
-//			id{M+3},
-//			id{K-1}|inc|id{3+M-K}
 		]
 		;id{M} | /1 4 3 2/       // a[] 0 Q-P 0 0
 		;swapSRLlike{M+2}(Q,  M+2)
 		;addFrom{M}(Q,P)
-	
 
-	dcl lessThan (I,J,P,Q,K) : 6 int, M
-	def lessThan :=
-//		preparationLessMore{M}(I,J,P,Q,K)
-//		;IntegerCompare.less|id{M-3}
-//		;preparationLessMore{M}(I,J,P,Q,K)
+	dcl sameSignYMore(K,P,Q): 4 int , M
+	def sameSignYMore :=
+		subFrom{M}(Q,P)
+		;swapSRLlike{M+2}(Q,  M+2)//a[] 0 Q-P 0 0
+		;id{M} | /1 4 3 2/       // a[] 0 0 0 Q-P
+		;if[
+			id{M+3},
+			id{M+3},
+			id{K-1}|inc|id{3+M-K}
+		]
+		;id{M} | /1 4 3 2/       // a[] 0 Q-P 0 0
+		;swapSRLlike{M+2}(Q,  M+2)
+		;addFrom{M}(Q,P)
+
+	dcl sameSignYCompare(K,P,Q): 4 int , M
+	def sameSignYCompare  :=
+		subFrom{M}(Q,P)
+		;swapSRLlike{M+2}(Q,  M+2)//a[] 0 Q-P 0 0
+		;id{M} | /1 4 3 2/       // a[] 0 0 0 Q-P
+		;if[
+			id{K-1}|inc|id{3+M-K},
+			id{M+3},
+			id{K-1}|dec|id{3+M-K}
+		]
+		;id{M} | /1 4 3 2/       // a[] 0 Q-P 0 0
+		;swapSRLlike{M+2}(Q,  M+2)
+		;addFrom{M}(Q,P)
+
+	
+	dcl dupNumbersStep(I,J,P,Q,K) : 6 int, M
+	def dupNumbersStep :=
 		addFrom{M+2}(Q, J)
 		;addFrom{M+2}(P,I)
 		;swapSRLlike{M+4}(M+2,J)// a[] 0 J 0 0 0 0
 		;swapSRLlike{M+4}(M+1,I)// a[] I J 0 0 0 0
 		;id{M}|/3 4 5 6 1 2/    // a[] 0 0 0 0 I J
+
+
+	dcl lessThan (I,J,P,Q,K) : 6 int, M
+	def lessThan :=
+		dupNumbersStep{M}(I,J,P,Q,K)
 		;if[
 			if[
-				sameSignY{M}(K,P,Q),
+				sameSignYLess{M}(K,P,Q),
 				id{K-1}|inc|id{4+M-K},
 				id{K-1}|inc|id{4+M-K}
 			],
@@ -188,21 +195,76 @@ module YarelLib{
 			if[
 				id{M+4},
 				id{M+4},
-				sameSignY{M}(K,P,Q)
+				sameSignYLess{M}(K,P,Q)
 			]
 		]
 		;inv[
-			addFrom{M+2}(Q, J)
-			;addFrom{M+2}(P,I)
-			;swapSRLlike{M+4}(M+2,J)
-			;swapSRLlike{M+4}(M+1,I)
-			;id{M}|/3 4 5 6 1 2/
+			dupNumbersStep{M}(I,J,P,Q,K)
 		]
 
-	dcl moreThan (I,J,P,Q,K) : 2 int, M
+	dcl moreThan (I,J,P,Q,K) : 6 int, M
 	def moreThan :=
-		preparationLessMore{M}(I,J,P,Q,K)
-		;IntegerCompare.more|id{M-3}
-		;preparationLessMore{M}(I,J,P,Q,K)
-		
+		dupNumbersStep{M}(I,J,P,Q,K)
+		;if[
+			if[
+				sameSignYMore{M}(K,P,Q),
+				id{M+4},
+				id{M+4}
+			],
+			if[
+				id{K-1}|inc|id{4+M-K},
+				id{M+4},
+				id{M+4}
+			],
+			if[
+				id{K-1}|inc|id{4+M-K},
+				id{K-1}|inc|id{4+M-K},
+				sameSignYMore{M}(K,P,Q)
+			]
+		]
+		;inv[
+			dupNumbersStep{M}(I,J,P,Q,K)
+		]
+
+	dcl compareThan (I,J,P,Q,K) : 6 int, M
+	def compareThan :=
+		dupNumbersStep{M}(I,J,P,Q,K)
+		;if[
+			if[
+				sameSignYCompare{M}(K,P,Q),
+				id{K-1}|dec|id{4+M-K},
+				id{K-1}|dec|id{4+M-K}
+			],
+			if[
+				id{K-1}|inc|id{4+M-K},
+				id{M+4},
+				id{K-1}|dec|id{4+M-K}
+			],
+			if[
+				id{K-1}|inc|id{4+M-K},
+				id{K-1}|inc|id{4+M-K},
+				sameSignYCompare{M}(K,P,Q)
+			]
+		]
+		;inv[
+			dupNumbersStep{M}(I,J,P,Q,K)
+		]
+
+
+	dcl compareThanOverflowUnsafe (I,J,P,Q,K) : 4 int, M
+	def compareThanOverflowUnsafe :=
+		sameSignYCompare{M}(K,I,J)
+
+	dcl mult(K,J,I) : 3 int , M
+	def mult := 
+	swapSRLlike{M+1}(I, M+1)
+	;id{M}|/2 1 3/
+	;swapSRLlike{M+1}(J, M+1)
+	;for[for[
+		id{K-1}|inc|id{M-K+1}
+	]]
+	;swapSRLlike{M+1}(J, M+1)
+	;id{M}|/2 1 3/
+	;swapSRLlike{M+1}(I, M+1)
+	
 }

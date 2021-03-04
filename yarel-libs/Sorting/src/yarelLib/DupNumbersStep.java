@@ -1,8 +1,8 @@
 package yarelLib;
 import yarelcore.*;	
 
-public class InvPreparationLessMore implements RPP {
-	public InvPreparationLessMore(//arities:
+public class DupNumbersStep implements RPP {
+	public DupNumbersStep(//arities:
 		int M
 		,
 		int I,
@@ -11,7 +11,7 @@ public class InvPreparationLessMore implements RPP {
 		int Q,
 		int K
 		){
-		this.__fixedRegistersAmount__ = 2;
+		this.__fixedRegistersAmount__ = 6;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
@@ -25,7 +25,7 @@ public class InvPreparationLessMore implements RPP {
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
 		this.K = K;
 	}
-	protected InvPreparationLessMore(){
+	protected DupNumbersStep(){
 		this(1,0, 0, 0, 0, 0);
 	}
 	
@@ -55,8 +55,8 @@ public class InvPreparationLessMore implements RPP {
 	protected RPP __theWholeBody__ = null;
 
 	
-	public PreparationLessMore getInverse(){
-		return new PreparationLessMore(this.M,I, J, P, Q, K);
+	public InvDupNumbersStep getInverse(){
+		return new InvDupNumbersStep(this.M,I, J, P, Q, K);
 	}
 	
 	public int getA() {
@@ -73,11 +73,11 @@ public class InvPreparationLessMore implements RPP {
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
 					new RPP() { // BodyFunImpl
-						RPP __function__ = new InvSwapSRLlike(
-							0 + (1*M)
+						RPP __function__ = new AddFrom(
+							2 + (1*M)
 							,
-							1,
-							0 + (1*K)
+							0 + (1*Q),
+							0 + (1*J)
 						);
 						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -86,23 +86,74 @@ public class InvPreparationLessMore implements RPP {
 					},
 					
 					new RPP() { // BodyFunImpl
-						RPP __function__ = new InvSwapSRLlike(
-							0 + (1*M)
+						RPP __function__ = new AddFrom(
+							2 + (1*M)
 							,
-							2,
-							0 + (1*P)
+							0 + (1*P),
+							0 + (1*I)
 						);
 						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__function__.b(__x__, __startIndex__, __endIndex__);
+						}
+					},
+					
+					new RPP() { // BodyFunImpl
+						RPP __function__ = new SwapSRLlike(
+							4 + (1*M)
+							,
+							2 + (1*M),
+							0 + (1*J)
+						);
+						public int getA() { return __function__.getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
+						}
+					},
+					
+					new RPP() { // BodyFunImpl
+						RPP __function__ = new SwapSRLlike(
+							4 + (1*M)
+							,
+							1 + (1*M),
+							0 + (1*I)
+						);
+						public int getA() { return __function__.getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
+						}
+					},
+					
+					new RPP() { // ParCompImpl
+						private RPP __f__ = new RPP(){
+							private final int __a__ = 6;
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								int __tmp__=0;
+								__tmp__ = __x__[__startIndex__ + 0]; 
+								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+								__x__[__startIndex__ + 2] = __x__[__startIndex__ + 4]; 
+								__x__[__startIndex__ + 4] = __tmp__; 
+								__tmp__ = __x__[__startIndex__ + 1]; 
+								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+								__x__[__startIndex__ + 3] = __x__[__startIndex__ + 5]; 
+								__x__[__startIndex__ + 5] = __tmp__; 
+							}
+							public int getA() { return this.__a__; }
+						};
+						public int getA() { return 6 + (1*M); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__f__.b(__x__,
+								__startIndex__ + 0 + (1*M),
+								__startIndex__ + (0 + (1*M)) + (6)
+								);
 						}
 					}
 				};
 				public int getA() { return this.__steps__[0].getA(); }
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
 					int __i__;
-					__i__ = __steps__.length;
-					while( __i__-->0 ){
+					__i__ = -1;
+					while( ++__i__ < __steps__.length ){
 						__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 					}
 				}

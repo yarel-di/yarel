@@ -1,8 +1,8 @@
 package yarelLib;
 import yarelcore.*;	
 
-public class SameSignY implements RPP {
-	public SameSignY(//arities:
+public class SameSignYMore implements RPP {
+	public SameSignYMore(//arities:
 		int M
 		,
 		int K,
@@ -19,7 +19,7 @@ public class SameSignY implements RPP {
 		// if(Q < 0){ throw new WrongArityException("The parameter \"Q\" cannot be negative: " + Q); }
 		this.Q = Q;
 	}
-	protected SameSignY(){
+	protected SameSignYMore(){
 		this(1,0, 0, 0);
 	}
 	
@@ -43,8 +43,8 @@ public class SameSignY implements RPP {
 	protected RPP __theWholeBody__ = null;
 
 	
-	public InvSameSignY getInverse(){
-		return new InvSameSignY(this.M,K, P, Q);
+	public InvSameSignYMore getInverse(){
+		return new InvSameSignYMore(this.M,K, P, Q);
 	}
 	
 	public int getA() {
@@ -108,6 +108,14 @@ public class SameSignY implements RPP {
 					
 					new RPP() { // BodyIfImpl
 						RPP __pos__=new RPP() {
+							public int getA() { return 3 + (1*M); }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+						};
+						RPP __zero__=new RPP() {
+							public int getA() { return 3 + (1*M); }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+						};
+						RPP __neg__=new RPP() {
 							private RPP __f__ = new RPP(){
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								private final int __a__ = __f__.getA();
@@ -123,14 +131,6 @@ public class SameSignY implements RPP {
 									__startIndex__ + (-1 + (1*K)) + (1)
 									);
 							}
-						};
-						RPP __zero__=new RPP() {
-							public int getA() { return 3 + (1*M); }
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
-						};
-						RPP __neg__=new RPP() {
-							public int getA() { return 3 + (1*M); }
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
 						};
 						public int getA() { return this.__pos__.getA()+1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
