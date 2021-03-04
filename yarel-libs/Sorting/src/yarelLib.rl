@@ -255,16 +255,58 @@ module YarelLib{
 	def compareThanOverflowUnsafe :=
 		sameSignYCompare{M}(K,I,J)
 
-	dcl mult(K,J,I) : 3 int , M
-	def mult := 
-	swapSRLlike{M+1}(I, M+1)
-	;id{M}|/2 1 3/
-	;swapSRLlike{M+1}(J, M+1)
+	dcl multOverK0Ancillae(K,J,I) : 4 int , M
+	def multOverK0Ancillae := 
+	swapSRLlike{M+2}(I, M+1)
+	;id{M}|/4 2 3 1/
+	;swapSRLlike{M+1}(J, M+1)|id
+	;id{M}|/1 4 3 2/
 	;for[for[
-		id{K-1}|inc|id{M-K+1}
-	]]
-	;swapSRLlike{M+1}(J, M+1)
-	;id{M}|/2 1 3/
-	;swapSRLlike{M+1}(I, M+1)
+		id{K-1}|inc|id{M-K}
+	]] | id | id
+	;inv[
+		swapSRLlike{M+2}(I, M+1)
+		;id{M}|/4 2 3 1/
+		;swapSRLlike{M+1}(J, M+1)|id
+		;id{M}|/1 4 3 2/
+	]
 	
+	
+	
+	dcl mult(K,J,I) : 4 int , M
+	def mult := 
+	/* 
+	swapSRLlike{M+2}(K+1,J)
+	;swapSRLlike{M+2}(K+2,I)
+	;id{K-1} | it[it[inc]] | id{2+M-K}
+	;swapSRLlike{M+2}(K+1,J) // restores K+1 and K+2 elements
+	;swapSRLlike{M+2}(K+2,I)
+	;*/
+	swapSRLlike{M+2}(M+2,I)
+	;swapSRLlike{M+2}(M+1,J)
+	;id{M} | /3 4 1 2/
+	;it[it[id{K-1} | inc | id{2+M-K}]]
+	;if[
+		if[
+			id{M+2},
+			id{M+2},
+			id{K-1}|neg|id{2+M-K}
+		],
+		if[
+			
+			id{M+2},
+			id{M+2},
+			id{M+2}
+		],
+		if[
+			
+			id{K-1}|neg|id{2+M-K},
+			id{M+2},
+			id{M+2}
+		]
+	]
+	;id{M} | /3 4 1 2/
+	;swapSRLlike{M+2}(M+1,J)
+	;swapSRLlike{M+2}(M+2,I)
+
 }

@@ -33,6 +33,7 @@ import java.util.Arrays;
 * <li> {@link yarelLib.MoreThan}</li>
 * <li> {@link yarelLib.CompareThan}</li>
 * <li> {@link yarelLib.CompareThanOverflowUnsafe}</li>
+* <li> {@link yarelLib.MultOverK0Ancillae}</li>
 * <li> {@link yarelLib.Mult}</li>
  * </ul>
  * <p>
@@ -93,6 +94,8 @@ public class YarelLibPlayWith {
 		testCompareThan();
 		
 		testCompareThanOverflowUnsafe();
+		
+		testMultOverK0Ancillae();
 		
 		testMult();
 	}
@@ -547,24 +550,52 @@ public class YarelLibPlayWith {
 	
 	
 	
+	public static void testMultOverK0Ancillae(){
+		RPP multOverK0AncillaeRPP = new yarelLib.MultOverK0Ancillae();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function multOverK0Ancillae with values:" + Arrays.toString(data));
+			multOverK0AncillaeRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
 	public static void testMult(){
 		RPP multRPP = new yarelLib.Mult();
 		final int[][] datasets = {
-			new int[]{1,2,3,5},
-			new int[]{3,2,1,5},
-			new int[]{ 0,  0,  0,  0},
-			new int[]{ 1,  1,  1,  1},
-			new int[]{ -1,  -1,  -1,  -1},
-			new int[]{ 2,  2,  2,  2},
-			new int[]{ -2,  -2,  -2,  -2},
-			new int[]{ 3,  3,  3,  3},
-			new int[]{ -3,  -3,  -3,  -3},
-			new int[]{ 4,  4,  4,  4},
-			new int[]{ -4,  -4,  -4,  -4},
-			new int[]{ 10,  10,  10,  10},
-			new int[]{ -10,  -10,  -10,  -10},
-			new int[]{ 11,  11,  11,  11},
-			new int[]{ -11,  -11,  -11,  -11},
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function mult with values:" + Arrays.toString(data));

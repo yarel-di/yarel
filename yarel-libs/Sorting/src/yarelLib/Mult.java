@@ -9,7 +9,7 @@ public class Mult implements RPP {
 		int J,
 		int I
 		){
-		this.__fixedRegistersAmount__ = 3;
+		this.__fixedRegistersAmount__ = 4;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
@@ -62,10 +62,23 @@ public class Mult implements RPP {
 				private final RPP[] __steps__ = new RPP[]{
 					new RPP() { // BodyFunImpl
 						RPP __function__ = new SwapSRLlike(
-							1 + (1*M)
+							2 + (1*M)
 							,
-							0 + (1*I),
-							1 + (1*M)
+							2 + (1*M),
+							0 + (1*I)
+						);
+						public int getA() { return __function__.getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
+						}
+					},
+					
+					new RPP() { // BodyFunImpl
+						RPP __function__ = new SwapSRLlike(
+							2 + (1*M)
+							,
+							1 + (1*M),
+							0 + (1*J)
 						);
 						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -75,41 +88,31 @@ public class Mult implements RPP {
 					
 					new RPP() { // ParCompImpl
 						private RPP __f__ = new RPP(){
-							private final int __a__ = 3;
+							private final int __a__ = 4;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								int __tmp__=0;
 								__tmp__ = __x__[__startIndex__ + 0]; 
-								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
-								__x__[__startIndex__ + 1] = __tmp__; 
+								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+								__x__[__startIndex__ + 2] = __tmp__; 
+								__tmp__ = __x__[__startIndex__ + 1]; 
+								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+								__x__[__startIndex__ + 3] = __tmp__; 
 							}
 							public int getA() { return this.__a__; }
 						};
-						public int getA() { return 3 + (1*M); }
+						public int getA() { return 4 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (3)
+								__startIndex__ + (0 + (1*M)) + (4)
 								);
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
-						RPP __function__ = new SwapSRLlike(
-							1 + (1*M)
-							,
-							0 + (1*J),
-							1 + (1*M)
-						);
-						public int getA() { return __function__.getA(); }
-						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							this.__function__.b(__x__, __startIndex__, __endIndex__);
-						}
-					},
-					
-					new RPP() { // BodyForImpl
-						/** regular function used when v > 0 */
-						RPP __function__ = new RPP() { // BodyForImpl
-							/** regular function used when v > 0 */
+					new RPP() { // BodyItImpl
+						// Iteration start
+						RPP __function__ = new RPP() { // BodyItImpl
+							// Iteration start
 							RPP __function__ = new RPP() { // ParCompImpl
 								private RPP __f__ = new RPP(){
 									private RPP __f__ = Inc.SINGLETON_Inc;
@@ -119,7 +122,7 @@ public class Mult implements RPP {
 									}
 									public int getA() { return this.__a__; }
 								};
-								public int getA() { return 1 + (1*M); }
+								public int getA() { return 2 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
@@ -127,174 +130,184 @@ public class Mult implements RPP {
 										);
 								}
 							};
-							
-							/** inverse function used when v < 0 */
-							RPP __inv_function__ = new RPP() { // InvParCompImpl
-								private RPP __f__ = new RPP(){
-									private RPP __f__ = InvInc.SINGLETON_InvInc;
-									private final int __a__ = __f__.getA();
-									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-										this.__f__.b(__x__, __startIndex__, __endIndex__);
-									}
-									public int getA() { return this.__a__; }
-								};
-								public int getA() { return 1 + (1*M); }
-								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-									this.__f__.b(__x__,
-										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
-										);
+							public int getA() { return __function__.getA()+1; }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+								int __iterationsLeft__ = Math.abs(__x__[__endIndexBody__]);
+								while(__iterationsLeft__-->0){
+									__function__.b(__x__, __startIndex__, __endIndexBody__);
 								}
-							};
-							
-							public int getA() { return __function__.getA()+1; } 
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
-								final int __repCounterIndex__ = (__startIndex__ + this.getA()) - 1, __originalRepCounter__;
-								int __repetitionCounter__ = __x__[__repCounterIndex__];
-								__originalRepCounter__ = __repetitionCounter__;
-							
-								if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
-									__endIndex__ = __startIndex__ + __function__.getA();
-									while(__repetitionCounter__-->0){
-										__function__.b(__x__, __startIndex__, __repCounterIndex__);
-										__x__[__repCounterIndex__]--;
-									}
-								}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
-									__endIndex__ = __startIndex__ + __inv_function__.getA();
-									while(__repetitionCounter__++<0){
-										__inv_function__.b(__x__, __startIndex__, __repCounterIndex__);
-										__x__[__repCounterIndex__]++;
-									}
-								} //else: when v is equal to zero, recursive calls stop as a value is returned
-								__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 							}
+							// Iteration stop
 						};
-						
-						/** inverse function used when v < 0 */
-						RPP __inv_function__ = new RPP() { // InvBodyForImpl
-							/** regular function used when v > 0 */
-							RPP __function__ = new RPP() { // ParCompImpl
-								private RPP __f__ = new RPP(){
-									private RPP __f__ = InvInc.SINGLETON_InvInc;
-									private final int __a__ = __f__.getA();
-									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-										this.__f__.b(__x__, __startIndex__, __endIndex__);
-									}
-									public int getA() { return this.__a__; }
-								};
-								public int getA() { return 1 + (1*M); }
-								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-									this.__f__.b(__x__,
-										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
-										);
-								}
-							};
-							
-							/** inverse function used when v < 0 */
-							RPP __inv_function__ = new RPP() { // InvParCompImpl
-								private RPP __f__ = new RPP(){
-									private RPP __f__ = Inc.SINGLETON_Inc;
-									private final int __a__ = __f__.getA();
-									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-										this.__f__.b(__x__, __startIndex__, __endIndex__);
-									}
-									public int getA() { return this.__a__; }
-								};
-								public int getA() { return 1 + (1*M); }
-								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-									this.__f__.b(__x__,
-										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
-										);
-								}
-							};
-							
-							public int getA() { return __function__.getA()+1; } 
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
-								final int __repCounterIndex__ = (__startIndex__ + this.getA()) - 1, __originalRepCounter__;
-								int __repetitionCounter__ = __x__[__repCounterIndex__];
-								__originalRepCounter__ = __repetitionCounter__;
-							
-								if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
-									__endIndex__ = __startIndex__ + __function__.getA();
-									while(__repetitionCounter__-->0){
-										__function__.b(__x__, __startIndex__, __repCounterIndex__);
-										__x__[__repCounterIndex__]--;
-									}
-								}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
-									__endIndex__ = __startIndex__ + __inv_function__.getA();
-									while(__repetitionCounter__++<0){
-										__inv_function__.b(__x__, __startIndex__, __repCounterIndex__);
-										__x__[__repCounterIndex__]++;
-									}
-								} //else: when v is equal to zero, recursive calls stop as a value is returned
-								__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
+						public int getA() { return __function__.getA()+1; }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+							int __iterationsLeft__ = Math.abs(__x__[__endIndexBody__]);
+							while(__iterationsLeft__-->0){
+								__function__.b(__x__, __startIndex__, __endIndexBody__);
 							}
-						};
-						
-						public int getA() { return __function__.getA()+1; } 
-						public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
-							final int __repCounterIndex__ = (__startIndex__ + this.getA()) - 1, __originalRepCounter__;
-							int __repetitionCounter__ = __x__[__repCounterIndex__];
-							__originalRepCounter__ = __repetitionCounter__;
-						
-							if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
-								__endIndex__ = __startIndex__ + __function__.getA();
-								while(__repetitionCounter__-->0){
-									__function__.b(__x__, __startIndex__, __repCounterIndex__);
-									__x__[__repCounterIndex__]--;
-								}
-							}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
-								__endIndex__ = __startIndex__ + __inv_function__.getA();
-								while(__repetitionCounter__++<0){
-									__inv_function__.b(__x__, __startIndex__, __repCounterIndex__);
-									__x__[__repCounterIndex__]++;
-								}
-							} //else: when v is equal to zero, recursive calls stop as a value is returned
-							__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 						}
+						// Iteration stop
 					},
 					
-					new RPP() { // BodyFunImpl
-						RPP __function__ = new SwapSRLlike(
-							1 + (1*M)
-							,
-							0 + (1*J),
-							1 + (1*M)
-						);
-						public int getA() { return __function__.getA(); }
+					new RPP() { // BodyIfImpl
+						RPP __pos__=new RPP() {
+							RPP __pos__=new RPP() {
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+							};
+							RPP __zero__=new RPP() {
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+							};
+							RPP __neg__=new RPP() {
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = Neg.SINGLETON_Neg;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								};
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + -1 + (1*K),
+										__startIndex__ + (-1 + (1*K)) + (1)
+										);
+								}
+							};
+							public int getA() { return this.__pos__.getA()+1; }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+								if(__testValue__ > 0){
+									__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+								} else if(__testValue__ == 0){
+									__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+								} else { // The "__testValue__<0" test is a tautology
+									__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+								}
+							}
+						};
+						RPP __zero__=new RPP() {
+							RPP __pos__=new RPP() {
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+							};
+							RPP __zero__=new RPP() {
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+							};
+							RPP __neg__=new RPP() {
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+							};
+							public int getA() { return this.__pos__.getA()+1; }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+								if(__testValue__ > 0){
+									__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+								} else if(__testValue__ == 0){
+									__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+								} else { // The "__testValue__<0" test is a tautology
+									__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+								}
+							}
+						};
+						RPP __neg__=new RPP() {
+							RPP __pos__=new RPP() {
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = Neg.SINGLETON_Neg;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								};
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + -1 + (1*K),
+										__startIndex__ + (-1 + (1*K)) + (1)
+										);
+								}
+							};
+							RPP __zero__=new RPP() {
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+							};
+							RPP __neg__=new RPP() {
+								public int getA() { return 2 + (1*M); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+							};
+							public int getA() { return this.__pos__.getA()+1; }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+								if(__testValue__ > 0){
+									__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+								} else if(__testValue__ == 0){
+									__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+								} else { // The "__testValue__<0" test is a tautology
+									__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+								}
+							}
+						};
+						public int getA() { return this.__pos__.getA()+1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							this.__function__.b(__x__, __startIndex__, __endIndex__);
+							final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+							if(__testValue__ > 0){
+								__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+							} else if(__testValue__ == 0){
+								__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+							} else { // The "__testValue__<0" test is a tautology
+								__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+							}
 						}
 					},
 					
 					new RPP() { // ParCompImpl
 						private RPP __f__ = new RPP(){
-							private final int __a__ = 3;
+							private final int __a__ = 4;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								int __tmp__=0;
 								__tmp__ = __x__[__startIndex__ + 0]; 
-								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
-								__x__[__startIndex__ + 1] = __tmp__; 
+								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+								__x__[__startIndex__ + 2] = __tmp__; 
+								__tmp__ = __x__[__startIndex__ + 1]; 
+								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+								__x__[__startIndex__ + 3] = __tmp__; 
 							}
 							public int getA() { return this.__a__; }
 						};
-						public int getA() { return 3 + (1*M); }
+						public int getA() { return 4 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (3)
+								__startIndex__ + (0 + (1*M)) + (4)
 								);
 						}
 					},
 					
 					new RPP() { // BodyFunImpl
 						RPP __function__ = new SwapSRLlike(
-							1 + (1*M)
+							2 + (1*M)
 							,
-							0 + (1*I),
-							1 + (1*M)
+							1 + (1*M),
+							0 + (1*J)
+						);
+						public int getA() { return __function__.getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
+						}
+					},
+					
+					new RPP() { // BodyFunImpl
+						RPP __function__ = new SwapSRLlike(
+							2 + (1*M)
+							,
+							2 + (1*M),
+							0 + (1*I)
 						);
 						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
