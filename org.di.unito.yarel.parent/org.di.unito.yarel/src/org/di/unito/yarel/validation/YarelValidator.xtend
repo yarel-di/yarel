@@ -136,7 +136,7 @@ class YarelValidator extends AbstractYarelValidator {
 					, YarelPackage::eINSTANCE.bodyIf_Zero, ERROR_IF_FUNCTIONS_ARITY
 				)
 			} else {
-				error("All functions arities must be equal, but are all different:<ul>"
+				error("All functions arities must be equal, but they are all different:<ul>"
 						+"<li>pos : [" + posArity.toString() + "]</li>"
 						+"<li>zero: [" + zeroArity.toString() + "]</li>"
 						+"<li>neg : [" + negArity.toString() + "]</li></ul>"

@@ -3,9 +3,50 @@
  */
 package org.di.unito.yarel.ui.labeling
 
+import java.util.Arrays
 import com.google.inject.Inject
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider
+import org.di.unito.yarel.utils.YarelUtils
+import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.Declaration
+
+import static extension org.di.unito.yarel.utils.YarelUtils.getFixedRegistersRequired
+import org.di.unito.yarel.yarel.SerComp
+import org.di.unito.yarel.yarel.ParComp
+import org.di.unito.yarel.yarel.AritiesAssignment
+import org.di.unito.yarel.yarel.AritySignature
+import org.di.unito.yarel.yarel.InvocationParametersSignature
+import org.di.unito.yarel.yarel.BodyId
+import org.di.unito.yarel.yarel.BodyInc
+import org.di.unito.yarel.yarel.BodyDec
+import org.di.unito.yarel.yarel.BodyNeg
+import org.di.unito.yarel.yarel.BodyFor
+import org.di.unito.yarel.yarel.BodyInv
+import org.di.unito.yarel.yarel.BodyIt
+import org.di.unito.yarel.yarel.BodyIf
+import org.eclipse.emf.common.util.EList
+import org.di.unito.yarel.yarel.ParamName
+import org.di.unito.yarel.yarel.Model
+import org.di.unito.yarel.yarel.BodyParamId
+import org.di.unito.yarel.yarel.BodyParamPerm
+import org.di.unito.yarel.yarel.BodyParamInc
+import org.di.unito.yarel.yarel.BodyParamDec
+import org.di.unito.yarel.yarel.BodyParamNeg
+import org.di.unito.yarel.yarel.BodySwap
+import org.di.unito.yarel.yarel.Type
+import org.di.unito.yarel.yarel.ParameterLEWP
+import org.di.unito.yarel.yarel.Import
+import org.di.unito.yarel.yarel.ParametersAssignment
+import org.di.unito.yarel.yarel.ParametricArity
+import org.di.unito.yarel.yarel.LinearExpressionWithParameters
+import org.di.unito.yarel.yarel.BodyFun
+import org.di.unito.yarel.yarel.BodyPerm
+import org.di.unito.yarel.yarel.Permutation
+import org.di.unito.yarel.yarel.Digit
+import org.di.unito.yarel.yarel.FunctionInvocation
+
+//import static extension org.di.unito.yarel.utils.YarelUtils.getArity
 
 /**
  * Provides labels for EObjects.
@@ -19,13 +60,71 @@ class YarelLabelProvider extends DefaultEObjectLabelProvider {
 		super(delegate);
 	}
 
-	// Labels and icons can be computed like this:
+	def dispatch text(org.eclipse.xtext.ui.editor.model.XtextDocument xtextDoc ){
+		xtextDoc === null? "no xtextDocument" : "Don't know how to label xtextDocument" // xtextDoc.getText
+	}
 	
-//	def text(Greeting ele) {
-//		'A greeting to ' + ele.name
-//	}
-//
-//	def image(Greeting ele) {
-//		'Greeting.gif'
-//	}
+	def dispatch text(Model model){ "Model: " + model.name }
+	def dispatch text(Import importt){ "Import" + importt.importedNamespace } 
+	def dispatch text(Declaration decl){ '''dcl = «decl.name» ; [Arity: «arityText(decl.aritySignature)»] ; [Parameters: «parametersText(decl.invocParamsSignat)»]'''.toString() }
+	def dispatch text(Definition deff){ '''def = «deff.declarationName.name»'''.toString()  }
+	def dispatch text(SerComp ser){ "Serial blocks:" }
+	def dispatch text(ParComp deff){ "Parallel sub-blocks:" }
+	def dispatch text(FunctionInvocation funInv){ funInv.funName.name; }
+	def dispatch text(InvocationParametersSignature arity){ '''Parameters: «IF arity !== null»«YarelUtils.getArity(arity).toString()»«ENDIF»'''.toString(); }
+	def dispatch text(AritySignature arity){ "Arity: " + YarelUtils.getArity(arity).toString(); }
+	def dispatch text(AritiesAssignment arity){ "Arity assignement: "+ YarelUtils.getArity(arity).toString() }
+	def dispatch text(ParametersAssignment params){ "Parameters assigned:" + YarelUtils.getArity(params).toString()}
+	def dispatch text(EList<?> params){ Arrays.toString(params.toArray) }
+	
+	def String arityText(AritySignature arity){
+		'''>«IF arity.types !== null»«val ints= arity.types.getFixedRegistersRequired»int«IF ints>1»s«ENDIF» : «ints»«ENDIF» ; «IF arity.parametricArities !== null»«val arit=arity.parametricArities»parametric-arit«IF arit.size == 1»y«ELSE»ies«ENDIF» : «val parAritiesStr = Arrays.toString(arit.toArray())»«parAritiesStr.substring(1, parAritiesStr.length-1)»«ENDIF»>'''
+			.toString()
+	}
+	
+	def String parametersText(InvocationParametersSignature params){
+		if(params === null || params.invocParam === null)
+			return ""
+		else {
+			val paramss = params.invocParam
+			return '''(parameter«IF paramss.size>1»s«ENDIF» : «val parsStr = Arrays.toString(paramss.toArray())»«parsStr.substring(1, parsStr.length-1)»)'''.toString()
+		}
+	}
+	
+	def dispatch text(BodyId bAtom){ bAtom.funName }
+	def dispatch text(BodyInc bAtom){ bAtom.funName }
+	def dispatch text(BodyDec bAtom){ bAtom.funName }
+	def dispatch text(BodyNeg bAtom){ bAtom.funName }
+	def dispatch text(BodyFor bAtom){ bAtom.function }
+	def dispatch text(BodyInv bAtom){ bAtom.function }
+	def dispatch text(BodyPerm bAtom){ 
+		val perm = bAtom.permutation
+		return '''permutation: / «FOR i : perm.indexes SEPARATOR ", "»«i.value»«ENDFOR»/'''.toString()
+	}
+	def dispatch text(Permutation perm){ 
+		return '''permutation: / «FOR i : perm.indexes SEPARATOR ", "»«i.value»«ENDFOR»/'''.toString()
+	}
+	def dispatch text(BodyIt bAtom){ bAtom.function }
+	def dispatch text(BodyIf bAtom){ bAtom.function }
+	def dispatch text(BodyFun bAtom){ bAtom.function.funName.name }
+	def dispatch text(BodyParamId bAtom){  "param-id"; }
+	def dispatch text(BodyParamPerm bAtom){"param-permutation"; }
+	def dispatch text(BodyParamInc bAtom){ "param-inc"; }
+	def dispatch text(BodyParamDec bAtom){ "param-dec"; }
+	def dispatch text(BodyParamNeg bAtom){ "param-neg"; }
+	def dispatch text(BodySwap bAtom){
+		val sw = bAtom.function
+		val indexes = sw.paramsAssign.parameters
+		'''native swap = arity: «YarelUtils.getArity(sw.arity)» ; (first: [«YarelUtils.getArity(indexes.get(0))»], second: [«YarelUtils.getArity(indexes.get(1))»])'''.toString()
+	}
+	def dispatch text(Type t){ '''«t.value»'''.toString() }
+	def dispatch text(ParameterLEWP p){ p.paramName }
+	def dispatch text(ParamName p){ p.parName }
+	def dispatch text(Digit d){ '''«d.value»'''.toString(); }
+	def dispatch text(ParametricArity paramArity){
+		return "Arity: "+ YarelUtils.getArity(paramArity)
+	}
+	def dispatch text(LinearExpressionWithParameters paramArity){
+		return "Arity: "+ YarelUtils.getArity(paramArity)
+	}
 }

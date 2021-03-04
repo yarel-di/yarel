@@ -10,6 +10,7 @@ module YarelLib{
 			;id{K}|dec
 		]
 		;id{K} | dec | dec{1}(K-1)
+		;/3 4 5 1 2/ | id{K-3}
 
 	dcl shiftLastToFirstK : 2 int , K
 	def shiftLastToFirstK := // a[1..K] 0 0

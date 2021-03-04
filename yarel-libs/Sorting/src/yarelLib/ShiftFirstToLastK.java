@@ -447,6 +447,29 @@ public class ShiftFirstToLastK implements RPP {
 								}
 							} while(__areChildrenRunning__);
 						}
+					},
+					
+					new RPP() { // ParCompImpl
+						private RPP __f__ = new RPP(){
+							private final int __a__ = 5;
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								int __tmp__=0;
+								__tmp__ = __x__[__startIndex__ + 0]; 
+								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+								__x__[__startIndex__ + 2] = __x__[__startIndex__ + 4]; 
+								__x__[__startIndex__ + 4] = __x__[__startIndex__ + 1]; 
+								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+								__x__[__startIndex__ + 3] = __tmp__; 
+							}
+							public int getA() { return this.__a__; }
+						};
+						public int getA() { return 2 + (1*K); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__f__.b(__x__,
+								__startIndex__ + 0,
+								__startIndex__ + (0) + (-3 + (1*K))
+								);
+						}
 					}
 				};
 				public int getA() { return this.__steps__[0].getA(); }

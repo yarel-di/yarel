@@ -45,6 +45,8 @@ import org.di.unito.yarel.yarel.AritySignature
 import org.di.unito.yarel.yarel.ParametersAssignment
 import org.eclipse.emf.common.util.EList
 import org.di.unito.yarel.yarel.Type
+import org.di.unito.yarel.yarel.InvocationParametersSignature
+import org.di.unito.yarel.yarel.ParamName
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
@@ -115,6 +117,21 @@ class YarelUtils {
 		return getAllSequentialBodyBlocks(defin.body)
 	}
 
+	static def LinkedList<Body> getAllParallelBodyBlocks(Body rootBody){
+		var Body body = rootBody;
+		val allBodies = new LinkedList<Body>();
+		while(body instanceof ParComp){// all second-to-last steps (whose are atomic or parallel sub-bodies), if any
+			allBodies.addFirst(body.right)
+			body = body.left
+		}
+		if(body !== null) allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
+		return allBodies
+	}
+
+	static def LinkedList<Body> getAllParallelBodyBlocks(SerComp rootBody){
+		return getAllParallelBodyBlocks(rootBody.right)
+	}
+	
 	static def dispatch boolean hasSomeParameters(FunctionInvocation fun){
 		return (fun.aritiesAssign !== null && fun.aritiesAssign.arities.size > 0)
 			|| (fun.paramsAssign !== null && fun.paramsAssign.parameters.size > 0);
@@ -179,12 +196,22 @@ class YarelUtils {
 	}
 	
 	static def dispatch ComposedArity getArity(AritiesAssignment aa){
-		return getArity(aa.arities);
+		return (aa === null || aa.arities === null)
+			? new ComposedArity() : getArity(aa.arities);
 	}
 	
 	static def dispatch ComposedArity getArity(ParametersAssignment parAss){
 		return (parAss === null || parAss.parameters === null)
 			? new ComposedArity() : getArity(parAss.parameters);
+	}
+	
+	static def dispatch ComposedArity getArity(InvocationParametersSignature invocParSign){
+		val ComposedArity ca = new ComposedArity();
+		if (invocParSign !== null && invocParSign.invocParam !== null){
+			val EList<ParamName> paramNames = invocParSign.invocParam;
+			paramNames.forEach[pn| ca.addParameterCoefficient(pn.parName)];
+		}
+		return ca;
 	}
 	
 	static def dispatch ComposedArity getArity(AritySignature aritySignature){

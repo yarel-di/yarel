@@ -41,15 +41,13 @@ Declaration:
 	( '(' invocParamsSignat = InvocationParametersSignature ')')?
 	':'
 	aritySignature = AritySignature
-	;
+;
 
 InvocationParametersSignature:
 	invocParam += ParamName (',' invocParam += ParamName)*
 ;
 
 AritySignature:
-//	types += Type (',' types+=Type)*
-//	(',' parametricArities += ParamName (',' parametricArities += ParamName)* )?
 	  (types += Type (',' types+=Type)*)
 	| (parametricArities += ParamName (',' parametricArities += ParamName)* )
 	| (
@@ -57,7 +55,7 @@ AritySignature:
 		','
 		parametricArities += ParamName (',' parametricArities += ParamName)*
 		)
-	;
+;
 
 Type:
     {Type} value=(INT)? 'int';
@@ -69,6 +67,15 @@ Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;
 
 Body: SerComp;
+
+AritiesAssignment:
+	'{' arities += ParametricArity ((',' arities+=ParametricArity)*) '}'
+;
+
+ParametersAssignment:
+	'(' parameters += ParametricArity (',' parameters+=ParametricArity)* ')'
+;
+
 
 SerComp returns Body:
 	ParComp ({SerComp.left=current} ';' right=ParComp)*;
@@ -87,15 +94,6 @@ FunctionInvocation:
 	funName=[Declaration | QualifiedName]
 	( aritiesAssign = AritiesAssignment)?
 	( paramsAssign = ParametersAssignment)?
-;
-
-AritiesAssignment:
-	'{' arities += ParametricArity ((',' arities+=ParametricArity)*) '}'
-;
-
-
-ParametersAssignment:
-	'(' parameters += ParametricArity (',' parameters+=ParametricArity)* ')'
 ;
 
 /**

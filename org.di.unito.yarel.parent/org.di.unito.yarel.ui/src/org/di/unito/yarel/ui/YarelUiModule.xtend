@@ -3,9 +3,14 @@
  */
 package org.di.unito.yarel.ui
 
+import org.eclipse.jface.viewers.ILabelProvider
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider
+import org.eclipse.xtext.ui.editor.outline.impl.IOutlineTreeStructureProvider
+import org.eclipse.xtext.ui.editor.outline.IOutlineTreeProvider
 import org.di.unito.yarel.ui.documentation.YarelEObjectHoverProvider
+import org.di.unito.yarel.ui.outline.YarelOutlineTreeProvider
+import org.di.unito.yarel.ui.labeling.YarelLabelProvider
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
@@ -15,5 +20,17 @@ class YarelUiModule extends AbstractYarelUiModule {
 	
 	def  Class<? extends IEObjectHoverProvider> bindIEObjectHoverProvider() {
 		return  typeof(YarelEObjectHoverProvider);
+	}
+	
+	override Class<? extends ILabelProvider> bindILabelProvider() {
+		return typeof(YarelLabelProvider);
+	}
+	
+	override  Class<? extends IOutlineTreeStructureProvider> bindIOutlineTreeStructureProvider() {
+		return  typeof(YarelOutlineTreeProvider);
+	}
+	
+	override  Class<? extends IOutlineTreeProvider> bindIOutlineTreeProvider() {
+		return  typeof(YarelOutlineTreeProvider);
 	}
 }

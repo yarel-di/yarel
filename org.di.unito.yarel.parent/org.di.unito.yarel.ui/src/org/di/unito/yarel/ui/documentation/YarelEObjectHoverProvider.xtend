@@ -28,7 +28,6 @@ import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.SerComp
 import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
 import org.di.unito.yarel.yarel.ParComp
-import org.di.unito.yarel.services.YarelGrammarAccess.BodyBaseElements
 
 class YarelEObjectHoverProvider extends DefaultEObjectHoverProvider implements IEObjectHoverProvider{ 
 	
