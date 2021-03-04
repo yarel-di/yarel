@@ -10,7 +10,7 @@ public class SwapParamHelper implements RPP {
 		this.__fixedRegistersAmount__ = 1;
 		if(K < 0){ throw new WrongArityException("The arity \"K\" cannot be negative: " + K); }
 		this.K = K;
-		if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
+		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
 		this.I = I;
 	}
 	protected SwapParamHelper(){
@@ -53,11 +53,12 @@ public class SwapParamHelper implements RPP {
 							private RPP __f__ = Inc.SINGLETON_Inc;
 							public int getA() { return 1; }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-								int __arity__ = this.getA();
+								int __arity__;
 								int __repsAmount__ = 0 + (1*I);
-								for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-								for(int __i__ = 0; __i__ < __arity__; __i__++){
-									this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+								while(__repsAmount__-->0){
+								__arity__ = this.getA();
+								while(__arity__-->0){
+									this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 								} 
 								}
 							}
@@ -90,11 +91,12 @@ public class SwapParamHelper implements RPP {
 							private RPP __f__ = Dec.SINGLETON_Dec;
 							public int getA() { return 1; }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-								int __arity__ = this.getA();
+								int __arity__;
 								int __repsAmount__ = 0 + (1*I);
-								for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-								for(int __i__ = 0; __i__ < __arity__; __i__++){
-									this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+								while(__repsAmount__-->0){
+								__arity__ = this.getA();
+								while(__arity__-->0){
+									this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 								} 
 								}
 							}

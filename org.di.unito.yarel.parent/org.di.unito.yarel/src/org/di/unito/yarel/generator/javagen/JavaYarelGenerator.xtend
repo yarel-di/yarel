@@ -244,14 +244,17 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def SwapGenerator(String packageName) {
 		'''
 		package «packageName»;
+		/**
+		 * Note: the indexes (second and third parameters) are meant to be 1-based.
+		*/
 		public class Swap implements RPP {
 			public Swap(int arity, int firstIndex, int secondIndex){
 				if(arity < 1) throw new IllegalArgumentException("Swap arity cannot be less than 1");
 				this.__arity__ = arity;
-				firstIndex %= __arity__;
+				firstIndex = (firstIndex -1) % __arity__; // "-1" because the indexes in Yarel are 1-based
 				if(firstIndex < 0){ firstIndex = -firstIndex; }
 				this.__firstIndex__ = firstIndex;
-				secondIndex %= __arity__;
+				secondIndex = (secondIndex -1) % __arity__; // "-1" because the indexes in Yarel are 1-based
 				if(secondIndex < 0){ secondIndex = -secondIndex; }
 				this.__secondIndex__ = secondIndex;
 			}
@@ -263,7 +266,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			protected final int __secondIndex__;
 			public int getA() { return this.__arity__; } // "1 +" is removed
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-				int __temp__ = __x__[__startIndex__ + this.__firstIndex__]; 
+				int __temp__ = __x__[__startIndex__ + this.__firstIndex__];
 				__x__[__startIndex__ + this.__firstIndex__] = __x__[__startIndex__ + this.__secondIndex__];
 				__x__[__startIndex__ + this.__secondIndex__] = __temp__;
 				/**
@@ -287,6 +290,9 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def InvSwapGenerator(String packageName) {
 		'''
 		package «packageName»;
+		/**
+		 * Note: the indexes (second and third parameters) are meant to be 1-based.
+		*/
 		public class InvSwap implements RPP { // the Swap is the identity of itself
 			public InvSwap(int __arity__, int __firstIndex__, int __secondIndex__){
 				this.__f__ = new Swap(__arity__, __firstIndex__, __secondIndex__);
@@ -933,13 +939,14 @@ class JavaYarelGenerator implements IGenerator2 {
 			private RPP __f__ = «IF !fwd»Inv«ENDIF»Inc.SINGLETON_«IF !fwd»Inv«ENDIF»Inc;
 			public int getA() { return «bParArity.toString()»; }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-				int __arity__ = this.getA();
+				int __arity__;
 				«IF repetitions !== null»
 				int __repsAmount__ = «repetitions.toString()»;
-				for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
+				while(__repsAmount__-->0){
 				«ENDIF»
-				for(int __i__ = 0; __i__ < __arity__; __i__++){
-					this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+				__arity__ = this.getA();
+				while(__arity__-->0){
+					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 				} 
 				«IF repetitions !== null»
 				}
@@ -955,13 +962,14 @@ class JavaYarelGenerator implements IGenerator2 {
 			private RPP __f__ = «IF !fwd»Inv«ENDIF»Dec.SINGLETON_«IF !fwd»Inv«ENDIF»Dec;
 			public int getA() { return «bParArity.toString()»; }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-				int __arity__ = this.getA();
+				int __arity__;
 				«IF repetitions !== null»
 				int __repsAmount__ = «repetitions.toString()»;
-				for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
+				while(__repsAmount__-->0){
 				«ENDIF»
-				for(int __i__ = 0; __i__ < __arity__; __i__++){
-					this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+				__arity__ = this.getA();
+				while(__arity__-->0){
+					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 				} 
 				«IF repetitions !== null»
 				}
@@ -977,14 +985,14 @@ class JavaYarelGenerator implements IGenerator2 {
 			private RPP __f__ = «IF !fwd»Inv«ENDIF»Neg.SINGLETON_«IF !fwd»Inv«ENDIF»Neg;
 			public int getA() { return «bParArity.toString()»; }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-				int __arity__ = this.getA();
+				int __arity__;
 				«IF repetitions !== null»
 				int __repsAmount__ = «repetitions.toString()»;
-				if( __repsAmount__ > 0 ){ __repsAmount__ = __repsAmount__ & 0x1; } // === "% 2"
-				for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
+				while(__repsAmount__-->0){
 				«ENDIF»
-				for(int __i__ = 0; __i__ < __arity__; __i__++){
-					this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+				__arity__ = this.getA();
+				while(__arity__-->0){
+					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 				} 
 				«IF repetitions !== null»
 				}

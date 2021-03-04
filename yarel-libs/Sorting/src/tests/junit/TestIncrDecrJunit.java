@@ -15,7 +15,7 @@ public class TestIncrDecrJunit {
 //	public final ExpectedException exception = ExpectedException.none();
 
 	public static int[] newRegs() {
-		return new int[] { 20, -15, 8, 0, 2, -3, 77, 0, 0, 0, 0 };
+		return new int[] { 20, -15, 8, 0, 2, -3, 77, 0, 0, 0, 0, 0 };
 	}
 
 	@Test

@@ -8,7 +8,7 @@ public class Increment implements RPP {
 		int I,
 		int J
 		){
-		this.__fixedRegistersAmount__ = 3;
+		this.__fixedRegistersAmount__ = 4;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
@@ -111,7 +111,7 @@ public class Increment implements RPP {
 								__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 							}
 						};
-						public int getA() { return 3 + (1*M); }
+						public int getA() { return 4 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
@@ -167,7 +167,7 @@ public class Increment implements RPP {
 							}
 							// Iteration stop
 						};
-						public int getA() { return 3 + (1*M); }
+						public int getA() { return 4 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
@@ -187,7 +187,7 @@ public class Increment implements RPP {
 							}
 							public int getA() { return this.__a__; }
 						};
-						public int getA() { return 3 + (1*M); }
+						public int getA() { return 4 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
@@ -266,7 +266,7 @@ public class Increment implements RPP {
 								__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 							}
 						};
-						public int getA() { return 3 + (1*M); }
+						public int getA() { return 4 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
@@ -322,7 +322,7 @@ public class Increment implements RPP {
 							}
 							// Iteration stop
 						};
-						public int getA() { return 3 + (1*M); }
+						public int getA() { return 4 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),

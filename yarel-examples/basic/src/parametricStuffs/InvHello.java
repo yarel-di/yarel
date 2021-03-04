@@ -84,12 +84,12 @@ public class InvHello implements RPP {
 								private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 								public int getA() { return 2; }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-									int __arity__ = this.getA();
+									int __arity__;
 									int __repsAmount__ = 3;
-									if( __repsAmount__ > 0 ){ __repsAmount__ = __repsAmount__ & 0x1; } // === "% 2"
-									for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-									for(int __i__ = 0; __i__ < __arity__; __i__++){
-										this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+									while(__repsAmount__-->0){
+									__arity__ = this.getA();
+									while(__arity__-->0){
+										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 									} 
 									}
 								}
@@ -100,11 +100,12 @@ public class InvHello implements RPP {
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return -2 + (1*K); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-									int __arity__ = this.getA();
+									int __arity__;
 									int __repsAmount__ = 1;
-									for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-									for(int __i__ = 0; __i__ < __arity__; __i__++){
-										this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+									while(__repsAmount__-->0){
+									__arity__ = this.getA();
+									while(__arity__-->0){
+										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 									} 
 									}
 								}
@@ -224,12 +225,12 @@ public class InvHello implements RPP {
 								private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 								public int getA() { return 1; }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-									int __arity__ = this.getA();
+									int __arity__;
 									int __repsAmount__ = 4;
-									if( __repsAmount__ > 0 ){ __repsAmount__ = __repsAmount__ & 0x1; } // === "% 2"
-									for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-									for(int __i__ = 0; __i__ < __arity__; __i__++){
-										this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+									while(__repsAmount__-->0){
+									__arity__ = this.getA();
+									while(__arity__-->0){
+										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 									} 
 									}
 								}
@@ -240,11 +241,12 @@ public class InvHello implements RPP {
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return -2 + (1*K); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-									int __arity__ = this.getA();
+									int __arity__;
 									int __repsAmount__ = 4;
-									for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-									for(int __i__ = 0; __i__ < __arity__; __i__++){
-										this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+									while(__repsAmount__-->0){
+									__arity__ = this.getA();
+									while(__arity__-->0){
+										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 									} 
 									}
 								}

@@ -25,6 +25,7 @@ import java.util.Arrays;
 * <li> {@link yarelLib.Decrement}</li>
 * <li> {@link yarelLib.AddFrom}</li>
 * <li> {@link yarelLib.SubFrom}</li>
+* <li> {@link yarelLib.PreparationLessMore}</li>
 * <li> {@link yarelLib.LessThan}</li>
 * <li> {@link yarelLib.MoreThan}</li>
  * </ul>
@@ -70,6 +71,8 @@ public class YarelLibPlayWith {
 		testAddFrom();
 		
 		testSubFrom();
+		
+		testPreparationLessMore();
 		
 		testLessThan();
 		
@@ -165,6 +168,146 @@ public class YarelLibPlayWith {
 	public static void testSwapSRLlike(){
 		RPP swapSRLlikeRPP = new yarelLib.SwapSRLlike();
 		final int[][] datasets = {
+			new int[]{1,2,5},
+			new int[]{2,1,5},
+			new int[]{ 0,  0,  0},
+			new int[]{ 1,  1,  1},
+			new int[]{ -1,  -1,  -1},
+			new int[]{ 2,  2,  2},
+			new int[]{ -2,  -2,  -2},
+			new int[]{ 3,  3,  3},
+			new int[]{ -3,  -3,  -3},
+			new int[]{ 4,  4,  4},
+			new int[]{ -4,  -4,  -4},
+			new int[]{ 10,  10,  10},
+			new int[]{ -10,  -10,  -10},
+			new int[]{ 11,  11,  11},
+			new int[]{ -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function swapSRLlike with values:" + Arrays.toString(data));
+			swapSRLlikeRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testIncrement(){
+		RPP incrementRPP = new yarelLib.Increment();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function increment with values:" + Arrays.toString(data));
+			incrementRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testDecrement(){
+		RPP decrementRPP = new yarelLib.Decrement();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function decrement with values:" + Arrays.toString(data));
+			decrementRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testAddFrom(){
+		RPP addFromRPP = new yarelLib.AddFrom();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function addFrom with values:" + Arrays.toString(data));
+			addFromRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testSubFrom(){
+		RPP subFromRPP = new yarelLib.SubFrom();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function subFrom with values:" + Arrays.toString(data));
+			subFromRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testPreparationLessMore(){
+		RPP preparationLessMoreRPP = new yarelLib.PreparationLessMore();
+		final int[][] datasets = {
 			new int[]{1,5},
 			new int[]{1,5},
 			new int[]{ 0,  0},
@@ -182,120 +325,8 @@ public class YarelLibPlayWith {
 			new int[]{ -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function swapSRLlike with values:" + Arrays.toString(data));
-			swapSRLlikeRPP.b(data);
-			System.out.println("Resulting in: " + Arrays.toString(data));
-		}
-	}
-	
-	
-	
-	public static void testIncrement(){
-		RPP incrementRPP = new yarelLib.Increment();
-		final int[][] datasets = {
-			new int[]{1,2,3,5},
-			new int[]{3,2,1,5},
-			new int[]{ 0,  0,  0,  0},
-			new int[]{ 1,  1,  1,  1},
-			new int[]{ -1,  -1,  -1,  -1},
-			new int[]{ 2,  2,  2,  2},
-			new int[]{ -2,  -2,  -2,  -2},
-			new int[]{ 3,  3,  3,  3},
-			new int[]{ -3,  -3,  -3,  -3},
-			new int[]{ 4,  4,  4,  4},
-			new int[]{ -4,  -4,  -4,  -4},
-			new int[]{ 10,  10,  10,  10},
-			new int[]{ -10,  -10,  -10,  -10},
-			new int[]{ 11,  11,  11,  11},
-			new int[]{ -11,  -11,  -11,  -11},
-		};
-		for( int[] data: datasets ){
-			System.out.println("\nTesting the function increment with values:" + Arrays.toString(data));
-			incrementRPP.b(data);
-			System.out.println("Resulting in: " + Arrays.toString(data));
-		}
-	}
-	
-	
-	
-	public static void testDecrement(){
-		RPP decrementRPP = new yarelLib.Decrement();
-		final int[][] datasets = {
-			new int[]{1,2,3,5},
-			new int[]{3,2,1,5},
-			new int[]{ 0,  0,  0,  0},
-			new int[]{ 1,  1,  1,  1},
-			new int[]{ -1,  -1,  -1,  -1},
-			new int[]{ 2,  2,  2,  2},
-			new int[]{ -2,  -2,  -2,  -2},
-			new int[]{ 3,  3,  3,  3},
-			new int[]{ -3,  -3,  -3,  -3},
-			new int[]{ 4,  4,  4,  4},
-			new int[]{ -4,  -4,  -4,  -4},
-			new int[]{ 10,  10,  10,  10},
-			new int[]{ -10,  -10,  -10,  -10},
-			new int[]{ 11,  11,  11,  11},
-			new int[]{ -11,  -11,  -11,  -11},
-		};
-		for( int[] data: datasets ){
-			System.out.println("\nTesting the function decrement with values:" + Arrays.toString(data));
-			decrementRPP.b(data);
-			System.out.println("Resulting in: " + Arrays.toString(data));
-		}
-	}
-	
-	
-	
-	public static void testAddFrom(){
-		RPP addFromRPP = new yarelLib.AddFrom();
-		final int[][] datasets = {
-			new int[]{1,2,3,5},
-			new int[]{3,2,1,5},
-			new int[]{ 0,  0,  0,  0},
-			new int[]{ 1,  1,  1,  1},
-			new int[]{ -1,  -1,  -1,  -1},
-			new int[]{ 2,  2,  2,  2},
-			new int[]{ -2,  -2,  -2,  -2},
-			new int[]{ 3,  3,  3,  3},
-			new int[]{ -3,  -3,  -3,  -3},
-			new int[]{ 4,  4,  4,  4},
-			new int[]{ -4,  -4,  -4,  -4},
-			new int[]{ 10,  10,  10,  10},
-			new int[]{ -10,  -10,  -10,  -10},
-			new int[]{ 11,  11,  11,  11},
-			new int[]{ -11,  -11,  -11,  -11},
-		};
-		for( int[] data: datasets ){
-			System.out.println("\nTesting the function addFrom with values:" + Arrays.toString(data));
-			addFromRPP.b(data);
-			System.out.println("Resulting in: " + Arrays.toString(data));
-		}
-	}
-	
-	
-	
-	public static void testSubFrom(){
-		RPP subFromRPP = new yarelLib.SubFrom();
-		final int[][] datasets = {
-			new int[]{1,2,3,5},
-			new int[]{3,2,1,5},
-			new int[]{ 0,  0,  0,  0},
-			new int[]{ 1,  1,  1,  1},
-			new int[]{ -1,  -1,  -1,  -1},
-			new int[]{ 2,  2,  2,  2},
-			new int[]{ -2,  -2,  -2,  -2},
-			new int[]{ 3,  3,  3,  3},
-			new int[]{ -3,  -3,  -3,  -3},
-			new int[]{ 4,  4,  4,  4},
-			new int[]{ -4,  -4,  -4,  -4},
-			new int[]{ 10,  10,  10,  10},
-			new int[]{ -10,  -10,  -10,  -10},
-			new int[]{ 11,  11,  11,  11},
-			new int[]{ -11,  -11,  -11,  -11},
-		};
-		for( int[] data: datasets ){
-			System.out.println("\nTesting the function subFrom with values:" + Arrays.toString(data));
-			subFromRPP.b(data);
+			System.out.println("\nTesting the function preparationLessMore with values:" + Arrays.toString(data));
+			preparationLessMoreRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

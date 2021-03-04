@@ -9,7 +9,7 @@ public class InvDecIncr implements RPP {
 		int Amount
 		){
 		this.__fixedRegistersAmount__ = 2;
-		if(Amount < 0){ throw new WrongArityException("The parameter \"Amount\" cannot be negative: " + Amount); }
+		// if(Amount < 0){ throw new WrongArityException("The parameter \"Amount\" cannot be negative: " + Amount); }
 		this.Amount = Amount;
 	}
 	protected InvDecIncr(){
@@ -73,11 +73,12 @@ public class InvDecIncr implements RPP {
 						private RPP __f__ = InvDec.SINGLETON_InvDec;
 						public int getA() { return 1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA();
+							int __arity__;
 							int __repsAmount__ = 0 + (1*Amount);
-							for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-							for(int __i__ = 0; __i__ < __arity__; __i__++){
-								this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+							while(__repsAmount__-->0){
+							__arity__ = this.getA();
+							while(__arity__-->0){
+								this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 							} 
 							}
 						}
@@ -88,11 +89,12 @@ public class InvDecIncr implements RPP {
 						private RPP __f__ = InvInc.SINGLETON_InvInc;
 						public int getA() { return 1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							int __arity__ = this.getA();
+							int __arity__;
 							int __repsAmount__ = 0 + (1*Amount);
-							for(int __reps__ = 0; __reps__ < __repsAmount__; __reps__++){
-							for(int __i__ = 0; __i__ < __arity__; __i__++){
-								this.__f__.b(__x__, __startIndex__ + __i__, __startIndex__ + __i__ + 1); // "1" because "f.getA()" will surely returns "1"
+							while(__repsAmount__-->0){
+							__arity__ = this.getA();
+							while(__arity__-->0){
+								this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
 							} 
 							}
 						}

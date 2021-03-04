@@ -1,10 +1,10 @@
 package tests.junit;
 
-import static org.junit.Assert.assertArrayEquals;
+import java.util.Arrays;
 
 import org.junit.Test;
 
-import yarelLib.LessThan;
+import yarelLib.PreparationLessMore;
 
 public class TestLessMoreJUnit {
 
@@ -14,10 +14,14 @@ public class TestLessMoreJUnit {
 		int[] regs = { 0, 5, 0, 7, 0, 0, 0 };
 		int[] exp = { 1, 5, 0, 7, 0, 0, 0 };
 		m = regs.length - 1;
-		LessThan less;
-		less = new LessThan(m, i, j, p, q, k);
-		less.b(regs);
-		assertArrayEquals(exp, regs);
+		System.out.println("\n\n\n m: " + m + ", k: " + k + ", i: " + i + ", j: " + j + ", p: " + p + ", q: " + q);
+		System.out.println("original registers: " + Arrays.toString(regs));
+		(new PreparationLessMore(m, i, j, p, q, k)).b(regs);
+		System.out.println("\t-> " + Arrays.toString(regs));
+//		LessThan less;
+//		less = new LessThan(m, i, j, p, q, k);
+//		less.b(regs);
+//		assertArrayEquals(exp, regs);
 	}
 
 	@Test
@@ -26,10 +30,14 @@ public class TestLessMoreJUnit {
 		int[] regs = { 0, 6, 0, 4, 0, 0, 0 };
 		int[] exp = { 0, 6, 0, 4, 0, 0, 0 };
 		m = regs.length - 1;
-		LessThan less;
-		less = new LessThan(m, i, j, p, q, k);
-		less.b(regs);
-		assertArrayEquals(exp, regs);
+		System.out.println("\n\n\n m: " + m + ", k: " + k + ", i: " + i + ", j: " + j + ", p: " + p + ", q: " + q);
+		System.out.println("original registers: " + Arrays.toString(regs));
+		(new PreparationLessMore(m, i, j, p, q, k)).b(regs);
+		System.out.println("\t-> " + Arrays.toString(regs));
+//		LessThan less;
+//		less = new LessThan(m, i, j, p, q, k);
+//		less.b(regs);
+//		assertArrayEquals(exp, regs);
 	}
 
 	@Test
@@ -38,10 +46,14 @@ public class TestLessMoreJUnit {
 		int[] regs = { 0, 5, 0, -7, 0, 0, 0 };
 		int[] exp = { 0, 5, 0, -7, 0, 0, 0 };
 		m = regs.length - 1;
-		LessThan less;
-		less = new LessThan(m, i, j, p, q, k);
-		less.b(regs);
-		assertArrayEquals(exp, regs);
+		System.out.println("\n\n\n m: " + m + ", k: " + k + ", i: " + i + ", j: " + j + ", p: " + p + ", q: " + q);
+		System.out.println("original registers: " + Arrays.toString(regs));
+		(new PreparationLessMore(m, i, j, p, q, k)).b(regs);
+		System.out.println("\t-> " + Arrays.toString(regs));
+//		LessThan less;
+//		less = new LessThan(m, i, j, p, q, k);
+//		less.b(regs);
+//		assertArrayEquals(exp, regs);
 	}
 
 	@Test
@@ -50,10 +62,14 @@ public class TestLessMoreJUnit {
 		int[] regs = { 0, -2, 0, 4, 0, 0, 0 };
 		int[] exp = { 1, -2, 0, 4, 0, 0, 0 };
 		m = regs.length - 1;
-		LessThan less;
-		less = new LessThan(m, i, j, p, q, k);
-		less.b(regs);
-		assertArrayEquals(exp, regs);
+		System.out.println("\n\n\n m: " + m + ", k: " + k + ", i: " + i + ", j: " + j + ", p: " + p + ", q: " + q);
+		System.out.println("original registers: " + Arrays.toString(regs));
+		(new PreparationLessMore(m, i, j, p, q, k)).b(regs);
+		System.out.println("\t-> " + Arrays.toString(regs));
+//		LessThan less;
+//		less = new LessThan(m, i, j, p, q, k);
+//		less.b(regs);
+//		assertArrayEquals(exp, regs);
 	}
 
 	@Test
@@ -62,10 +78,14 @@ public class TestLessMoreJUnit {
 		int[] regs = { 0, 5, 0, 7, 0, 0, 0 };
 		int[] exp = { 1, 5, 0, 7, 0, 0, 0 };
 		m = regs.length - 1;
-		LessThan less;
-		less = new LessThan(m, i, j, p, q, k);
-		less.b(regs);
-		assertArrayEquals(exp, regs);
+		System.out.println("\n\n\n m: " + m + ", k: " + k + ", i: " + i + ", j: " + j + ", p: " + p + ", q: " + q);
+		System.out.println("original registers: " + Arrays.toString(regs));
+		(new PreparationLessMore(m, i, j, p, q, k)).b(regs);
+		System.out.println("\t-> " + Arrays.toString(regs));
+//		LessThan less;
+//		less = new LessThan(m, i, j, p, q, k);
+//		less.b(regs);
+//		assertArrayEquals(exp, regs);
 	}
 
 	@Test
@@ -74,10 +94,14 @@ public class TestLessMoreJUnit {
 		int[] regs = { 0, -3, 0, -1, 0, 0, 0 };
 		int[] exp = { 1, -3, 0, -1, 0, 0, 0 };
 		m = regs.length - 1;
-		LessThan less;
-		less = new LessThan(m, i, j, p, q, k);
-		less.b(regs);
-		assertArrayEquals(exp, regs);
+		System.out.println("\n\n\n m: " + m + ", k: " + k + ", i: " + i + ", j: " + j + ", p: " + p + ", q: " + q);
+		System.out.println("original registers: " + Arrays.toString(regs));
+		(new PreparationLessMore(m, i, j, p, q, k)).b(regs);
+		System.out.println("\t-> " + Arrays.toString(regs));
+//		LessThan less;
+//		less = new LessThan(m, i, j, p, q, k);
+//		less.b(regs);
+//		assertArrayEquals(exp, regs);
 	}
 
 }

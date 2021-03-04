@@ -1,8 +1,8 @@
 package yarelLib;
 import yarelcore.*;	
 
-public class InvMoreThan implements RPP {
-	public InvMoreThan(//arities:
+public class InvPreparationLessMore implements RPP {
+	public InvPreparationLessMore(//arities:
 		int M
 		,
 		int I,
@@ -25,7 +25,7 @@ public class InvMoreThan implements RPP {
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
 		this.K = K;
 	}
-	protected InvMoreThan(){
+	protected InvPreparationLessMore(){
 		this(1,0, 0, 0, 0, 0);
 	}
 	
@@ -55,8 +55,8 @@ public class InvMoreThan implements RPP {
 	protected RPP __theWholeBody__ = null;
 
 	
-	public MoreThan getInverse(){
-		return new MoreThan(this.M,I, J, P, Q, K);
+	public PreparationLessMore getInverse(){
+		return new PreparationLessMore(this.M,I, J, P, Q, K);
 	}
 	
 	public int getA() {
@@ -72,52 +72,68 @@ public class InvMoreThan implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyFunImpl
-						RPP __function__ = new InvPreparationLessMore(
-							0 + (1*M)
-							,
-							0 + (1*I),
-							0 + (1*J),
-							0 + (1*P),
-							0 + (1*Q),
-							0 + (1*K)
-						);
-						public int getA() { return __function__.getA(); }
+					new RPP() { // BodySwapImpl
+						public int getA() { return 1 + (1*M); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							this.__function__.b(__x__, __startIndex__, __endIndex__);
+							int __arity__ = this.getA(); // "- 1" is removed
+							RPP __f__ = new InvSwap(
+								__arity__, //
+								((1) - 1) % __arity__, // Yarel's indexes are 1-based
+								((0 + (1*K)) - 1) % __arity__ //
+							);
+							__f__.b(__x__, __startIndex__, __endIndex__);
 						}
 					},
 					
-					new RPP() { // ParCompImpl
-						private RPP __f__ = new RPP(){
-							RPP __function__ = new integerCompare.InvMore();
-							public int getA() { return __function__.getA(); }
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-								this.__function__.b(__x__, __startIndex__, __endIndex__);
-							}
-						};
-						public int getA() { return 1 + (1*M); }
+					new RPP() { // BodySwapImpl
+						public int getA() { return 1 + (1*M); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							this.__f__.b(__x__,
-								__startIndex__ + 0,
-								__startIndex__ + (0) + (-4 + (1*M))
-								);
+							int __arity__ = this.getA(); // "- 1" is removed
+							RPP __f__ = new InvSwap(
+								__arity__, //
+								((2) - 1) % __arity__, // Yarel's indexes are 1-based
+								((0 + (1*P)) - 1) % __arity__ //
+							);
+							__f__.b(__x__, __startIndex__, __endIndex__);
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
-						RPP __function__ = new InvPreparationLessMore(
-							0 + (1*M)
-							,
-							0 + (1*I),
-							0 + (1*J),
-							0 + (1*P),
-							0 + (1*Q),
-							0 + (1*K)
-						);
-						public int getA() { return __function__.getA(); }
+					new RPP() { // BodySwapImpl
+						public int getA() { return 1 + (1*M); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							this.__function__.b(__x__, __startIndex__, __endIndex__);
+							int __arity__ = this.getA(); // "- 1" is removed
+							RPP __f__ = new InvSwap(
+								__arity__, //
+								((3) - 1) % __arity__, // Yarel's indexes are 1-based
+								((0 + (1*Q)) - 1) % __arity__ //
+							);
+							__f__.b(__x__, __startIndex__, __endIndex__);
+						}
+					},
+					
+					new RPP() { // BodySwapImpl
+						public int getA() { return 1 + (1*M); } // "1 +" is removed
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							int __arity__ = this.getA(); // "- 1" is removed
+							RPP __f__ = new InvSwap(
+								__arity__, //
+								((4) - 1) % __arity__, // Yarel's indexes are 1-based
+								((0 + (1*I)) - 1) % __arity__ //
+							);
+							__f__.b(__x__, __startIndex__, __endIndex__);
+						}
+					},
+					
+					new RPP() { // BodySwapImpl
+						public int getA() { return 1 + (1*M); } // "1 +" is removed
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							int __arity__ = this.getA(); // "- 1" is removed
+							RPP __f__ = new InvSwap(
+								__arity__, //
+								((5) - 1) % __arity__, // Yarel's indexes are 1-based
+								((0 + (1*J)) - 1) % __arity__ //
+							);
+							__f__.b(__x__, __startIndex__, __endIndex__);
 						}
 					}
 				};
