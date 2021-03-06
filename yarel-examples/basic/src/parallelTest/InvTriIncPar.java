@@ -48,7 +48,6 @@ public class InvTriIncPar implements RPP {
 			}
 		},
 		
-		
 		new RPP(){ // BodyIncImpl
 			private RPP __f__ = InvInc.SINGLETON_InvInc;
 			private final int __a__ = __f__.getA();
@@ -57,7 +56,6 @@ public class InvTriIncPar implements RPP {
 			}
 			public int getA() { return this.__a__; }
 		}
-		
 	};
 	/*
 	private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

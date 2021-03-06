@@ -14,10 +14,13 @@ public class SameSignYMore implements RPP {
 		this.M = M;
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
 		this.K = K;
+		
 		// if(P < 0){ throw new WrongArityException("The parameter \"P\" cannot be negative: " + P); }
 		this.P = P;
+		
 		// if(Q < 0){ throw new WrongArityException("The parameter \"Q\" cannot be negative: " + Q); }
 		this.Q = Q;
+		
 	}
 	protected SameSignYMore(){
 		this(1,0, 0, 0);
@@ -64,8 +67,8 @@ public class SameSignYMore implements RPP {
 						RPP __function__ = new SubFrom(
 							0 + (1*M)
 							,
-							0 + (1*Q),
-							0 + (1*P)
+							0 + (1*P),
+							0 + (1*Q)
 						);
 						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -77,7 +80,7 @@ public class SameSignYMore implements RPP {
 						RPP __function__ = new SwapSRLlike(
 							2 + (1*M)
 							,
-							0 + (1*Q),
+							0 + (1*P),
 							2 + (1*M)
 						);
 						public int getA() { return __function__.getA(); }
@@ -101,21 +104,13 @@ public class SameSignYMore implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (4)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},
 					
 					new RPP() { // BodyIfImpl
 						RPP __pos__=new RPP() {
-							public int getA() { return 3 + (1*M); }
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
-						};
-						RPP __zero__=new RPP() {
-							public int getA() { return 3 + (1*M); }
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
-						};
-						RPP __neg__=new RPP() {
 							private RPP __f__ = new RPP(){
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								private final int __a__ = __f__.getA();
@@ -128,9 +123,17 @@ public class SameSignYMore implements RPP {
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								this.__f__.b(__x__,
 									__startIndex__ + -1 + (1*K),
-									__startIndex__ + (-1 + (1*K)) + (1)
+									__startIndex__ + (-1 + (1*K)) + this.__f__.getA()
 									);
 							}
+						};
+						RPP __zero__=new RPP() {
+							public int getA() { return 3 + (1*M); }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+						};
+						RPP __neg__=new RPP() {
+							public int getA() { return 3 + (1*M); }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
 						};
 						public int getA() { return this.__pos__.getA()+1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -160,7 +163,7 @@ public class SameSignYMore implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (4)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},
@@ -169,7 +172,7 @@ public class SameSignYMore implements RPP {
 						RPP __function__ = new SwapSRLlike(
 							2 + (1*M)
 							,
-							0 + (1*Q),
+							0 + (1*P),
 							2 + (1*M)
 						);
 						public int getA() { return __function__.getA(); }
@@ -182,8 +185,8 @@ public class SameSignYMore implements RPP {
 						RPP __function__ = new AddFrom(
 							0 + (1*M)
 							,
-							0 + (1*Q),
-							0 + (1*P)
+							0 + (1*P),
+							0 + (1*Q)
 						);
 						public int getA() { return __function__.getA(); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {

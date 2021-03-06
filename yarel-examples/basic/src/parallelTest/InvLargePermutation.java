@@ -69,7 +69,6 @@ public class InvLargePermutation implements RPP {
 					public int getA() { return this.__a__; }
 				},
 				
-				
 				new RPP(){ // BodyIncImpl
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
 					private final int __a__ = __f__.getA();
@@ -78,7 +77,6 @@ public class InvLargePermutation implements RPP {
 					}
 					public int getA() { return this.__a__; }
 				},
-				
 				
 				new RPP(){ // ParCompImpl
 					/**
@@ -97,7 +95,6 @@ public class InvLargePermutation implements RPP {
 							public int getA() { return this.__a__; }
 						},
 						
-						
 						new RPP(){ // BodyDecImpl
 							private RPP __f__ = InvDec.SINGLETON_InvDec;
 							private final int __a__ = __f__.getA();
@@ -106,7 +103,6 @@ public class InvLargePermutation implements RPP {
 							}
 							public int getA() { return this.__a__; }
 						}
-						
 					};
 					/*
 					private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
@@ -209,7 +205,6 @@ public class InvLargePermutation implements RPP {
 					}
 				},
 				
-				
 				new RPP(){ // BodyIncImpl
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
 					private final int __a__ = __f__.getA();
@@ -218,7 +213,6 @@ public class InvLargePermutation implements RPP {
 					}
 					public int getA() { return this.__a__; }
 				},
-				
 				
 				new RPP(){ // BodyNegImpl
 					private RPP __f__ = InvNeg.SINGLETON_InvNeg;
@@ -229,7 +223,6 @@ public class InvLargePermutation implements RPP {
 					public int getA() { return this.__a__; }
 				},
 				
-				
 				new RPP(){ // BodyIncImpl
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
 					private final int __a__ = __f__.getA();
@@ -239,7 +232,6 @@ public class InvLargePermutation implements RPP {
 					public int getA() { return this.__a__; }
 				},
 				
-				
 				new RPP(){ // BodyIncImpl
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
 					private final int __a__ = __f__.getA();
@@ -248,7 +240,6 @@ public class InvLargePermutation implements RPP {
 					}
 					public int getA() { return this.__a__; }
 				},
-				
 				
 				new RPP(){ // BodyIncImpl
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
@@ -258,7 +249,6 @@ public class InvLargePermutation implements RPP {
 					}
 					public int getA() { return this.__a__; }
 				}
-				
 			};
 			/*
 			private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

@@ -16,14 +16,19 @@ public class CompareThanOverflowUnsafe implements RPP {
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
 		this.I = I;
+		
 		// if(J < 0){ throw new WrongArityException("The parameter \"J\" cannot be negative: " + J); }
 		this.J = J;
+		
 		// if(P < 0){ throw new WrongArityException("The parameter \"P\" cannot be negative: " + P); }
 		this.P = P;
+		
 		// if(Q < 0){ throw new WrongArityException("The parameter \"Q\" cannot be negative: " + Q); }
 		this.Q = Q;
+		
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
 		this.K = K;
+		
 	}
 	protected CompareThanOverflowUnsafe(){
 		this(1,0, 0, 0, 0, 0);

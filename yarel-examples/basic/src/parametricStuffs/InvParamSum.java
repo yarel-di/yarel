@@ -11,10 +11,8 @@ public class InvParamSum implements RPP {
 		this.__fixedRegistersAmount__ = 2;
 		if(K_g < 0){ throw new WrongArityException("The arity \"K_g\" cannot be negative: " + K_g); }
 		this.K_g = K_g;
-		
 		if(lel < 0){ throw new WrongArityException("The arity \"lel\" cannot be negative: " + lel); }
 		this.lel = lel;
-		
 		if(I < 0){ throw new WrongArityException("The arity \"I\" cannot be negative: " + I); }
 		this.I = I;
 	}
@@ -23,7 +21,9 @@ public class InvParamSum implements RPP {
 	}
 	
 	protected final int __fixedRegistersAmount__;
-	protected final int K_g;protected final int lel;protected final int I;
+	protected final int K_g;
+	protected final int lel;
+	protected final int I;
 	
 	
 	
@@ -117,7 +117,6 @@ public class InvParamSum implements RPP {
 								}
 							},
 							
-							
 							new RPP(){ // BodyParamIncImpl
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return 0 + (1*I); }
@@ -128,11 +127,10 @@ public class InvParamSum implements RPP {
 									__arity__ = this.getA();
 									while(__arity__-->0){
 										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-									} 
+									}
 									}
 								}
 							}
-							
 						};
 						/*
 						private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
@@ -287,7 +285,6 @@ public class InvParamSum implements RPP {
 								}
 							},
 							
-							
 							new RPP(){ // BodyParamIncImpl
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return 0 + (1*I); }
@@ -298,11 +295,10 @@ public class InvParamSum implements RPP {
 									__arity__ = this.getA();
 									while(__arity__-->0){
 										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-									} 
+									}
 									}
 								}
 							}
-							
 						};
 						/*
 						private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

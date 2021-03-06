@@ -141,8 +141,8 @@ class ComposedArity {
 		}
 		val ComposedArity thisInstance = this
 		this.scalar -= ca.scalar 
-		ca.parametersCoefficients.forEach[String parName, int parValue|
-			thisInstance.addParameterCoefficient(parName, -parValue)
+		ca.parametersCoefficients.forEach[String parName, Integer parValue|
+			thisInstance.subParameterCoefficient(parName, parValue)
 		]
 		return this;
 	}

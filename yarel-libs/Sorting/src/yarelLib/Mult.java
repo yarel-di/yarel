@@ -14,10 +14,13 @@ public class Mult implements RPP {
 		this.M = M;
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
 		this.K = K;
+		
 		// if(J < 0){ throw new WrongArityException("The parameter \"J\" cannot be negative: " + J); }
 		this.J = J;
+		
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
 		this.I = I;
+		
 	}
 	protected Mult(){
 		this(1,0, 0, 0);
@@ -104,7 +107,7 @@ public class Mult implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (4)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},
@@ -126,7 +129,7 @@ public class Mult implements RPP {
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
+										__startIndex__ + (-1 + (1*K)) + this.__f__.getA()
 										);
 								}
 							};
@@ -174,7 +177,7 @@ public class Mult implements RPP {
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
+										__startIndex__ + (-1 + (1*K)) + this.__f__.getA()
 										);
 								}
 							};
@@ -229,7 +232,7 @@ public class Mult implements RPP {
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
+										__startIndex__ + (-1 + (1*K)) + this.__f__.getA()
 										);
 								}
 							};
@@ -284,7 +287,7 @@ public class Mult implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (4)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},

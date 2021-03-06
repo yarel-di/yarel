@@ -11,6 +11,7 @@ public class DecIncr implements RPP {
 		this.__fixedRegistersAmount__ = 2;
 		// if(Amount < 0){ throw new WrongArityException("The parameter \"Amount\" cannot be negative: " + Amount); }
 		this.Amount = Amount;
+		
 	}
 	protected DecIncr(){
 		this(0);
@@ -79,11 +80,10 @@ public class DecIncr implements RPP {
 							__arity__ = this.getA();
 							while(__arity__-->0){
 								this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-							} 
+							}
 							}
 						}
 					},
-					
 					
 					new RPP(){ // BodyParamIncImpl
 						private RPP __f__ = Inc.SINGLETON_Inc;
@@ -95,11 +95,10 @@ public class DecIncr implements RPP {
 							__arity__ = this.getA();
 							while(__arity__-->0){
 								this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-							} 
+							}
 							}
 						}
 					}
-					
 				};
 				/*
 				private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

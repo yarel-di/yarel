@@ -121,7 +121,7 @@ public class InvDisSelN implements RPP {
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__,
 						__startIndex__ + 1,
-						__startIndex__ + (1) + (1)
+						__startIndex__ + (1) + this.__f__.getA()
 						);
 				}
 			}
@@ -188,7 +188,7 @@ public class InvDisSelN implements RPP {
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__,
 						__startIndex__ + 1,
-						__startIndex__ + (1) + (1)
+						__startIndex__ + (1) + this.__f__.getA()
 						);
 				}
 			}

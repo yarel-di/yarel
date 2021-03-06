@@ -38,7 +38,7 @@ module ParametricStuffs{
 		
 	dcl doubleSwapSomewhere : 7 int , a, B
 	def doubleSwapSomewhere :=
-		dec|id|swap{a}(2, a-2)|for[inc]|swapSRLlike{B}(3,B-3)|neg|inc{1}(a+B)
+		dec|id|swap{a}(2, a-2)|for[inc;inc]|swapSRLlike{B}(3,B-3)|(inc;neg)|inc{1}(a+B)
 
 	dcl decIncr(Amount) : 2 int
 	def decIncr :=
@@ -51,6 +51,13 @@ module ParametricStuffs{
 	dcl incrAll : K
 	def incrAll :=
 		inc{K}(1)
+		
+		
+	dcl multipleParArities(IncrAmount, NegAmount): IncrAr, NegAr
+	def multipleParArities :=
+		inc{IncrAr}(IncrAmount)|neg{NegAr}(NegAmount)
+		
+	
 
 	/* start usefull staffs */
 

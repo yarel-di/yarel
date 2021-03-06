@@ -16,8 +16,10 @@ public class DecIncrDouble implements RPP {
 		this.K = K;
 		// if(Amount1 < 0){ throw new WrongArityException("The parameter \"Amount1\" cannot be negative: " + Amount1); }
 		this.Amount1 = Amount1;
+		
 		// if(Amount2 < 0){ throw new WrongArityException("The parameter \"Amount2\" cannot be negative: " + Amount2); }
 		this.Amount2 = Amount2;
+		
 	}
 	protected DecIncrDouble(){
 		this(1,0, 0);
@@ -91,11 +93,10 @@ public class DecIncrDouble implements RPP {
 							__arity__ = this.getA();
 							while(__arity__-->0){
 								this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-							} 
+							}
 							}
 						}
 					},
-					
 					
 					new RPP(){ // BodyParamNegImpl
 						private RPP __f__ = Neg.SINGLETON_Neg;
@@ -112,7 +113,6 @@ public class DecIncrDouble implements RPP {
 						}
 					},
 					
-					
 					new RPP(){ // BodyParamIncImpl
 						private RPP __f__ = Inc.SINGLETON_Inc;
 						public int getA() { return 1; }
@@ -123,11 +123,10 @@ public class DecIncrDouble implements RPP {
 							__arity__ = this.getA();
 							while(__arity__-->0){
 								this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-							} 
+							}
 							}
 						}
 					}
-					
 				};
 				/*
 				private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

@@ -8,7 +8,6 @@ public class InvNegativeParamWarning implements RPP {
 		this.__fixedRegistersAmount__ = 2;
 		if(K < 0){ throw new WrongArityException("The arity \"K\" cannot be negative: " + K); }
 		this.K = K;
-		
 		if(J < 0){ throw new WrongArityException("The arity \"J\" cannot be negative: " + J); }
 		this.J = J;
 	}
@@ -17,7 +16,8 @@ public class InvNegativeParamWarning implements RPP {
 	}
 	
 	protected final int __fixedRegistersAmount__;
-	protected final int K;protected final int J;
+	protected final int K;
+	protected final int J;
 	
 	
 	
@@ -52,7 +52,7 @@ public class InvNegativeParamWarning implements RPP {
 								__arity__ = this.getA();
 								while(__arity__-->0){
 									this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-								} 
+								}
 								}
 							}
 						};
@@ -60,7 +60,7 @@ public class InvNegativeParamWarning implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + -3 + (1*J) + (1*K),
-								__startIndex__ + (-3 + (1*J) + (1*K)) + (5 + ((-1)*K))
+								__startIndex__ + (-3 + (1*J) + (1*K)) + this.__f__.getA()
 								);
 						}
 					},
@@ -113,7 +113,7 @@ public class InvNegativeParamWarning implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*J),
-								__startIndex__ + (0 + (1*J)) + (2)
+								__startIndex__ + (0 + (1*J)) + this.__f__.getA()
 								);
 						}
 					},
@@ -122,10 +122,10 @@ public class InvNegativeParamWarning implements RPP {
 						public int getA() { return 2 + (1*K) + (1*J); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new InvSwap(
+							RPP __f__ = new InvSwap( // Swap itselfwill adjust indexes on arity
 								__arity__, //
-								((-1 + (1*K)) - 1) % __arity__, // Yarel's indexes are 1-based
-								((-2 + (1*J) + (1*K)) - 1) % __arity__ //
+								(-1 + (1*K)), //
+								(-2 + (1*J) + (1*K))//
 							);
 							__f__.b(__x__, __startIndex__, __endIndex__);
 						}

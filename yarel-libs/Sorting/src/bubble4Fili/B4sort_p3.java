@@ -25,7 +25,7 @@ public class B4sort_p3 implements RPP {
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				this.__f__.b(__x__,
 					__startIndex__ + 4,
-					__startIndex__ + (4) + (5)
+					__startIndex__ + (4) + this.__f__.getA()
 					);
 			}
 		},
@@ -73,7 +73,7 @@ public class B4sort_p3 implements RPP {
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				this.__f__.b(__x__,
 					__startIndex__ + 2,
-					__startIndex__ + (2) + (5)
+					__startIndex__ + (2) + this.__f__.getA()
 					);
 			}
 		},
@@ -135,7 +135,7 @@ public class B4sort_p3 implements RPP {
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				this.__f__.b(__x__,
 					__startIndex__ + 0,
-					__startIndex__ + (0) + (1)
+					__startIndex__ + (0) + this.__f__.getA()
 					);
 			}
 		},
@@ -183,7 +183,7 @@ public class B4sort_p3 implements RPP {
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				this.__f__.b(__x__,
 					__startIndex__ + 5,
-					__startIndex__ + (5) + (5)
+					__startIndex__ + (5) + this.__f__.getA()
 					);
 			}
 		},

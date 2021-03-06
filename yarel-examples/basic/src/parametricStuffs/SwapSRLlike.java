@@ -13,8 +13,10 @@ public class SwapSRLlike implements RPP {
 		this.K = K;
 		// if(S < 0){ throw new WrongArityException("The parameter \"S\" cannot be negative: " + S); }
 		this.S = S;
+		
 		// if(E < 0){ throw new WrongArityException("The parameter \"E\" cannot be negative: " + E); }
 		this.E = E;
+		
 	}
 	protected SwapSRLlike(){
 		this(1,0, 0);

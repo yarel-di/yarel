@@ -33,6 +33,8 @@ import org.di.unito.yarel.yarel.BodyParamPerm
 import org.di.unito.yarel.yarel.BodyParamInc
 import org.di.unito.yarel.yarel.BodyParamDec
 import org.di.unito.yarel.yarel.BodyParamNeg
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamIt
 import org.di.unito.yarel.yarel.BodySwap
 import org.di.unito.yarel.yarel.Type
 import org.di.unito.yarel.yarel.ParameterLEWP
@@ -106,12 +108,27 @@ class YarelLabelProvider extends DefaultEObjectLabelProvider {
 	}
 	def dispatch text(BodyIt bAtom){ bAtom.function }
 	def dispatch text(BodyIf bAtom){ bAtom.function }
-	def dispatch text(BodyFun bAtom){ bAtom.function.funName.name }
-	def dispatch text(BodyParamId bAtom){  "param-id"; }
-	def dispatch text(BodyParamPerm bAtom){"param-permutation"; }
+	def dispatch text(BodyFun bAtom){ 
+		'''
+		Invocation of the function «bAtom.function.funName.name» with <strong>declared</strong> arity [«YarelUtils.getArity(bAtom.function.funName)»].
+		The optional arities and parameters are "given" with the same order as they are placed during invocation.
+		'''.toString()
+	}
+	def dispatch text(BodyParamId bAtom){ 
+		'''Parametric identity. It's equivalent as <code>id|id|id|...|id</code> for an amount of times equals to: [«YarelUtils.getArity(bAtom.arity)»].'''.toString();
+	}
+	def dispatch text(BodyParamPerm bAtom){
+//		'''
+//		Parametric Permutation. Applies a permutation with arity (amounts of registers required) equal to [«YarelUtils.getArity(bAtom.arity)»], over the first [1 - «YarelUtils.getArity(bAtom.arity).addScalar(-1)»]registers.
+//		The last register is required since this permutation performs a swap between the first register and a register whose index is stored at that last register.
+//		'''.toString();
+		"param-permut"
+	}
 	def dispatch text(BodyParamInc bAtom){ "param-inc"; }
 	def dispatch text(BodyParamDec bAtom){ "param-dec"; }
 	def dispatch text(BodyParamNeg bAtom){ "param-neg"; }
+	def dispatch text(BodyParamIt bAtom) { "param-iter";}
+	def dispatch text(BodyParamFor bAtom){ "param-for"; }
 	def dispatch text(BodySwap bAtom){
 		val sw = bAtom.function
 		val indexes = sw.paramsAssign.parameters

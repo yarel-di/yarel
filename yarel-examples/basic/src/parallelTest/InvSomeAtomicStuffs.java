@@ -49,7 +49,6 @@ public class InvSomeAtomicStuffs implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		
 		new RPP(){ // BodyDecImpl
 			private RPP __f__ = InvDec.SINGLETON_InvDec;
 			private final int __a__ = __f__.getA();
@@ -58,7 +57,6 @@ public class InvSomeAtomicStuffs implements RPP {
 			}
 			public int getA() { return this.__a__; }
 		},
-		
 		
 		new RPP(){ // SerCompImpl
 			private final RPP[] __steps__ = new RPP[]{
@@ -96,7 +94,7 @@ public class InvSomeAtomicStuffs implements RPP {
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 						this.__f__.b(__x__,
 							__startIndex__ + 0,
-							__startIndex__ + (0) + (1)
+							__startIndex__ + (0) + this.__f__.getA()
 							);
 					}
 				}
@@ -111,7 +109,6 @@ public class InvSomeAtomicStuffs implements RPP {
 			}
 		},
 		
-		
 		new RPP(){ // BodyNegImpl
 			private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 			private final int __a__ = __f__.getA();
@@ -120,7 +117,6 @@ public class InvSomeAtomicStuffs implements RPP {
 			}
 			public int getA() { return this.__a__; }
 		},
-		
 		
 		new RPP(){ // SerCompImpl
 			private final RPP[] __steps__ = new RPP[]{
@@ -160,7 +156,6 @@ public class InvSomeAtomicStuffs implements RPP {
 				}
 			}
 		}
-		
 	};
 	/*
 	private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

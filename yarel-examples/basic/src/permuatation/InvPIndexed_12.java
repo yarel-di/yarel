@@ -50,7 +50,6 @@ public class InvPIndexed_12 implements RPP {
 					}
 				},
 				
-				
 				new RPP(){ // SerCompImpl
 					private final RPP[] __steps__ = new RPP[]{
 						new RPP() { // BodyIncImpl
@@ -170,7 +169,6 @@ public class InvPIndexed_12 implements RPP {
 						}
 					}
 				}
-				
 			};
 			/*
 			private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

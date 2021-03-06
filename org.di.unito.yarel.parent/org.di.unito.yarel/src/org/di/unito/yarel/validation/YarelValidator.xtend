@@ -39,7 +39,8 @@ import org.di.unito.yarel.yarel.Model
 import org.di.unito.yarel.yarel.ParameterLEWP
 import org.di.unito.yarel.yarel.ParametersAssignment
 import org.di.unito.yarel.yarel.ParametricArity
-import org.di.unito.yarel.yarel.SerComp
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamIt
 import org.di.unito.yarel.yarel.ParamName
 import org.di.unito.yarel.yarel.YarelPackage
 import org.eclipse.emf.common.util.EList
@@ -61,6 +62,7 @@ import org.di.unito.yarel.yarel.SwapIndexed
 import java.util.function.Supplier
 import org.eclipse.emf.ecore.EObject
 import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.SerComp
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
@@ -85,6 +87,7 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_DUPLICATE_MODULE = BASE_ERROR_NAME + 'ERROR_DUPLICATE_MODULE'
 	public static val ERROR_FUNCTION_NOT_FOUND = BASE_ERROR_NAME + 'ERROR_FUNCTION_NOT_FOUND'
 	public static val ERROR_INVALID_DEFINITION_COUNT = BASE_ERROR_NAME + 'ERROR_INVALID_DEFINITION_COUNT'
+	public static val ERROR_SERIAL_COMPOSITION_ARITY = BASE_ERROR_NAME + 'ERROR_SERIAL_COMPOSITION_ARITY'
 	public static val ERROR_NON_POSITIVE_ARITY_SCALAR = BASE_ERROR_NAME + 'ERROR_NON_POSITIVE_ARITY_SCALAR'
 	public static val ERROR_PARAMETRIC_OPERATOR_ARITY = BASE_ERROR_NAME + 'ERROR_PARAMETRIC_OPERATOR_ARITY'
 	public static val ERROR_PARAMS_ON_NON_PARAM_FUNCTION = BASE_ERROR_NAME + 'ERROR_PARAMS_ON_NON_PARAM_FUNCTION'
@@ -96,13 +99,13 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL = BASE_ERROR_NAME + 'ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL'
 	public static val ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH'
 	public static val ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH'
-
+	
 	protected static val Set<String> FORBIDDEN_KEYWORD = {
 		val Set<String> s = new TreeSet(Utils.STRING_COMPARATOR);
 		s.addAll("int", "A", "return", "inverse", "class","public","private","protected","final","[","]","(",")","{","}",
 		",",".","\"", "RPP","inc","dec","id","for","if","while",";","/","\\", "this", "new", "null", "synchronized", "static",
 		"__startIndex__","__endIndex__","__theWholeBody__","__x__","__steps__","__function__","__semaphore__","__threadPoolExecutor__","__neverStarted__",
-		"__subtasks__","__repCounterIndex__","__repetitionCounter__","__originalRepCounter__","__startIndexOffset__"
+		"__subtasks__","__repCounterIndex__","__repetitionCounter__","__originalRepCounter__","__startIndexOffset__", "__iterationsAmount__"
 		);
 		s;
 	}
@@ -153,27 +156,34 @@ class YarelValidator extends AbstractYarelValidator {
 	def checkSerialComposition(Definition deff){
 		val deffArity = YarelUtils.getArity(deff.declarationName)
 		val allSequentialBlocks = YarelUtils.getAllSequentialBodyBlocks(deff.body)
+		
 		allSequentialBlocks.forEach[ b, index|
 			val bodyArity = YarelUtils.getArity(b)
 			if(!deffArity.equals(bodyArity)){
 				error("Arity of "+index+"-th serial-composition's block must be equal to the declaration (the \"dcl\" of the function):<br><ul><li>The declared one:[ "
 					+ deffArity.toString() + " ]</li> <li> the block's one: [ "+
 					bodyArity.toString()+" ] </li></ul>."
-					, YarelPackage::eINSTANCE.definition_Body, index, ERROR_SERIAL_COMPOSITION
+					, YarelPackage::eINSTANCE.definition_Body, index,
+					ERROR_SERIAL_COMPOSITION_ARITY
 				)
 			}
 		]
 	}
-//	def checkSerialComposition(SerComp serial) {
-//		val leftArity = YarelUtils.getArity(serial.left)
-//		val rightArity = YarelUtils.getArity(serial.right)
-//		
-//		if(!leftArity.equals(rightArity))
-//			error("Arity of left and right branch in serial composition must be equal: LEFT:["
-//				+ leftArity.toString() + "] , right:["+rightArity.toString()+"]"
-//				, YarelPackage::eINSTANCE.serComp_Left, ERROR_SERIAL_COMPOSITION
-//			)
+	
+	@Check
+//	def checkSerialComposition(SerComp deff){
 //	}
+	def checkSerialComposition(SerComp serial) {
+		val leftArity = YarelUtils.getArity(serial.left)
+		val rightArity = YarelUtils.getArity(serial.right)
+//		val allSequentialBlocks = YarelUtils.getAllSequentialBodyBlocks(serial)
+		
+		if(!leftArity.equals(rightArity))
+			error("Arity of left and right branch in serial composition must be equal: LEFT:["
+				+ leftArity.toString() + "] , right:["+rightArity.toString()+"]"
+				, YarelPackage::eINSTANCE.serComp_Right, ERROR_SERIAL_COMPOSITION_ARITY
+			)
+	}
 	
 	/**
 	 * Check if the declared arity of the function declaration is equal to the arity of the function definition
@@ -387,6 +397,8 @@ class YarelValidator extends AbstractYarelValidator {
 				BodyParamInc : "Parametrized Increment"
 				BodyParamDec : "Parametrized Decrement"
 				BodyParamNeg : "Parametrized Negation"
+				BodyParamIt  : "Parametrized Abs-Iteration"
+				BodyParamFor : "Parametrized For-Iteration"
 				default:
 					null
 			};
@@ -397,6 +409,8 @@ class YarelValidator extends AbstractYarelValidator {
 				BodyParamInc : body.arity
 				BodyParamDec : body.arity
 				BodyParamNeg : body.arity
+				BodyParamIt  : body.arity
+				BodyParamFor : body.arity
 				default:
 					null
 				}
@@ -417,7 +431,10 @@ class YarelValidator extends AbstractYarelValidator {
 				default:
 					null
 				}
-			if( paramsAssign === null || paramsAssign.parameters === null || paramsAssign.parameters.size != 1){
+			if( //paramsAssign === null || paramsAssign.parameters === null ||
+				paramsAssign !== null && paramsAssign.parameters !== null &&
+				paramsAssign.parameters.size != 1
+			){
 				error("The operator " + operatorName + " must have exactly one parameter:"
 					+ Arrays.toString(paramsAssign.parameters.map[YarelUtils.getArity(it.arity)].toArray),
 					YarelPackage::eINSTANCE.atomicParRep_ParamsAssign,

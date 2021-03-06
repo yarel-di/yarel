@@ -16,14 +16,19 @@ public class InvLessThan implements RPP {
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
 		this.I = I;
+		
 		// if(J < 0){ throw new WrongArityException("The parameter \"J\" cannot be negative: " + J); }
 		this.J = J;
+		
 		// if(P < 0){ throw new WrongArityException("The parameter \"P\" cannot be negative: " + P); }
 		this.P = P;
+		
 		// if(Q < 0){ throw new WrongArityException("The parameter \"Q\" cannot be negative: " + Q); }
 		this.Q = Q;
+		
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
 		this.K = K;
+		
 	}
 	protected InvLessThan(){
 		this(1,0, 0, 0, 0, 0);
@@ -116,7 +121,7 @@ public class InvLessThan implements RPP {
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
+										__startIndex__ + (-1 + (1*K)) + this.__f__.getA()
 										);
 								}
 							};
@@ -133,7 +138,7 @@ public class InvLessThan implements RPP {
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
+										__startIndex__ + (-1 + (1*K)) + this.__f__.getA()
 										);
 								}
 							};
@@ -171,7 +176,7 @@ public class InvLessThan implements RPP {
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
-										__startIndex__ + (-1 + (1*K)) + (1)
+										__startIndex__ + (-1 + (1*K)) + this.__f__.getA()
 										);
 								}
 							};

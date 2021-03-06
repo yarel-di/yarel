@@ -46,7 +46,7 @@ public class InvIncrAll implements RPP {
 					__arity__ = this.getA();
 					while(__arity__-->0){
 						this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-					} 
+					}
 					}
 				}
 			};

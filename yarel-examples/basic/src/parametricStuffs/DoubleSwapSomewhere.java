@@ -11,7 +11,6 @@ public class DoubleSwapSomewhere implements RPP {
 		this.__fixedRegistersAmount__ = 7;
 		if(a < 0){ throw new WrongArityException("The arity \"a\" cannot be negative: " + a); }
 		this.a = a;
-		
 		if(B < 0){ throw new WrongArityException("The arity \"B\" cannot be negative: " + B); }
 		this.B = B;
 	}
@@ -20,7 +19,8 @@ public class DoubleSwapSomewhere implements RPP {
 	}
 	
 	protected final int __fixedRegistersAmount__;
-	protected final int a;protected final int B;
+	protected final int a;
+	protected final int B;
 	
 	
 	
@@ -77,40 +77,80 @@ public class DoubleSwapSomewhere implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					
 					new RPP(){ // BodySwapImpl
 						public int getA() { return 0 + (1*a); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new Swap(
+							RPP __f__ = new Swap( // Swap itselfwill adjust indexes on arity
 								__arity__, //
-								((2) - 1) % __arity__, // Yarel's indexes are 1-based
-								((-2 + (1*a)) - 1) % __arity__ //
+								(2), //
+								(-2 + (1*a))//
 							);
 							__f__.b(__x__, __startIndex__, __endIndex__);
 						}
 					},
 					
-					
 					new RPP(){ // BodyForImpl
 						/** regular function used when v > 0 */
-						RPP __function__ = new RPP() { // BodyIncImpl
-							private RPP __f__ = Inc.SINGLETON_Inc;
-							private final int __a__ = __f__.getA();
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-								this.__f__.b(__x__, __startIndex__, __endIndex__);
+						RPP __function__ = new RPP() { // SerCompImpl
+							private final RPP[] __steps__ = new RPP[]{
+								new RPP() { // BodyIncImpl
+									private RPP __f__ = Inc.SINGLETON_Inc;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								},
+								
+								new RPP() { // BodyIncImpl
+									private RPP __f__ = Inc.SINGLETON_Inc;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								}
+							};
+							public int getA() { return this.__steps__[0].getA(); }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+								int __i__;
+								__i__ = -1;
+								while( ++__i__ < __steps__.length ){
+									__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
+								}
 							}
-							public int getA() { return this.__a__; }
 						};
 						
 						/** inverse function used when v < 0 */
-						RPP __inv_function__ = new RPP() { // InvBodyIncImpl
-							private RPP __f__ = InvInc.SINGLETON_InvInc;
-							private final int __a__ = __f__.getA();
-							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-								this.__f__.b(__x__, __startIndex__, __endIndex__);
+						RPP __inv_function__ = new RPP() { // InvSerCompImpl
+							private final RPP[] __steps__ = new RPP[]{
+								new RPP() { // BodyIncImpl
+									private RPP __f__ = InvInc.SINGLETON_InvInc;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								},
+								
+								new RPP() { // BodyIncImpl
+									private RPP __f__ = InvInc.SINGLETON_InvInc;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
+									}
+									public int getA() { return this.__a__; }
+								}
+							};
+							public int getA() { return this.__steps__[0].getA(); }
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+								int __i__;
+								__i__ = __steps__.length;
+								while( __i__-->0 ){
+									__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
+								}
 							}
-							public int getA() { return this.__a__; }
 						};
 						
 						public int getA() { return __function__.getA()+1; } 
@@ -136,7 +176,6 @@ public class DoubleSwapSomewhere implements RPP {
 						}
 					},
 					
-					
 					new RPP(){ // BodyFunImpl
 						RPP __function__ = new SwapSRLlike(
 							0 + (1*B)
@@ -150,16 +189,35 @@ public class DoubleSwapSomewhere implements RPP {
 						}
 					},
 					
-					
-					new RPP(){ // BodyNegImpl
-						private RPP __f__ = Neg.SINGLETON_Neg;
-						private final int __a__ = __f__.getA();
-						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
-							this.__f__.b(__x__, __startIndex__, __endIndex__);
+					new RPP(){ // SerCompImpl
+						private final RPP[] __steps__ = new RPP[]{
+							new RPP() { // BodyIncImpl
+								private RPP __f__ = Inc.SINGLETON_Inc;
+								private final int __a__ = __f__.getA();
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__, __startIndex__, __endIndex__);
+								}
+								public int getA() { return this.__a__; }
+							},
+							
+							new RPP() { // BodyNegImpl
+								private RPP __f__ = Neg.SINGLETON_Neg;
+								private final int __a__ = __f__.getA();
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__, __startIndex__, __endIndex__);
+								}
+								public int getA() { return this.__a__; }
+							}
+						};
+						public int getA() { return this.__steps__[0].getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+							int __i__;
+							__i__ = -1;
+							while( ++__i__ < __steps__.length ){
+								__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
+							}
 						}
-						public int getA() { return this.__a__; }
 					},
-					
 					
 					new RPP(){ // BodyParamIncImpl
 						private RPP __f__ = Inc.SINGLETON_Inc;
@@ -171,11 +229,10 @@ public class DoubleSwapSomewhere implements RPP {
 							__arity__ = this.getA();
 							while(__arity__-->0){
 								this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-							} 
+							}
 							}
 						}
 					}
-					
 				};
 				/*
 				private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

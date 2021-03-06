@@ -50,7 +50,6 @@ public class InvPIndexed_min_1 implements RPP {
 					}
 				},
 				
-				
 				new RPP(){ // BodyDecImpl
 					private RPP __f__ = InvDec.SINGLETON_InvDec;
 					private final int __a__ = __f__.getA();
@@ -59,7 +58,6 @@ public class InvPIndexed_min_1 implements RPP {
 					}
 					public int getA() { return this.__a__; }
 				}
-				
 			};
 			/*
 			private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

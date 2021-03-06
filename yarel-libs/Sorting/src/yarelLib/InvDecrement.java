@@ -13,8 +13,10 @@ public class InvDecrement implements RPP {
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
 		this.I = I;
+		
 		// if(J < 0){ throw new WrongArityException("The parameter \"J\" cannot be negative: " + J); }
 		this.J = J;
+		
 	}
 	protected InvDecrement(){
 		this(1,0, 0);
@@ -115,7 +117,7 @@ public class InvDecrement implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (2)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},
@@ -171,7 +173,7 @@ public class InvDecrement implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (2)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},
@@ -191,7 +193,7 @@ public class InvDecrement implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (3)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},
@@ -270,7 +272,7 @@ public class InvDecrement implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (2)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},
@@ -326,7 +328,7 @@ public class InvDecrement implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
-								__startIndex__ + (0 + (1*M)) + (2)
+								__startIndex__ + (0 + (1*M)) + this.__f__.getA()
 								);
 						}
 					},

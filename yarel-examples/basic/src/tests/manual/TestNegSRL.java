@@ -20,9 +20,11 @@ public class TestNegSRL {
 		n = new NegSRL();
 		System.out.println("start NegSRL test");
 		for (int[] r : regss) {
+			int[] exp = new int[] { -r[0], r[1] };
 			System.out.println("\n\nTESTING : " + Arrays.toString(r));
 			n.b(r);
 			System.out.println("\t then: " + Arrays.toString(r));
+			System.out.println("\t- correct? " + Arrays.equals(r, exp));
 		}
 		System.out.println("\n\n\n endNegSRL test");
 	}

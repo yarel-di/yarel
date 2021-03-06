@@ -74,7 +74,6 @@ public class UpAndDown implements RPP {
 					// Iteration stop
 				},
 				
-				
 				new RPP(){ // BodyItImpl
 					// Iteration start
 					RPP __function__ = new RPP() { // BodyIncImpl
@@ -95,7 +94,6 @@ public class UpAndDown implements RPP {
 					}
 					// Iteration stop
 				}
-				
 			};
 			/*
 			private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

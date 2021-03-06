@@ -72,7 +72,6 @@ public class InvThreeHoleInIds implements RPP {
 			}
 		},
 		
-		
 		new RPP(){ // BodyForImpl
 			/** regular function used when v > 0 */
 			RPP __function__ = new RPP() { // BodyForImpl
@@ -187,7 +186,6 @@ public class InvThreeHoleInIds implements RPP {
 			}
 		},
 		
-		
 		new RPP(){ // BodyFunImpl
 			RPP __function__ = new InvEmpty2();
 			public int getA() { return __function__.getA(); }
@@ -195,7 +193,6 @@ public class InvThreeHoleInIds implements RPP {
 				this.__function__.b(__x__, __startIndex__, __endIndex__);
 			}
 		}
-		
 	};
 	/*
 	private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

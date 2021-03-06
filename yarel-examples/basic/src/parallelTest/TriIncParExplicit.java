@@ -49,7 +49,6 @@ public class TriIncParExplicit implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		
 		new RPP(){ // BodyIncImpl
 			private RPP __f__ = Inc.SINGLETON_Inc;
 			private final int __a__ = __f__.getA();
@@ -59,7 +58,6 @@ public class TriIncParExplicit implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		
 		new RPP(){ // BodyIncImpl
 			private RPP __f__ = Inc.SINGLETON_Inc;
 			private final int __a__ = __f__.getA();
@@ -68,7 +66,6 @@ public class TriIncParExplicit implements RPP {
 			}
 			public int getA() { return this.__a__; }
 		}
-		
 	};
 	/*
 	private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

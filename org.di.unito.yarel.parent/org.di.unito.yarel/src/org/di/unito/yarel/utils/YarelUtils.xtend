@@ -1,6 +1,9 @@
 package org.di.unito.yarel.utils
 
+import java.util.List
 import java.util.LinkedList
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.common.util.EList
 import org.di.unito.yarel.scoping.YarelIndex
 import org.di.unito.yarel.yarel.AdditionLEWP
 import org.di.unito.yarel.yarel.Body
@@ -16,6 +19,12 @@ import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyParamPerm
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.BodySwap
+import org.di.unito.yarel.yarel.BodyParamId
+import org.di.unito.yarel.yarel.BodyParamInc
+import org.di.unito.yarel.yarel.BodyParamNeg
+import org.di.unito.yarel.yarel.BodyParamDec
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamIt
 import org.di.unito.yarel.yarel.BracketLEWP
 import org.di.unito.yarel.yarel.Declaration
 import org.di.unito.yarel.yarel.Definition
@@ -31,22 +40,15 @@ import org.di.unito.yarel.yarel.ParametricArity
 import org.di.unito.yarel.yarel.PlusLEWP
 import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.SubtractionLEWP
-import org.eclipse.emf.ecore.EObject
-
-import static extension org.di.unito.yarel.scoping.YarelIndex.*
-import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
 import org.di.unito.yarel.yarel.AritiesAssignment
-import org.di.unito.yarel.yarel.BodyParamId
-import org.di.unito.yarel.yarel.BodyParamInc
-import org.di.unito.yarel.yarel.BodyParamNeg
-import org.di.unito.yarel.yarel.BodyParamDec
-import java.util.List
 import org.di.unito.yarel.yarel.AritySignature
 import org.di.unito.yarel.yarel.ParametersAssignment
-import org.eclipse.emf.common.util.EList
 import org.di.unito.yarel.yarel.Type
 import org.di.unito.yarel.yarel.InvocationParametersSignature
 import org.di.unito.yarel.yarel.ParamName
+
+import static extension org.di.unito.yarel.scoping.YarelIndex.*
+import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
@@ -192,7 +194,10 @@ class YarelUtils {
 	}
 	
 	static def dispatch ComposedArity getArity(EList<ParametricArity> parArities){
-		return parArities.map[par| getArity(par)].reduce[p1, p2| p1.sum(p2)];
+//		return parArities.map[par| getArity(par)].reduce[p1, p2| p1.sum(p2)];
+		val ca = new ComposedArity(0);
+		parArities.map[par| getArity(par)].forEach[parAr| ca.sum(parAr)]
+		return ca
 	}
 	
 	static def dispatch ComposedArity getArity(AritiesAssignment aa){
@@ -250,7 +255,7 @@ class YarelUtils {
 			BodyDec      : new ComposedArity(1)
 			BodyNeg      : new ComposedArity(1)
 			BodyPerm     : new ComposedArity(body.permutation.indexes.size)
-			SerComp      : getArity(body.left)
+			SerComp      : getArity(body.right) // left
 			ParComp      : getArity(body.right).sum(getArity(body.left))
 			BodyInv      : getArity(body.body)
 			BodyIt       : getArity(body.body).addScalar(1)
@@ -260,9 +265,14 @@ class YarelUtils {
 			BodySwap     : getArity(body.function.arity) // .addScalar(1)
 			BodyParamPerm: getArity(body.arity).addScalar(1)
 			BodyParamId  : getArity(body.arity)
-			BodyParamInc : getArity(body.arity)
-			BodyParamDec : getArity(body.arity)
-			BodyParamNeg : getArity(body.arity)
+			BodyParamInc : (body.arity === null || body.arity.arities === null || body.arity.arities.empty )
+							? new ComposedArity(1) : getArity(body.arity)
+			BodyParamDec : (body.arity === null || body.arity.arities === null || body.arity.arities.empty )
+							? new ComposedArity(1) : getArity(body.arity)
+			BodyParamNeg : (body.arity === null || body.arity.arities === null || body.arity.arities.empty )
+							? new ComposedArity(1) : getArity(body.arity)
+			BodyParamIt  : getArity(body.body)
+			BodyParamFor : getArity(body.body)
 //			AtomicParametricArity: getArity(body.arity)
 			default:
 				throw new RuntimeException("Body unrecognized to compute arity: " + body)

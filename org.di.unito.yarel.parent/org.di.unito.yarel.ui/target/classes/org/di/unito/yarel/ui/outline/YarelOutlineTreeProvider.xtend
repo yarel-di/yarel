@@ -21,6 +21,8 @@ import org.di.unito.yarel.yarel.BodyParamId
 import org.di.unito.yarel.yarel.BodyParamInc
 import org.di.unito.yarel.yarel.BodyParamNeg
 import org.di.unito.yarel.yarel.BodyParamPerm
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamIt
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.BodySwap
 import org.di.unito.yarel.yarel.Declaration
@@ -156,13 +158,15 @@ class YarelOutlineTreeProvider extends DefaultOutlineTreeProvider {
 	def dispatch void createNode(IOutlineNode superNode, Body b){
 		val thisNode = super.createEObjectNode(superNode, b)
 		switch b {
+			BodyParamIt:  createNodeOfPotentiallySequentialBody(thisNode, b.body)
+			BodyParamFor: createNodeOfPotentiallySequentialBody(thisNode, b.body)
 			BodyFor: createNodeOfPotentiallySequentialBody(thisNode, b.body)
 			BodyIt:  createNodeOfPotentiallySequentialBody(thisNode, b.body)
 			BodyInv: createNodeOfPotentiallySequentialBody(thisNode, b.body)
-			BodyIf:{
-				createNodeOfPotentiallySequentialBody(thisNode, b.pos)
-				createNodeOfPotentiallySequentialBody(thisNode, b.zero)
-				createNodeOfPotentiallySequentialBody(thisNode, b.neg)
+			BodyIf: {
+					createNodeOfPotentiallySequentialBody(thisNode, b.pos)
+					createNodeOfPotentiallySequentialBody(thisNode, b.zero)
+					createNodeOfPotentiallySequentialBody(thisNode, b.neg)
 			}
 			BodyFun: createNode(thisNode, b.function.funName)
 			SerComp: createNodeOfPotentiallySequentialBody(thisNode, b)

@@ -38,6 +38,9 @@ import org.di.unito.yarel.yarel.BodyParamId
 import org.di.unito.yarel.yarel.BodyParamInc
 import org.di.unito.yarel.yarel.BodyParamNeg
 import org.di.unito.yarel.yarel.BodyParamPerm
+import org.di.unito.yarel.yarel.SwapIndexed
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamIt
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.BodySwap
 import org.di.unito.yarel.yarel.Declaration
@@ -53,7 +56,6 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.di.unito.yarel.yarel.SwapIndexed
 
 // Modified by Marco Ottina
 class JavaYarelGenerator implements IGenerator2 {
@@ -582,13 +584,12 @@ class JavaYarelGenerator implements IGenerator2 {
 				«IF hasDeclParams»«IF declArity.isParametric»,«"\n"»«ENDIF»«FOR par: declParams SEPARATOR ",\n"»int «par»«ENDFOR»«ENDIF»
 				){
 				this.__fixedRegistersAmount__ = «declArity.scalar»;
-				«FOR par : declArity.parametersCoefficients.entrySet SEPARATOR "\n"»
-				if(«par.key.replace('\b', '_')» < 0){ throw new WrongArityException("The arity \"«par.key.replace('\b', '_')»\" cannot be negative: " + «par.key.replace('\b', '_')»); }
-				this.«par.key.replace('\b', '_')» = «par.key.replace('\b', '_')»;
-				«ENDFOR»
+				«FOR par : declArity.parametersCoefficients.entrySet SEPARATOR "\n"»if(«par.key.replace('\b', '_')» < 0){ throw new WrongArityException("The arity \"«par.key.replace('\b', '_')»\" cannot be negative: " + «par.key.replace('\b', '_')»); }
+				this.«par.key.replace('\b', '_')» = «par.key.replace('\b', '_')»;«ENDFOR»
 				«IF hasDeclParams»«FOR par: declParams»
 				// if(«par.replace('\b', '_')» < 0){ throw new WrongArityException("The parameter \"«par.replace('\b', '_')»\" cannot be negative: " + «par.replace('\b', '_')»); }
 				this.«par.replace('\b', '_')» = «par.replace('\b', '_')»;
+				«/* TODO: mettere qui l'implementazione dei vincoli */»
 				«ENDFOR»«ENDIF»
 			}
 			protected «className»(){
@@ -596,7 +597,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			}
 			
 			protected final int __fixedRegistersAmount__;
-			«FOR par: declArity.parametersCoefficients.entrySet»protected final int «par.key.replace('\b', '_')»;«ENDFOR»
+			«FOR par: declArity.parametersCoefficients.entrySet SEPARATOR "\n"»protected final int «par.key.replace('\b', '_')»;«ENDFOR»
 			«IF hasDeclParams»«FOR par: declParams SEPARATOR "\n"»protected final int «par.replace('\b', '_')»;«ENDFOR»«ENDIF»
 			«ELSE»
 			public «className»() { }
@@ -713,7 +714,6 @@ class JavaYarelGenerator implements IGenerator2 {
 			var Body subBlockToParallelize;
 			var parallelNodeIterator = b as Body;
 			val parallelSubBodies = new LinkedList<BodySubblockParallel>();
-//				val identityBlocksOffsets = new LinkedList<Integer>();
 			//collects ALL sub parts of a Yarel's parallel execution, running down the parse-tree
 			while(parallelNodeIterator instanceof ParComp){
 				// the grammar impose a left-deep tree, placing to the right the actual block of code
@@ -721,14 +721,13 @@ class JavaYarelGenerator implements IGenerator2 {
 				// collect only non-identity bodies
 				if(subBlockToParallelize instanceof BodyId){
 					// don't waste time on "identity"
-//					startIndexOffset--; // the arity of "id" is just one
-					startIndexOffset.removeScalar(1)
+					startIndexOffset.removeScalar(1)// the arity of "id" is just one
 				} else if(subBlockToParallelize instanceof BodyParamId){
 					// don't waste time on "identities"
-					startIndexOffset.subtract(YarelUtils.getArity(subBlockToParallelize))
+					val ar = YarelUtils.getArity(subBlockToParallelize)
+					 startIndexOffset.subtract(ar)
 				} else {
 					val currentBlockArity = YarelUtils.getArity(subBlockToParallelize);
-//					startIndexOffset -= currentBlockArity;
 					startIndexOffset.subtract(currentBlockArity)
 					parallelSubBodies.addFirst(
 						new BodySubblockParallel(
@@ -742,10 +741,10 @@ class JavaYarelGenerator implements IGenerator2 {
 			}
 			if(!(parallelNodeIterator instanceof BodyId || parallelNodeIterator instanceof BodyParamId)){
 				 // don't waste time on "identit(y/ies)"
-				val currentBlockArity = YarelUtils.getArity( subBlockToParallelize);
+				val currentBlockArity = YarelUtils.getArity( parallelNodeIterator);
 				parallelSubBodies.addFirst(
 					new BodySubblockParallel(
-						new ComposedArity(0),
+						startIndexOffset.subtract(currentBlockArity),
 						parallelNodeIterator,
 						currentBlockArity
 				));
@@ -761,7 +760,7 @@ class JavaYarelGenerator implements IGenerator2 {
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__,
 						__startIndex__ + «theOnlySubBlock.startIndexOffset.toString()»,
-						__startIndex__ + («theOnlySubBlock.startIndexOffset.toString()») + («theOnlySubBlock.bodyArity.toString»)
+						__startIndex__ + («theOnlySubBlock.startIndexOffset.toString()») + this.__f__.getA(«/*theOnlySubBlock.bodyArity.toString*/»)
 						);
 				}
 				'''
@@ -779,7 +778,6 @@ class JavaYarelGenerator implements IGenerator2 {
 						new RPP(){ // «subtask.body.class.simpleName»
 							«compile(subtask.body, fwd, hasParallelBlock, declarationArity)»
 						}
-						
 					«ENDFOR»
 				};
 				/*
@@ -932,12 +930,12 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return this.__a__; }
 			'''
 		BodyParamInc:{
-			val bParArity = YarelUtils.getArity(b.arity)
+			val bParArity = YarelUtils.getArity(b)
 			val ComposedArity repetitions = (b.paramsAssign === null || b.paramsAssign.parameters === null || b.paramsAssign.parameters.size === 0)?
 				new ComposedArity(1) : YarelUtils.getArity(b.paramsAssign.parameters.get(0));
 			'''
 			private RPP __f__ = «IF !fwd»Inv«ENDIF»Inc.SINGLETON_«IF !fwd»Inv«ENDIF»Inc;
-			public int getA() { return «bParArity.toString()»; }
+			public int getA() { return «bParArity.toString»; }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __arity__;
 				«IF repetitions !== null»
@@ -947,7 +945,7 @@ class JavaYarelGenerator implements IGenerator2 {
 				__arity__ = this.getA();
 				while(__arity__-->0){
 					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-				} 
+				}
 				«IF repetitions !== null»
 				}
 				«ENDIF»
@@ -955,7 +953,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		}
 		BodyParamDec:{
-			val bParArity = YarelUtils.getArity(b.arity)
+			val bParArity = YarelUtils.getArity(b)
 			val ComposedArity repetitions = (b.paramsAssign === null || b.paramsAssign.parameters === null || b.paramsAssign.parameters.size === 0)?
 				new ComposedArity(1) : YarelUtils.getArity(b.paramsAssign.parameters.get(0));
 			'''
@@ -970,7 +968,7 @@ class JavaYarelGenerator implements IGenerator2 {
 				__arity__ = this.getA();
 				while(__arity__-->0){
 					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-				} 
+				}
 				«IF repetitions !== null»
 				}
 				«ENDIF»
@@ -978,7 +976,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			'''
 		}
 		BodyParamNeg:{
-			val bParArity = YarelUtils.getArity(b.arity)
+			val bParArity = YarelUtils.getArity(b)
 			val ComposedArity repetitions = (b.paramsAssign === null || b.paramsAssign.parameters === null || b.paramsAssign.parameters.size === 0)?
 				new ComposedArity(1) : YarelUtils.getArity(b.paramsAssign.parameters.get(0));
 			'''
@@ -1009,10 +1007,10 @@ class JavaYarelGenerator implements IGenerator2 {
 			public int getA() { return «swapArity.toString()»; } // "1 +" is removed
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __arity__ = this.getA(); // "- 1" is removed
-				RPP __f__ = new «IF !fwd»Inv«ENDIF»Swap(
+				RPP __f__ = new «IF !fwd»Inv«ENDIF»Swap( // Swap itselfwill adjust indexes on arity
 					__arity__, //
-					((«firstIndex.toString()») - 1) % __arity__, // Yarel's indexes are 1-based
-					((«secondIndex.toString()») - 1) % __arity__ //
+					(«firstIndex.toString()»), //
+					(«secondIndex.toString()»)//
 				);
 				__f__.b(__x__, __startIndex__, __endIndex__);
 			}
@@ -1093,6 +1091,25 @@ class JavaYarelGenerator implements IGenerator2 {
 			}
 			// Iteration stop
 			'''
+		BodyParamIt:
+			'''
+			// Iteration start
+			RPP __function__ = new RPP() { // «b.body.class.simpleName»
+				«compile(b.body,fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
+			};
+			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.body)»;
+			public int getA() {
+				return this.__iterationsAmount__; //__function__.getA();
+			}
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __endIndexBody__ = (__startIndex__ + __iterationsAmount__);
+				int __iterationsLeft__ = __iterationsAmount__;
+				while(__iterationsLeft__-->0){
+					__function__.b(__x__, __startIndex__, __endIndexBody__);
+				}
+			}
+			// Iteration stop
+			'''
 		BodyFor:
 			/*
 			 * Added by Paolo Parker as a recursive version,
@@ -1133,7 +1150,42 @@ class JavaYarelGenerator implements IGenerator2 {
 				__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 			}
 			'''
+		BodyParamFor:
+			/*
+			 * Added by Paolo Parker as a recursive version,
+			 * modified to the equivalent iterative version by Marco Ottina.
+			 */
+			'''
+			/** regular function used when v > 0 */
+			RPP __function__ = new RPP() { // «b.body.class.simpleName»
+				«/*the following call generates java code for the body of the "for" statement 
+				(the expression contained in its square brackets)*/
+				compile(b.body, fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
+			};
 			
+			/** inverse function used when v < 0 */
+			RPP __inv_function__ = new RPP() { // Inv«b.body.class.simpleName»
+				«compile(b.body,!fwd, hasParallelBlock, declarationArity)»
+			};
+			
+			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.body)»;
+			public int getA() {
+				return this.__iterationsAmount__; //__function__.getA();
+			}
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
+				int __repetitionCounter__ = __iterationsAmount__;
+				__endIndex__ = __startIndex__ + __iterationsAmount__;
+				if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					while(__repetitionCounter__-->0){
+						__function__.b(__x__, __startIndex__, __endIndex__);
+					}
+				}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					while(__repetitionCounter__++ < 0){
+						__inv_function__.b(__x__, __startIndex__, __endIndex__);
+					}
+				} //else: when v is equal to zero, recursive calls stop as a value is returned
+			}
+			'''
 		BodyIf:
 			'''
 			«val declArityBodies = declarationArity.clone().addScalar(-1)»

@@ -1899,6 +1899,146 @@ ruleAtomicParArityOperator returns [EObject current=null]
 				)
 			)
 		)
+		    |
+		(
+			(
+				{
+					$current = forceCreateModelElement(
+						grammarAccess.getAtomicParArityOperatorAccess().getBodyParamItAction_2_0(),
+						$current);
+				}
+			)
+			(
+				(
+					lv_funName_8_0='it'
+					{
+						newLeafNode(lv_funName_8_0, grammarAccess.getAtomicParArityOperatorAccess().getFunNameItKeyword_2_1_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getAtomicParArityOperatorRule());
+						}
+						setWithLastConsumed($current, "funName", lv_funName_8_0, "it");
+					}
+				)
+			)
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_2_2_0());
+					}
+					lv_arity_9_0=ruleAritiesAssignment
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAtomicParArityOperatorRule());
+						}
+						set(
+							$current,
+							"arity",
+							lv_arity_9_0,
+							"org.di.unito.yarel.Yarel.AritiesAssignment");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_10='['
+			{
+				newLeafNode(otherlv_10, grammarAccess.getAtomicParArityOperatorAccess().getLeftSquareBracketKeyword_2_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getBodyBodyParserRuleCall_2_4_0());
+					}
+					lv_body_11_0=ruleBody
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAtomicParArityOperatorRule());
+						}
+						set(
+							$current,
+							"body",
+							lv_body_11_0,
+							"org.di.unito.yarel.Yarel.Body");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_12=']'
+			{
+				newLeafNode(otherlv_12, grammarAccess.getAtomicParArityOperatorAccess().getRightSquareBracketKeyword_2_5());
+			}
+		)
+		    |
+		(
+			(
+				{
+					$current = forceCreateModelElement(
+						grammarAccess.getAtomicParArityOperatorAccess().getBodyParamForAction_3_0(),
+						$current);
+				}
+			)
+			(
+				(
+					lv_funName_14_0='for'
+					{
+						newLeafNode(lv_funName_14_0, grammarAccess.getAtomicParArityOperatorAccess().getFunNameForKeyword_3_1_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getAtomicParArityOperatorRule());
+						}
+						setWithLastConsumed($current, "funName", lv_funName_14_0, "for");
+					}
+				)
+			)
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_3_2_0());
+					}
+					lv_arity_15_0=ruleAritiesAssignment
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAtomicParArityOperatorRule());
+						}
+						set(
+							$current,
+							"arity",
+							lv_arity_15_0,
+							"org.di.unito.yarel.Yarel.AritiesAssignment");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_16='['
+			{
+				newLeafNode(otherlv_16, grammarAccess.getAtomicParArityOperatorAccess().getLeftSquareBracketKeyword_3_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getBodyBodyParserRuleCall_3_4_0());
+					}
+					lv_body_17_0=ruleBody
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAtomicParArityOperatorRule());
+						}
+						set(
+							$current,
+							"body",
+							lv_body_17_0,
+							"org.di.unito.yarel.Yarel.Body");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_18=']'
+			{
+				newLeafNode(otherlv_18, grammarAccess.getAtomicParArityOperatorAccess().getRightSquareBracketKeyword_3_5());
+			}
+		)
 	)
 ;
 

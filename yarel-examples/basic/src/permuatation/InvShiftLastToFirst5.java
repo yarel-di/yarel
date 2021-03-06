@@ -61,7 +61,7 @@ public class InvShiftLastToFirst5 implements RPP {
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				this.__f__.b(__x__,
 					__startIndex__ + 5,
-					__startIndex__ + (5) + (2)
+					__startIndex__ + (5) + this.__f__.getA()
 					);
 			}
 		},
@@ -97,7 +97,7 @@ public class InvShiftLastToFirst5 implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 5,
-								__startIndex__ + (5) + (1)
+								__startIndex__ + (5) + this.__f__.getA()
 								);
 						}
 					}
@@ -142,7 +142,7 @@ public class InvShiftLastToFirst5 implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 5,
-								__startIndex__ + (5) + (1)
+								__startIndex__ + (5) + this.__f__.getA()
 								);
 						}
 					}

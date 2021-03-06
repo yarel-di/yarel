@@ -76,7 +76,6 @@ public class InvShiftFirstToLastK_OLD implements RPP {
 								public int getA() { return this.__a__; }
 							},
 							
-							
 							new RPP(){ // BodyDecImpl
 								private RPP __f__ = InvDec.SINGLETON_InvDec;
 								private final int __a__ = __f__.getA();
@@ -85,7 +84,6 @@ public class InvShiftFirstToLastK_OLD implements RPP {
 								}
 								public int getA() { return this.__a__; }
 							}
-							
 						};
 						/*
 						private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
@@ -219,7 +217,7 @@ public class InvShiftFirstToLastK_OLD implements RPP {
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										this.__f__.b(__x__,
 											__startIndex__ + 0 + (1*K),
-											__startIndex__ + (0 + (1*K)) + (1)
+											__startIndex__ + (0 + (1*K)) + this.__f__.getA()
 											);
 									}
 								}
@@ -264,7 +262,7 @@ public class InvShiftFirstToLastK_OLD implements RPP {
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										this.__f__.b(__x__,
 											__startIndex__ + 0 + (1*K),
-											__startIndex__ + (0 + (1*K)) + (1)
+											__startIndex__ + (0 + (1*K)) + this.__f__.getA()
 											);
 									}
 								}
@@ -318,7 +316,7 @@ public class InvShiftFirstToLastK_OLD implements RPP {
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										this.__f__.b(__x__,
 											__startIndex__ + 1,
-											__startIndex__ + (1) + (1)
+											__startIndex__ + (1) + this.__f__.getA()
 											);
 									}
 								},
@@ -380,7 +378,7 @@ public class InvShiftFirstToLastK_OLD implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*K),
-								__startIndex__ + (0 + (1*K)) + (2)
+								__startIndex__ + (0 + (1*K)) + this.__f__.getA()
 								);
 						}
 					}

@@ -28,6 +28,14 @@ import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.SerComp
 import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
 import org.di.unito.yarel.yarel.ParComp
+import org.di.unito.yarel.yarel.BodyInv
+import org.di.unito.yarel.yarel.BodyParamIt
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamInc
+import org.di.unito.yarel.yarel.BodyFun
+import org.di.unito.yarel.yarel.BodyParamDec
+import org.di.unito.yarel.yarel.BodyParamNeg
+import org.di.unito.yarel.yarel.SwapIndexed
 
 class YarelEObjectHoverProvider extends DefaultEObjectHoverProvider implements IEObjectHoverProvider{ 
 	
@@ -76,8 +84,18 @@ class YarelEObjectHoverProvider extends DefaultEObjectHoverProvider implements I
 				The arity of this statement is equals to 1 plus one of its sub-body's arity; in this case that sum is:<br>
 					«YarelUtils.getArity(o)»
 				'''
+			BodyInv:
+				'''
+				Inverts the provided body.
+				'''
 			BodyParamId:
 				'''Does nothing useful, except for spanning over an amount of registers («YarelUtils.getArity(o.arity)» to be precise) and validate the whole sequential block's arity it's in.'''
+			BodyParamInc:
+				'''Parametric increment. Increments some registers («YarelUtils.getArity(o.arity)» to be precise) by an amount specified on its parameter («YarelUtils.getArity(o.paramsAssign)»).'''
+			BodyParamDec:
+				'''Parametric decrement. Decrements some registers («YarelUtils.getArity(o.arity)» to be precise) by an amount specified on its parameter («YarelUtils.getArity(o.paramsAssign)»).'''
+			BodyParamNeg:
+				'''Parametric Negation. Negates the value some registers («YarelUtils.getArity(o.arity)» to be precise), performing the sign inversion by an amount specified on its parameter («YarelUtils.getArity(o.paramsAssign)»).'''
 			BodyParamPerm:
 				'''
 				Applies a permutation, spanning over an amount of registers (specified in curly brackets), plus 1.<br>
@@ -87,8 +105,20 @@ class YarelEObjectHoverProvider extends DefaultEObjectHoverProvider implements I
 				So, the arity of this statement is equals to 1 plus the provided ones:
 					«YarelUtils.getArity(o)»
 				'''
-			BodySwap:{
-				val swapArity = YarelUtils.getArity(o.function.arity);
+			BodyParamIt:
+				'''
+				Parametric iteration. Iterate the body for an amount of times equal to the absolute value of its parameter.
+						The arity is exactly of its body: [«YarelUtils.getArity(o)»].
+				'''
+			BodyParamFor:
+				'''
+				Parametric sign-based iteration. Iterate the body for an amount of times equal to the absolute value of its parameter.
+				If that amount is negative, then the inverse of the body is performed instead.
+				The arity is exactly of its body: [«YarelUtils.getArity(o)»].
+				'''
+			BodySwap: getHoverInfoAsHtml(o.function)
+			SwapIndexed:{
+				val swapArity = YarelUtils.getArity(o.arity);
 				'''
 				Applies a permutation, spanning over an amount of registers (specified in curly brackets), involving at most two indexes.<br>
 				Those indexes are specified in curve brackets.<br>
@@ -98,6 +128,11 @@ class YarelEObjectHoverProvider extends DefaultEObjectHoverProvider implements I
 				If a SRL-like implementation is required, provide an additional register and compose parametric incements/decrements with parametric permutations.
 				'''
 			}
+			BodyFun: 
+				'''
+				Invocation of the function «o.function.funName.name» with <strong>declared</strong> arity [«YarelUtils.getArity(o.function.funName)»].
+				The optional arities and parameters are "given" with the same order as they are placed during invocation.
+				'''
 			Declaration:
 				'''
 				Function declaration:<br>
@@ -135,7 +170,7 @@ class YarelEObjectHoverProvider extends DefaultEObjectHoverProvider implements I
 				Each serial block of code could be defined as a set of sub-blocks that are executed concurrently and indipendently. All parallel sub-blocks must be fully executed before the next serial block can start being executed.
 				A function is defined as a finite sequence of steps. A serial block is one of those.<br>
 				A serial block cannot be performed before the previous ones are completed.<br>
-				A serial block must have the same arity of the function which is defined:<ul>
+				A serial block must have the same arity of the other serial blocks or, if all of those blocks have just a Definition as a parent node, the function which is defined:<ul>
 				<li>current arity:«YarelUtils.getArity(o)»</li>
 				<li>defining function arity: «YarelUtils.getArity(o.getContainerOfType(Definition).declarationName)»</li>
 				</ul>
@@ -150,7 +185,7 @@ class YarelEObjectHoverProvider extends DefaultEObjectHoverProvider implements I
 			'''
 				No documentation available for object; «Objects.toString(o)»
 			'''
-		}
+		}.toString
 	}
 	def programHasNoError(EObject o) {
 		Diagnostician::INSTANCE.validate(EcoreUtil.getRootContainer(o)).children.empty

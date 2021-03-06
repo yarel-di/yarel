@@ -97,11 +97,12 @@ public class TestLessMoreJUnit {
 
 	@Test
 	public void testLessPosEquals() {
-		int m, k = 1, i = 2, j = 4, p = 5, q = 6;
-		int[] exp, regs = { 0, 6, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int m, k = 1, i = 2, j = 4, p = 5, q = 2;
+		int[] exp, regs = { 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 0, 0 };
 		m = regs.length - ADDITIONAL_REGISTERS;
 		exp = Arrays.copyOf(regs, regs.length);
 		exp[k - 1] = 0;
+		exp[(i = m) - 1] = 6;
 		LessThan less;
 		less = new LessThan(m, i, j, p, q, k);
 		less.b(regs);
@@ -222,11 +223,12 @@ public class TestLessMoreJUnit {
 
 	@Test
 	public void testMorePosEquals() {
-		int m, k = 1, i = 2, j = 4, p = 5, q = 6;
-		int[] exp, regs = { 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int m, k = 2, i = -100, j = 4, p = 5, q = 1;
+		int[] exp, regs = { 0, 0, 0, 3, 0, 3, //
+				0, 0, 0, 0, 0, 0 };
 		m = regs.length - ADDITIONAL_REGISTERS;
 		exp = Arrays.copyOf(regs, regs.length);
-		exp[i = m] = 3;
+		exp[(i = m) - 1] = 3;
 		exp[k - 1] = 0;
 		MoreThan less;
 		less = new MoreThan(m, i, j, p, q, k);

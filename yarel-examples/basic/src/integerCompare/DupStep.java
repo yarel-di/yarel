@@ -98,7 +98,6 @@ public class DupStep implements RPP {
 					}
 				},
 				
-				
 				new RPP(){ // BodyForImpl
 					/** regular function used when v > 0 */
 					RPP __function__ = new RPP() { // BodyIncImpl
@@ -142,7 +141,6 @@ public class DupStep implements RPP {
 						__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 					}
 				}
-				
 			};
 			/*
 			private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

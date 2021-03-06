@@ -26,6 +26,7 @@ import java.util.Arrays;
 * <li> {@link parametricStuffs.DecIncr}</li>
 * <li> {@link parametricStuffs.DecIncrDouble}</li>
 * <li> {@link parametricStuffs.IncrAll}</li>
+* <li> {@link parametricStuffs.MultipleParArities}</li>
 * <li> {@link parametricStuffs.ShiftFirstToLastK}</li>
 * <li> {@link parametricStuffs.ShiftLastToFirstK}</li>
 * <li> {@link parametricStuffs.SwapParamHelper}</li>
@@ -75,6 +76,8 @@ public class ParametricStuffsPlayWith {
 		testDecIncrDouble();
 		
 		testIncrAll();
+		
+		testMultipleParArities();
 		
 		testShiftFirstToLastK();
 		
@@ -333,6 +336,34 @@ public class ParametricStuffsPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function incrAll with values:" + Arrays.toString(data));
 			incrAllRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testMultipleParArities(){
+		RPP multipleParAritiesRPP = new parametricStuffs.MultipleParArities();
+		final int[][] datasets = {
+			new int[]{1,5},
+			new int[]{1,5},
+			new int[]{ 0,  0},
+			new int[]{ 1,  1},
+			new int[]{ -1,  -1},
+			new int[]{ 2,  2},
+			new int[]{ -2,  -2},
+			new int[]{ 3,  3},
+			new int[]{ -3,  -3},
+			new int[]{ 4,  4},
+			new int[]{ -4,  -4},
+			new int[]{ 10,  10},
+			new int[]{ -10,  -10},
+			new int[]{ 11,  11},
+			new int[]{ -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function multipleParArities with values:" + Arrays.toString(data));
+			multipleParAritiesRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

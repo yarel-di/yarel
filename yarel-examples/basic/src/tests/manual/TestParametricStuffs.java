@@ -11,6 +11,7 @@ import parametricStuffs.DoubleSwapSomewhere;
 import parametricStuffs.Hello;
 import parametricStuffs.IncrAll;
 import parametricStuffs.InvShiftLastToFirstK;
+import parametricStuffs.MultipleParArities;
 import parametricStuffs.ParamSum;
 import parametricStuffs.ShiftFirstToLastK;
 import parametricStuffs.ShiftLastToFirstK;
@@ -31,6 +32,7 @@ public class TestParametricStuffs {
 		tests.put("testSwapSRLlike", TestParametricStuffs::testSwapSRLlike);
 		tests.put("testDoubleSwapSomewhere", TestParametricStuffs::testDoubleSwapSomewhere);
 		tests.put("testDecIncr_vari", TestParametricStuffs::testDecIncr_vari);
+		tests.put("testMultipleParArities", TestParametricStuffs::testMultipleParArities);
 
 		tests.forEach((name, t) -> {
 			System.out.println("\n\n\n\n\n\n");
@@ -104,23 +106,24 @@ public class TestParametricStuffs {
 		boolean asExpected;
 		int a = 6, b = 4;
 		int[] regs = { //
-				10, 2, 3, 4, 5, //
-				6, 78, 9, 0, -100, // the "0" is required by the swap
-				77, 0, -1, -2, -3, //
-				0, 666, 12 // the first "0" is meant for the second swap
+				10, 2, //
+				3, 4, 5, 6, 78, 9, //
+				-100, 77, //
+				-55, -1, -2, -3, 0, //
+				666, 12 // the first "0" is meant for the second swap
 		};
 		int[] expected = { //
 				9, 2, //
-				3, 6, 5, 4, 78, 9, 0, //
-				-23, 77, //
-				-2, -1, 0, -3, 0, //
-				-666, 22 };
+				3, 6, 5, 4, 78, 9, //
+				54, 77, //
+				-2, -1, -55, -3, 0, //
+				-667, 22 };
 		DoubleSwapSomewhere dss = new DoubleSwapSomewhere(a, b);
 
 		System.out.println("Performing DoubleSwapSomewhere with arity: " + dss.getA());
 		System.out.println("Originally, registers was: " + Arrays.toString(regs));
 		dss.b(regs);
-		System.out.println("now registers are : " + Arrays.toString(regs));
+		System.out.println("now registers are \t: " + Arrays.toString(regs));
 		asExpected = Arrays.equals(regs, expected);
 		System.out.println("Are the expected? " + asExpected);
 		if (!asExpected) {
@@ -183,6 +186,18 @@ public class TestParametricStuffs {
 			System.out.println("registers after the inversion: " + Arrays.toString(regs));
 		}
 		System.out.println("\nfine test inc vari");
+	}
+
+	public static void testMultipleParArities() {
+		int[] regs = { 20, -15, 8, 0, 2, -3, 77 };
+		MultipleParArities m = new MultipleParArities(4, 3, 7, 4);
+		System.out.println("testMultipleParArities");
+		System.out.println("Original registers: " + Arrays.toString(regs));
+		m.b(regs);
+		System.out.println("now registers has : " + Arrays.toString(regs));
+		m.getInverse().b(regs);
+		System.out.println("registers after the inversion: " + Arrays.toString(regs));
+		System.out.println("\nfine testMultipleParArities");
 	}
 
 	static class RPPSupplier {

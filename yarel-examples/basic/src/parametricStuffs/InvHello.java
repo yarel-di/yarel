@@ -63,10 +63,10 @@ public class InvHello implements RPP {
 						public int getA() { return 1 + (1*K); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __arity__ = this.getA(); // "- 1" is removed
-							RPP __f__ = new InvSwap(
+							RPP __f__ = new InvSwap( // Swap itselfwill adjust indexes on arity
 								__arity__, //
-								((2) - 1) % __arity__, // Yarel's indexes are 1-based
-								((4) - 1) % __arity__ //
+								(2), //
+								(4)//
 							);
 							__f__.b(__x__, __startIndex__, __endIndex__);
 						}
@@ -95,7 +95,6 @@ public class InvHello implements RPP {
 								}
 							},
 							
-							
 							new RPP(){ // BodyParamIncImpl
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return -2 + (1*K); }
@@ -106,11 +105,10 @@ public class InvHello implements RPP {
 									__arity__ = this.getA();
 									while(__arity__-->0){
 										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-									} 
+									}
 									}
 								}
 							}
-							
 						};
 						/*
 						private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
@@ -236,7 +234,6 @@ public class InvHello implements RPP {
 								}
 							},
 							
-							
 							new RPP(){ // BodyParamIncImpl
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return -2 + (1*K); }
@@ -247,11 +244,10 @@ public class InvHello implements RPP {
 									__arity__ = this.getA();
 									while(__arity__-->0){
 										this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-									} 
+									}
 									}
 								}
 							}
-							
 						};
 						/*
 						private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

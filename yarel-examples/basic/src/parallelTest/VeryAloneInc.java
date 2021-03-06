@@ -24,7 +24,7 @@ public class VeryAloneInc implements RPP {
 	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 		this.__f__.b(__x__,
 			__startIndex__ + 3,
-			__startIndex__ + (3) + (1)
+			__startIndex__ + (3) + this.__f__.getA()
 			);
 	}
 }

@@ -12,6 +12,7 @@ public class SwapParamHelper implements RPP {
 		this.K = K;
 		// if(Index < 0){ throw new WrongArityException("The parameter \"Index\" cannot be negative: " + Index); }
 		this.Index = Index;
+		
 	}
 	protected SwapParamHelper(){
 		this(1,0);
@@ -59,7 +60,7 @@ public class SwapParamHelper implements RPP {
 								__arity__ = this.getA();
 								while(__arity__-->0){
 									this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-								} 
+								}
 								}
 							}
 						};
@@ -67,7 +68,7 @@ public class SwapParamHelper implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*K),
-								__startIndex__ + (0 + (1*K)) + (1)
+								__startIndex__ + (0 + (1*K)) + this.__f__.getA()
 								);
 						}
 					},
@@ -97,7 +98,7 @@ public class SwapParamHelper implements RPP {
 								__arity__ = this.getA();
 								while(__arity__-->0){
 									this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
-								} 
+								}
 								}
 							}
 						};
@@ -105,7 +106,7 @@ public class SwapParamHelper implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*K),
-								__startIndex__ + (0 + (1*K)) + (1)
+								__startIndex__ + (0 + (1*K)) + this.__f__.getA()
 								);
 						}
 					}

@@ -50,7 +50,7 @@ public class MinH12_original implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0,
-								__startIndex__ + (0) + (1)
+								__startIndex__ + (0) + this.__f__.getA()
 								);
 						}
 					},
@@ -103,7 +103,7 @@ public class MinH12_original implements RPP {
 										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 											this.__f__.b(__x__,
 												__startIndex__ + 2,
-												__startIndex__ + (2) + (2)
+												__startIndex__ + (2) + this.__f__.getA()
 												);
 										}
 									};
@@ -139,7 +139,7 @@ public class MinH12_original implements RPP {
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										this.__f__.b(__x__,
 											__startIndex__ + 4,
-											__startIndex__ + (4) + (1)
+											__startIndex__ + (4) + this.__f__.getA()
 											);
 									}
 								}
@@ -192,7 +192,7 @@ public class MinH12_original implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0,
-								__startIndex__ + (0) + (1)
+								__startIndex__ + (0) + this.__f__.getA()
 								);
 						}
 					},
@@ -214,7 +214,6 @@ public class MinH12_original implements RPP {
 								public int getA() { return this.__a__; }
 							},
 							
-							
 							new RPP(){ // BodyIncImpl
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								private final int __a__ = __f__.getA();
@@ -223,7 +222,6 @@ public class MinH12_original implements RPP {
 								}
 								public int getA() { return this.__a__; }
 							}
-							
 						};
 						/*
 						private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
@@ -377,7 +375,7 @@ public class MinH12_original implements RPP {
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__,
 						__startIndex__ + 3,
-						__startIndex__ + (3) + (2)
+						__startIndex__ + (3) + this.__f__.getA()
 						);
 				}
 			};
@@ -428,7 +426,7 @@ public class MinH12_original implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0,
-								__startIndex__ + (0) + (1)
+								__startIndex__ + (0) + this.__f__.getA()
 								);
 						}
 					},
@@ -473,7 +471,7 @@ public class MinH12_original implements RPP {
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								this.__f__.b(__x__,
 									__startIndex__ + 4,
-									__startIndex__ + (4) + (1)
+									__startIndex__ + (4) + this.__f__.getA()
 									);
 							}
 						};
@@ -516,7 +514,7 @@ public class MinH12_original implements RPP {
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0,
-								__startIndex__ + (0) + (1)
+								__startIndex__ + (0) + this.__f__.getA()
 								);
 						}
 					},
@@ -538,7 +536,6 @@ public class MinH12_original implements RPP {
 								public int getA() { return this.__a__; }
 							},
 							
-							
 							new RPP(){ // BodyIncImpl
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								private final int __a__ = __f__.getA();
@@ -547,7 +544,6 @@ public class MinH12_original implements RPP {
 								}
 								public int getA() { return this.__a__; }
 							}
-							
 						};
 						/*
 						private final AritySupplier[] __startIndexOffsetSuppliers__ = { //

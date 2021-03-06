@@ -17,6 +17,7 @@ import java.util.Arrays;
  * For further informations, check the documentation:
  * <ul>
  * <li> {@link RPP}</li>
+* <li> {@link sorting.SortGrowing}</li>
  * </ul>
  * <p>
  *
@@ -45,8 +46,34 @@ import java.util.Arrays;
 public class SortingPlayWith {
 	
 	public static void main(String[] args) throws Exception {
+		testSortGrowing();
 	}
 	
 	//
 	
+	public static void testSortGrowing(){
+		RPP sortGrowingRPP = new sorting.SortGrowing();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,7,8,9,10,11,5},
+			new int[]{11,10,9,8,7,6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function sortGrowing with values:" + Arrays.toString(data));
+			sortGrowingRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
 }
