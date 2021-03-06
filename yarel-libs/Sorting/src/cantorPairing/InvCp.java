@@ -13,7 +13,7 @@ public class InvCp implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -24,7 +24,7 @@ public class InvCp implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 1
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new arithNat.InvSumN();
 				public int getA() { return __function__.getA(); }
@@ -41,7 +41,7 @@ public class InvCp implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 2
 			RPP __function__ = new funcH12.InvP3();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {

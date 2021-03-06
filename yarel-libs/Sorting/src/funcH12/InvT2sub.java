@@ -13,7 +13,7 @@ public class InvT2sub implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				private RPP __f__ = InvInc.SINGLETON_InvInc;
 				private final int __a__ = __f__.getA();
@@ -31,7 +31,7 @@ public class InvT2sub implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 1
 			private final int __a__ = 2;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -42,7 +42,7 @@ public class InvT2sub implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 2
 			RPP __function__ = new arithNat.InvSubN();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -50,7 +50,7 @@ public class InvT2sub implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 3
 			private final int __a__ = 2;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

@@ -1925,18 +1925,18 @@ ruleAtomicParArityOperator returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_2_2_0());
+						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignParametersAssignmentParserRuleCall_2_2_0());
 					}
-					lv_arity_9_0=ruleAritiesAssignment
+					lv_paramsAssign_9_0=ruleParametersAssignment
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getAtomicParArityOperatorRule());
 						}
 						set(
 							$current,
-							"arity",
-							lv_arity_9_0,
-							"org.di.unito.yarel.Yarel.AritiesAssignment");
+							"paramsAssign",
+							lv_paramsAssign_9_0,
+							"org.di.unito.yarel.Yarel.ParametersAssignment");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -1995,18 +1995,18 @@ ruleAtomicParArityOperator returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_3_2_0());
+						newCompositeNode(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignParametersAssignmentParserRuleCall_3_2_0());
 					}
-					lv_arity_15_0=ruleAritiesAssignment
+					lv_paramsAssign_15_0=ruleParametersAssignment
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getAtomicParArityOperatorRule());
 						}
 						set(
 							$current,
-							"arity",
-							lv_arity_15_0,
-							"org.di.unito.yarel.Yarel.AritiesAssignment");
+							"paramsAssign",
+							lv_paramsAssign_15_0,
+							"org.di.unito.yarel.Yarel.ParametersAssignment");
 						afterParserOrEnumRuleCall();
 					}
 				)

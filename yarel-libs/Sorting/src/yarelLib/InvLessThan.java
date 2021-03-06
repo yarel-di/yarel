@@ -77,7 +77,7 @@ public class InvLessThan implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 0
 						RPP __function__ = new InvDupNumbersStep(
 							0 + (1*M)
 							,
@@ -93,7 +93,7 @@ public class InvLessThan implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 1
 						RPP __pos__=new RPP() {
 							RPP __pos__=new RPP() {
 								RPP __function__ = new InvSameSignYLess(
@@ -239,7 +239,7 @@ public class InvLessThan implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyInvImpl
+					new RPP() { // BodyInvImpl // index: 2
 						RPP __function__ = new DupNumbersStep(
 							0 + (1*M)
 							,

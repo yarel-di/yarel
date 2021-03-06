@@ -123,8 +123,8 @@ AtomicParametricArity returns Body:
 AtomicParArityOperator returns Body:
 	  ({BodyParamPerm}        '/' arity = AritiesAssignment '/') // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
 	| ({BodyParamId} funName='id' arity = AritiesAssignment)
-	| ({BodyParamIt} funName='it' arity = AritiesAssignment  '[' body=Body ']')
-	| ({BodyParamFor} funName='for' arity = AritiesAssignment  '[' body=Body ']')
+	| ({BodyParamIt} funName='it' paramsAssign = ParametersAssignment '[' body=Body ']')
+	| ({BodyParamFor} funName='for' paramsAssign = ParametersAssignment '[' body=Body ']')
 ;
 
 AtomicParametricRepetition returns Body:

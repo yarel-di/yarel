@@ -13,7 +13,7 @@ public class Cu implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -24,7 +24,7 @@ public class Cu implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 1
 			RPP __function__ = new boundedMin.MinH12();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -32,7 +32,7 @@ public class Cu implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 2
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -45,7 +45,7 @@ public class Cu implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyIfImpl
+		new RPP() { // BodyIfImpl // index: 3
 			RPP __pos__=new RPP() {
 				public int getA() { return 4; }
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -88,7 +88,7 @@ public class Cu implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 4
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -101,7 +101,7 @@ public class Cu implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 5
 			private RPP __f__ = new RPP(){
 				private RPP __f__ = Dec.SINGLETON_Dec;
 				private final int __a__ = __f__.getA();
@@ -119,7 +119,7 @@ public class Cu implements RPP {
 			}
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 6
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new funcH12.H12_v2();
 				public int getA() { return __function__.getA(); }
@@ -136,7 +136,7 @@ public class Cu implements RPP {
 			}
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 7
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new arithNat.SubN();
 				public int getA() { return __function__.getA(); }
@@ -153,7 +153,7 @@ public class Cu implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 8
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

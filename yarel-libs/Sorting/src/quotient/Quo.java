@@ -13,7 +13,7 @@ public class Quo implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 6;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -28,7 +28,7 @@ public class Quo implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 1
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new arithNat.SumN();
 				public int getA() { return __function__.getA(); }
@@ -45,7 +45,7 @@ public class Quo implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 2
 			private final int __a__ = 6;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -60,11 +60,11 @@ public class Quo implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyItImpl
+		new RPP() { // BodyItImpl // index: 3
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new QuoStep();
 							public int getA() { return __function__.getA(); }
@@ -81,7 +81,7 @@ public class Quo implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyPermImpl
+					new RPP() { // BodyPermImpl // index: 1
 						private final int __a__ = 5;
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __tmp__=0;
@@ -92,7 +92,7 @@ public class Quo implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 2
 						RPP __pos__=new RPP() {
 							public int getA() { return 4; }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -135,7 +135,7 @@ public class Quo implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyPermImpl
+					new RPP() { // BodyPermImpl // index: 3
 						private final int __a__ = 5;
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __tmp__=0;
@@ -146,10 +146,10 @@ public class Quo implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 4
 						RPP __pos__=new RPP() {
 							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyPermImpl
+								new RPP() { // BodyPermImpl // index: 0
 									private final int __a__ = 4;
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										int __tmp__=0;
@@ -161,7 +161,7 @@ public class Quo implements RPP {
 									public int getA() { return this.__a__; }
 								},
 								
-								new RPP() { // ParCompImpl
+								new RPP() { // ParCompImpl // index: 1
 									private RPP __f__ = new RPP(){
 										RPP __function__ = new arithNat.SumN();
 										public int getA() { return __function__.getA(); }
@@ -178,7 +178,7 @@ public class Quo implements RPP {
 									}
 								},
 								
-								new RPP() { // BodyPermImpl
+								new RPP() { // BodyPermImpl // index: 2
 									private final int __a__ = 4;
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										int __tmp__=0;
@@ -244,7 +244,7 @@ public class Quo implements RPP {
 			// Iteration stop
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 4
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new arithNat.SubN();
 				public int getA() { return __function__.getA(); }
@@ -261,7 +261,7 @@ public class Quo implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 5
 			private final int __a__ = 6;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -273,7 +273,7 @@ public class Quo implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 6
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new arithNat.SumN();
 				public int getA() { return __function__.getA(); }
@@ -290,7 +290,7 @@ public class Quo implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 7
 			private final int __a__ = 6;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

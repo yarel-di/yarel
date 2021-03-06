@@ -63,7 +63,7 @@ public class InvSameSignYMore implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 0
 						RPP __function__ = new InvSubFrom(
 							0 + (1*M)
 							,
@@ -76,7 +76,7 @@ public class InvSameSignYMore implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 1
 						RPP __function__ = new InvSwapSRLlike(
 							2 + (1*M)
 							,
@@ -89,7 +89,7 @@ public class InvSameSignYMore implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 2
 						private RPP __f__ = new RPP(){
 							private final int __a__ = 4;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -109,7 +109,7 @@ public class InvSameSignYMore implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 3
 						RPP __pos__=new RPP() {
 							private RPP __f__ = new RPP(){
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
@@ -148,7 +148,7 @@ public class InvSameSignYMore implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 4
 						private RPP __f__ = new RPP(){
 							private final int __a__ = 4;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -168,7 +168,7 @@ public class InvSameSignYMore implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 5
 						RPP __function__ = new InvSwapSRLlike(
 							2 + (1*M)
 							,
@@ -181,7 +181,7 @@ public class InvSameSignYMore implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 6
 						RPP __function__ = new InvAddFrom(
 							0 + (1*M)
 							,

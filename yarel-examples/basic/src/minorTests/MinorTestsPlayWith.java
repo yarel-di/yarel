@@ -17,7 +17,13 @@ import java.util.Arrays;
  * For further informations, check the documentation:
  * <ul>
  * <li> {@link RPP}</li>
-* <li> {@link minorTests.NegSRL}</li>
+* <li> {@link minorTests.JustASwap}</li>
+* <li> {@link minorTests.JustASwap2}</li>
+* <li> {@link minorTests.ParamInc}</li>
+* <li> {@link minorTests.ParamDec}</li>
+* <li> {@link minorTests.ParamNeg}</li>
+* <li> {@link minorTests.ParamItInc}</li>
+* <li> {@link minorTests.ParamItFor}</li>
  * </ul>
  * <p>
  *
@@ -46,13 +52,25 @@ import java.util.Arrays;
 public class MinorTestsPlayWith {
 	
 	public static void main(String[] args) throws Exception {
-		testNegSRL();
+		testJustASwap();
+		
+		testJustASwap2();
+		
+		testParamInc();
+		
+		testParamDec();
+		
+		testParamNeg();
+		
+		testParamItInc();
+		
+		testParamItFor();
 	}
 	
 	//
 	
-	public static void testNegSRL(){
-		RPP negSRLRPP = new minorTests.NegSRL();
+	public static void testJustASwap(){
+		RPP justASwapRPP = new minorTests.JustASwap();
 		final int[][] datasets = {
 			new int[]{1,5},
 			new int[]{1,5},
@@ -71,8 +89,176 @@ public class MinorTestsPlayWith {
 			new int[]{ -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function negSRL with values:" + Arrays.toString(data));
-			negSRLRPP.b(data);
+			System.out.println("\nTesting the function justASwap with values:" + Arrays.toString(data));
+			justASwapRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testJustASwap2(){
+		RPP justASwap2RPP = new minorTests.JustASwap2();
+		final int[][] datasets = {
+			new int[]{1,2,3,5},
+			new int[]{3,2,1,5},
+			new int[]{ 0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function justASwap2 with values:" + Arrays.toString(data));
+			justASwap2RPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testParamInc(){
+		RPP paramIncRPP = new minorTests.ParamInc();
+		final int[][] datasets = {
+			new int[]{5},
+			new int[]{5},
+			new int[]{ 0},
+			new int[]{ 1},
+			new int[]{ -1},
+			new int[]{ 2},
+			new int[]{ -2},
+			new int[]{ 3},
+			new int[]{ -3},
+			new int[]{ 4},
+			new int[]{ -4},
+			new int[]{ 10},
+			new int[]{ -10},
+			new int[]{ 11},
+			new int[]{ -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function paramInc with values:" + Arrays.toString(data));
+			paramIncRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testParamDec(){
+		RPP paramDecRPP = new minorTests.ParamDec();
+		final int[][] datasets = {
+			new int[]{5},
+			new int[]{5},
+			new int[]{ 0},
+			new int[]{ 1},
+			new int[]{ -1},
+			new int[]{ 2},
+			new int[]{ -2},
+			new int[]{ 3},
+			new int[]{ -3},
+			new int[]{ 4},
+			new int[]{ -4},
+			new int[]{ 10},
+			new int[]{ -10},
+			new int[]{ 11},
+			new int[]{ -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function paramDec with values:" + Arrays.toString(data));
+			paramDecRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testParamNeg(){
+		RPP paramNegRPP = new minorTests.ParamNeg();
+		final int[][] datasets = {
+			new int[]{5},
+			new int[]{5},
+			new int[]{ 0},
+			new int[]{ 1},
+			new int[]{ -1},
+			new int[]{ 2},
+			new int[]{ -2},
+			new int[]{ 3},
+			new int[]{ -3},
+			new int[]{ 4},
+			new int[]{ -4},
+			new int[]{ 10},
+			new int[]{ -10},
+			new int[]{ 11},
+			new int[]{ -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function paramNeg with values:" + Arrays.toString(data));
+			paramNegRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testParamItInc(){
+		RPP paramItIncRPP = new minorTests.ParamItInc();
+		final int[][] datasets = {
+			new int[]{5},
+			new int[]{5},
+			new int[]{ 0},
+			new int[]{ 1},
+			new int[]{ -1},
+			new int[]{ 2},
+			new int[]{ -2},
+			new int[]{ 3},
+			new int[]{ -3},
+			new int[]{ 4},
+			new int[]{ -4},
+			new int[]{ 10},
+			new int[]{ -10},
+			new int[]{ 11},
+			new int[]{ -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function paramItInc with values:" + Arrays.toString(data));
+			paramItIncRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testParamItFor(){
+		RPP paramItForRPP = new minorTests.ParamItFor();
+		final int[][] datasets = {
+			new int[]{5},
+			new int[]{5},
+			new int[]{ 0},
+			new int[]{ 1},
+			new int[]{ -1},
+			new int[]{ 2},
+			new int[]{ -2},
+			new int[]{ 3},
+			new int[]{ -3},
+			new int[]{ 4},
+			new int[]{ -4},
+			new int[]{ 10},
+			new int[]{ -10},
+			new int[]{ 11},
+			new int[]{ -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function paramItFor with values:" + Arrays.toString(data));
+			paramItForRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

@@ -409,8 +409,8 @@ class YarelValidator extends AbstractYarelValidator {
 				BodyParamInc : body.arity
 				BodyParamDec : body.arity
 				BodyParamNeg : body.arity
-				BodyParamIt  : body.arity
-				BodyParamFor : body.arity
+				//BodyParamIt  : body.arity
+				//BodyParamFor : body.arity
 				default:
 					null
 				}
@@ -428,6 +428,8 @@ class YarelValidator extends AbstractYarelValidator {
 				BodyParamInc : body.getParamsAssign()
 				BodyParamDec : body.paramsAssign
 				BodyParamNeg : body.paramsAssign
+				BodyParamIt : body.paramsAssign
+				BodyParamFor : body.paramsAssign
 				default:
 					null
 				}

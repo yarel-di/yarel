@@ -34,11 +34,11 @@ public class InvMinH12_original implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyItImpl
+		new RPP() { // BodyItImpl // index: 0
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new funcH12.InvH12();
 							public int getA() { return __function__.getA(); }
@@ -55,7 +55,7 @@ public class InvMinH12_original implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyPermImpl
+					new RPP() { // BodyPermImpl // index: 1
 						private final int __a__ = 6;
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __tmp__=0;
@@ -69,7 +69,7 @@ public class InvMinH12_original implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 2
 						RPP __pos__=new RPP() {
 							public int getA() { return 5; }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -84,7 +84,7 @@ public class InvMinH12_original implements RPP {
 						};
 						RPP __neg__=new RPP() {
 							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyIfImpl
+								new RPP() { // BodyIfImpl // index: 0
 									RPP __pos__=new RPP() {
 										public int getA() { return 4; }
 										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -126,7 +126,7 @@ public class InvMinH12_original implements RPP {
 									}
 								},
 								
-								new RPP() { // ParCompImpl
+								new RPP() { // ParCompImpl // index: 1
 									private RPP __f__ = new RPP(){
 										private RPP __f__ = InvInc.SINGLETON_InvInc;
 										private final int __a__ = __f__.getA();
@@ -166,7 +166,7 @@ public class InvMinH12_original implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyPermImpl
+					new RPP() { // BodyPermImpl // index: 3
 						private final int __a__ = 6;
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __tmp__=0;
@@ -180,7 +180,7 @@ public class InvMinH12_original implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 4
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new funcH12.H12();
 							public int getA() { return __function__.getA(); }
@@ -197,7 +197,7 @@ public class InvMinH12_original implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 5
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
@@ -205,7 +205,7 @@ public class InvMinH12_original implements RPP {
 						 * The order is preserved from the Yarel source code.
 						*/
 						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyIncImpl
+							new RPP(){ // BodyIncImpl // index: 0
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								private final int __a__ = __f__.getA();
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -214,7 +214,7 @@ public class InvMinH12_original implements RPP {
 								public int getA() { return this.__a__; }
 							},
 							
-							new RPP(){ // BodyIncImpl
+							new RPP(){ // BodyIncImpl // index: 1
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								private final int __a__ = __f__.getA();
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -344,7 +344,7 @@ public class InvMinH12_original implements RPP {
 			// Iteration stop
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 1
 			private final int __a__ = 7;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -356,7 +356,7 @@ public class InvMinH12_original implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyIfImpl
+		new RPP() { // BodyIfImpl // index: 2
 			RPP __pos__=new RPP() {
 				public int getA() { return 6; }
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -398,7 +398,7 @@ public class InvMinH12_original implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 3
 			private final int __a__ = 7;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -410,11 +410,11 @@ public class InvMinH12_original implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyInvImpl
+		new RPP() { // BodyInvImpl // index: 4
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new funcH12.H12();
 							public int getA() { return __function__.getA(); }
@@ -431,7 +431,7 @@ public class InvMinH12_original implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyPermImpl
+					new RPP() { // BodyPermImpl // index: 1
 						private final int __a__ = 6;
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __tmp__=0;
@@ -445,7 +445,7 @@ public class InvMinH12_original implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 2
 						RPP __pos__=new RPP() {
 							public int getA() { return 5; }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -488,7 +488,7 @@ public class InvMinH12_original implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyPermImpl
+					new RPP() { // BodyPermImpl // index: 3
 						private final int __a__ = 6;
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __tmp__=0;
@@ -502,7 +502,7 @@ public class InvMinH12_original implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 4
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new funcH12.InvH12();
 							public int getA() { return __function__.getA(); }
@@ -519,7 +519,7 @@ public class InvMinH12_original implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 5
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
@@ -527,7 +527,7 @@ public class InvMinH12_original implements RPP {
 						 * The order is preserved from the Yarel source code.
 						*/
 						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyIncImpl
+							new RPP(){ // BodyIncImpl // index: 0
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								private final int __a__ = __f__.getA();
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -536,7 +536,7 @@ public class InvMinH12_original implements RPP {
 								public int getA() { return this.__a__; }
 							},
 							
-							new RPP(){ // BodyIncImpl
+							new RPP(){ // BodyIncImpl // index: 1
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								private final int __a__ = __f__.getA();
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -666,7 +666,7 @@ public class InvMinH12_original implements RPP {
 			// Iteration stop
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 5
 			private final int __a__ = 7;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

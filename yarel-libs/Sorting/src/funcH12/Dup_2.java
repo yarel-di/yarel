@@ -13,7 +13,7 @@ public class Dup_2 implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 2;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -24,7 +24,7 @@ public class Dup_2 implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyItImpl
+		new RPP() { // BodyItImpl // index: 1
 			// Iteration start
 			RPP __function__ = new RPP() { // BodyIncImpl
 				private RPP __f__ = Inc.SINGLETON_Inc;
@@ -45,7 +45,7 @@ public class Dup_2 implements RPP {
 			// Iteration stop
 		},
 		
-		new RPP() { // BodyIfImpl
+		new RPP() { // BodyIfImpl // index: 2
 			RPP __pos__=new RPP() {
 				private RPP __f__ = Id.SINGLETON_Id;
 				private final int __a__ = __f__.getA();

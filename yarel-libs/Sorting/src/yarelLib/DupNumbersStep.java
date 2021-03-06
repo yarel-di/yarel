@@ -77,7 +77,7 @@ public class DupNumbersStep implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 0
 						RPP __function__ = new AddFrom(
 							2 + (1*M)
 							,
@@ -90,7 +90,7 @@ public class DupNumbersStep implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 1
 						RPP __function__ = new AddFrom(
 							2 + (1*M)
 							,
@@ -103,7 +103,7 @@ public class DupNumbersStep implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 2
 						RPP __function__ = new SwapSRLlike(
 							4 + (1*M)
 							,
@@ -116,7 +116,7 @@ public class DupNumbersStep implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 3
 						RPP __function__ = new SwapSRLlike(
 							4 + (1*M)
 							,
@@ -129,7 +129,7 @@ public class DupNumbersStep implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 4
 						private RPP __f__ = new RPP(){
 							private final int __a__ = 6;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {

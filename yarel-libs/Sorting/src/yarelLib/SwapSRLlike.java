@@ -56,10 +56,10 @@ public class SwapSRLlike implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyParamIncImpl
+								new RPP() { // BodyParamIncImpl // index: 0
 									private RPP __f__ = Inc.SINGLETON_Inc;
 									public int getA() { return 1; }
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -74,7 +74,7 @@ public class SwapSRLlike implements RPP {
 									}
 								},
 								
-								new RPP() { // BodyParamDecImpl
+								new RPP() { // BodyParamDecImpl // index: 1
 									private RPP __f__ = Dec.SINGLETON_Dec;
 									public int getA() { return 1; }
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -107,7 +107,7 @@ public class SwapSRLlike implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 1
 						RPP __pos__=new RPP() {
 							private RPP __f__ = new RPP(){
 								RPP __function__ = new SwapParamHelper(
@@ -165,10 +165,10 @@ public class SwapSRLlike implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 2
 						private RPP __f__ = new RPP(){
 							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyParamIncImpl
+								new RPP() { // BodyParamIncImpl // index: 0
 									private RPP __f__ = Inc.SINGLETON_Inc;
 									public int getA() { return 1; }
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -183,7 +183,7 @@ public class SwapSRLlike implements RPP {
 									}
 								},
 								
-								new RPP() { // BodyParamDecImpl
+								new RPP() { // BodyParamDecImpl // index: 1
 									private RPP __f__ = Dec.SINGLETON_Dec;
 									public int getA() { return 1; }
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {

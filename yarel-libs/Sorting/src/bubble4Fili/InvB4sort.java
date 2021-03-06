@@ -13,7 +13,7 @@ public class InvB4sort implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 0
 			RPP __function__ = new InvB4sort_p1();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -21,7 +21,7 @@ public class InvB4sort implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 1
 			RPP __function__ = new InvB4sort_p1();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -29,7 +29,7 @@ public class InvB4sort implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 2
 			RPP __function__ = new InvB4sort_p1();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -37,7 +37,7 @@ public class InvB4sort implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 3
 			RPP __function__ = new InvB4sort_p2();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -45,7 +45,7 @@ public class InvB4sort implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 4
 			RPP __function__ = new InvB4sort_p2();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -53,7 +53,7 @@ public class InvB4sort implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 5
 			RPP __function__ = new InvB4sort_p3();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {

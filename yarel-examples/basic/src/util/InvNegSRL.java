@@ -1,22 +1,22 @@
-package minorTests;
+package util;
 import yarelcore.*;	
 
-public class NegSRL implements RPP {
-	public NegSRL() { }
+public class InvNegSRL implements RPP {
+	public InvNegSRL() { }
 	
 	
 	
 
 	
-	public InvNegSRL getInverse(){
-		return new InvNegSRL();
+	public NegSRL getInverse(){
+		return new NegSRL();
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyForImpl
+		new RPP() { // BodyForImpl // index: 0
 			/** regular function used when v > 0 */
 			RPP __function__ = new RPP() { // BodyIncImpl
-				private RPP __f__ = Inc.SINGLETON_Inc;
+				private RPP __f__ = InvInc.SINGLETON_InvInc;
 				private final int __a__ = __f__.getA();
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -26,7 +26,7 @@ public class NegSRL implements RPP {
 			
 			/** inverse function used when v < 0 */
 			RPP __inv_function__ = new RPP() { // InvBodyIncImpl
-				private RPP __f__ = InvInc.SINGLETON_InvInc;
+				private RPP __f__ = Inc.SINGLETON_Inc;
 				private final int __a__ = __f__.getA();
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -57,7 +57,7 @@ public class NegSRL implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 1
 			private final int __a__ = 2;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -68,10 +68,10 @@ public class NegSRL implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyForImpl
+		new RPP() { // BodyForImpl // index: 2
 			/** regular function used when v > 0 */
 			RPP __function__ = new RPP() { // BodyDecImpl
-				private RPP __f__ = Dec.SINGLETON_Dec;
+				private RPP __f__ = InvDec.SINGLETON_InvDec;
 				private final int __a__ = __f__.getA();
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -81,7 +81,7 @@ public class NegSRL implements RPP {
 			
 			/** inverse function used when v < 0 */
 			RPP __inv_function__ = new RPP() { // InvBodyDecImpl
-				private RPP __f__ = InvDec.SINGLETON_InvDec;
+				private RPP __f__ = Dec.SINGLETON_Dec;
 				private final int __a__ = __f__.getA();
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -112,7 +112,7 @@ public class NegSRL implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 3
 			private final int __a__ = 2;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -123,10 +123,10 @@ public class NegSRL implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyForImpl
+		new RPP() { // BodyForImpl // index: 4
 			/** regular function used when v > 0 */
 			RPP __function__ = new RPP() { // BodyIncImpl
-				private RPP __f__ = Inc.SINGLETON_Inc;
+				private RPP __f__ = InvInc.SINGLETON_InvInc;
 				private final int __a__ = __f__.getA();
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -136,7 +136,7 @@ public class NegSRL implements RPP {
 			
 			/** inverse function used when v < 0 */
 			RPP __inv_function__ = new RPP() { // InvBodyIncImpl
-				private RPP __f__ = InvInc.SINGLETON_InvInc;
+				private RPP __f__ = Inc.SINGLETON_Inc;
 				private final int __a__ = __f__.getA();
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					this.__f__.b(__x__, __startIndex__, __endIndex__);
@@ -167,7 +167,7 @@ public class NegSRL implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 5
 			private final int __a__ = 2;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -181,8 +181,8 @@ public class NegSRL implements RPP {
 	public int getA() { return this.__steps__[0].getA(); }
 	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
 		int __i__;
-		__i__ = -1;
-		while( ++__i__ < __steps__.length ){
+		__i__ = __steps__.length;
+		while( __i__-->0 ){
 			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}

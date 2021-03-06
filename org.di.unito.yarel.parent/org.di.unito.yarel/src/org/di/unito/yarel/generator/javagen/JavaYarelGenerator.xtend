@@ -684,9 +684,10 @@ class JavaYarelGenerator implements IGenerator2 {
 				'''
 			}else{
 				'''
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
+					«var stepIndex = 0»
 					«FOR step : serialSubblocksSequence SEPARATOR ",\n"»
-					new RPP() { // «step.class.simpleName»
+					new RPP() { // «step.class.simpleName» // index: «stepIndex++»
 						«compile(step, fwd, hasParallelBlock, declarationArity)»
 					}
 					«ENDFOR»
@@ -773,9 +774,10 @@ class JavaYarelGenerator implements IGenerator2 {
 				 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 				 * The order is preserved from the Yarel source code.
 				*/
-				private final RPP[] __subtasks__ = new RPP[]{
+				private final RPP[] __subtasks__ = new RPP[]{ //
+					«var stepIndex = 0»
 					«FOR subtask : parallelSubBodies SEPARATOR ",\n"»
-						new RPP(){ // «subtask.body.class.simpleName»
+						new RPP(){ // «subtask.body.class.simpleName» // index: «stepIndex++»
 							«compile(subtask.body, fwd, hasParallelBlock, declarationArity)»
 						}
 					«ENDFOR»
@@ -1097,7 +1099,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			RPP __function__ = new RPP() { // «b.body.class.simpleName»
 				«compile(b.body,fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
 			};
-			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.body)»;
+			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.paramsAssign)»;
 			public int getA() {
 				return this.__iterationsAmount__; //__function__.getA();
 			}
@@ -1162,13 +1164,13 @@ class JavaYarelGenerator implements IGenerator2 {
 				(the expression contained in its square brackets)*/
 				compile(b.body, fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
 			};
-			
+				
 			/** inverse function used when v < 0 */
 			RPP __inv_function__ = new RPP() { // Inv«b.body.class.simpleName»
 				«compile(b.body,!fwd, hasParallelBlock, declarationArity)»
 			};
 			
-			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.body)»;
+			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.paramsAssign)»;
 			public int getA() {
 				return this.__iterationsAmount__; //__function__.getA();
 			}

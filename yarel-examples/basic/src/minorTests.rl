@@ -1,13 +1,36 @@
 
 module minorTests {
+		
+	dcl justASwap(I): int, K
+	def justASwap :=
+		id{K}|inc{1}(I)
+		;/{K}/
+		;id{K}|dec{1}(I)
+		
+	dcl justASwap2(I): 3 int, K
+	def justASwap2 :=
+		id{K+2}|inc{1}(I)
+		;id|id|/{K}/
+		;id{K+2}|dec{1}(I)
+		
+		
+	dcl paramInc(Amount) : K
+	def paramInc :=
+		inc{K}(Amount)
 	
-	dcl negSRL : 2 int
-	def negSRL :=
-		// < n, a >
-		for[inc] //n+a,  a
-		;/2 1/   // a ,n+a
-		;for[dec]// -n,n+a
-		;/2 1/   //n+a, -n
-		;for[inc]// a , -n
-		;/2 1/   // -n,  a
+	dcl paramDec(Amount) : K
+	def paramDec :=
+		dec{K}(Amount)
+	
+	dcl paramNeg(Amount) : K
+	def paramNeg :=
+		neg{K}(Amount)
+	
+	dcl paramItInc(Amount) : K
+	def paramItInc :=
+		it(Amount)[inc{K}(1)]
+	
+	dcl paramItFor(Amount) : K
+	def paramItFor :=
+		for(Amount)[inc{K}(1)]
 }

@@ -34,7 +34,7 @@ public class InvSum implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -45,7 +45,7 @@ public class InvSum implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 1
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new util.InvDup();
 				public int getA() { return __function__.getA(); }
@@ -62,7 +62,7 @@ public class InvSum implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 2
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -74,7 +74,7 @@ public class InvSum implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 3
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new util.InvDup();
 				public int getA() { return __function__.getA(); }
@@ -91,7 +91,7 @@ public class InvSum implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 4
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -104,7 +104,7 @@ public class InvSum implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 5
 			private RPP __f__ = new RPP(){
 				RPP __pos__=new RPP() {
 					RPP __pos__=new RPP() {
@@ -122,7 +122,7 @@ public class InvSum implements RPP {
 					};
 					RPP __neg__=new RPP() {
 						private final RPP[] __steps__ = new RPP[]{
-							new RPP() { // ParCompImpl
+							new RPP() { // ParCompImpl // index: 0
 								private RPP __f__ = new RPP(){
 									private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 									private final int __a__ = __f__.getA();
@@ -140,7 +140,7 @@ public class InvSum implements RPP {
 								}
 							},
 							
-							new RPP() { // BodyFunImpl
+							new RPP() { // BodyFunImpl // index: 1
 								RPP __function__ = new arithNat.InvSubN();
 								public int getA() { return __function__.getA(); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -148,7 +148,7 @@ public class InvSum implements RPP {
 								}
 							},
 							
-							new RPP() { // ParCompImpl
+							new RPP() { // ParCompImpl // index: 2
 								private RPP __f__ = new RPP(){
 									private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 									private final int __a__ = __f__.getA();
@@ -196,7 +196,7 @@ public class InvSum implements RPP {
 				RPP __neg__=new RPP() {
 					RPP __pos__=new RPP() {
 						private final RPP[] __steps__ = new RPP[]{
-							new RPP() { // ParCompImpl
+							new RPP() { // ParCompImpl // index: 0
 								private RPP __f__ = new RPP(){
 									private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 									private final int __a__ = __f__.getA();
@@ -214,7 +214,7 @@ public class InvSum implements RPP {
 								}
 							},
 							
-							new RPP() { // BodyFunImpl
+							new RPP() { // BodyFunImpl // index: 1
 								RPP __function__ = new arithNat.InvSubN();
 								public int getA() { return __function__.getA(); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -222,7 +222,7 @@ public class InvSum implements RPP {
 								}
 							},
 							
-							new RPP() { // ParCompImpl
+							new RPP() { // ParCompImpl // index: 2
 								private RPP __f__ = new RPP(){
 									private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 									private final int __a__ = __f__.getA();
@@ -257,7 +257,7 @@ public class InvSum implements RPP {
 					};
 					RPP __neg__=new RPP() {
 						private final RPP[] __steps__ = new RPP[]{
-							new RPP() { // ParCompImpl
+							new RPP() { // ParCompImpl // index: 0
 								/**
 								 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 								 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
@@ -265,7 +265,7 @@ public class InvSum implements RPP {
 								 * The order is preserved from the Yarel source code.
 								*/
 								private final RPP[] __subtasks__ = new RPP[]{
-									new RPP(){ // BodyNegImpl
+									new RPP(){ // BodyNegImpl // index: 0
 										private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 										private final int __a__ = __f__.getA();
 										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -274,7 +274,7 @@ public class InvSum implements RPP {
 										public int getA() { return this.__a__; }
 									},
 									
-									new RPP(){ // BodyNegImpl
+									new RPP(){ // BodyNegImpl // index: 1
 										private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 										private final int __a__ = __f__.getA();
 										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -384,7 +384,7 @@ public class InvSum implements RPP {
 								}
 							},
 							
-							new RPP() { // BodyFunImpl
+							new RPP() { // BodyFunImpl // index: 1
 								RPP __function__ = new arithNat.InvSumN();
 								public int getA() { return __function__.getA(); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -392,7 +392,7 @@ public class InvSum implements RPP {
 								}
 							},
 							
-							new RPP() { // ParCompImpl
+							new RPP() { // ParCompImpl // index: 2
 								/**
 								 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 								 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
@@ -400,7 +400,7 @@ public class InvSum implements RPP {
 								 * The order is preserved from the Yarel source code.
 								*/
 								private final RPP[] __subtasks__ = new RPP[]{
-									new RPP(){ // BodyNegImpl
+									new RPP(){ // BodyNegImpl // index: 0
 										private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 										private final int __a__ = __f__.getA();
 										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -409,7 +409,7 @@ public class InvSum implements RPP {
 										public int getA() { return this.__a__; }
 									},
 									
-									new RPP(){ // BodyNegImpl
+									new RPP(){ // BodyNegImpl // index: 1
 										private RPP __f__ = InvNeg.SINGLETON_InvNeg;
 										private final int __a__ = __f__.getA();
 										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -561,7 +561,7 @@ public class InvSum implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 6
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -572,7 +572,7 @@ public class InvSum implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 7
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new util.Dup();
 				public int getA() { return __function__.getA(); }

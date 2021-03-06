@@ -13,7 +13,7 @@ public class H12 implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -24,7 +24,7 @@ public class H12 implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 1
 			RPP __function__ = new T3sub();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -32,7 +32,7 @@ public class H12 implements RPP {
 			}
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 2
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new InvDup_2();
 				public int getA() { return __function__.getA(); }
@@ -49,7 +49,7 @@ public class H12 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 3
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

@@ -4954,9 +4954,9 @@ rule__AtomicParArityOperator__Group_2__2__Impl
 	}
 :
 (
-	{ before(grammarAccess.getAtomicParArityOperatorAccess().getArityAssignment_2_2()); }
-	(rule__AtomicParArityOperator__ArityAssignment_2_2)
-	{ after(grammarAccess.getAtomicParArityOperatorAccess().getArityAssignment_2_2()); }
+	{ before(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignAssignment_2_2()); }
+	(rule__AtomicParArityOperator__ParamsAssignAssignment_2_2)
+	{ after(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignAssignment_2_2()); }
 )
 ;
 finally {
@@ -5116,9 +5116,9 @@ rule__AtomicParArityOperator__Group_3__2__Impl
 	}
 :
 (
-	{ before(grammarAccess.getAtomicParArityOperatorAccess().getArityAssignment_3_2()); }
-	(rule__AtomicParArityOperator__ArityAssignment_3_2)
-	{ after(grammarAccess.getAtomicParArityOperatorAccess().getArityAssignment_3_2()); }
+	{ before(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignAssignment_3_2()); }
+	(rule__AtomicParArityOperator__ParamsAssignAssignment_3_2)
+	{ after(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignAssignment_3_2()); }
 )
 ;
 finally {
@@ -6940,15 +6940,15 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__AtomicParArityOperator__ArityAssignment_2_2
+rule__AtomicParArityOperator__ParamsAssignAssignment_2_2
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_2_2_0()); }
-		ruleAritiesAssignment
-		{ after(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_2_2_0()); }
+		{ before(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignParametersAssignmentParserRuleCall_2_2_0()); }
+		ruleParametersAssignment
+		{ after(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignParametersAssignmentParserRuleCall_2_2_0()); }
 	)
 ;
 finally {
@@ -6989,15 +6989,15 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__AtomicParArityOperator__ArityAssignment_3_2
+rule__AtomicParArityOperator__ParamsAssignAssignment_3_2
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_3_2_0()); }
-		ruleAritiesAssignment
-		{ after(grammarAccess.getAtomicParArityOperatorAccess().getArityAritiesAssignmentParserRuleCall_3_2_0()); }
+		{ before(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignParametersAssignmentParserRuleCall_3_2_0()); }
+		ruleParametersAssignment
+		{ after(grammarAccess.getAtomicParArityOperatorAccess().getParamsAssignParametersAssignmentParserRuleCall_3_2_0()); }
 	)
 ;
 finally {

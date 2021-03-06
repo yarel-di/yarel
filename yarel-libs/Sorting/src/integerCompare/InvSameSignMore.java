@@ -13,7 +13,7 @@ public class InvSameSignMore implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				/** regular function used when v > 0 */
 				RPP __function__ = new RPP() { // BodyDecImpl
@@ -66,7 +66,7 @@ public class InvSameSignMore implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 1
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -77,7 +77,7 @@ public class InvSameSignMore implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyIfImpl
+		new RPP() { // BodyIfImpl // index: 2
 			RPP __pos__=new RPP() {
 				private RPP __f__ = new RPP(){
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
@@ -120,7 +120,7 @@ public class InvSameSignMore implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 3
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -131,7 +131,7 @@ public class InvSameSignMore implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 4
 			private RPP __f__ = new RPP(){
 				/** regular function used when v > 0 */
 				RPP __function__ = new RPP() { // BodyIncImpl

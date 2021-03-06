@@ -13,7 +13,7 @@ public class MulN implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -25,7 +25,7 @@ public class MulN implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyItImpl
+		new RPP() { // BodyItImpl // index: 1
 			// Iteration start
 			RPP __function__ = new RPP() { // BodyFunImpl
 				RPP __function__ = new SumN();

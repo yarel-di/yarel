@@ -34,7 +34,7 @@ public class DisStepN implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 0
 			/**
 			 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 			 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
@@ -42,7 +42,7 @@ public class DisStepN implements RPP {
 			 * The order is preserved from the Yarel source code.
 			*/
 			private final RPP[] __subtasks__ = new RPP[]{
-				new RPP(){ // BodyFunImpl
+				new RPP(){ // BodyFunImpl // index: 0
 					RPP __function__ = new SubN();
 					public int getA() { return __function__.getA(); }
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -50,7 +50,7 @@ public class DisStepN implements RPP {
 					}
 				},
 				
-				new RPP(){ // BodyIncImpl
+				new RPP(){ // BodyIncImpl // index: 1
 					private RPP __f__ = Inc.SINGLETON_Inc;
 					private final int __a__ = __f__.getA();
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -160,7 +160,7 @@ public class DisStepN implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 1
 			private final int __a__ = 4;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -173,7 +173,7 @@ public class DisStepN implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 2
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new DisSelN();
 				public int getA() { return __function__.getA(); }
@@ -190,7 +190,7 @@ public class DisStepN implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 3
 			private final int __a__ = 4;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

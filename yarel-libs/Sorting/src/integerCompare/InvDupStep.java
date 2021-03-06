@@ -34,7 +34,7 @@ public class InvDupStep implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -46,7 +46,7 @@ public class InvDupStep implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 1
 			/**
 			 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 			 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
@@ -54,7 +54,7 @@ public class InvDupStep implements RPP {
 			 * The order is preserved from the Yarel source code.
 			*/
 			private final RPP[] __subtasks__ = new RPP[]{
-				new RPP(){ // BodyForImpl
+				new RPP(){ // BodyForImpl // index: 0
 					/** regular function used when v > 0 */
 					RPP __function__ = new RPP() { // BodyIncImpl
 						private RPP __f__ = InvInc.SINGLETON_InvInc;
@@ -98,7 +98,7 @@ public class InvDupStep implements RPP {
 					}
 				},
 				
-				new RPP(){ // BodyForImpl
+				new RPP(){ // BodyForImpl // index: 1
 					/** regular function used when v > 0 */
 					RPP __function__ = new RPP() { // BodyIncImpl
 						private RPP __f__ = InvInc.SINGLETON_InvInc;
@@ -243,7 +243,7 @@ public class InvDupStep implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 2
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

@@ -63,7 +63,7 @@ public class Mult implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 0
 						RPP __function__ = new SwapSRLlike(
 							2 + (1*M)
 							,
@@ -76,7 +76,7 @@ public class Mult implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 1
 						RPP __function__ = new SwapSRLlike(
 							2 + (1*M)
 							,
@@ -89,7 +89,7 @@ public class Mult implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 2
 						private RPP __f__ = new RPP(){
 							private final int __a__ = 4;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -112,7 +112,7 @@ public class Mult implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyItImpl
+					new RPP() { // BodyItImpl // index: 3
 						// Iteration start
 						RPP __function__ = new RPP() { // BodyItImpl
 							// Iteration start
@@ -154,7 +154,7 @@ public class Mult implements RPP {
 						// Iteration stop
 					},
 					
-					new RPP() { // BodyIfImpl
+					new RPP() { // BodyIfImpl // index: 4
 						RPP __pos__=new RPP() {
 							RPP __pos__=new RPP() {
 								public int getA() { return 2 + (1*M); }
@@ -269,7 +269,7 @@ public class Mult implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 5
 						private RPP __f__ = new RPP(){
 							private final int __a__ = 4;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -292,7 +292,7 @@ public class Mult implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 6
 						RPP __function__ = new SwapSRLlike(
 							2 + (1*M)
 							,
@@ -305,7 +305,7 @@ public class Mult implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 7
 						RPP __function__ = new SwapSRLlike(
 							2 + (1*M)
 							,

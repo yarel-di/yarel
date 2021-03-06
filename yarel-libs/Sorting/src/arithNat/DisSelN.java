@@ -14,7 +14,7 @@ public class DisSelN implements RPP {
 	
 	RPP __pos__=new RPP() {
 		private final RPP[] __steps__ = new RPP[]{
-			new RPP() { // BodyIfImpl
+			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = Id.SINGLETON_Id;
 					private final int __a__ = __f__.getA();
@@ -52,7 +52,7 @@ public class DisSelN implements RPP {
 				}
 			},
 			
-			new RPP() { // ParCompImpl
+			new RPP() { // ParCompImpl // index: 1
 				public int getA() { return 2; }
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					// There were only parallels identities, nothing interesting to show and run
@@ -70,7 +70,7 @@ public class DisSelN implements RPP {
 	};
 	RPP __zero__=new RPP() {
 		private final RPP[] __steps__ = new RPP[]{
-			new RPP() { // BodyIfImpl
+			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = Id.SINGLETON_Id;
 					private final int __a__ = __f__.getA();
@@ -108,7 +108,7 @@ public class DisSelN implements RPP {
 				}
 			},
 			
-			new RPP() { // ParCompImpl
+			new RPP() { // ParCompImpl // index: 1
 				private RPP __f__ = new RPP(){
 					private RPP __f__ = Inc.SINGLETON_Inc;
 					private final int __a__ = __f__.getA();
@@ -137,7 +137,7 @@ public class DisSelN implements RPP {
 	};
 	RPP __neg__=new RPP() {
 		private final RPP[] __steps__ = new RPP[]{
-			new RPP() { // BodyIfImpl
+			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = Dec.SINGLETON_Dec;
 					private final int __a__ = __f__.getA();
@@ -175,7 +175,7 @@ public class DisSelN implements RPP {
 				}
 			},
 			
-			new RPP() { // ParCompImpl
+			new RPP() { // ParCompImpl // index: 1
 				private RPP __f__ = new RPP(){
 					private RPP __f__ = Inc.SINGLETON_Inc;
 					private final int __a__ = __f__.getA();

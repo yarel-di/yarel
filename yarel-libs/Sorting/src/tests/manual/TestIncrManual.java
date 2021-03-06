@@ -8,6 +8,7 @@ import yarelLib.Increment;
 public class TestIncrManual {
 
 	public static void main(String[] args) {
+		boolean correct;
 		final int m = 7;
 		int[] regs;
 		Increment inc;
@@ -37,12 +38,15 @@ public class TestIncrManual {
 		};
 		System.out.println("START\n\n\n");
 		for (ExpectationsTest et : expecteds) {
-			System.out.println("\n\nstart new test: " + et.toString());
 			inc = new Increment(m, et.i, et.j);
 			regs = TestIncrDecrJunit.newRegs();
 			inc.b(regs);
-			System.out.println("got: " + Arrays.toString(regs));
-			System.out.println("\tis expected? " + (regs[(et.i - 1) % m] == et.expectedValue));
+			correct = (regs[(et.i - 1) % m] == et.expectedValue);
+			if (!correct) {
+				System.out.println("\n\nstart new test: " + et.toString());
+				System.out.println("got: " + Arrays.toString(regs));
+				System.out.println("\tis expected? false");
+			}
 		}
 		System.out.println("\n\n\nEND");
 	}

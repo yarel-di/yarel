@@ -2,7 +2,7 @@ package tests.manual;
 
 import java.util.Arrays;
 
-import minorTests.NegSRL;
+import util.NegSRL;
 
 public class TestNegSRL {
 

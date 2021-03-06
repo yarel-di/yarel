@@ -34,7 +34,7 @@ public class InvDup implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -46,7 +46,7 @@ public class InvDup implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyItImpl
+		new RPP() { // BodyItImpl // index: 1
 			// Iteration start
 			RPP __function__ = new RPP() { // ParCompImpl
 				/**
@@ -56,7 +56,7 @@ public class InvDup implements RPP {
 				 * The order is preserved from the Yarel source code.
 				*/
 				private final RPP[] __subtasks__ = new RPP[]{
-					new RPP(){ // BodyDecImpl
+					new RPP(){ // BodyDecImpl // index: 0
 						private RPP __f__ = InvDec.SINGLETON_InvDec;
 						private final int __a__ = __f__.getA();
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -65,7 +65,7 @@ public class InvDup implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP(){ // BodyIncImpl
+					new RPP(){ // BodyIncImpl // index: 1
 						private RPP __f__ = InvInc.SINGLETON_InvInc;
 						private final int __a__ = __f__.getA();
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -185,7 +185,7 @@ public class InvDup implements RPP {
 			// Iteration stop
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 2
 			private RPP __f__ = new RPP(){
 				// Iteration start
 				RPP __function__ = new RPP() { // BodyIncImpl
@@ -215,7 +215,7 @@ public class InvDup implements RPP {
 			}
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 3
 			private RPP __f__ = new RPP(){
 				RPP __pos__=new RPP() {
 					private RPP __f__ = InvId.SINGLETON_InvId;
@@ -262,7 +262,7 @@ public class InvDup implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 4
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

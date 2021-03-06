@@ -13,7 +13,7 @@ public class InvCu implements RPP {
 		return new Cu();
 	}
 
-	private final RPP[] __steps__ = new RPP[] { new RPP() { // BodyPermImpl
+	private final RPP[] __steps__ = new RPP[] { new RPP() { // BodyPermImpl // index: 0
 		private final int __a__ = 5;
 
 		@Override
@@ -30,7 +30,7 @@ public class InvCu implements RPP {
 		}
 	},
 
-			new RPP() { // BodyFunImpl
+			new RPP() { // BodyFunImpl // index: 1
 				RPP __function__ = new boundedMin.InvMinH12();
 
 				@Override
@@ -44,7 +44,7 @@ public class InvCu implements RPP {
 				}
 			},
 
-			new RPP() { // BodyPermImpl
+			new RPP() { // BodyPermImpl // index: 2
 				private final int __a__ = 5;
 
 				@Override
@@ -63,7 +63,7 @@ public class InvCu implements RPP {
 				}
 			},
 
-			new RPP() { // BodyIfImpl
+			new RPP() { // BodyIfImpl // index: 3
 				RPP __pos__ = new RPP() {
 					@Override
 					public int getA() {
@@ -131,7 +131,7 @@ public class InvCu implements RPP {
 				}
 			},
 
-			new RPP() { // BodyPermImpl
+			new RPP() { // BodyPermImpl // index: 4
 				private final int __a__ = 5;
 
 				@Override
@@ -150,7 +150,7 @@ public class InvCu implements RPP {
 				}
 			},
 
-			new RPP() { // ParCompImpl
+			new RPP() { // ParCompImpl // index: 5
 				private RPP __f__ = new RPP() {
 					private RPP __f__ = InvDec.SINGLETON_InvDec;
 					private final int __a__ = __f__.getA();
@@ -177,7 +177,7 @@ public class InvCu implements RPP {
 				}
 			},
 
-			new RPP() { // ParCompImpl
+			new RPP() { // ParCompImpl // index: 6
 				private RPP __f__ = new RPP() {
 					RPP __function__ = new funcH12.InvH12_v2();
 
@@ -203,7 +203,7 @@ public class InvCu implements RPP {
 				}
 			},
 
-			new RPP() { // ParCompImpl
+			new RPP() { // ParCompImpl // index: 7
 				private RPP __f__ = new RPP() {
 					RPP __function__ = new arithNat.InvSubN();
 
@@ -229,7 +229,7 @@ public class InvCu implements RPP {
 				}
 			},
 
-			new RPP() { // BodyPermImpl
+			new RPP() { // BodyPermImpl // index: 8
 				private final int __a__ = 5;
 
 				@Override
@@ -261,4 +261,5 @@ public class InvCu implements RPP {
 		__x__[__startIndex__] = CP_InvCU.cp(__x__[__startIndex__], __x__[__startIndex__ + 1]);
 		__x__[__startIndex__ + 1] = 0;
 	}
+
 }

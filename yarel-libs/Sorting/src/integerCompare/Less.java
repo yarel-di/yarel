@@ -13,7 +13,7 @@ public class Less implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // BodyFunImpl
+		new RPP() { // BodyFunImpl // index: 0
 			RPP __function__ = new DupStep();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -21,7 +21,7 @@ public class Less implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyIfImpl
+		new RPP() { // BodyIfImpl // index: 1
 			RPP __pos__=new RPP() {
 				RPP __pos__=new RPP() {
 					RPP __function__ = new SameSignLess();
@@ -163,7 +163,7 @@ public class Less implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyInvImpl
+		new RPP() { // BodyInvImpl // index: 2
 			RPP __function__ = new InvDupStep();
 			public int getA() { return __function__.getA(); }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {

@@ -5,14 +5,14 @@ import java.util.Arrays;
 import sorting.SortGrowing;
 
 public class TestSort {
-	static final int[] DATASET = { 4, 0, 3, -2, 8, 1, 6, 5, 7, 6, -12, 0, 10, 77, -4 };
+	static final int[] DATASET = { 4, 0, 3, -2, 8, 1, 6, -5, 5, 7, 6, -12, 0, 10, 77, -4 };
 
 	public static void main(String[] args) {
 		int k, support;
 		int[] r;
 		SortGrowing sorter;
 		support = 11; // because SortGrowing needs them
-		k = 10;
+		k = 12;
 		r = new int[k + support];
 		for (int i = 0; i < k; i++) {
 			r[i] = DATASET[i];

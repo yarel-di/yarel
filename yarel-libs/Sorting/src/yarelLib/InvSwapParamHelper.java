@@ -49,7 +49,7 @@ public class InvSwapParamHelper implements RPP {
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
 				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							private RPP __f__ = InvInc.SINGLETON_InvInc;
 							public int getA() { return 1; }
@@ -73,7 +73,7 @@ public class InvSwapParamHelper implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyParamPermImpl
+					new RPP() { // BodyParamPermImpl // index: 1
 						public int getA() { return 1 + 0 + (1*K); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							final int __permutArity__ = this.getA() - 1;
@@ -87,7 +87,7 @@ public class InvSwapParamHelper implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 2
 						private RPP __f__ = new RPP(){
 							private RPP __f__ = InvDec.SINGLETON_InvDec;
 							public int getA() { return 1; }

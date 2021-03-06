@@ -115,7 +115,9 @@ public class TestCompareJunit {
 		errorsAmount = 0;
 		for (IntCompTest t : tests) {
 //			allOk &= 
-			errorsAmount += test(t) ? 0 : 1;
+			if (!test(t)) {
+				errorsAmount++;
+			}
 		}
 //		assertTrue(allOk);
 		assertEquals(0, errorsAmount);

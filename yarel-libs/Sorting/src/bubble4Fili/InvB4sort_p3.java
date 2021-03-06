@@ -13,7 +13,7 @@ public class InvB4sort_p3 implements RPP {
 	}
 	
 	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new cantorPairing.InvCu();
 				public int getA() { return __function__.getA(); }
@@ -30,7 +30,7 @@ public class InvB4sort_p3 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 1
 			private final int __a__ = 10;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -44,7 +44,7 @@ public class InvB4sort_p3 implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 2
 			private final int __a__ = 10;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -61,7 +61,7 @@ public class InvB4sort_p3 implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 3
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new integerCompare.InvMore();
 				public int getA() { return __function__.getA(); }
@@ -78,7 +78,7 @@ public class InvB4sort_p3 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 4
 			private final int __a__ = 10;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -95,7 +95,7 @@ public class InvB4sort_p3 implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 5
 			private RPP __f__ = new RPP(){
 				RPP __pos__=new RPP() {
 					private final int __a__ = 4;
@@ -140,7 +140,7 @@ public class InvB4sort_p3 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 6
 			private final int __a__ = 10;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -157,7 +157,7 @@ public class InvB4sort_p3 implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 7
 			private final int __a__ = 10;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -171,7 +171,7 @@ public class InvB4sort_p3 implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 8
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new cantorPairing.Cu();
 				public int getA() { return __function__.getA(); }
@@ -188,7 +188,7 @@ public class InvB4sort_p3 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 9
 			private final int __a__ = 10;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
