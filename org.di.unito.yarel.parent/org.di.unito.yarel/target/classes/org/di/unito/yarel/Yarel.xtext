@@ -36,11 +36,13 @@ QualifiedName:
 QualifiedNameWithWildcard:
     ID ('.' ID)* '.' (ID | '*');  //Changed by Matteo Palazzo
 
+/* FUNCTION DECLARATION & DEFINITION */
+
 Declaration:
 	'dcl' name=ID 
-	( '(' invocParamsSignat = InvocationParametersSignature ')')?
-	':'
 	aritySignature = AritySignature
+	( '(' invocParamsSignat = InvocationParametersSignature ')')?
+	( parametersConstraint = ParamConstraintList)?
 ;
 
 InvocationParametersSignature:
@@ -48,6 +50,8 @@ InvocationParametersSignature:
 ;
 
 AritySignature:
+	'{'
+	(
 	  (types += Type (',' types+=Type)*)
 	| (parametricArities += ParamName (',' parametricArities += ParamName)* )
 	| (
@@ -55,6 +59,8 @@ AritySignature:
 		','
 		parametricArities += ParamName (',' parametricArities += ParamName)*
 		)
+	)
+	'}'
 ;
 
 Type:
@@ -66,8 +72,6 @@ ParamName: // "int" type assumed
 Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;
 
-Body: SerComp;
-
 AritiesAssignment:
 	'{' arities += ParametricArity ((',' arities+=ParametricArity)*) '}'
 ;
@@ -76,6 +80,39 @@ ParametersAssignment:
 	'(' parameters += ParametricArity (',' parameters+=ParametricArity)* ')'
 ;
 
+
+/* CONTSTRAINTS */
+
+ParamConstraintList:
+	':' constraints += ParamConstraint (',' constraints += ParamConstraint)*
+;
+
+
+ParamConstraint:
+	  ({ParamConstrPositive} constrName='positive' '(' paramName = ParamName')')
+	| (
+		{ParamConstrDistinct} constrName='distinct' '('
+			paramName = ParamName
+			',' arityParamName = ParamName
+		')'
+	)
+	
+	| (
+		{ParamConstrBound} constrName='bound' '('
+			paramName = ParamName
+			',' arityParamName = ParamName
+			(',' 'lowerBound' '=' baseIndex=('0-based'|'yarel'))? // yarel == "1-based", default: 'yarel'
+			(',' 'upperBound' '=' upperInclusivity=('incl'|'excl'))?
+		')' // 0 <= paramName <= arityParamName
+	  )
+//	| (
+//		TODO: expressions, like: `(A+B) < K` or `(A % 2) == 0`
+//	) 
+;
+
+/* BODY FUNCTION */
+
+Body: SerComp;
 
 SerComp returns Body:
 	ParComp ({SerComp.left=current} ';' right=ParComp)*;
