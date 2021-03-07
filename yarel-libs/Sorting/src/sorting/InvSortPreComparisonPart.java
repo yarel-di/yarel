@@ -37,7 +37,7 @@ public class InvSortPreComparisonPart implements RPP {
 	protected void checkTheWholeBody(){
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							private RPP __f__ = InvInc.SINGLETON_InvInc;

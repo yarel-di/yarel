@@ -4,15 +4,15 @@ import java.util.concurrent.Executors;
 // import java.util.function.Supplier;
 import yarelcore.*;	
 
-public class SortGrowing implements RPP {
-	public SortGrowing(//arities:
+public class SortUnGrowing implements RPP {
+	public SortUnGrowing(//arities:
 		int K
 		){
 		this.__fixedRegistersAmount__ = 11;
 		if(K < 0){ throw new WrongArityException("The arity \"K\" cannot be negative: " + K); }
 		this.K = K;
 	}
-	protected SortGrowing(){
+	protected SortUnGrowing(){
 		this(1);
 	}
 	
@@ -33,17 +33,17 @@ public class SortGrowing implements RPP {
 	*/
 	protected ExecutorService __threadPoolExecutor__ = Executors.newWorkStealingPool(); // needed for parallel computation
 	protected void finalize(){
-		this.destructorSortGrowing();
+		this.destructorSortUnGrowing();
 	}
-	protected void destructorSortGrowing(){
+	protected void destructorSortUnGrowing(){
 		if(__threadPoolExecutor__ != null){
 			// __threadPoolExecutor__.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
 			__threadPoolExecutor__ = null; // mark it as shut-down
 		}
 	}
 	
-	public InvSortGrowing getInverse(){
-		return new InvSortGrowing(this.K);
+	public InvSortUnGrowing getInverse(){
+		return new InvSortUnGrowing(this.K);
 	}
 	
 	public int getA() {
@@ -269,7 +269,7 @@ public class SortGrowing implements RPP {
 											
 											new RPP() { // ParCompImpl // index: 3
 												private RPP __f__ = new RPP(){
-													RPP __function__ = new integerCompare.More();
+													RPP __function__ = new integerCompare.Less();
 													public int getA() { return __function__.getA(); }
 													public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 														this.__function__.b(__x__, __startIndex__, __endIndex__);

@@ -1,7 +1,5 @@
 package integerCompare;
 
-import java.util.Arrays;
-
 import yarelcore.Inc;
 import yarelcore.RPP;
 
@@ -275,10 +273,10 @@ public class More implements RPP {
 	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
 		int __i__;
 		__i__ = -1;
-		System.out.println("BEFORE more: " + Arrays.toString(__x__));
+//		System.out.println("BEFORE more: " + Arrays.toString(__x__));
 		while (++__i__ < __steps__.length) {
 			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
-		System.out.println("after more : " + Arrays.toString(__x__));
+//		System.out.println("after more : " + Arrays.toString(__x__));
 	}
 }
