@@ -4,21 +4,27 @@ import yarelcore.*;
 public class OneDecInMiddle implements RPP {
 	public OneDecInMiddle() { }
 	
+	
+	
+
+	
 	public InvOneDecInMiddle getInverse(){
 		return new InvOneDecInMiddle();
 	}
 	
-	private RPP f = new RPP(){
-		private RPP f = Dec.SINGLETON_Dec;
-		private final int a = f.getA();
-		public void b(int[] x, int startIndex, int endIndex) {
-			this.f.b(x, startIndex, endIndex);
+	private RPP __f__ = new RPP(){
+		private RPP __f__ = Dec.SINGLETON_Dec;
+		private final int __a__ = __f__.getA();
+		public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+			this.__f__.b(__x__, __startIndex__, __endIndex__);
 		}
-		public int getA() { return this.a; }
+		public int getA() { return this.__a__; }
 	};
-	private final int a = 3 ;
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) {
-		this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+	public int getA() { return 3; }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+		this.__f__.b(__x__,
+			__startIndex__ + 1,
+			__startIndex__ + (1) + this.__f__.getA()
+			);
 	}
 }

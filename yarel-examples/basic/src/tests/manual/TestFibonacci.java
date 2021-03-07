@@ -18,6 +18,7 @@ public class TestFibonacci {
 	}
 
 	public static void main(String[] args) {
+		int fibReal;
 		int[] registers = new int[4];
 		Fibonacci fibYarel = new Fibonacci();
 		RPP fibYarelInv = fibYarel.getInverse();
@@ -25,8 +26,10 @@ public class TestFibonacci {
 		for (int i = 0; i <= 40; i++) {
 			registers[0] = i;
 			fibYarel.b(registers);
+			fibReal = fib(i);
 			System.out.println();
-			System.out.println(i + " -> " + fib(i) + ", computed: " + Arrays.toString(registers));
+			System.out.println(i + " -> " + fibReal + ", computed: " + Arrays.toString(registers) + " equal? : "
+					+ (fibReal == registers[1]));
 			fibYarelInv.b(registers);
 			System.out.println("\t inverted " + Arrays.toString(registers));
 		}

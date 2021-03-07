@@ -4,71 +4,70 @@ import yarelcore.*;
 public class InvMultiplication implements RPP {
 	public InvMultiplication() { }
 	
+	
+	
+
+	
 	public Multiplication getInverse(){
 		return new Multiplication();
 	}
 	
-	private final RPP[] steps = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{
 		new RPP() { // BodyFunImpl
-			RPP function = new InvPermutation();
-			private final int a = function.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.function.b(x, startIndex, endIndex);
+			RPP __function__ = new InvPermutation();
+			public int getA() { return __function__.getA(); }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
 			}
-			 public int getA() { return this.a; }
 		},
 		
 		new RPP() { // BodyItImpl
 			// Iteration start
-			RPP function = new RPP() { // BodyItImpl
+			RPP __function__ = new RPP() { // BodyItImpl
 				// Iteration start
-				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = InvInc.SINGLETON_InvInc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+				RPP __function__ = new RPP() { // BodyIncImpl
+					private RPP __f__ = InvInc.SINGLETON_InvInc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
-				private final int a = function.getA()+1;
-				public void b(int[] x, int startIndex, int endIndex) {
-					int endIndexBody = (startIndex + a) - 1;
-					int iterationsLeft = Math.abs(x[endIndexBody]);
-					while(iterationsLeft-->0){
-						function.b(x, startIndex, endIndexBody);
+				public int getA() { return __function__.getA()+1; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+					int __iterationsLeft__ = Math.abs(__x__[__endIndexBody__]);
+					while(__iterationsLeft__-->0){
+						__function__.b(__x__, __startIndex__, __endIndexBody__);
 					}
 				}
-				public int getA() { return this.a; } 
 				// Iteration stop
 			};
-			private final int a = function.getA()+1;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int endIndexBody = (startIndex + a) - 1;
-				int iterationsLeft = Math.abs(x[endIndexBody]);
-				while(iterationsLeft-->0){
-					function.b(x, startIndex, endIndexBody);
+			public int getA() { return __function__.getA()+1; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+				int __iterationsLeft__ = Math.abs(__x__[__endIndexBody__]);
+				while(__iterationsLeft__-->0){
+					__function__.b(__x__, __startIndex__, __endIndexBody__);
 				}
 			}
-			public int getA() { return this.a; } 
 			// Iteration stop
 		},
 		
 		new RPP() { // BodyInvImpl
-			RPP function = new Permutation();
-			private final int a = function.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.function.b(x, startIndex, endIndex);
+			RPP __function__ = new Permutation();
+			public int getA() { return __function__.getA(); }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
 			}
-			 public int getA() { return this.a; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = steps.length;
-		while( i-->0 ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = __steps__.length;
+		while( __i__-->0 ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

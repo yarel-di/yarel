@@ -4,14 +4,17 @@ import yarelcore.*;
 public class InvSubN implements RPP {
 	public InvSubN() { }
 	
+	
+	
+
+	
 	public SubN getInverse(){
 		return new SubN();
 	}
 	
-	RPP function = new SumN();
-	private final int a = function.getA();
-	public void b(int[] x, int startIndex, int endIndex) {
-		this.function.b(x, startIndex, endIndex);
+	RPP __function__ = new SumN();
+	public int getA() { return __function__.getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+		this.__function__.b(__x__, __startIndex__, __endIndex__);
 	}
-	 public int getA() { return this.a; }
 }

@@ -4,118 +4,121 @@ import yarelcore.*;
 public class InvFibonacci implements RPP {
 	public InvFibonacci() { }
 	
+	
+	
+
+	
 	public Fibonacci getInverse(){
 		return new Fibonacci();
 	}
 	
-	private final RPP[] steps = new RPP[]{
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP function = new InvFib();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+	private final RPP[] __steps__ = new RPP[]{
+		new RPP() { // ParCompImpl // index: 0
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new InvFib();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 4 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 4; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 4;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 3]; 
-				x[startIndex + 3] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+		new RPP() { // BodyPermImpl // index: 1
+			private final int __a__ = 4;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
+		new RPP() { // ParCompImpl // index: 2
+			private RPP __f__ = new RPP(){
 				// Iteration start
-				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = InvInc.SINGLETON_InvInc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+				RPP __function__ = new RPP() { // BodyIncImpl
+					private RPP __f__ = InvInc.SINGLETON_InvInc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
-				private final int a = function.getA()+1;
-				public void b(int[] x, int startIndex, int endIndex) {
-					int endIndexBody = (startIndex + a) - 1;
-					int iterationsLeft = Math.abs(x[endIndexBody]);
-					while(iterationsLeft-->0){
-						function.b(x, startIndex, endIndexBody);
+				public int getA() { return __function__.getA()+1; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+					int __iterationsLeft__ = Math.abs(__x__[__endIndexBody__]);
+					while(__iterationsLeft__-->0){
+						__function__.b(__x__, __startIndex__, __endIndexBody__);
 					}
 				}
-				public int getA() { return this.a; } 
 				// Iteration stop
 			};
-			private final int a = 4 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 2, startIndex + this.a + 2);
+			public int getA() { return 4; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 2,
+					__startIndex__ + (2) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyInvImpl
-			private final int a = 4;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = x[startIndex + 3]; 
-				x[startIndex + 3] = tmp; 
+		new RPP() { // BodyInvImpl // index: 3
+			private final int __a__ = 4;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP function = new Fib();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 4
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new Fib();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 4 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 4; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 4;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = x[startIndex + 3]; 
-				x[startIndex + 3] = tmp; 
+		new RPP() { // BodyPermImpl // index: 5
+			private final int __a__ = 4;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = steps.length;
-		while( i-->0 ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = __steps__.length;
+		while( __i__-->0 ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

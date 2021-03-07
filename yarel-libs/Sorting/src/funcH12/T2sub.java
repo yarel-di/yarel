@@ -4,67 +4,69 @@ import yarelcore.*;
 public class T2sub implements RPP {
 	public T2sub() { }
 	
+	
+	
+
+	
 	public InvT2sub getInverse(){
 		return new InvT2sub();
 	}
 	
-	private final RPP[] steps = new RPP[]{
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				private RPP f = Inc.SINGLETON_Inc;
-				private final int a = f.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex, endIndex);
+	private final RPP[] __steps__ = new RPP[]{
+		new RPP() { // ParCompImpl // index: 0
+			private RPP __f__ = new RPP(){
+				private RPP __f__ = Inc.SINGLETON_Inc;
+				private final int __a__ = __f__.getA();
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__, __startIndex__, __endIndex__);
 				}
-				public int getA() { return this.a; }
+				public int getA() { return this.__a__; }
 			};
-			private final int a = 2 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 2; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 2;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 0]; 
-				x[startIndex + 0] = x[startIndex + 1]; 
-				x[startIndex + 1] = tmp; 
+		new RPP() { // BodyPermImpl // index: 1
+			private final int __a__ = 2;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyFunImpl
-			RPP function = new arithNat.SubN();
-			private final int a = function.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.function.b(x, startIndex, endIndex);
+		new RPP() { // BodyFunImpl // index: 2
+			RPP __function__ = new arithNat.SubN();
+			public int getA() { return __function__.getA(); }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
 			}
-			 public int getA() { return this.a; }
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 2;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 0]; 
-				x[startIndex + 0] = x[startIndex + 1]; 
-				x[startIndex + 1] = tmp; 
+		new RPP() { // BodyPermImpl // index: 3
+			private final int __a__ = 2;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = -1;
-		while( ++i < steps.length ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+		while( ++__i__ < __steps__.length ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

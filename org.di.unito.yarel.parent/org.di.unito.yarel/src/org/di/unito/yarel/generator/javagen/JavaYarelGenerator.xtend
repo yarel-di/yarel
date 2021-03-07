@@ -19,7 +19,10 @@
 package org.di.unito.yarel.generator.javagen
 
 import java.util.HashMap
+import java.util.LinkedList
 import java.util.Map
+import org.di.unito.yarel.utils.ComposedArity
+import org.di.unito.yarel.utils.YarelUtils
 import org.di.unito.yarel.yarel.Body
 import org.di.unito.yarel.yarel.BodyDec
 import org.di.unito.yarel.yarel.BodyFor
@@ -30,7 +33,16 @@ import org.di.unito.yarel.yarel.BodyInc
 import org.di.unito.yarel.yarel.BodyInv
 import org.di.unito.yarel.yarel.BodyIt
 import org.di.unito.yarel.yarel.BodyNeg
+import org.di.unito.yarel.yarel.BodyParamDec
+import org.di.unito.yarel.yarel.BodyParamId
+import org.di.unito.yarel.yarel.BodyParamInc
+import org.di.unito.yarel.yarel.BodyParamNeg
+import org.di.unito.yarel.yarel.BodyParamPerm
+import org.di.unito.yarel.yarel.SwapIndexed
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamIt
 import org.di.unito.yarel.yarel.BodyPerm
+import org.di.unito.yarel.yarel.BodySwap
 import org.di.unito.yarel.yarel.Declaration
 import org.di.unito.yarel.yarel.Definition
 import org.di.unito.yarel.yarel.Model
@@ -44,13 +56,10 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
-import java.util.LinkedList
-import org.di.unito.yarel.utils.YarelUtils
-import org.di.unito.yarel.yarel.BodyPermIndex
 
+// Modified by Marco Ottina
 class JavaYarelGenerator implements IGenerator2 {
-	
-//	static final String OUTPUT_TEST = "output_test"
+//	@Inject extension YarelUtils yarelUtils
 	
 	//the function does the same thing as the one declared in YarelUtils
 	//which for an unknown reason does not work here
@@ -70,6 +79,7 @@ class JavaYarelGenerator implements IGenerator2 {
 	
 	/*Generates code for the RPP (Reversible Primitive Permutation) interface, 
 	implemented in a different way by each function*/
+	// Modified by Marco Ottina
 	private def RPPGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -123,9 +133,9 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Id implements RPP {
 			public static final RPP SINGLETON_Id = new Id();
-			private final int a = 1;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex){  }
+			private final int __a__ = 1;
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__){  }
 		}
 		'''}
 		
@@ -135,11 +145,11 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class InvId implements RPP {
 			public static final RPP SINGLETON_InvId = new InvId();
-			private RPP f = Id.SINGLETON_Id;
-			private final int a = this.f.getA();
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex){
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = Id.SINGLETON_Id;
+			private final int __a__ = this.__f__.getA();
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__){
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
 		}
 		'''}
@@ -150,10 +160,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Inc implements RPP {
 			public static final RPP SINGLETON_Inc = new Inc();
-			private final int a = 1;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				x[startIndex]++;
+			private final int __a__ = 1;
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				__x__[__startIndex__]++;
 			}
 		}
 		'''}
@@ -164,11 +174,11 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class InvInc implements RPP {
 			public static final RPP SINGLETON_InvInc = new InvInc();
-			private RPP f = Dec.SINGLETON_Dec;
-			private final int a = this.f.getA();
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = Dec.SINGLETON_Dec;
+			private final int __a__ = this.__f__.getA();
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
 		}
 		'''}
@@ -179,10 +189,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Dec implements RPP {
 			public static final RPP SINGLETON_Dec = new Dec();
-			private final int a = 1;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				x[startIndex]--;
+			private final int __a__ = 1;
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				__x__[__startIndex__]--;
 			}
 		}
 		'''}
@@ -193,11 +203,11 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class InvDec implements RPP {
 			public static final RPP SINGLETON_InvDec = new InvDec();
-			private RPP f = Inc.SINGLETON_Inc;
-			private final int a = this.f.getA();
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = Inc.SINGLETON_Inc;
+			private final int __a__ = this.__f__.getA();
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
 		}
 		'''}
@@ -208,10 +218,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class Neg implements RPP {
 			public static final RPP SINGLETON_Neg = new Neg();
-			private final int a = 1;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				x[startIndex] = -x[startIndex];
+			private final int __a__ = 1;
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				__x__[__startIndex__] = -__x__[__startIndex__];
 			}
 		}
 		'''}
@@ -222,16 +232,86 @@ class JavaYarelGenerator implements IGenerator2 {
 		package «packageName»;
 		public class InvNeg implements RPP {
 			public static final RPP SINGLETON_InvNeg = new InvNeg();
-			private RPP f = Neg.SINGLETON_Neg;
-			private final int a = this.f.getA();;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = Neg.SINGLETON_Neg;
+			private final int __a__ = this.__f__.getA();
+			public int getA() { return this.__a__; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
 		}
 		'''}
-		
-	//Implements usefull in parallel executions
+	
+	//Implements the swap function
+	// Made by Marco Ottina
+	private def SwapGenerator(String packageName) {
+		'''
+		package «packageName»;
+		/**
+		 * Note: the indexes (second and third parameters) are meant to be 1-based.
+		*/
+		public class Swap implements RPP {
+			public Swap(int arity, int firstIndex, int secondIndex){
+				if(arity < 1) throw new IllegalArgumentException("Swap arity cannot be less than 1");
+				this.__arity__ = arity;
+				firstIndex = (firstIndex -1) % __arity__; // "-1" because the indexes in Yarel are 1-based
+				if(firstIndex < 0){ firstIndex = -firstIndex; }
+				this.__firstIndex__ = firstIndex;
+				secondIndex = (secondIndex -1) % __arity__; // "-1" because the indexes in Yarel are 1-based
+				if(secondIndex < 0){ secondIndex = -secondIndex; }
+				this.__secondIndex__ = secondIndex;
+			}
+			protected Swap(){
+				this(1, 0, 0);
+			}
+			protected final int __arity__;
+			protected final int __firstIndex__;
+			protected final int __secondIndex__;
+			public int getA() { return this.__arity__; } // "1 +" is removed
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __temp__ = __x__[__startIndex__ + this.__firstIndex__];
+				__x__[__startIndex__ + this.__firstIndex__] = __x__[__startIndex__ + this.__secondIndex__];
+				__x__[__startIndex__ + this.__secondIndex__] = __temp__;
+				/**
+				 * SRL implementation: // <br>
+				int __temp__ = __x__[__startIndex__ + this.__firstIndex__]; // <br>
+				for(int __i__ = 0; __i__ < __temp__; i++){ __x__[__startIndex__ + this.__arity__]++; } // <br>
+				for(int __i__ = 0; __i__ < __temp__; i++){ __x__[__startIndex__ + this.__firstIndex__]--; } // <br>
+				__temp__ = __x__[__startIndex__ + this.__secondIndex__]; // <br>
+				for(int __i__ = 0; __i__ < __temp__; i++){ __x__[__startIndex__ + this.__firstIndex__]++; } // <br>
+				for(int __i__ = 0; __i__ < __temp__; i++){ __x__[__startIndex__ + this.__secondIndex__]--; } // <br>
+				__temp__ = __startIndex__ + this.__arity__; // <br>
+				for(int __i__ = 0; __i__ < __temp__; i++){ __x__[__startIndex__ + this.__secondIndex__]++; } // <br>
+				for(int __i__ = 0; __i__ < __temp__; i++){ __x__[__startIndex__ + this.__arity__]--; } // <br>
+				*/
+			}
+		}
+		'''}
+	
+	//Implements the inverse of the Swap function
+	// Made by Marco Ottina
+	private def InvSwapGenerator(String packageName) {
+		'''
+		package «packageName»;
+		/**
+		 * Note: the indexes (second and third parameters) are meant to be 1-based.
+		*/
+		public class InvSwap implements RPP { // the Swap is the identity of itself
+			public InvSwap(int __arity__, int __firstIndex__, int __secondIndex__){
+				this.__f__ = new Swap(__arity__, __firstIndex__, __secondIndex__);
+			}
+			public InvSwap(){
+				this.__f__ = new Swap();
+			}
+			private final RPP __f__;
+			public int getA() { return this.__f__.getA(); }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
+			}
+		}
+		'''}
+	
+	//Implements useful in parallel executions
+	// Made by Marco Ottina
 	private def SubBodyRunnerGenerator(String packageName) {
 		'''
 		package «packageName»;
@@ -278,7 +358,25 @@ class JavaYarelGenerator implements IGenerator2 {
 		'''
 		}
 	
+	// Made by Marco Ottina
+//	private def AritySupplierGenerator(String packageName) {
+//		return '''
+//		package «packageName»;
+//		
+//		import java.util.function.Supplier;
+//		
+//		/**
+//		 * Simple interface to provide an integer, used in a parallel contex.<br>
+//		 * This definition is required since Java forbids defining (and also
+//		 * instantiation too) arrays of classes whose have generics in their definition.
+//		*/
+//		interface AritySupplier extends Supplier<Integer> {
+//		}
+//		'''
+//	}
+	
 	//Generates an executable java file to run a simple test on the function/s declared in the .rl file.
+	// Modified by Marco Ottina
 	private def playGenerator(String packageName, Model model) {
 		
 		val functionNames = model.elements.filter(Definition).map[ it.declarationName.name ]
@@ -386,17 +484,19 @@ class JavaYarelGenerator implements IGenerator2 {
 		for(var i = 0; i < m.elements.length; i++){
 			var element = m.elements.get(i);
 			if(element.getContainerOfType(Declaration)!==null) { // if a declaration exists
-				var arity = 0
-				for(var j = 0; j < (element as Declaration).signature.types.length; j++) // every type component
-					if ((element as Declaration).signature.types.get(j).value != 0)
-						arity = arity + (element as Declaration).signature.types.get(j).value // counts the explicit number of occurrences
+				val decl = (element as Declaration)
+				var arity = (decl.aritySignature !== null && decl.aritySignature.parametricArities !== null)
+					? decl.aritySignature.parametricArities.size : 0;
+				for(var j = 0; j < decl.aritySignature.types.size; j++) // every type component
+					if (decl.aritySignature.types.get(j).value != 0)
+						arity += decl.aritySignature.types.get(j).value // counts the explicit number of occurrences
 					else  
 						arity++ // counts +1
-			   arities.put((element as Declaration).name, arity)
+				arities.put(decl.name, arity)
 			}
 		}
 	}
-	
+
 
 	/* Reads the arity of the given declared name. */
 	private def getArity(String name) {
@@ -422,11 +522,11 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		return r*/
 		//A better way to do it:
-		var r = ""
+		var r = new StringBuilder()
 		val imports = m.imports
 		for(impt : imports){
 			if(impt.importedNamespace.endsWith('*')){//the import use a wildcard
-				r = r + "import "+ impt.importedNamespace +"; \n"
+				r.append("import ").append(impt.importedNamespace).append("; \n");
 			}
 			else{//import of a single function
 				val pointIndex = impt.importedNamespace.lastIndexOf('.')
@@ -434,11 +534,11 @@ class JavaYarelGenerator implements IGenerator2 {
 				val functionName = impt.importedNamespace.substring(pointIndex + 1).toFirstUpper
 				//import also the inverse function
 				val invFunctionName = "Inv" + impt.importedNamespace.substring(pointIndex + 1).toFirstUpper
-				r = r + "import "+ packageName + '.' + functionName +"; \n"
-				r = r + "import "+ packageName + '.' + invFunctionName +"; \n"
+				r.append("import ").append(packageName).append('.').append(functionName).append("; \n");
+				r.append( "import ").append(packageName).append('.').append(invFunctionName).append("; \n");
 			}
 		}
-		r
+		r.toString()
 	}	
 	/**
 	 * Starts the compilation from the root of the AST which is Model
@@ -446,28 +546,77 @@ class JavaYarelGenerator implements IGenerator2 {
 	private def compile(IFileSystemAccess2 fsa, Model model) {
 		var definitions = model.elements.filter(Definition)
 		val folder = model.name.toFirstLower + "/"
-	  for(definition: definitions) {
-	  	var compilation = compile(model, definition, true)
-			  fsa.generateFile(folder + definition.declarationName.name.toFirstUpper+".java", compilation)
-			  compilation = compile(model, definition, false)
-			  fsa.generateFile(folder + "Inv"+definition.declarationName.name.toFirstUpper+".java", compilation)
+		for(definition: definitions) {
+			var compilation = compile(model, definition, true)
+			fsa.generateFile(folder + definition.declarationName.name.toFirstUpper+".java", compilation)
+			compilation = compile(model, definition, false)
+			fsa.generateFile(folder + "Inv"+definition.declarationName.name.toFirstUpper+".java", compilation)
 	  }
 	}
-		
+	
+	// Changed by Marco Ottina
+	// class compilation
 	private def compile(Model model, Definition definition, boolean fwd) {
 		val hasParallelBlock = newBooleanArrayOfSize(1);
 		hasParallelBlock.set(0, false);
-		val compiledBody = compile(definition.body, fwd, hasParallelBlock);
+		
+		val Declaration declaration = YarelUtils.getDeclaration(definition)
+		if(declaration === null){
+			throw new NullPointerException("declaration not found for definition: "+ definition.declarationName.name)
+		}
+		val declArity     = YarelUtils.getArity(declaration)
+		val declParams    = declaration.invocParamsSignat === null ? null : declaration.invocParamsSignat.invocParam.map[it.parName];
+		val hasDeclParams = (declParams !== null && (! declParams.empty))
+		val className = (fwd?"":"Inv") + definition.declarationName.name.toFirstUpper
+		val compiledBody = compile(definition.body, fwd, hasParallelBlock, declArity);
 		return '''
 		package «model.name.toFirstLower»;
 		«IF hasParallelBlock.get(0)»
 		import java.util.concurrent.ExecutorService;
 		import java.util.concurrent.Executors;
+		// import java.util.function.Supplier;
 		«ENDIF»
 		import yarelcore.*;	
 		
-		public class «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» implements RPP {
-			public «IF !fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»() { }
+		public class «className» implements RPP {
+			«IF declArity.isParametric || hasDeclParams»
+			public «className»(«FOR parName : declArity.parametersCoefficients.keySet BEFORE "//arities:\n\t" SEPARATOR ", "»int «parName.replace('\b', '_')»«ENDFOR»
+				«IF hasDeclParams»«IF declArity.isParametric»,«"\n"»«ENDIF»«FOR par: declParams SEPARATOR ",\n"»int «par»«ENDFOR»«ENDIF»
+				){
+				this.__fixedRegistersAmount__ = «declArity.scalar»;
+				«FOR par : declArity.parametersCoefficients.entrySet SEPARATOR "\n"»if(«par.key.replace('\b', '_')» < 0){ throw new WrongArityException("The arity \"«par.key.replace('\b', '_')»\" cannot be negative: " + «par.key.replace('\b', '_')»); }
+				this.«par.key.replace('\b', '_')» = «par.key.replace('\b', '_')»;«ENDFOR»
+				«IF hasDeclParams»«FOR par: declParams»
+				// if(«par.replace('\b', '_')» < 0){ throw new WrongArityException("The parameter \"«par.replace('\b', '_')»\" cannot be negative: " + «par.replace('\b', '_')»); }
+				this.«par.replace('\b', '_')» = «par.replace('\b', '_')»;
+				«/* TODO: mettere qui l'implementazione dei vincoli */»
+				«ENDFOR»«ENDIF»
+			}
+			protected «className»(){
+				this(«FOR par : declArity.parametersCoefficients.entrySet SEPARATOR ", "»«par.value»«ENDFOR»«IF hasDeclParams»«IF declArity.isParametric»,«ENDIF»«FOR par: declParams SEPARATOR ", "»0«ENDFOR»«ENDIF»);
+			}
+			
+			protected final int __fixedRegistersAmount__;
+			«FOR par: declArity.parametersCoefficients.entrySet SEPARATOR "\n"»protected final int «par.key.replace('\b', '_')»;«ENDFOR»
+			«IF hasDeclParams»«FOR par: declParams SEPARATOR "\n"»protected final int «par.replace('\b', '_')»;«ENDFOR»«ENDIF»
+			«ELSE»
+			public «className»() { }
+			«ENDIF»
+			
+			
+			«IF hasDeclParams»
+			public int getFixedRegistersAmount(){
+				return this.__fixedRegistersAmount__;
+			}
+			«FOR par: declArity.parametersCoefficients.entrySet»
+			public int get«par.key.replace('\b', '_').toFirstUpper»(){ return this.«par.key.replace('\b', '_')»; }
+			«ENDFOR»«ENDIF»
+			«IF hasDeclParams»«FOR par: declParams SEPARATOR "\n"»
+			public int get«par.replace('\b', '_').toFirstUpper»(){ return this.«par.replace('\b', '_')»; }
+			«ENDFOR»«ENDIF»
+			
+			«IF declArity.isParametric  || hasDeclParams»protected RPP __theWholeBody__ = null;«ENDIF»
+		
 			«IF hasParallelBlock.get(0)»
 			/**
 			 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
@@ -477,29 +626,53 @@ class JavaYarelGenerator implements IGenerator2 {
 			 * "CachedThreadPool" requires to be manually turned off (via invoking {@link ExecutorService#shutdown()}),
 			 * which could be tricky to be performed or easily forgotten, blocking the whole program to finish and exit.
 			*/
-			protected ExecutorService threadPoolExecutor = Executors.newWorkStealingPool(); // needed for parallel computation
+			protected ExecutorService __threadPoolExecutor__ = Executors.newWorkStealingPool(); // needed for parallel computation
 			protected void finalize(){
 				this.destructor«definition.declarationName.name.toFirstUpper»();
 			}
 			protected void destructor«definition.declarationName.name.toFirstUpper»(){
-				if(threadPoolExecutor != null){
-					// threadPoolExecutor.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
-					threadPoolExecutor = null; // mark it as shut-down
+				if(__threadPoolExecutor__ != null){
+					// __threadPoolExecutor__.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
+					__threadPoolExecutor__ = null; // mark it as shut-down
 				}
 			}
 			«ENDIF»
 			
+			«IF declArity.isParametric || hasDeclParams»
+			public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» getInverse(){
+				return new «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»(«FOR parName : declArity.parametersCoefficients.keySet SEPARATOR ", "»this.«parName.replace('\b', '_')»«ENDFOR»«IF hasDeclParams»«IF declArity.isParametric»,«ENDIF»«FOR par: declParams SEPARATOR ", "»«par»«ENDFOR»«ENDIF»);
+			}
+			
+			public int getA() {
+				this.checkTheWholeBody();
+				//return this.__theWholeBody__.getA();
+				return this.__fixedRegistersAmount__«FOR par: declArity.parametersCoefficients.entrySet BEFORE " + " SEPARATOR" + "»this.«par.key.replace('\b', '_')»«ENDFOR»;
+			}
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.checkTheWholeBody();
+				this.__theWholeBody__.b(__x__, __startIndex__, __endIndex__);
+			}
+			protected void checkTheWholeBody(){
+				if(this.__theWholeBody__ == null){
+					this.__theWholeBody__ = new RPP(){
+						«compiledBody»
+					};
+				}
+			}
+			«ELSE»
 			public «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper» getInverse(){
 				return new «IF fwd»Inv«ENDIF»«definition.declarationName.name.toFirstUpper»();
 			}
 			
 			«compiledBody»
+			«ENDIF»
 		}'''
 	}
 
-/*Generates java code for the functions. The fwd variable is used to generate code corresponding
- * to the regular function (fwd=true) or the inverse function (fwd=false)*/
-	private def String compile(Body b, boolean  fwd, boolean[] hasParallelBlock) {
+	/*Generates java code for the functions. The fwd variable is used to generate code corresponding
+	 * to the regular function (fwd=true) or the inverse function (fwd=false)*/
+	// Changed by Marco Ottina
+	private def String compile(Body b, boolean  fwd, boolean[] hasParallelBlock, ComposedArity declarationArity) {
 	  //This switch works by checking the variable type of b, similar to a java instanceof
 	  switch (b) {
 		//For each type of function, different java code is generated
@@ -507,29 +680,29 @@ class JavaYarelGenerator implements IGenerator2 {
 			val serialSubblocksSequence = YarelUtils.getAllSequentialBodyBlocks(b)
 			if(serialSubblocksSequence.size <= 1){
 				'''
-				«compile(b, fwd, hasParallelBlock)»
+				«compile(b, fwd, hasParallelBlock, declarationArity)»
 				'''
 			}else{
 				'''
-				private final RPP[] steps = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
+					«var stepIndex = 0»
 					«FOR step : serialSubblocksSequence SEPARATOR ",\n"»
-					new RPP() { // «step.class.simpleName»
-						«compile(step, fwd, hasParallelBlock)»
+					new RPP() { // «step.class.simpleName» // index: «stepIndex++»
+						«compile(step, fwd, hasParallelBlock, declarationArity)»
 					}
 					«ENDFOR»
 				};
-				private final int a = steps[0].getA();
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-					int i;
+				public int getA() { return this.__steps__[0].getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+					int __i__;
 					«IF fwd»
-					i = -1;
-					while( ++i < steps.length ){
+					__i__ = -1;
+					while( ++__i__ < __steps__.length ){
 					«ELSE»
-					i = steps.length;
-					while( i-->0 ){
+					__i__ = __steps__.length;
+					while( __i__-->0 ){
 					«ENDIF»
-						steps[i].b(x, startIndex, endIndex);
+						__steps__[__i__].b(__x__, __startIndex__, __endIndex__);«/*It's not required, here, to think about the composed arity: all available space must be used*/»
 					}
 				}
 				'''
@@ -538,11 +711,10 @@ class JavaYarelGenerator implements IGenerator2 {
 		ParComp:{
 			/*Start refactoring ParComp by Marco Ottina */
 			val totalArityParallelBody = YarelUtils.getArity(b as Body);
-			var startIndexOffset = totalArityParallelBody; // since the tree is left-deep, otherwise would start from 0 and grow
+			val startIndexOffset = totalArityParallelBody.clone(); // since the tree is left-deep, otherwise would start from 0 and grow
 			var Body subBlockToParallelize;
 			var parallelNodeIterator = b as Body;
 			val parallelSubBodies = new LinkedList<BodySubblockParallel>();
-//				val identityBlocksOffsets = new LinkedList<Integer>();
 			//collects ALL sub parts of a Yarel's parallel execution, running down the parse-tree
 			while(parallelNodeIterator instanceof ParComp){
 				// the grammar impose a left-deep tree, placing to the right the actual block of code
@@ -550,33 +722,47 @@ class JavaYarelGenerator implements IGenerator2 {
 				// collect only non-identity bodies
 				if(subBlockToParallelize instanceof BodyId){
 					// don't waste time on "identity"
-					startIndexOffset--; // the arity of "id" is just one 
+					startIndexOffset.removeScalar(1)// the arity of "id" is just one
+				} else if(subBlockToParallelize instanceof BodyParamId){
+					// don't waste time on "identities"
+					val ar = YarelUtils.getArity(subBlockToParallelize)
+					 startIndexOffset.subtract(ar)
 				} else {
 					val currentBlockArity = YarelUtils.getArity(subBlockToParallelize);
-					startIndexOffset -= currentBlockArity; 
-					parallelSubBodies.addFirst(new BodySubblockParallel(startIndexOffset, subBlockToParallelize, currentBlockArity));
+					startIndexOffset.subtract(currentBlockArity)
+					parallelSubBodies.addFirst(
+						new BodySubblockParallel(
+							startIndexOffset.clone(),
+							subBlockToParallelize,
+							currentBlockArity.clone()
+						)
+					);
 				}
 				parallelNodeIterator = (parallelNodeIterator as ParComp).left;
 			}
-			if(!(parallelNodeIterator instanceof BodyId)){ // don't waste time on "identity"
-				val currentBlockArity = YarelUtils.getArity( subBlockToParallelize);
-				parallelSubBodies.addFirst(new BodySubblockParallel(0, parallelNodeIterator, currentBlockArity));
+			if(!(parallelNodeIterator instanceof BodyId || parallelNodeIterator instanceof BodyParamId)){
+				 // don't waste time on "identit(y/ies)"
+				val currentBlockArity = YarelUtils.getArity( parallelNodeIterator);
+				parallelSubBodies.addFirst(
+					new BodySubblockParallel(
+						startIndexOffset.subtract(currentBlockArity),
+						parallelNodeIterator,
+						currentBlockArity
+				));
 			}
 			// check the amount of useful code blocks
 			if(parallelSubBodies.size == 1){
 				val theOnlySubBlock = parallelSubBodies.get(0)
 				'''
-				private RPP f = new RPP(){
-					«compile(theOnlySubBlock.body, fwd, hasParallelBlock)»
+				private RPP __f__ = new RPP(){
+					«compile(theOnlySubBlock.body, fwd, hasParallelBlock, declarationArity)»
 				};
-				private final int a = «totalArityParallelBody» ;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
-					«IF startIndexOffset != 0»
-					this.f.b(x, startIndex + «theOnlySubBlock.startIndexOffset», startIndex + this.a + «theOnlySubBlock.startIndexOffset»);
-					«ELSE»
-					this.f.b(x, startIndex, startIndex + this.a);
-					«ENDIF»
+				public int getA() { return «totalArityParallelBody.toString()»; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__,
+						__startIndex__ + «theOnlySubBlock.startIndexOffset.toString()»,
+						__startIndex__ + («theOnlySubBlock.startIndexOffset.toString()») + this.__f__.getA(«/*theOnlySubBlock.bodyArity.toString*/»)
+						);
 				}
 				'''
 			}else if(parallelSubBodies.size > 1){
@@ -588,17 +774,24 @@ class JavaYarelGenerator implements IGenerator2 {
 				 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 				 * The order is preserved from the Yarel source code.
 				*/
-				private final RPP[] subtasks = new RPP[]{
+				private final RPP[] __subtasks__ = new RPP[]{ //
+					«var stepIndex = 0»
 					«FOR subtask : parallelSubBodies SEPARATOR ",\n"»
-						new RPP(){ // «subtask.body.class.simpleName»
-							«compile(subtask.body, fwd, hasParallelBlock)»
+						new RPP(){ // «subtask.body.class.simpleName» // index: «stepIndex++»
+							«compile(subtask.body, fwd, hasParallelBlock, declarationArity)»
 						}
 					«ENDFOR»
 				};
-				private final int[] startIndexOffsets = { «FOR subtask : parallelSubBodies SEPARATOR ","»«subtask.startIndexOffset»«ENDFOR» };
-				private final int a = «totalArityParallelBody /*FOR i : 0..< parallelSubBodies.size SEPARATOR " + "»subtasks[«i»].getA()«ENDFOR*/»;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
+				/*
+				private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
+					«FOR subtask : parallelSubBodies  SEPARATOR ", //\n"»() -> { return «subtask.startIndexOffset.toString()»;}«ENDFOR»
+				};
+				*/
+				private final int[] __startIndexOffset__ = {
+					«FOR subtask : parallelSubBodies  SEPARATOR ", //\n"»«subtask.startIndexOffset.toString()»«ENDFOR»
+				};
+				public int getA() { return («totalArityParallelBody.toString() /*FOR i : 0..< parallelSubBodies.size SEPARATOR " + "»__subtasks__[«i»].getA()«ENDFOR*/»); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a parallel composition
 					/**
 					 * The Yarel's compiled code runs on a single {@link Thread}, which We could name
 					 * as "the main thread", executing sequentially a "block" of code after the other.<br>
@@ -621,82 +814,76 @@ class JavaYarelGenerator implements IGenerator2 {
 					 * </li>
 					 * </ol>
 					 * <p>
-					 * To do this, it's required a <i>semaphore</i>-like object, recording the amount of
+					 * To do this, it's required a <i>__semaphore__</i>-like object, recording the amount of
 					 * "still running tasks", that lets the main thread to sleep and being awakened
 					 * when all of those tasks has been completed.<br>
 					 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
 					*/
 					
-					boolean areChildrenRunning = true;
-					int startingIndex;
-					final int[] semaphore = new int[]{ subtasks.length };
-					final Runnable[] tasks = new Runnable[ semaphore[0] ];
+					boolean __areChildrenRunning__ = true, __neverStarted__;
+					int __startingIndex__;
+					final int[] __semaphore__ = new int[]{ __subtasks__.length };
+					final Runnable[] __tasks__ = new Runnable[ __semaphore__[0] ];
 
 					// PHASE 1 convert the RPP in runnable tasks
-					for(int i = 0; i < tasks.length; i++){
-						startingIndex = startIndex + startIndexOffsets[i];
-						tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
+					for(int __i__ = 0; __i__ < __tasks__.length; __i__++){
+						__startingIndex__ = __startIndex__ + __startIndexOffset__[__i__]; // __startIndexOffsetSuppliers__[__i__].get();
+						__tasks__[__i__] = new SubBodyRunner(__startingIndex__, __subtasks__[__i__], __x__){
 							public void run(){
 								// execute the main body (delegate inside the superclass implementation)
 								super.run();
 								
-								// after the body execution, manage the semaphore
-								synchronized (semaphore) {
+								// after the body execution, manage the __semaphore__
+								synchronized (__semaphore__) {
 									// if all tasks are successfully finished, awake the main thread
-									semaphore[0]--;
-									semaphore.notifyAll();
+									__semaphore__[0]--;
+									__semaphore__.notifyAll();
 								}
 							}
 						};
 						// each tasks performs over their own registers segment, so update the starting point
 					}
-					
-					// PHASE 2: put the "sprinters" at the "race's starting blocks".
-					synchronized (semaphore) { // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
-						threadPoolExecutor.submit( ()-> {
-							/* This runner is the "submitter", which task is to submit all parallel tasks,
-								and can't run while the main thread has the lock, because that main thread is still working.
-								It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
-								due to race conditions.
-							*/
-							synchronized (semaphore) {
-								// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
-								for(Runnable t : tasks){ // let's start the tasks
-									threadPoolExecutor.submit(t);
-								}
-							}
-						});
-						
-						// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
-						try {
-							semaphore.wait(); 
-							/* The "wait" let the main thread to sleep, releasing the lock.
-								NOW the submitter can submit the parallel tasks, which can then to be executed.
-							*/
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
+					__neverStarted__ = true;
 					do{
-						synchronized (semaphore) {
-							if(semaphore[0] <= 0){
-								areChildrenRunning = false;
-							} else {
+						synchronized (__semaphore__) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
+							if(__neverStarted__){
+								__neverStarted__ = false;
+							// PHASE 2: put the "sprinters" at the "race's starting blocks".
+								__threadPoolExecutor__.submit( ()-> {
+									/* This runner is the "submitter", which task is to submit all parallel tasks,
+										and can't run while the main thread has the lock, because that main thread is still working.
+										It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
+										due to race conditions.
+									*/
+									synchronized (__semaphore__) {
+										// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
+										for(Runnable __t__ : __tasks__){ // let's start the tasks
+											__threadPoolExecutor__.submit(__t__);
+										}
+									}
+								});
+							}
+							
+							__areChildrenRunning__ = __semaphore__[0] > 0;
+							if(__areChildrenRunning__){
+							// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
 								try {
-									semaphore.wait(); // some child(dren) is still running
-								} catch (InterruptedException e) {
-									e.printStackTrace();
+									/* The "wait" let the main thread to sleep, releasing the lock.
+										NOW the submitter can submit the parallel tasks, which can then to be executed.
+									*/
+									__semaphore__.wait(); // some child(dren) is(are) still running
+								} catch (InterruptedException __e__) {
+									__e__.printStackTrace();
 								}
 							}
 						}
-					} while(areChildrenRunning);
+					} while(__areChildrenRunning__);
 				}
 			'''
 			}else { // nothing to do, also do not alter hasParallelBlock
 				'''
-				private final int a = «totalArityParallelBody»;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
+				public int getA() { return «totalArityParallelBody.toString()»; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 				'''
@@ -705,101 +892,224 @@ class JavaYarelGenerator implements IGenerator2 {
 		}
 		BodyId:
 			'''
-			private RPP f = «IF !fwd»Inv«ENDIF»Id.SINGLETON_«IF !fwd»Inv«ENDIF»Id;
-			private final int a = f.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = «IF !fwd»Inv«ENDIF»Id.SINGLETON_«IF !fwd»Inv«ENDIF»Id;
+			private final int __a__ = __f__.getA();
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
-			public int getA() { return this.a; }
-			''' 
+			public int getA() { return __f__.getA(); }
+			'''
+		BodyParamId:
+			'''
+			public int getA() { return «YarelUtils.getArity(b.arity).toString()»; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
+			'''
 		BodyInc: 
 			'''
-			private RPP f = «IF !fwd»Inv«ENDIF»Inc.SINGLETON_«IF !fwd»Inv«ENDIF»Inc;
-			private final int a = f.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = «IF !fwd»Inv«ENDIF»Inc.SINGLETON_«IF !fwd»Inv«ENDIF»Inc;
+			private final int __a__ = __f__.getA();
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 			'''
 		BodyDec:
 			'''
-			private RPP f = «IF !fwd»Inv«ENDIF»Dec.SINGLETON_«IF !fwd»Inv«ENDIF»Dec;
-			private final int a = f.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = «IF !fwd»Inv«ENDIF»Dec.SINGLETON_«IF !fwd»Inv«ENDIF»Dec;
+			private final int __a__ = __f__.getA();
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 			''' 
 		BodyNeg: 
 			'''
-			private RPP f = «IF !fwd»Inv«ENDIF»Neg.SINGLETON_«IF !fwd»Inv«ENDIF»Neg;
-			private final int a = f.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex, endIndex);
+			private RPP __f__ = «IF !fwd»Inv«ENDIF»Neg.SINGLETON_«IF !fwd»Inv«ENDIF»Neg;
+			private final int __a__ = __f__.getA();
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__, __startIndex__, __endIndex__);
 			}
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 			'''
+		BodyParamInc:{
+			val bParArity = YarelUtils.getArity(b)
+			val ComposedArity repetitions = (b.paramsAssign === null || b.paramsAssign.parameters === null || b.paramsAssign.parameters.size === 0)?
+				new ComposedArity(1) : YarelUtils.getArity(b.paramsAssign.parameters.get(0));
+			'''
+			private RPP __f__ = «IF !fwd»Inv«ENDIF»Inc.SINGLETON_«IF !fwd»Inv«ENDIF»Inc;
+			public int getA() { return «bParArity.toString»; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __arity__;
+				«IF repetitions !== null»
+				int __repsAmount__ = «repetitions.toString()»;
+				while(__repsAmount__-->0){
+				«ENDIF»
+				__arity__ = this.getA();
+				while(__arity__-->0){
+					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
+				}
+				«IF repetitions !== null»
+				}
+				«ENDIF»
+			}
+			'''
+		}
+		BodyParamDec:{
+			val bParArity = YarelUtils.getArity(b)
+			val ComposedArity repetitions = (b.paramsAssign === null || b.paramsAssign.parameters === null || b.paramsAssign.parameters.size === 0)?
+				new ComposedArity(1) : YarelUtils.getArity(b.paramsAssign.parameters.get(0));
+			'''
+			private RPP __f__ = «IF !fwd»Inv«ENDIF»Dec.SINGLETON_«IF !fwd»Inv«ENDIF»Dec;
+			public int getA() { return «bParArity.toString()»; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __arity__;
+				«IF repetitions !== null»
+				int __repsAmount__ = «repetitions.toString()»;
+				while(__repsAmount__-->0){
+				«ENDIF»
+				__arity__ = this.getA();
+				while(__arity__-->0){
+					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
+				}
+				«IF repetitions !== null»
+				}
+				«ENDIF»
+			}
+			'''
+		}
+		BodyParamNeg:{
+			val bParArity = YarelUtils.getArity(b)
+			val ComposedArity repetitions = (b.paramsAssign === null || b.paramsAssign.parameters === null || b.paramsAssign.parameters.size === 0)?
+				new ComposedArity(1) : YarelUtils.getArity(b.paramsAssign.parameters.get(0));
+			'''
+			private RPP __f__ = «IF !fwd»Inv«ENDIF»Neg.SINGLETON_«IF !fwd»Inv«ENDIF»Neg;
+			public int getA() { return «bParArity.toString()»; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __arity__;
+				«IF repetitions !== null»
+				int __repsAmount__ = «repetitions.toString()»;
+				while(__repsAmount__-->0){
+				«ENDIF»
+				__arity__ = this.getA();
+				while(__arity__-->0){
+					this.__f__.b(__x__, __startIndex__ + __arity__, __startIndex__ + __arity__ + 1); // "1" because "f.getA()" will surely returns "1"
+				} 
+				«IF repetitions !== null»
+				}
+				«ENDIF»
+			}
+			'''
+		}
+		BodySwap:{ //Added by Marco Ottina, could be removed since can be implemented directly in Yarel
+			val swapFun = b.function as SwapIndexed
+			val swapArity  = YarelUtils.getArity(swapFun.arity)
+			val firstIndex = YarelUtils.getArity(swapFun.paramsAssign.parameters.get(0))
+			val secondIndex= YarelUtils.getArity(swapFun.paramsAssign.parameters.get(1))
+			'''
+			public int getA() { return «swapArity.toString()»; } // "1 +" is removed
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __arity__ = this.getA(); // "- 1" is removed
+				RPP __f__ = new «IF !fwd»Inv«ENDIF»Swap( // Swap itselfwill adjust indexes on arity
+					__arity__, //
+					(«firstIndex.toString()»), //
+					(«secondIndex.toString()»)//
+				);
+				__f__.b(__x__, __startIndex__, __endIndex__);
+			}
+			'''
+		}
 		BodyFun: {
-			/*Changed by Matteo Palazzo*/
-			val qualifiedName = qnp.getFullyQualifiedName(b.funName);
+			/*Changed by Matteo Palazzo and Marco Ottina*/
+			/*
+			 * First provide the arities, then the invocation parameters
+			  */
+			val theFunc = b.function
+			val qualifiedName = qnp.getFullyQualifiedName(theFunc.funName);
 			val moduleName = qualifiedName.firstSegment;
 			var functionName = (fwd ? "" : "Inv") + qualifiedName.lastSegment.toFirstUpper;
+//			val funcArity = yarelUtils.getArityOfFunctionName(b, functionName)
 			if(moduleName != b.getContainerOfType(typeof(Model)).name)
-			functionName = moduleName.toFirstLower + "." + functionName;	
+			functionName = moduleName.toFirstLower + "." + functionName;
 			'''
-			RPP function = new «functionName»();
-			private final int a = function.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.function.b(x, startIndex, endIndex);
+			«IF YarelUtils.hasSomeParameters(theFunc)»
+			RPP __function__ = new «functionName»(
+				«IF theFunc.aritiesAssign !== null && theFunc.aritiesAssign.arities.size > 0»
+				«FOR arityParam : theFunc.aritiesAssign.arities SEPARATOR ",\n"»«YarelUtils.getArity(arityParam).toString()»«ENDFOR»
+				«/*if also params exists..*/IF theFunc.paramsAssign !== null && theFunc.paramsAssign.parameters.size > 0»,«ENDIF»
+				«ENDIF»
+				«IF theFunc.paramsAssign !== null && theFunc.paramsAssign.parameters.size > 0»
+				«FOR arityParam : theFunc.paramsAssign.parameters SEPARATOR ",\n"»«YarelUtils.getArity(arityParam).toString()»«ENDFOR»
+				«ENDIF»
+			);
+			«ELSE»
+			RPP __function__ = new «functionName»();
+			«ENDIF»
+			public int getA() { return __function__.getA(); }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
 			}
-			 public int getA() { return this.a; }
 			'''
 		}
 		BodyPerm:
 			'''
-				private final int a = «b.permutation.indexes.length»;
-				public void b(int[] x, int startIndex, int endIndex) {
-					int tmp=0;
+				private final int __a__ = «b.permutation.indexes.length»;
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					int __tmp__=0;
 					«compileBodyPerm(b.permutation, fwd)»
 				}
-				
-				public int getA() { return this.a; }
+				public int getA() { return this.__a__; }
 			'''
-		BodyPermIndex:
+		BodyParamPerm:
 			'''
-			private final int permutArity = «b.permIndexed.permutationArity»;
-			private final int a = 1 + permutArity;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp = x[startIndex], indexToWithdraw;
-				indexToWithdraw = x[startIndex + this.permutArity];
-				if(indexToWithdraw < 0){ indexToWithdraw = -indexToWithdraw; }
-				indexToWithdraw--; // the index is 1-based
-				indexToWithdraw = startIndex + (indexToWithdraw % this.permutArity);
-				x[startIndex] = x[indexToWithdraw];
-				x[indexToWithdraw] = tmp;
+			public int getA() { return 1 + «YarelUtils.getArity(b.arity)»; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				final int __permutArity__ = this.getA() - 1;
+				int __tmp__ = __x__[__startIndex__], __indexToWithdraw__;
+				__indexToWithdraw__ = __x__[__startIndex__ + __permutArity__];
+				if(__indexToWithdraw__ < 0){ __indexToWithdraw__ = -__indexToWithdraw__; }
+				__indexToWithdraw__--; // the index is 1-based
+				__indexToWithdraw__ = __startIndex__ + (__indexToWithdraw__ % __permutArity__);
+				__x__[__startIndex__] = __x__[__indexToWithdraw__];
+				__x__[__indexToWithdraw__] = __tmp__;
 			}
-			
-			public int getA() { return this.a; }
 			'''
 		BodyInv:
 			'''
-				«compile(b.body, !fwd, hasParallelBlock)»
+				«compile(b.body, !fwd, hasParallelBlock, declarationArity)»
 			'''
 		BodyIt:
 			'''
 			// Iteration start
-			RPP function = new RPP() { // «b.body.class.simpleName»
-				«compile(b.body,fwd, hasParallelBlock)»
+			RPP __function__ = new RPP() { // «b.body.class.simpleName»
+				«compile(b.body,fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
 			};
-			private final int a = function.getA()+1;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int endIndexBody = (startIndex + a) - 1;
-				int iterationsLeft = Math.abs(x[endIndexBody]);
-				while(iterationsLeft-->0){
-					function.b(x, startIndex, endIndexBody);
+			public int getA() { return __function__.getA()+1; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+				int __iterationsLeft__ = Math.abs(__x__[__endIndexBody__]);
+				while(__iterationsLeft__-->0){
+					__function__.b(__x__, __startIndex__, __endIndexBody__);
 				}
 			}
-			public int getA() { return this.a; } 
+			// Iteration stop
+			'''
+		BodyParamIt:
+			'''
+			// Iteration start
+			RPP __function__ = new RPP() { // «b.body.class.simpleName»
+				«compile(b.body,fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
+			};
+			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.paramsAssign)»;
+			public int getA() {
+				return this.__iterationsAmount__; //__function__.getA();
+			}
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __endIndexBody__ = (__startIndex__ + __iterationsAmount__);
+				int __iterationsLeft__ = __iterationsAmount__;
+				while(__iterationsLeft__-->0){
+					__function__.b(__x__, __startIndex__, __endIndexBody__);
+				}
+			}
 			// Iteration stop
 			'''
 		BodyFor:
@@ -809,65 +1119,106 @@ class JavaYarelGenerator implements IGenerator2 {
 			 */
 			'''
 			/** regular function used when v > 0 */
-			RPP function = new RPP() { // «b.body.class.simpleName»
+			RPP __function__ = new RPP() { // «b.body.class.simpleName»
 				«/*the following call generates java code for the body of the "for" statement 
 				(the expression contained in its square brackets)*/
-				compile(b.body, fwd, hasParallelBlock)»
+				compile(b.body, fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
 			};
 			
 			/** inverse function used when v < 0 */
-			RPP inv_function = new RPP() { // Inv«b.body.class.simpleName»
-				«compile(b.body,!fwd, hasParallelBlock)»
+			RPP __inv_function__ = new RPP() { // Inv«b.body.class.simpleName»
+				«compile(b.body,!fwd, hasParallelBlock, declarationArity)»
 			};
 			
-			private final int a = function.getA()+1;
-			public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-				final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
-				int repetitionCounter = x[repCounterIndex];
-				originalRepCounter = repetitionCounter;
+			public int getA() { return __function__.getA()+1; } 
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
+				final int __repCounterIndex__ = (__startIndex__ + this.getA()) - 1, __originalRepCounter__;
+				int __repetitionCounter__ = __x__[__repCounterIndex__];
+				__originalRepCounter__ = __repetitionCounter__;
 			
-				if(repetitionCounter > 0){ //if v is greater than zero, recursion goes on and v decreases each time
-					endIndex = startIndex + function.getA();
-					while(repetitionCounter-->0){
-						function.b(x, startIndex, repCounterIndex);
-						x[repCounterIndex]--;
+				if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					__endIndex__ = __startIndex__ + __function__.getA();
+					while(__repetitionCounter__-->0){
+						__function__.b(__x__, __startIndex__, __repCounterIndex__);
+						__x__[__repCounterIndex__]--;
 					}
-				}else if(repetitionCounter < 0){ //if v is greater than zero, recursion goes on and v decreases each time
-					endIndex = startIndex + inv_function.getA();
-					while(repetitionCounter++<0){
-						inv_function.b(x, startIndex, repCounterIndex);
-						x[repCounterIndex]++;
+				}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					__endIndex__ = __startIndex__ + __inv_function__.getA();
+					while(__repetitionCounter__++<0){
+						__inv_function__.b(__x__, __startIndex__, __repCounterIndex__);
+						__x__[__repCounterIndex__]++;
 					}
 				} //else: when v is equal to zero, recursive calls stop as a value is returned
-				x[repCounterIndex] = originalRepCounter; // restore the original value
+				__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 			}
-			public int getA() { return this.a; } 
 			'''
+		BodyParamFor:
+			/*
+			 * Added by Paolo Parker as a recursive version,
+			 * modified to the equivalent iterative version by Marco Ottina.
+			 */
+			'''
+			/** regular function used when v > 0 */
+			RPP __function__ = new RPP() { // «b.body.class.simpleName»
+				«/*the following call generates java code for the body of the "for" statement 
+				(the expression contained in its square brackets)*/
+				compile(b.body, fwd, hasParallelBlock, declarationArity.clone().addScalar(-1))»
+			};
+				
+			/** inverse function used when v < 0 */
+			RPP __inv_function__ = new RPP() { // Inv«b.body.class.simpleName»
+				«compile(b.body,!fwd, hasParallelBlock, declarationArity)»
+			};
 			
+			protected final int __iterationsAmount__ = «YarelUtils.getArity(b.paramsAssign)»;
+			public int getA() {
+				return this.__iterationsAmount__; //__function__.getA();
+			}
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
+				int __repetitionCounter__ = __iterationsAmount__;
+				__endIndex__ = __startIndex__ + __iterationsAmount__;
+				if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					while(__repetitionCounter__-->0){
+						__function__.b(__x__, __startIndex__, __endIndex__);
+					}
+				}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
+					while(__repetitionCounter__++ < 0){
+						__inv_function__.b(__x__, __startIndex__, __endIndex__);
+					}
+				} //else: when v is equal to zero, recursive calls stop as a value is returned
+			}
+			'''
 		BodyIf:
 			'''
-			RPP pos=new RPP() {
-				«compile(b.pos,fwd, hasParallelBlock)»
+			«val declArityBodies = declarationArity.clone().addScalar(-1)»
+			RPP __pos__=new RPP() {
+				«compile(b.pos,fwd, hasParallelBlock, declArityBodies)»
 			};
-			RPP zero=new RPP() {
-				«compile(b.zero,fwd, hasParallelBlock)»
+			RPP __zero__=new RPP() {
+				«compile(b.zero,fwd, hasParallelBlock, declArityBodies)»
 			};
-			RPP neg=new RPP() {
-				«compile(b.neg,fwd, hasParallelBlock)»
+			RPP __neg__=new RPP() {
+				«compile(b.neg,fwd, hasParallelBlock, declArityBodies)»
 			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
-			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
-				if(testValue > 0){
-					pos.b(x, startIndex, startIndex + pos.getA());
-				} else if(testValue == 0){
-					zero.b(x, startIndex, startIndex + zero.getA());
-				} else { // The "testValue<0" test is a tautology
-					neg.b(x, startIndex, startIndex + neg.getA());
+			public int getA() { return this.__pos__.getA()+1; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+				if(__testValue__ > 0){
+					__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+				} else if(__testValue__ == 0){
+					__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+				} else { // The "__testValue__<0" test is a tautology
+					__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
 				}
 			}
 			'''
+//		AtomicParametricRepetition:{
+//			println("E che classe è? " + b.class.name )
+//			println("\t has it an funName? " + b.funName)
+//			compile(b.func, fwd, hasParallelBlock, declarationArity)
+//		}
+		default:
+			throw new RuntimeException("Unrecognized body: " + b.toString + " ------- ")
 	  }.toString
 	}
 	
@@ -955,16 +1306,16 @@ class JavaYarelGenerator implements IGenerator2 {
 			enterCycle = p.get(i) != startCycle
 			
 			if(enterCycle){
-				r=r+"tmp = x[startIndex + " + startCycle + "]; \n"
+				r=r+"__tmp__ = __x__[__startIndex__ + " + startCycle + "]; \n"
 			}
 			while(p.get(i)!=startCycle){
-				r=r+"x[startIndex + " + i +"] = x[startIndex + " + p.get(i) + "]; \n"
+				r=r+"__x__[__startIndex__ + " + i +"] = __x__[__startIndex__ + " + p.get(i) + "]; \n"
 				c.set(k++, p.get(i)); // store the "next step"
 				i = p.get(i); // read the "next step" as an index, which will become the "current index" in the next iteration
 			}
 			
 			if (enterCycle){
-				r=r+"x[startIndex + " + i + "] = tmp; \n";
+				r=r+"__x__[__startIndex__ + " + i + "] = __tmp__; \n";
 			}
 			
 			i = update(p,c,k); // look for the next cycle's start's index
@@ -1012,52 +1363,56 @@ class JavaYarelGenerator implements IGenerator2 {
 		
 		//Looks for the Model in the .rl file
 		val model = resource.allContents.toIterable.filter(Model).get(0)
-	  val packageName = "yarelcore"//model.name
-	  fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
-	  fsa.generateFile(packageName+"/RPP.java", RPPGenerator(packageName))
-	  fsa.generateFile(packageName+"/Id.java", IdGenerator(packageName))
-	  fsa.generateFile(packageName+"/InvId.java", InvIdGenerator(packageName))
-	  fsa.generateFile(packageName+"/Inc.java", IncGenerator(packageName))
-	  fsa.generateFile(packageName+"/InvInc.java", InvIncGenerator(packageName))
-	  fsa.generateFile(packageName+"/Dec.java", DecGenerator(packageName))
-	  fsa.generateFile(packageName+"/InvDec.java", InvDecGenerator(packageName))
-	  fsa.generateFile(packageName+"/Neg.java", NegGenerator(packageName))
-	  fsa.generateFile(packageName+"/InvNeg.java", InvNegGenerator(packageName))
-	  fsa.generateFile(packageName+"/SubBodyRunner.java", SubBodyRunnerGenerator(packageName))
-	  
-	  collectArities(model)
-	  //Generates java code starting from the Model
-	  compile(fsa, model)
-	 
-	  //Tests
-	  fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "Test.java", testFileGenerator(model))
-	  
-	  //Play source
-	 	fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name.toFirstLower, model))
+		val packageName = "yarelcore"//model.name
+		fsa.generateFile(packageName+"/WrongArityException.java", exceptionsGenerator(packageName))
+		fsa.generateFile(packageName+"/RPP.java", RPPGenerator(packageName))
+//		fsa.generateFile(packageName+"/AritySupplier.java", AritySupplierGenerator(packageName))
+		fsa.generateFile(packageName+"/SubBodyRunner.java", SubBodyRunnerGenerator(packageName))
+		fsa.generateFile(packageName+"/Id.java", IdGenerator(packageName))
+		fsa.generateFile(packageName+"/InvId.java", InvIdGenerator(packageName))
+		fsa.generateFile(packageName+"/Inc.java", IncGenerator(packageName))
+		fsa.generateFile(packageName+"/InvInc.java", InvIncGenerator(packageName))
+		fsa.generateFile(packageName+"/Dec.java", DecGenerator(packageName))
+		fsa.generateFile(packageName+"/InvDec.java", InvDecGenerator(packageName))
+		fsa.generateFile(packageName+"/Neg.java", NegGenerator(packageName))
+		fsa.generateFile(packageName+"/InvNeg.java", InvNegGenerator(packageName))
+		fsa.generateFile(packageName+"/Swap.java", SwapGenerator(packageName))
+		fsa.generateFile(packageName+"/InvSwap.java", InvSwapGenerator(packageName))
+		
+		
+		collectArities(model)
+		//Generates java code starting from the Model
+		compile(fsa, model)
+		 
+		//Tests
+		fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "Test.java", testFileGenerator(model))
+		
+		//Play source
+		fsa.generateFile(model.name.toFirstLower + "/" + model.name.toFirstUpper + "PlayWith.java", playGenerator(model.name.toFirstLower, model))
 	}
 	
 	//
 	
 	static class BodySubblockParallel{
-		var int startIndexOffset;
-		val int bodyArity;
+		var ComposedArity startIndexOffset;
+		val ComposedArity bodyArity;
 		val Body body;
 		
-		protected new(int startIndexOffset, Body body){
+		protected new(ComposedArity startIndexOffset, Body body){
 			this(startIndexOffset, body, YarelUtils.getArity(body));
 		}
-		protected new(int startIndexOffset, Body body, int bodyArity){
+		protected new(ComposedArity startIndexOffset, Body body, ComposedArity bodyArity){
 			this.startIndexOffset = startIndexOffset;
 			this.body = body;
 			this.bodyArity = bodyArity;
 		}
-		def int getStartIndexOffset(){
+		def ComposedArity getStartIndexOffset(){
 			 return this.startIndexOffset;
 		}
 		def Body getBody(){
 			 return this.body;
 		}
-		def int getBodyArity(){
+		def ComposedArity getBodyArity(){
 			 return this.bodyArity;
 		}
 	}

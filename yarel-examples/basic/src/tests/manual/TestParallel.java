@@ -23,9 +23,9 @@ public class TestParallel {
 	public static void main(String[] args) {
 		System.out.println("Start test gioco");
 		testToOdd();
-		//
+
 		testTriIncPar();
-		//
+
 		testUpAndDown();
 		//
 		testSomeSwaps();

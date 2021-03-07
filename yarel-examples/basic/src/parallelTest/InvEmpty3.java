@@ -4,13 +4,16 @@ import yarelcore.*;
 public class InvEmpty3 implements RPP {
 	public InvEmpty3() { }
 	
+	
+	
+
+	
 	public Empty3 getInverse(){
 		return new Empty3();
 	}
 	
-	private final int a = 3;
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) {
+	public int getA() { return 3; }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 		// There were only parallels identities, nothing interesting to show and run
 	}
 }

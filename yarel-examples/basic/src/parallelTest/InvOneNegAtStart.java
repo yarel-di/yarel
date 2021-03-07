@@ -4,21 +4,27 @@ import yarelcore.*;
 public class InvOneNegAtStart implements RPP {
 	public InvOneNegAtStart() { }
 	
+	
+	
+
+	
 	public OneNegAtStart getInverse(){
 		return new OneNegAtStart();
 	}
 	
-	private RPP f = new RPP(){
-		private RPP f = InvNeg.SINGLETON_InvNeg;
-		private final int a = f.getA();
-		public void b(int[] x, int startIndex, int endIndex) {
-			this.f.b(x, startIndex, endIndex);
+	private RPP __f__ = new RPP(){
+		private RPP __f__ = InvNeg.SINGLETON_InvNeg;
+		private final int __a__ = __f__.getA();
+		public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+			this.__f__.b(__x__, __startIndex__, __endIndex__);
 		}
-		public int getA() { return this.a; }
+		public int getA() { return this.__a__; }
 	};
-	private final int a = 3 ;
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) {
-		this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+	public int getA() { return 3; }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+		this.__f__.b(__x__,
+			__startIndex__ + 0,
+			__startIndex__ + (0) + this.__f__.getA()
+			);
 	}
 }

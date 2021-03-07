@@ -4,27 +4,30 @@ import yarelcore.*;
 public class SomeSwaps implements RPP {
 	public SomeSwaps() { }
 	
+	
+	
+
+	
 	public InvSomeSwaps getInverse(){
 		return new InvSomeSwaps();
 	}
 	
-	private final int a = 10;
-	public void b(int[] x, int startIndex, int endIndex) {
-		int tmp=0;
-		tmp = x[startIndex + 0]; 
-		x[startIndex + 0] = x[startIndex + 9]; 
-		x[startIndex + 9] = x[startIndex + 6]; 
-		x[startIndex + 6] = x[startIndex + 8]; 
-		x[startIndex + 8] = tmp; 
-		tmp = x[startIndex + 1]; 
-		x[startIndex + 1] = x[startIndex + 5]; 
-		x[startIndex + 5] = x[startIndex + 3]; 
-		x[startIndex + 3] = tmp; 
-		tmp = x[startIndex + 2]; 
-		x[startIndex + 2] = x[startIndex + 4]; 
-		x[startIndex + 4] = x[startIndex + 7]; 
-		x[startIndex + 7] = tmp; 
+	private final int __a__ = 10;
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+		int __tmp__=0;
+		__tmp__ = __x__[__startIndex__ + 0]; 
+		__x__[__startIndex__ + 0] = __x__[__startIndex__ + 9]; 
+		__x__[__startIndex__ + 9] = __x__[__startIndex__ + 6]; 
+		__x__[__startIndex__ + 6] = __x__[__startIndex__ + 8]; 
+		__x__[__startIndex__ + 8] = __tmp__; 
+		__tmp__ = __x__[__startIndex__ + 1]; 
+		__x__[__startIndex__ + 1] = __x__[__startIndex__ + 5]; 
+		__x__[__startIndex__ + 5] = __x__[__startIndex__ + 3]; 
+		__x__[__startIndex__ + 3] = __tmp__; 
+		__tmp__ = __x__[__startIndex__ + 2]; 
+		__x__[__startIndex__ + 2] = __x__[__startIndex__ + 4]; 
+		__x__[__startIndex__ + 4] = __x__[__startIndex__ + 7]; 
+		__x__[__startIndex__ + 7] = __tmp__; 
 	}
-	
-	public int getA() { return this.a; }
+	public int getA() { return this.__a__; }
 }

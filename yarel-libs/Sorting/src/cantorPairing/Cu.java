@@ -4,171 +4,172 @@ import yarelcore.*;
 public class Cu implements RPP {
 	public Cu() { }
 	
+	
+	
+
+	
 	public InvCu getInverse(){
 		return new InvCu();
 	}
 	
-	private final RPP[] steps = new RPP[]{
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 0]; 
-				x[startIndex + 0] = x[startIndex + 1]; 
-				x[startIndex + 1] = tmp; 
+	private final RPP[] __steps__ = new RPP[]{
+		new RPP() { // BodyPermImpl // index: 0
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyFunImpl
-			RPP function = new boundedMin.MinH12();
-			private final int a = function.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.function.b(x, startIndex, endIndex);
+		new RPP() { // BodyFunImpl // index: 1
+			RPP __function__ = new boundedMin.MinH12();
+			public int getA() { return __function__.getA(); }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
 			}
-			 public int getA() { return this.a; }
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = x[startIndex + 3]; 
-				x[startIndex + 3] = x[startIndex + 4]; 
-				x[startIndex + 4] = tmp; 
+		new RPP() { // BodyPermImpl // index: 2
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __x__[__startIndex__ + 4]; 
+				__x__[__startIndex__ + 4] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyIfImpl
-			RPP pos=new RPP() {
-				private final int a = 4;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
+		new RPP() { // BodyIfImpl // index: 3
+			RPP __pos__=new RPP() {
+				public int getA() { return 4; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			RPP zero=new RPP() {
-				private RPP f = new RPP(){
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+			RPP __zero__=new RPP() {
+				private RPP __f__ = new RPP(){
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
-				private final int a = 4 ;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				public int getA() { return 4; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__,
+						__startIndex__ + 0,
+						__startIndex__ + (0) + this.__f__.getA()
+						);
 				}
 			};
-			RPP neg=new RPP() {
-				private final int a = 4;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
+			RPP __neg__=new RPP() {
+				public int getA() { return 4; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
-			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
-				if(testValue > 0){
-					pos.b(x, startIndex, startIndex + pos.getA());
-				} else if(testValue == 0){
-					zero.b(x, startIndex, startIndex + zero.getA());
-				} else { // The "testValue<0" test is a tautology
-					neg.b(x, startIndex, startIndex + neg.getA());
+			public int getA() { return this.__pos__.getA()+1; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+				if(__testValue__ > 0){
+					__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+				} else if(__testValue__ == 0){
+					__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+				} else { // The "__testValue__<0" test is a tautology
+					__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
 				}
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 4]; 
-				x[startIndex + 4] = x[startIndex + 3]; 
-				x[startIndex + 3] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+		new RPP() { // BodyPermImpl // index: 4
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 4]; 
+				__x__[__startIndex__ + 4] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				private RPP f = Dec.SINGLETON_Dec;
-				private final int a = f.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 5
+			private RPP __f__ = new RPP(){
+				private RPP __f__ = Dec.SINGLETON_Dec;
+				private final int __a__ = __f__.getA();
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__, __startIndex__, __endIndex__);
 				}
-				public int getA() { return this.a; }
+				public int getA() { return this.__a__; }
 			};
-			private final int a = 5 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 5; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP function = new funcH12.H12_v2();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 6
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new funcH12.H12_v2();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 5 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 5; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP function = new arithNat.SubN();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 7
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new arithNat.SubN();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 5 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 5; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 0]; 
-				x[startIndex + 0] = x[startIndex + 1]; 
-				x[startIndex + 1] = tmp; 
+		new RPP() { // BodyPermImpl // index: 8
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = -1;
-		while( ++i < steps.length ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+		while( ++__i__ < __steps__.length ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

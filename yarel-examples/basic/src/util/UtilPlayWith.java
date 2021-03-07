@@ -18,6 +18,7 @@ import java.util.Arrays;
  * <ul>
  * <li> {@link RPP}</li>
 * <li> {@link util.Dup}</li>
+* <li> {@link util.NegSRL}</li>
  * </ul>
  * <p>
  *
@@ -47,6 +48,8 @@ public class UtilPlayWith {
 	
 	public static void main(String[] args) throws Exception {
 		testDup();
+		
+		testNegSRL();
 	}
 	
 	//
@@ -73,6 +76,34 @@ public class UtilPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function dup with values:" + Arrays.toString(data));
 			dupRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testNegSRL(){
+		RPP negSRLRPP = new util.NegSRL();
+		final int[][] datasets = {
+			new int[]{1,5},
+			new int[]{1,5},
+			new int[]{ 0,  0},
+			new int[]{ 1,  1},
+			new int[]{ -1,  -1},
+			new int[]{ 2,  2},
+			new int[]{ -2,  -2},
+			new int[]{ 3,  3},
+			new int[]{ -3,  -3},
+			new int[]{ 4,  4},
+			new int[]{ -4,  -4},
+			new int[]{ 10,  10},
+			new int[]{ -10,  -10},
+			new int[]{ 11,  11},
+			new int[]{ -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function negSRL with values:" + Arrays.toString(data));
+			negSRLRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

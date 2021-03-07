@@ -1,10 +1,15 @@
 package arithInt;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+// import java.util.function.Supplier;
 import yarelcore.*;	
 
 public class Sum implements RPP {
 	public Sum() { }
+	
+	
+	
+
 	/**
 	 * Yarel's parallel computation is performed by executing the required subtasks in a parallel context.<br>
 	 * Instances of {@link Executors} are "natively" designed for it.<br>
@@ -13,14 +18,14 @@ public class Sum implements RPP {
 	 * "CachedThreadPool" requires to be manually turned off (via invoking {@link ExecutorService#shutdown()}),
 	 * which could be tricky to be performed or easily forgotten, blocking the whole program to finish and exit.
 	*/
-	protected ExecutorService threadPoolExecutor = Executors.newWorkStealingPool(); // needed for parallel computation
+	protected ExecutorService __threadPoolExecutor__ = Executors.newWorkStealingPool(); // needed for parallel computation
 	protected void finalize(){
 		this.destructorSum();
 	}
 	protected void destructorSum(){
-		if(threadPoolExecutor != null){
-			// threadPoolExecutor.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
-			threadPoolExecutor = null; // mark it as shut-down
+		if(__threadPoolExecutor__ != null){
+			// __threadPoolExecutor__.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
+			__threadPoolExecutor__ = null; // mark it as shut-down
 		}
 	}
 	
@@ -28,262 +33,268 @@ public class Sum implements RPP {
 		return new InvSum();
 	}
 	
-	private final RPP[] steps = new RPP[]{
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+	private final RPP[] __steps__ = new RPP[]{
+		new RPP() { // BodyPermImpl // index: 0
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP function = new util.Dup();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 1
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new util.Dup();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 5 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 2, startIndex + this.a + 2);
+			public int getA() { return 5; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 2,
+					__startIndex__ + (2) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 2]; 
-				x[startIndex + 2] = x[startIndex + 4]; 
-				x[startIndex + 4] = x[startIndex + 3]; 
-				x[startIndex + 3] = tmp; 
+		new RPP() { // BodyPermImpl // index: 2
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __x__[__startIndex__ + 4]; 
+				__x__[__startIndex__ + 4] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP function = new util.Dup();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 3
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new util.Dup();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 5 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 5; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 3]; 
-				x[startIndex + 3] = x[startIndex + 4]; 
-				x[startIndex + 4] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+		new RPP() { // BodyPermImpl // index: 4
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __x__[__startIndex__ + 4]; 
+				__x__[__startIndex__ + 4] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP pos=new RPP() {
-					RPP pos=new RPP() {
-						RPP function = new arithNat.SumN();
-						private final int a = function.getA();
-						public void b(int[] x, int startIndex, int endIndex) {
-							this.function.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 5
+			private RPP __f__ = new RPP(){
+				RPP __pos__=new RPP() {
+					RPP __pos__=new RPP() {
+						RPP __function__ = new arithNat.SumN();
+						public int getA() { return __function__.getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
 						}
-						 public int getA() { return this.a; }
 					};
-					RPP zero=new RPP() {
-						private final int a = 2;
-						public int getA() { return this.a; }
-						public void b(int[] x, int startIndex, int endIndex) {
+					RPP __zero__=new RPP() {
+						public int getA() { return 2; }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							// There were only parallels identities, nothing interesting to show and run
 						}
 					};
-					RPP neg=new RPP() {
-						private final RPP[] steps = new RPP[]{
-							new RPP() { // ParCompImpl
-								private RPP f = new RPP(){
-									private RPP f = Neg.SINGLETON_Neg;
-									private final int a = f.getA();
-									public void b(int[] x, int startIndex, int endIndex) {
-										this.f.b(x, startIndex, endIndex);
+					RPP __neg__=new RPP() {
+						private final RPP[] __steps__ = new RPP[]{
+							new RPP() { // ParCompImpl // index: 0
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = Neg.SINGLETON_Neg;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
 									}
-									public int getA() { return this.a; }
+									public int getA() { return this.__a__; }
 								};
-								private final int a = 2 ;
-								public int getA() { return this.a; }
-								public void b(int[] x, int startIndex, int endIndex) {
-									this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+								public int getA() { return 2; }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + 0,
+										__startIndex__ + (0) + this.__f__.getA()
+										);
 								}
 							},
 							
-							new RPP() { // BodyFunImpl
-								RPP function = new arithNat.SubN();
-								private final int a = function.getA();
-								public void b(int[] x, int startIndex, int endIndex) {
-									this.function.b(x, startIndex, endIndex);
+							new RPP() { // BodyFunImpl // index: 1
+								RPP __function__ = new arithNat.SubN();
+								public int getA() { return __function__.getA(); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__function__.b(__x__, __startIndex__, __endIndex__);
 								}
-								 public int getA() { return this.a; }
 							},
 							
-							new RPP() { // ParCompImpl
-								private RPP f = new RPP(){
-									private RPP f = Neg.SINGLETON_Neg;
-									private final int a = f.getA();
-									public void b(int[] x, int startIndex, int endIndex) {
-										this.f.b(x, startIndex, endIndex);
+							new RPP() { // ParCompImpl // index: 2
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = Neg.SINGLETON_Neg;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
 									}
-									public int getA() { return this.a; }
+									public int getA() { return this.__a__; }
 								};
-								private final int a = 2 ;
-								public int getA() { return this.a; }
-								public void b(int[] x, int startIndex, int endIndex) {
-									this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+								public int getA() { return 2; }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + 0,
+										__startIndex__ + (0) + this.__f__.getA()
+										);
 								}
 							}
 						};
-						private final int a = steps[0].getA();
-						public int getA() { return this.a; }
-						public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-							int i;
-							i = -1;
-							while( ++i < steps.length ){
-								steps[i].b(x, startIndex, endIndex);
+						public int getA() { return this.__steps__[0].getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+							int __i__;
+							__i__ = -1;
+							while( ++__i__ < __steps__.length ){
+								__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 							}
 						}
 					};
-					private final int a=pos.getA()+1;
-					public int getA() {return this.a;}
-					public void b(int[] x, int startIndex, int endIndex) {
-						final int testValue = x[(startIndex + a) - 1];
-						if(testValue > 0){
-							pos.b(x, startIndex, startIndex + pos.getA());
-						} else if(testValue == 0){
-							zero.b(x, startIndex, startIndex + zero.getA());
-						} else { // The "testValue<0" test is a tautology
-							neg.b(x, startIndex, startIndex + neg.getA());
+					public int getA() { return this.__pos__.getA()+1; }
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+						if(__testValue__ > 0){
+							__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+						} else if(__testValue__ == 0){
+							__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+						} else { // The "__testValue__<0" test is a tautology
+							__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
 						}
 					}
 				};
-				RPP zero=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
+				RPP __zero__=new RPP() {
+					public int getA() { return 3; }
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 						// There were only parallels identities, nothing interesting to show and run
 					}
 				};
-				RPP neg=new RPP() {
-					RPP pos=new RPP() {
-						private final RPP[] steps = new RPP[]{
-							new RPP() { // ParCompImpl
-								private RPP f = new RPP(){
-									private RPP f = Neg.SINGLETON_Neg;
-									private final int a = f.getA();
-									public void b(int[] x, int startIndex, int endIndex) {
-										this.f.b(x, startIndex, endIndex);
+				RPP __neg__=new RPP() {
+					RPP __pos__=new RPP() {
+						private final RPP[] __steps__ = new RPP[]{
+							new RPP() { // ParCompImpl // index: 0
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = Neg.SINGLETON_Neg;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
 									}
-									public int getA() { return this.a; }
+									public int getA() { return this.__a__; }
 								};
-								private final int a = 2 ;
-								public int getA() { return this.a; }
-								public void b(int[] x, int startIndex, int endIndex) {
-									this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+								public int getA() { return 2; }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + 1,
+										__startIndex__ + (1) + this.__f__.getA()
+										);
 								}
 							},
 							
-							new RPP() { // BodyFunImpl
-								RPP function = new arithNat.SubN();
-								private final int a = function.getA();
-								public void b(int[] x, int startIndex, int endIndex) {
-									this.function.b(x, startIndex, endIndex);
+							new RPP() { // BodyFunImpl // index: 1
+								RPP __function__ = new arithNat.SubN();
+								public int getA() { return __function__.getA(); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__function__.b(__x__, __startIndex__, __endIndex__);
 								}
-								 public int getA() { return this.a; }
 							},
 							
-							new RPP() { // ParCompImpl
-								private RPP f = new RPP(){
-									private RPP f = Neg.SINGLETON_Neg;
-									private final int a = f.getA();
-									public void b(int[] x, int startIndex, int endIndex) {
-										this.f.b(x, startIndex, endIndex);
+							new RPP() { // ParCompImpl // index: 2
+								private RPP __f__ = new RPP(){
+									private RPP __f__ = Neg.SINGLETON_Neg;
+									private final int __a__ = __f__.getA();
+									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+										this.__f__.b(__x__, __startIndex__, __endIndex__);
 									}
-									public int getA() { return this.a; }
+									public int getA() { return this.__a__; }
 								};
-								private final int a = 2 ;
-								public int getA() { return this.a; }
-								public void b(int[] x, int startIndex, int endIndex) {
-									this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+								public int getA() { return 2; }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__f__.b(__x__,
+										__startIndex__ + 1,
+										__startIndex__ + (1) + this.__f__.getA()
+										);
 								}
 							}
 						};
-						private final int a = steps[0].getA();
-						public int getA() { return this.a; }
-						public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-							int i;
-							i = -1;
-							while( ++i < steps.length ){
-								steps[i].b(x, startIndex, endIndex);
+						public int getA() { return this.__steps__[0].getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+							int __i__;
+							__i__ = -1;
+							while( ++__i__ < __steps__.length ){
+								__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 							}
 						}
 					};
-					RPP zero=new RPP() {
-						private final int a = 2;
-						public int getA() { return this.a; }
-						public void b(int[] x, int startIndex, int endIndex) {
+					RPP __zero__=new RPP() {
+						public int getA() { return 2; }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							// There were only parallels identities, nothing interesting to show and run
 						}
 					};
-					RPP neg=new RPP() {
-						private final RPP[] steps = new RPP[]{
-							new RPP() { // ParCompImpl
+					RPP __neg__=new RPP() {
+						private final RPP[] __steps__ = new RPP[]{
+							new RPP() { // ParCompImpl // index: 0
 								/**
 								 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 								 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 								 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 								 * The order is preserved from the Yarel source code.
 								*/
-								private final RPP[] subtasks = new RPP[]{
-									new RPP(){ // BodyNegImpl
-										private RPP f = Neg.SINGLETON_Neg;
-										private final int a = f.getA();
-										public void b(int[] x, int startIndex, int endIndex) {
-											this.f.b(x, startIndex, endIndex);
+								private final RPP[] __subtasks__ = new RPP[]{
+									new RPP(){ // BodyNegImpl // index: 0
+										private RPP __f__ = Neg.SINGLETON_Neg;
+										private final int __a__ = __f__.getA();
+										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+											this.__f__.b(__x__, __startIndex__, __endIndex__);
 										}
-										public int getA() { return this.a; }
+										public int getA() { return this.__a__; }
 									},
 									
-									new RPP(){ // BodyNegImpl
-										private RPP f = Neg.SINGLETON_Neg;
-										private final int a = f.getA();
-										public void b(int[] x, int startIndex, int endIndex) {
-											this.f.b(x, startIndex, endIndex);
+									new RPP(){ // BodyNegImpl // index: 1
+										private RPP __f__ = Neg.SINGLETON_Neg;
+										private final int __a__ = __f__.getA();
+										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+											this.__f__.b(__x__, __startIndex__, __endIndex__);
 										}
-										public int getA() { return this.a; }
+										public int getA() { return this.__a__; }
 									}
 								};
-								private final int[] startIndexOffsets = { 0,1 };
-								private final int a = 2;
-								public int getA() { return this.a; }
-								public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
+								/*
+								private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
+									() -> { return 0;}, //
+									() -> { return 1;}
+								};
+								*/
+								private final int[] __startIndexOffset__ = {
+									0, //
+									1
+								};
+								public int getA() { return (2); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a parallel composition
 									/**
 									 * The Yarel's compiled code runs on a single {@link Thread}, which We could name
 									 * as "the main thread", executing sequentially a "block" of code after the other.<br>
@@ -306,117 +317,119 @@ public class Sum implements RPP {
 									 * </li>
 									 * </ol>
 									 * <p>
-									 * To do this, it's required a <i>semaphore</i>-like object, recording the amount of
+									 * To do this, it's required a <i>__semaphore__</i>-like object, recording the amount of
 									 * "still running tasks", that lets the main thread to sleep and being awakened
 									 * when all of those tasks has been completed.<br>
 									 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
 									*/
 									
-									boolean areChildrenRunning = true;
-									int startingIndex;
-									final int[] semaphore = new int[]{ subtasks.length };
-									final Runnable[] tasks = new Runnable[ semaphore[0] ];
+									boolean __areChildrenRunning__ = true, __neverStarted__;
+									int __startingIndex__;
+									final int[] __semaphore__ = new int[]{ __subtasks__.length };
+									final Runnable[] __tasks__ = new Runnable[ __semaphore__[0] ];
 								
 									// PHASE 1 convert the RPP in runnable tasks
-									for(int i = 0; i < tasks.length; i++){
-										startingIndex = startIndex + startIndexOffsets[i];
-										tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
+									for(int __i__ = 0; __i__ < __tasks__.length; __i__++){
+										__startingIndex__ = __startIndex__ + __startIndexOffset__[__i__]; // __startIndexOffsetSuppliers__[__i__].get();
+										__tasks__[__i__] = new SubBodyRunner(__startingIndex__, __subtasks__[__i__], __x__){
 											public void run(){
 												// execute the main body (delegate inside the superclass implementation)
 												super.run();
 												
-												// after the body execution, manage the semaphore
-												synchronized (semaphore) {
+												// after the body execution, manage the __semaphore__
+												synchronized (__semaphore__) {
 													// if all tasks are successfully finished, awake the main thread
-													semaphore[0]--;
-													semaphore.notifyAll();
+													__semaphore__[0]--;
+													__semaphore__.notifyAll();
 												}
 											}
 										};
 										// each tasks performs over their own registers segment, so update the starting point
 									}
-									
-									// PHASE 2: put the "sprinters" at the "race's starting blocks".
-									synchronized (semaphore) { // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
-										threadPoolExecutor.submit( ()-> {
-											/* This runner is the "submitter", which task is to submit all parallel tasks,
-												and can't run while the main thread has the lock, because that main thread is still working.
-												It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
-												due to race conditions.
-											*/
-											synchronized (semaphore) {
-												// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
-												for(Runnable t : tasks){ // let's start the tasks
-													threadPoolExecutor.submit(t);
-												}
-											}
-										});
-										
-										// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
-										try {
-											semaphore.wait(); 
-											/* The "wait" let the main thread to sleep, releasing the lock.
-												NOW the submitter can submit the parallel tasks, which can then to be executed.
-											*/
-										} catch (InterruptedException e) {
-											e.printStackTrace();
-										}
-									}
+									__neverStarted__ = true;
 									do{
-										synchronized (semaphore) {
-											if(semaphore[0] <= 0){
-												areChildrenRunning = false;
-											} else {
+										synchronized (__semaphore__) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
+											if(__neverStarted__){
+												__neverStarted__ = false;
+											// PHASE 2: put the "sprinters" at the "race's starting blocks".
+												__threadPoolExecutor__.submit( ()-> {
+													/* This runner is the "submitter", which task is to submit all parallel tasks,
+														and can't run while the main thread has the lock, because that main thread is still working.
+														It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
+														due to race conditions.
+													*/
+													synchronized (__semaphore__) {
+														// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
+														for(Runnable __t__ : __tasks__){ // let's start the tasks
+															__threadPoolExecutor__.submit(__t__);
+														}
+													}
+												});
+											}
+											
+											__areChildrenRunning__ = __semaphore__[0] > 0;
+											if(__areChildrenRunning__){
+											// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
 												try {
-													semaphore.wait(); // some child(dren) is still running
-												} catch (InterruptedException e) {
-													e.printStackTrace();
+													/* The "wait" let the main thread to sleep, releasing the lock.
+														NOW the submitter can submit the parallel tasks, which can then to be executed.
+													*/
+													__semaphore__.wait(); // some child(dren) is(are) still running
+												} catch (InterruptedException __e__) {
+													__e__.printStackTrace();
 												}
 											}
 										}
-									} while(areChildrenRunning);
+									} while(__areChildrenRunning__);
 								}
 							},
 							
-							new RPP() { // BodyFunImpl
-								RPP function = new arithNat.SumN();
-								private final int a = function.getA();
-								public void b(int[] x, int startIndex, int endIndex) {
-									this.function.b(x, startIndex, endIndex);
+							new RPP() { // BodyFunImpl // index: 1
+								RPP __function__ = new arithNat.SumN();
+								public int getA() { return __function__.getA(); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+									this.__function__.b(__x__, __startIndex__, __endIndex__);
 								}
-								 public int getA() { return this.a; }
 							},
 							
-							new RPP() { // ParCompImpl
+							new RPP() { // ParCompImpl // index: 2
 								/**
 								 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 								 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 								 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 								 * The order is preserved from the Yarel source code.
 								*/
-								private final RPP[] subtasks = new RPP[]{
-									new RPP(){ // BodyNegImpl
-										private RPP f = Neg.SINGLETON_Neg;
-										private final int a = f.getA();
-										public void b(int[] x, int startIndex, int endIndex) {
-											this.f.b(x, startIndex, endIndex);
+								private final RPP[] __subtasks__ = new RPP[]{
+									new RPP(){ // BodyNegImpl // index: 0
+										private RPP __f__ = Neg.SINGLETON_Neg;
+										private final int __a__ = __f__.getA();
+										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+											this.__f__.b(__x__, __startIndex__, __endIndex__);
 										}
-										public int getA() { return this.a; }
+										public int getA() { return this.__a__; }
 									},
 									
-									new RPP(){ // BodyNegImpl
-										private RPP f = Neg.SINGLETON_Neg;
-										private final int a = f.getA();
-										public void b(int[] x, int startIndex, int endIndex) {
-											this.f.b(x, startIndex, endIndex);
+									new RPP(){ // BodyNegImpl // index: 1
+										private RPP __f__ = Neg.SINGLETON_Neg;
+										private final int __a__ = __f__.getA();
+										public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+											this.__f__.b(__x__, __startIndex__, __endIndex__);
 										}
-										public int getA() { return this.a; }
+										public int getA() { return this.__a__; }
 									}
 								};
-								private final int[] startIndexOffsets = { 0,1 };
-								private final int a = 2;
-								public int getA() { return this.a; }
-								public void b(int[] x, int startIndex, int endIndex) { // Implements a parallel composition
+								/*
+								private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
+									() -> { return 0;}, //
+									() -> { return 1;}
+								};
+								*/
+								private final int[] __startIndexOffset__ = {
+									0, //
+									1
+								};
+								public int getA() { return (2); }
+								public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a parallel composition
 									/**
 									 * The Yarel's compiled code runs on a single {@link Thread}, which We could name
 									 * as "the main thread", executing sequentially a "block" of code after the other.<br>
@@ -439,156 +452,149 @@ public class Sum implements RPP {
 									 * </li>
 									 * </ol>
 									 * <p>
-									 * To do this, it's required a <i>semaphore</i>-like object, recording the amount of
+									 * To do this, it's required a <i>__semaphore__</i>-like object, recording the amount of
 									 * "still running tasks", that lets the main thread to sleep and being awakened
 									 * when all of those tasks has been completed.<br>
 									 * Java's objects (arrays are objects) natively supports this: using the <i>monitor's lock</i>.
 									*/
 									
-									boolean areChildrenRunning = true;
-									int startingIndex;
-									final int[] semaphore = new int[]{ subtasks.length };
-									final Runnable[] tasks = new Runnable[ semaphore[0] ];
+									boolean __areChildrenRunning__ = true, __neverStarted__;
+									int __startingIndex__;
+									final int[] __semaphore__ = new int[]{ __subtasks__.length };
+									final Runnable[] __tasks__ = new Runnable[ __semaphore__[0] ];
 								
 									// PHASE 1 convert the RPP in runnable tasks
-									for(int i = 0; i < tasks.length; i++){
-										startingIndex = startIndex + startIndexOffsets[i];
-										tasks[i] = new SubBodyRunner(startingIndex, subtasks[i], x){
+									for(int __i__ = 0; __i__ < __tasks__.length; __i__++){
+										__startingIndex__ = __startIndex__ + __startIndexOffset__[__i__]; // __startIndexOffsetSuppliers__[__i__].get();
+										__tasks__[__i__] = new SubBodyRunner(__startingIndex__, __subtasks__[__i__], __x__){
 											public void run(){
 												// execute the main body (delegate inside the superclass implementation)
 												super.run();
 												
-												// after the body execution, manage the semaphore
-												synchronized (semaphore) {
+												// after the body execution, manage the __semaphore__
+												synchronized (__semaphore__) {
 													// if all tasks are successfully finished, awake the main thread
-													semaphore[0]--;
-													semaphore.notifyAll();
+													__semaphore__[0]--;
+													__semaphore__.notifyAll();
 												}
 											}
 										};
 										// each tasks performs over their own registers segment, so update the starting point
 									}
-									
-									// PHASE 2: put the "sprinters" at the "race's starting blocks".
-									synchronized (semaphore) { // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
-										threadPoolExecutor.submit( ()-> {
-											/* This runner is the "submitter", which task is to submit all parallel tasks,
-												and can't run while the main thread has the lock, because that main thread is still working.
-												It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
-												due to race conditions.
-											*/
-											synchronized (semaphore) {
-												// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
-												for(Runnable t : tasks){ // let's start the tasks
-													threadPoolExecutor.submit(t);
-												}
-											}
-										});
-										
-										// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
-										try {
-											semaphore.wait(); 
-											/* The "wait" let the main thread to sleep, releasing the lock.
-												NOW the submitter can submit the parallel tasks, which can then to be executed.
-											*/
-										} catch (InterruptedException e) {
-											e.printStackTrace();
-										}
-									}
+									__neverStarted__ = true;
 									do{
-										synchronized (semaphore) {
-											if(semaphore[0] <= 0){
-												areChildrenRunning = false;
-											} else {
+										synchronized (__semaphore__) {  // acquire the lock, so that the parallel executions must be performed AFTER this thread sleeps.
+											if(__neverStarted__){
+												__neverStarted__ = false;
+											// PHASE 2: put the "sprinters" at the "race's starting blocks".
+												__threadPoolExecutor__.submit( ()-> {
+													/* This runner is the "submitter", which task is to submit all parallel tasks,
+														and can't run while the main thread has the lock, because that main thread is still working.
+														It's required since this task *could* be concurrently executed BEFORE the main thread sleeps
+														due to race conditions.
+													*/
+													synchronized (__semaphore__) {
+														// the "submitter" can enter this section only after the main thread release the lock (via sleeping)
+														for(Runnable __t__ : __tasks__){ // let's start the tasks
+															__threadPoolExecutor__.submit(__t__);
+														}
+													}
+												});
+											}
+											
+											__areChildrenRunning__ = __semaphore__[0] > 0;
+											if(__areChildrenRunning__){
+											// PHASE 3: the main thread sleeps and the "parallel sub-tasks" could now (be submitted and) run.
 												try {
-													semaphore.wait(); // some child(dren) is still running
-												} catch (InterruptedException e) {
-													e.printStackTrace();
+													/* The "wait" let the main thread to sleep, releasing the lock.
+														NOW the submitter can submit the parallel tasks, which can then to be executed.
+													*/
+													__semaphore__.wait(); // some child(dren) is(are) still running
+												} catch (InterruptedException __e__) {
+													__e__.printStackTrace();
 												}
 											}
 										}
-									} while(areChildrenRunning);
+									} while(__areChildrenRunning__);
 								}
 							}
 						};
-						private final int a = steps[0].getA();
-						public int getA() { return this.a; }
-						public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-							int i;
-							i = -1;
-							while( ++i < steps.length ){
-								steps[i].b(x, startIndex, endIndex);
+						public int getA() { return this.__steps__[0].getA(); }
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+							int __i__;
+							__i__ = -1;
+							while( ++__i__ < __steps__.length ){
+								__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 							}
 						}
 					};
-					private final int a=pos.getA()+1;
-					public int getA() {return this.a;}
-					public void b(int[] x, int startIndex, int endIndex) {
-						final int testValue = x[(startIndex + a) - 1];
-						if(testValue > 0){
-							pos.b(x, startIndex, startIndex + pos.getA());
-						} else if(testValue == 0){
-							zero.b(x, startIndex, startIndex + zero.getA());
-						} else { // The "testValue<0" test is a tautology
-							neg.b(x, startIndex, startIndex + neg.getA());
+					public int getA() { return this.__pos__.getA()+1; }
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+						if(__testValue__ > 0){
+							__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+						} else if(__testValue__ == 0){
+							__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+						} else { // The "__testValue__<0" test is a tautology
+							__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
 						}
 					}
 				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
-				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
-					if(testValue > 0){
-						pos.b(x, startIndex, startIndex + pos.getA());
-					} else if(testValue == 0){
-						zero.b(x, startIndex, startIndex + zero.getA());
-					} else { // The "testValue<0" test is a tautology
-						neg.b(x, startIndex, startIndex + neg.getA());
+				public int getA() { return this.__pos__.getA()+1; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+					if(__testValue__ > 0){
+						__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+					} else if(__testValue__ == 0){
+						__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+					} else { // The "__testValue__<0" test is a tautology
+						__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
 					}
 				}
 			};
-			private final int a = 5 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+			public int getA() { return 5; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 5;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+		new RPP() { // BodyPermImpl // index: 6
+			private final int __a__ = 5;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
-				RPP function = new util.InvDup();
-				private final int a = function.getA();
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
+		new RPP() { // ParCompImpl // index: 7
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new util.InvDup();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
 				}
-				 public int getA() { return this.a; }
 			};
-			private final int a = 5 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 2, startIndex + this.a + 2);
+			public int getA() { return 5; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 2,
+					__startIndex__ + (2) + this.__f__.getA()
+					);
 			}
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = -1;
-		while( ++i < steps.length ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+		while( ++__i__ < __steps__.length ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

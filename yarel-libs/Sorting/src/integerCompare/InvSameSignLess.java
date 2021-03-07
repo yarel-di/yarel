@@ -4,190 +4,192 @@ import yarelcore.*;
 public class InvSameSignLess implements RPP {
 	public InvSameSignLess() { }
 	
+	
+	
+
+	
 	public SameSignLess getInverse(){
 		return new SameSignLess();
 	}
 	
-	private final RPP[] steps = new RPP[]{
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
+	private final RPP[] __steps__ = new RPP[]{
+		new RPP() { // ParCompImpl // index: 0
+			private RPP __f__ = new RPP(){
 				/** regular function used when v > 0 */
-				RPP function = new RPP() { // BodyDecImpl
-					private RPP f = InvDec.SINGLETON_InvDec;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+				RPP __function__ = new RPP() { // BodyDecImpl
+					private RPP __f__ = InvDec.SINGLETON_InvDec;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
 				
 				/** inverse function used when v < 0 */
-				RPP inv_function = new RPP() { // InvBodyDecImpl
-					private RPP f = Dec.SINGLETON_Dec;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+				RPP __inv_function__ = new RPP() { // InvBodyDecImpl
+					private RPP __f__ = Dec.SINGLETON_Dec;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
 				
-				private final int a = function.getA()+1;
-				public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-					final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
-					int repetitionCounter = x[repCounterIndex];
-					originalRepCounter = repetitionCounter;
+				public int getA() { return __function__.getA()+1; } 
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
+					final int __repCounterIndex__ = (__startIndex__ + this.getA()) - 1, __originalRepCounter__;
+					int __repetitionCounter__ = __x__[__repCounterIndex__];
+					__originalRepCounter__ = __repetitionCounter__;
 				
-					if(repetitionCounter > 0){ //if v is greater than zero, recursion goes on and v decreases each time
-						endIndex = startIndex + function.getA();
-						while(repetitionCounter-->0){
-							function.b(x, startIndex, repCounterIndex);
-							x[repCounterIndex]--;
+					if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
+						__endIndex__ = __startIndex__ + __function__.getA();
+						while(__repetitionCounter__-->0){
+							__function__.b(__x__, __startIndex__, __repCounterIndex__);
+							__x__[__repCounterIndex__]--;
 						}
-					}else if(repetitionCounter < 0){ //if v is greater than zero, recursion goes on and v decreases each time
-						endIndex = startIndex + inv_function.getA();
-						while(repetitionCounter++<0){
-							inv_function.b(x, startIndex, repCounterIndex);
-							x[repCounterIndex]++;
+					}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
+						__endIndex__ = __startIndex__ + __inv_function__.getA();
+						while(__repetitionCounter__++<0){
+							__inv_function__.b(__x__, __startIndex__, __repCounterIndex__);
+							__x__[__repCounterIndex__]++;
 						}
 					} //else: when v is equal to zero, recursive calls stop as a value is returned
-					x[repCounterIndex] = originalRepCounter; // restore the original value
+					__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 				}
-				public int getA() { return this.a; } 
 			};
-			private final int a = 3 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+			public int getA() { return 3; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 1,
+					__startIndex__ + (1) + this.__f__.getA()
+					);
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 3;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+		new RPP() { // BodyPermImpl // index: 1
+			private final int __a__ = 3;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // BodyIfImpl
-			RPP pos=new RPP() {
-				private final int a = 2;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
+		new RPP() { // BodyIfImpl // index: 2
+			RPP __pos__=new RPP() {
+				public int getA() { return 2; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			RPP zero=new RPP() {
-				private final int a = 2;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
+			RPP __zero__=new RPP() {
+				public int getA() { return 2; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 					// There were only parallels identities, nothing interesting to show and run
 				}
 			};
-			RPP neg=new RPP() {
-				private RPP f = new RPP(){
-					private RPP f = InvInc.SINGLETON_InvInc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+			RPP __neg__=new RPP() {
+				private RPP __f__ = new RPP(){
+					private RPP __f__ = InvInc.SINGLETON_InvInc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
-				private final int a = 2 ;
-				public int getA() { return this.a; }
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 0, startIndex + this.a + 0);
+				public int getA() { return 2; }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__,
+						__startIndex__ + 0,
+						__startIndex__ + (0) + this.__f__.getA()
+						);
 				}
 			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
-			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
-				if(testValue > 0){
-					pos.b(x, startIndex, startIndex + pos.getA());
-				} else if(testValue == 0){
-					zero.b(x, startIndex, startIndex + zero.getA());
-				} else { // The "testValue<0" test is a tautology
-					neg.b(x, startIndex, startIndex + neg.getA());
+			public int getA() { return this.__pos__.getA()+1; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+				if(__testValue__ > 0){
+					__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+				} else if(__testValue__ == 0){
+					__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+				} else { // The "__testValue__<0" test is a tautology
+					__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
 				}
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
-			private final int a = 3;
-			public void b(int[] x, int startIndex, int endIndex) {
-				int tmp=0;
-				tmp = x[startIndex + 1]; 
-				x[startIndex + 1] = x[startIndex + 2]; 
-				x[startIndex + 2] = tmp; 
+		new RPP() { // BodyPermImpl // index: 3
+			private final int __a__ = 3;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
 			}
-			
-			public int getA() { return this.a; }
+			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
-			private RPP f = new RPP(){
+		new RPP() { // ParCompImpl // index: 4
+			private RPP __f__ = new RPP(){
 				/** regular function used when v > 0 */
-				RPP function = new RPP() { // BodyIncImpl
-					private RPP f = InvInc.SINGLETON_InvInc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+				RPP __function__ = new RPP() { // BodyIncImpl
+					private RPP __f__ = InvInc.SINGLETON_InvInc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
 				
 				/** inverse function used when v < 0 */
-				RPP inv_function = new RPP() { // InvBodyIncImpl
-					private RPP f = Inc.SINGLETON_Inc;
-					private final int a = f.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex, endIndex);
+				RPP __inv_function__ = new RPP() { // InvBodyIncImpl
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					private final int __a__ = __f__.getA();
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
 					}
-					public int getA() { return this.a; }
+					public int getA() { return this.__a__; }
 				};
 				
-				private final int a = function.getA()+1;
-				public void b(int[] x, int startIndex, int endIndex) { //b stands for behaviour and x are the delta and v function parameters
-					final int repCounterIndex = (startIndex + a) - 1, originalRepCounter;
-					int repetitionCounter = x[repCounterIndex];
-					originalRepCounter = repetitionCounter;
+				public int getA() { return __function__.getA()+1; } 
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) { //b stands for behaviour and x are the delta and v function parameters
+					final int __repCounterIndex__ = (__startIndex__ + this.getA()) - 1, __originalRepCounter__;
+					int __repetitionCounter__ = __x__[__repCounterIndex__];
+					__originalRepCounter__ = __repetitionCounter__;
 				
-					if(repetitionCounter > 0){ //if v is greater than zero, recursion goes on and v decreases each time
-						endIndex = startIndex + function.getA();
-						while(repetitionCounter-->0){
-							function.b(x, startIndex, repCounterIndex);
-							x[repCounterIndex]--;
+					if(__repetitionCounter__ > 0){ //if v is greater than zero, recursion goes on and v decreases each time
+						__endIndex__ = __startIndex__ + __function__.getA();
+						while(__repetitionCounter__-->0){
+							__function__.b(__x__, __startIndex__, __repCounterIndex__);
+							__x__[__repCounterIndex__]--;
 						}
-					}else if(repetitionCounter < 0){ //if v is greater than zero, recursion goes on and v decreases each time
-						endIndex = startIndex + inv_function.getA();
-						while(repetitionCounter++<0){
-							inv_function.b(x, startIndex, repCounterIndex);
-							x[repCounterIndex]++;
+					}else if(__repetitionCounter__ < 0){ //if v is greater than zero, recursion goes on and v decreases each time
+						__endIndex__ = __startIndex__ + __inv_function__.getA();
+						while(__repetitionCounter__++<0){
+							__inv_function__.b(__x__, __startIndex__, __repCounterIndex__);
+							__x__[__repCounterIndex__]++;
 						}
 					} //else: when v is equal to zero, recursive calls stop as a value is returned
-					x[repCounterIndex] = originalRepCounter; // restore the original value
+					__x__[__repCounterIndex__] = __originalRepCounter__; // restore the original value
 				}
-				public int getA() { return this.a; } 
 			};
-			private final int a = 3 ;
-			public int getA() { return this.a; }
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.f.b(x, startIndex + 1, startIndex + this.a + 1);
+			public int getA() { return 3; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 1,
+					__startIndex__ + (1) + this.__f__.getA()
+					);
 			}
 		}
 	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = steps.length;
-		while( i-->0 ){
-			steps[i].b(x, startIndex, endIndex);
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = __steps__.length;
+		while( __i__-->0 ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
 	}
 }

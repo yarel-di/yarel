@@ -1,9 +1,11 @@
 package org.di.unito.yarel.utils
 
-import org.di.unito.yarel.yarel.Model
-import org.di.unito.yarel.yarel.Declaration
-import org.di.unito.yarel.yarel.Definition
-import org.di.unito.yarel.yarel.Import
+import java.util.List
+import java.util.LinkedList
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.common.util.EList
+import org.di.unito.yarel.scoping.YarelIndex
+import org.di.unito.yarel.yarel.AdditionLEWP
 import org.di.unito.yarel.yarel.Body
 import org.di.unito.yarel.yarel.BodyDec
 import org.di.unito.yarel.yarel.BodyFor
@@ -14,23 +16,65 @@ import org.di.unito.yarel.yarel.BodyInc
 import org.di.unito.yarel.yarel.BodyInv
 import org.di.unito.yarel.yarel.BodyIt
 import org.di.unito.yarel.yarel.BodyNeg
+import org.di.unito.yarel.yarel.BodyParamPerm
 import org.di.unito.yarel.yarel.BodyPerm
+import org.di.unito.yarel.yarel.BodySwap
+import org.di.unito.yarel.yarel.BodyParamId
+import org.di.unito.yarel.yarel.BodyParamInc
+import org.di.unito.yarel.yarel.BodyParamNeg
+import org.di.unito.yarel.yarel.BodyParamDec
+import org.di.unito.yarel.yarel.BodyParamFor
+import org.di.unito.yarel.yarel.BodyParamIt
+import org.di.unito.yarel.yarel.BracketLEWP
+import org.di.unito.yarel.yarel.Declaration
+import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.FunctionInvocation
+import org.di.unito.yarel.yarel.Import
+import org.di.unito.yarel.yarel.IntLEWP
+import org.di.unito.yarel.yarel.LinearExpressionWithParameters
+import org.di.unito.yarel.yarel.MinusLEWP
+import org.di.unito.yarel.yarel.Model
 import org.di.unito.yarel.yarel.ParComp
+import org.di.unito.yarel.yarel.ParamLEWP
+import org.di.unito.yarel.yarel.ParametricArity
+import org.di.unito.yarel.yarel.PlusLEWP
 import org.di.unito.yarel.yarel.SerComp
-import org.di.unito.yarel.yarel.BodyPermIndex
-import java.util.LinkedList
+import org.di.unito.yarel.yarel.SubtractionLEWP
+import org.di.unito.yarel.yarel.AritiesAssignment
+import org.di.unito.yarel.yarel.AritySignature
+import org.di.unito.yarel.yarel.ParametersAssignment
+import org.di.unito.yarel.yarel.Type
+import org.di.unito.yarel.yarel.InvocationParametersSignature
+import org.di.unito.yarel.yarel.ParamName
+
+import static extension org.di.unito.yarel.scoping.YarelIndex.*
+import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
 
 /* Added by Matteo Palazzo */
 class YarelUtils {
-	/*
-	 * Return all the declarations of a module
-	 */
-	def declarations(Model module){module.elements.filter(typeof(Declaration))}
-	/*
-	 * Return all the definitions of a module
-	 */
-	def definitions(Model module){module.elements.filter(typeof(Definition))}
-
+	
+	def static Definition getDefinition(Declaration decl){
+		val currentModule = decl.getContainerOfType(typeof(Model))
+		val declName = decl.name
+		return currentModule.definitions.findFirst[it.declarationName.name == declName]
+	}
+	
+	def static Declaration getDeclaration(Definition deff){
+//		var i = 0
+//		var Declaration decl = null
+//		val currentModule = deff.getContainerOfType(typeof(Model))
+//		val decls = currentModule.declarations
+//		while(decl === null && i < decls.size){
+//			if(decls.get(i).name == deff.declarationName){
+//				decl = decls.get(i)
+//			}
+//			i++
+//		}
+//		return decl;
+		deff.declarationName
+	}
+	
+	
 	/*
 	 * Return the name of the module used in the import
 	 */
@@ -54,8 +98,12 @@ class YarelUtils {
 		}
 		else return null
 	}
-	
-	
+
+
+
+/*Start added/modified by Marco Ottina */
+
+
 	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Body rootBody){
 		var Body body = rootBody;
 		val allBodies = new LinkedList<Body>();
@@ -63,36 +111,225 @@ class YarelUtils {
 			allBodies.addFirst(body.right)
 			body = body.left
 		}
-		allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
+		if(body !== null) allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
 		return allBodies
 	}
-	
+
 	static def dispatch LinkedList<Body> getAllSequentialBodyBlocks(Definition defin){
 		return getAllSequentialBodyBlocks(defin.body)
 	}
-	
-	
-	static def dispatch int getArity(Declaration declaration) {
-		return declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
+
+	static def LinkedList<Body> getAllParallelBodyBlocks(Body rootBody){
+		var Body body = rootBody;
+		val allBodies = new LinkedList<Body>();
+		while(body instanceof ParComp){// all second-to-last steps (whose are atomic or parallel sub-bodies), if any
+			allBodies.addFirst(body.right)
+			body = body.left
+		}
+		if(body !== null) allBodies.addFirst(body) // the first function's step (atomic or parallel sub-body)
+		return allBodies
 	}
-		
-	static def dispatch int getArity(Body body) {
-		switch body {
-			SerComp: body.left.arity
-			ParComp: body.right.arity + body.left.arity
-			BodyInv : body.body.arity
-			BodyFun : body.funName.arity
-			BodyIt : 1 + body.body.arity
-			BodyFor: 1 + body.body.arity
-			BodyIf: 1 + body.pos.arity
-			BodyPerm: body.permutation.indexes.size
-			BodyPermIndex: 1 + body.permIndexed.permutationArity
-			BodyInc : 1
-			BodyDec : 1
-			BodyNeg : 1
-			BodyId: 1
-			default:
-				throw new RuntimeException("Body not found " + body)
+
+	static def LinkedList<Body> getAllParallelBodyBlocks(SerComp rootBody){
+		return getAllParallelBodyBlocks(rootBody.right)
+	}
+	
+	static def dispatch boolean hasSomeParameters(FunctionInvocation fun){
+		return (fun.aritiesAssign !== null && fun.aritiesAssign.arities.size > 0)
+			|| (fun.paramsAssign !== null && fun.paramsAssign.parameters.size > 0);
+	}
+
+	static def dispatch boolean hasSomeParameters(Declaration decl){
+		return ( decl.aritySignature !== null && decl.aritySignature.parametricArities.size > 0)
+			|| (decl.invocParamsSignat !== null && decl.invocParamsSignat.invocParam.size > 0);
+	}
+
+	/* start ARITY COMPUTATION BLOCK */
+
+
+	private static def void lewpToArity(ComposedArity ca, LinearExpressionWithParameters lewp, boolean isAdding){
+		switch lewp {
+			MinusLEWP: lewpToArity(ca,lewp.sub, ! isAdding)
+			PlusLEWP : lewpToArity(ca,lewp.sub, isAdding)
+			AdditionLEWP: {
+				lewpToArity(ca, lewp.left, isAdding);
+				lewpToArity(ca, lewp.right, isAdding);
+			}
+			SubtractionLEWP: {
+				lewpToArity(ca, lewp.left, isAdding);
+				lewpToArity(ca, lewp.right, ! isAdding); // the negation is applied only to right part
+			}
+			BracketLEWP: lewpToArity(ca, lewp.sub, isAdding)
+			IntLEWP: {
+				if(isAdding){
+					ca.addScalar(lewp.value.value);
+				}else {
+					ca.addScalar(-lewp.value.value);
+				}
+			}
+			ParamLEWP:{
+				if(isAdding){
+					ca.addParameterCoefficient(lewp.value.paramName);
+				}else {
+					ca.subParameterCoefficient(lewp.value.paramName);
+				}
+			}
 		}
 	}
+	
+	static def ComposedArity linearExpressionParametrizableToArity(LinearExpressionWithParameters lewp){
+		if(lewp === null) return null;
+		val ComposedArity ca = new ComposedArity(0);
+		lewpToArity(ca, lewp, true);
+		return ca;
+	}
+	
+	
+	static def dispatch ComposedArity getArity(LinearExpressionWithParameters lewp){
+		return linearExpressionParametrizableToArity(lewp);
+	}
+ 
+	static def dispatch ComposedArity getArity(ParametricArity pa){
+		return linearExpressionParametrizableToArity(pa.arity);
+	}
+	
+	static def dispatch ComposedArity getArity(EList<ParametricArity> parArities){
+//		return parArities.map[par| getArity(par)].reduce[p1, p2| p1.sum(p2)];
+		val ca = new ComposedArity(0);
+		parArities.map[par| getArity(par)].forEach[parAr| ca.sum(parAr)]
+		return ca
+	}
+	
+	static def dispatch ComposedArity getArity(AritiesAssignment aa){
+		return (aa === null || aa.arities === null)
+			? new ComposedArity() : getArity(aa.arities);
+	}
+	
+	static def dispatch ComposedArity getArity(ParametersAssignment parAss){
+		return (parAss === null || parAss.parameters === null)
+			? new ComposedArity() : getArity(parAss.parameters);
+	}
+	
+	static def dispatch ComposedArity getArity(InvocationParametersSignature invocParSign){
+		val ComposedArity ca = new ComposedArity();
+		if (invocParSign !== null && invocParSign.invocParam !== null){
+			val EList<ParamName> paramNames = invocParSign.invocParam;
+			paramNames.forEach[pn| ca.addParameterCoefficient(pn.parName)];
+		}
+		return ca;
+	}
+	
+	static def dispatch ComposedArity getArity(AritySignature aritySignature){
+		val ComposedArity ca = new ComposedArity ();
+		ca.scalar = (aritySignature.types === null || aritySignature.types.empty ) ? 0 :
+			getFixedRegistersRequired(aritySignature)
+		if(aritySignature.parametricArities !== null ){
+			aritySignature.parametricArities .forEach[ param |
+				ca.addParameterCoefficient(param.parName)
+			]
+		}
+		return ca;
+	}
+	
+	static def dispatch ComposedArity getArity(Declaration declaration) {
+		return getArity(declaration.aritySignature);
+	}
+	
+	static def dispatch ComposedArity getArity(Definition defin){
+		return getArity(defin.body);
+	}
+	
+	static def dispatch ComposedArity getArity(FunctionInvocation fun){
+		val Declaration decl = fun.funName
+		var ComposedArity ca = new ComposedArity (decl.aritySignature.fixedRegistersRequired);
+		// paramAssign is not required here ("aritiesAssign" exists exactly to calculate, as the name suggests, the arity)
+		return (fun.aritiesAssign !== null && fun.aritiesAssign.arities !== null && fun.aritiesAssign.arities.size > 0)
+			? ca.sum(getArity(fun.aritiesAssign)) : ca;
+	}
+	
+	/*Modified by Marco Ottina */
+	static def dispatch ComposedArity getArity(Body body) {
+		switch body {
+			BodyId       : new ComposedArity(1)
+			BodyInc      : new ComposedArity(1)
+			BodyDec      : new ComposedArity(1)
+			BodyNeg      : new ComposedArity(1)
+			BodyPerm     : new ComposedArity(body.permutation.indexes.size)
+			SerComp      : getArity(body.right) // left
+			ParComp      : getArity(body.right).sum(getArity(body.left))
+			BodyInv      : getArity(body.body)
+			BodyIt       : getArity(body.body).addScalar(1)
+			BodyFor      : getArity(body.body).addScalar(1)
+			BodyIf       : getArity(body.pos).addScalar(1)
+			BodyFun      : getArity(body.function)
+			BodySwap     : getArity(body.function.arity) // .addScalar(1)
+			BodyParamPerm: getArity(body.arity).addScalar(1)
+			BodyParamId  : getArity(body.arity)
+			BodyParamInc : (body.arity === null || body.arity.arities === null || body.arity.arities.empty )
+							? new ComposedArity(1) : getArity(body.arity)
+			BodyParamDec : (body.arity === null || body.arity.arities === null || body.arity.arities.empty )
+							? new ComposedArity(1) : getArity(body.arity)
+			BodyParamNeg : (body.arity === null || body.arity.arities === null || body.arity.arities.empty )
+							? new ComposedArity(1) : getArity(body.arity)
+			BodyParamIt  : getArity(body.body)
+			BodyParamFor : getArity(body.body)
+//			AtomicParametricArity: getArity(body.arity)
+			default:
+				throw new RuntimeException("Body unrecognized to compute arity: " + body)
+		}
+	}
+	
+	
+	def static ComposedArity getArityOfFunctionName(EObject contextFunctionInvocation, String funcName) {
+		val modelContaining = YarelIndex.getModelOfFunction(contextFunctionInvocation, funcName)
+		if(modelContaining !== null){
+			val Declaration decl = modelContaining.declarations.findFirst[d|d.name.equals(funcName)]
+			if(decl!==null){
+				return decl.arity
+			}
+		}
+		return null;
+	}
+	
+	def static dispatch int getFixedRegistersRequired(EList<Type> registersAllocations){
+		return registersAllocations.empty ? 0 :
+			registersAllocations.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
+	}
+	
+	def static dispatch int getFixedRegistersRequired(AritySignature arSign){
+		return getFixedRegistersRequired(arSign.types);
+	}
+	
+	private static def void unsafeReplaceNames(List<String> source,
+		ComposedArity compAr, List<String> dest){
+			val iterSource = source.iterator;
+			val iterDest = dest.iterator;
+			while(iterSource.hasNext && iterDest.hasNext){
+				val oldName = iterSource.next
+				val newName = iterDest.next
+				val value = compAr.getParameterCoefficient(oldName)
+				compAr.removeParameterCoefficient(oldName)
+				compAr.addParameterCoefficient(newName, value)
+			}
+		}
+	static def void renameAritiesParams(List<String> sourceArities,List<String> sourceParameters,
+		ComposedArity compAr, List<String> destArities,List<String> destParameters){
+		if(destArities !== null){
+			if(sourceArities !== null){
+				unsafeReplaceNames(destArities, compAr, sourceArities)
+			}else{
+				destArities.forEach[ name|
+					compAr.addParameterCoefficient(name)
+				]
+			}
+		}
+	}
+	
+//	static def boolean canBeInvoked(Declaration originalFunDecl, FunctionInvocation funInvok){
+//		return false;
+//	}
+	
+	/* end ARITY COMPUTATION BLOCK */
+	
+/*End added by Marco Ottina */
 }

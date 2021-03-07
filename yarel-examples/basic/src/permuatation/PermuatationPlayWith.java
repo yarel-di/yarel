@@ -32,6 +32,8 @@ import java.util.Arrays;
 * <li> {@link permuatation.PIndexed_min_14}</li>
 * <li> {@link permuatation.PIndexed_min_11}</li>
 * <li> {@link permuatation.PIndexed_min_1}</li>
+* <li> {@link permuatation.ShiftLastToFirst5}</li>
+* <li> {@link permuatation.ShiftLastToFirst10}</li>
  * </ul>
  * <p>
  *
@@ -89,6 +91,10 @@ public class PermuatationPlayWith {
 		testPIndexed_min_11();
 		
 		testPIndexed_min_1();
+		
+		testShiftLastToFirst5();
+		
+		testShiftLastToFirst10();
 	}
 	
 	//
@@ -507,6 +513,62 @@ public class PermuatationPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function pIndexed_min_1 with values:" + Arrays.toString(data));
 			pIndexed_min_1RPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testShiftLastToFirst5(){
+		RPP shiftLastToFirst5RPP = new permuatation.ShiftLastToFirst5();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,5},
+			new int[]{6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function shiftLastToFirst5 with values:" + Arrays.toString(data));
+			shiftLastToFirst5RPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testShiftLastToFirst10(){
+		RPP shiftLastToFirst10RPP = new permuatation.ShiftLastToFirst10();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,7,8,9,10,11,5},
+			new int[]{11,10,9,8,7,6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function shiftLastToFirst10 with values:" + Arrays.toString(data));
+			shiftLastToFirst10RPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

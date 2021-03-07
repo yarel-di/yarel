@@ -1,185 +1,282 @@
 package integerCompare;
-import yarelcore.*;	
+
+import yarelcore.Inc;
+import yarelcore.RPP;
 
 public class More implements RPP {
-	public More() { }
-	
-	public InvMore getInverse(){
+	public More() {
+	}
+
+	public InvMore getInverse() {
 		return new InvMore();
 	}
-	
-	private final RPP[] steps = new RPP[]{
-		new RPP() { // BodyFunImpl
-			RPP function = new DupStep();
-			private final int a = function.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.function.b(x, startIndex, endIndex);
-			}
-			 public int getA() { return this.a; }
-		},
-		
-		new RPP() { // BodyIfImpl
-			RPP pos=new RPP() {
-				RPP pos=new RPP() {
-					RPP function = new SameSignMore();
-					private final int a = function.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.function.b(x, startIndex, endIndex);
-					}
-					 public int getA() { return this.a; }
-				};
-				RPP zero=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
-						// There were only parallels identities, nothing interesting to show and run
-					}
-				};
-				RPP neg=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
-						// There were only parallels identities, nothing interesting to show and run
-					}
-				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
-				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
-					if(testValue > 0){
-						pos.b(x, startIndex, startIndex + pos.getA());
-					} else if(testValue == 0){
-						zero.b(x, startIndex, startIndex + zero.getA());
-					} else { // The "testValue<0" test is a tautology
-						neg.b(x, startIndex, startIndex + neg.getA());
-					}
-				}
-			};
-			RPP zero=new RPP() {
-				RPP pos=new RPP() {
-					private RPP f = new RPP(){
-						private RPP f = Inc.SINGLETON_Inc;
-						private final int a = f.getA();
-						public void b(int[] x, int startIndex, int endIndex) {
-							this.f.b(x, startIndex, endIndex);
-						}
-						public int getA() { return this.a; }
-					};
-					private final int a = 3 ;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
-					}
-				};
-				RPP zero=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
-						// There were only parallels identities, nothing interesting to show and run
-					}
-				};
-				RPP neg=new RPP() {
-					private final int a = 3;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
-						// There were only parallels identities, nothing interesting to show and run
-					}
-				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
-				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
-					if(testValue > 0){
-						pos.b(x, startIndex, startIndex + pos.getA());
-					} else if(testValue == 0){
-						zero.b(x, startIndex, startIndex + zero.getA());
-					} else { // The "testValue<0" test is a tautology
-						neg.b(x, startIndex, startIndex + neg.getA());
-					}
-				}
-			};
-			RPP neg=new RPP() {
-				RPP pos=new RPP() {
-					private RPP f = new RPP(){
-						private RPP f = Inc.SINGLETON_Inc;
-						private final int a = f.getA();
-						public void b(int[] x, int startIndex, int endIndex) {
-							this.f.b(x, startIndex, endIndex);
-						}
-						public int getA() { return this.a; }
-					};
-					private final int a = 3 ;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
-					}
-				};
-				RPP zero=new RPP() {
-					private RPP f = new RPP(){
-						private RPP f = Inc.SINGLETON_Inc;
-						private final int a = f.getA();
-						public void b(int[] x, int startIndex, int endIndex) {
-							this.f.b(x, startIndex, endIndex);
-						}
-						public int getA() { return this.a; }
-					};
-					private final int a = 3 ;
-					public int getA() { return this.a; }
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.f.b(x, startIndex + 0, startIndex + this.a + 0);
-					}
-				};
-				RPP neg=new RPP() {
-					RPP function = new SameSignMore();
-					private final int a = function.getA();
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.function.b(x, startIndex, endIndex);
-					}
-					 public int getA() { return this.a; }
-				};
-				private final int a=pos.getA()+1;
-				public int getA() {return this.a;}
-				public void b(int[] x, int startIndex, int endIndex) {
-					final int testValue = x[(startIndex + a) - 1];
-					if(testValue > 0){
-						pos.b(x, startIndex, startIndex + pos.getA());
-					} else if(testValue == 0){
-						zero.b(x, startIndex, startIndex + zero.getA());
-					} else { // The "testValue<0" test is a tautology
-						neg.b(x, startIndex, startIndex + neg.getA());
-					}
-				}
-			};
-			private final int a=pos.getA()+1;
-			public int getA() {return this.a;}
-			public void b(int[] x, int startIndex, int endIndex) {
-				final int testValue = x[(startIndex + a) - 1];
-				if(testValue > 0){
-					pos.b(x, startIndex, startIndex + pos.getA());
-				} else if(testValue == 0){
-					zero.b(x, startIndex, startIndex + zero.getA());
-				} else { // The "testValue<0" test is a tautology
-					neg.b(x, startIndex, startIndex + neg.getA());
-				}
-			}
-		},
-		
-		new RPP() { // BodyInvImpl
-			RPP function = new InvDupStep();
-			private final int a = function.getA();
-			public void b(int[] x, int startIndex, int endIndex) {
-				this.function.b(x, startIndex, endIndex);
-			}
-			 public int getA() { return this.a; }
+
+	private final RPP[] __steps__ = new RPP[] { new RPP() { // BodyFunImpl // index: 0
+		RPP __function__ = new DupStep();
+
+		@Override
+		public int getA() {
+			return __function__.getA();
 		}
-	};
-	private final int a = steps[0].getA();
-	public int getA() { return this.a; }
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-		int i;
-		i = -1;
-		while( ++i < steps.length ){
-			steps[i].b(x, startIndex, endIndex);
+
+		@Override
+		public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+			this.__function__.b(__x__, __startIndex__, __endIndex__);
 		}
+	},
+
+			new RPP() { // BodyIfImpl // index: 1
+				RPP __pos__ = new RPP() {
+					RPP __pos__ = new RPP() {
+						RPP __function__ = new SameSignMore();
+
+						@Override
+						public int getA() {
+							return __function__.getA();
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
+						}
+					};
+					RPP __zero__ = new RPP() {
+						@Override
+						public int getA() {
+							return 3;
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							// There were only parallels identities, nothing interesting to show and run
+						}
+					};
+					RPP __neg__ = new RPP() {
+						@Override
+						public int getA() {
+							return 3;
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							// There were only parallels identities, nothing interesting to show and run
+						}
+					};
+
+					@Override
+					public int getA() {
+						return this.__pos__.getA() + 1;
+					}
+
+					@Override
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+						if (__testValue__ > 0) {
+							__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+						} else if (__testValue__ == 0) {
+							__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+						} else { // The "__testValue__<0" test is a tautology
+							__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+						}
+					}
+				};
+				RPP __zero__ = new RPP() {
+					RPP __pos__ = new RPP() {
+						private RPP __f__ = new RPP() {
+							private RPP __f__ = Inc.SINGLETON_Inc;
+							private final int __a__ = __f__.getA();
+
+							@Override
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								this.__f__.b(__x__, __startIndex__, __endIndex__);
+							}
+
+							@Override
+							public int getA() {
+								return this.__a__;
+							}
+						};
+
+						@Override
+						public int getA() {
+							return 3;
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__f__.b(__x__, __startIndex__ + 0, __startIndex__ + (0) + this.__f__.getA());
+						}
+					};
+					RPP __zero__ = new RPP() {
+						@Override
+						public int getA() {
+							return 3;
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							// There were only parallels identities, nothing interesting to show and run
+						}
+					};
+					RPP __neg__ = new RPP() {
+						@Override
+						public int getA() {
+							return 3;
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							// There were only parallels identities, nothing interesting to show and run
+						}
+					};
+
+					@Override
+					public int getA() {
+						return this.__pos__.getA() + 1;
+					}
+
+					@Override
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+						if (__testValue__ > 0) {
+							__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+						} else if (__testValue__ == 0) {
+							__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+						} else { // The "__testValue__<0" test is a tautology
+							__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+						}
+					}
+				};
+				RPP __neg__ = new RPP() {
+					RPP __pos__ = new RPP() {
+						private RPP __f__ = new RPP() {
+							private RPP __f__ = Inc.SINGLETON_Inc;
+							private final int __a__ = __f__.getA();
+
+							@Override
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								this.__f__.b(__x__, __startIndex__, __endIndex__);
+							}
+
+							@Override
+							public int getA() {
+								return this.__a__;
+							}
+						};
+
+						@Override
+						public int getA() {
+							return 3;
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__f__.b(__x__, __startIndex__ + 0, __startIndex__ + (0) + this.__f__.getA());
+						}
+					};
+					RPP __zero__ = new RPP() {
+						private RPP __f__ = new RPP() {
+							private RPP __f__ = Inc.SINGLETON_Inc;
+							private final int __a__ = __f__.getA();
+
+							@Override
+							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+								this.__f__.b(__x__, __startIndex__, __endIndex__);
+							}
+
+							@Override
+							public int getA() {
+								return this.__a__;
+							}
+						};
+
+						@Override
+						public int getA() {
+							return 3;
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__f__.b(__x__, __startIndex__ + 0, __startIndex__ + (0) + this.__f__.getA());
+						}
+					};
+					RPP __neg__ = new RPP() {
+						RPP __function__ = new SameSignMore();
+
+						@Override
+						public int getA() {
+							return __function__.getA();
+						}
+
+						@Override
+						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+							this.__function__.b(__x__, __startIndex__, __endIndex__);
+						}
+					};
+
+					@Override
+					public int getA() {
+						return this.__pos__.getA() + 1;
+					}
+
+					@Override
+					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+						final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+						if (__testValue__ > 0) {
+							__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+						} else if (__testValue__ == 0) {
+							__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+						} else { // The "__testValue__<0" test is a tautology
+							__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+						}
+					}
+				};
+
+				@Override
+				public int getA() {
+					return this.__pos__.getA() + 1;
+				}
+
+				@Override
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					final int __testValue__ = __x__[(__startIndex__ + this.getA()) - 1];
+					if (__testValue__ > 0) {
+						__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+					} else if (__testValue__ == 0) {
+						__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+					} else { // The "__testValue__<0" test is a tautology
+						__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+					}
+				}
+			},
+
+			new RPP() { // BodyInvImpl // index: 2
+				RPP __function__ = new InvDupStep();
+
+				@Override
+				public int getA() {
+					return __function__.getA();
+				}
+
+				@Override
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
+				}
+			} };
+
+	@Override
+	public int getA() {
+		return this.__steps__[0].getA();
+	}
+
+	@Override
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+//		System.out.println("BEFORE more: " + Arrays.toString(__x__));
+		while (++__i__ < __steps__.length) {
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
+		}
+//		System.out.println("after more : " + Arrays.toString(__x__));
 	}
 }

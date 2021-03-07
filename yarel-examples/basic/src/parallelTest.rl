@@ -1,7 +1,7 @@
 module ParallelTest{
 	
 	/* First sequence of tests functions*/
-	
+
 	dcl to_odd : 2 int
 	def to_odd := 
 		/*x 0*/
@@ -21,6 +21,9 @@ module ParallelTest{
 
 	dcl triIncParExplicit : 3 int
 	def triIncParExplicit := inc|inc|inc
+	
+	dcl esaIncParExplicit : 6 int
+	def esaIncParExplicit := inc|inc|inc|inc|inc|inc
 
 
 	dcl mult : 3 int
@@ -42,16 +45,16 @@ module ParallelTest{
 	
 	
 	/* Second sequence of tests functions*/
-	
-	
+
+
 	dcl someAtomicStuffs : 7 int
 	def someAtomicStuffs :=
 		inc | dec | id | (it[inc];(neg|id)) | neg | (inc;inc;inc)
-		
+	
 	dcl iLikeParallelism : 7 int
 	def iLikeParallelism :=
 		for[inc | inc | inc | inc | inc | inc]
-		
+	
 		
 	dcl largePermutation : 10 int
 	def largePermutation :=

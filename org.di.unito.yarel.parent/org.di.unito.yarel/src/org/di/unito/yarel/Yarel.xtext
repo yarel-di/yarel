@@ -37,18 +37,45 @@ QualifiedNameWithWildcard:
     ID ('.' ID)* '.' (ID | '*');  //Changed by Matteo Palazzo
 
 Declaration:
-	'dcl' name=ID ':' signature=Signature;
+	'dcl' name=ID 
+	( '(' invocParamsSignat = InvocationParametersSignature ')')?
+	':'
+	aritySignature = AritySignature
+;
 
-Signature:
-	types += Type (',' types+=Type)*;
+InvocationParametersSignature:
+	invocParam += ParamName (',' invocParam += ParamName)*
+;
 
-Type: 
+AritySignature:
+	  (types += Type (',' types+=Type)*)
+	| (parametricArities += ParamName (',' parametricArities += ParamName)* )
+	| (
+		types += Type (',' types+=Type)*
+		','
+		parametricArities += ParamName (',' parametricArities += ParamName)*
+		)
+;
+
+Type:
     {Type} value=(INT)? 'int';
+
+ParamName: // "int" type assumed 
+	{ParamName} parName=ID;
 
 Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;
 
 Body: SerComp;
+
+AritiesAssignment:
+	'{' arities += ParametricArity ((',' arities+=ParametricArity)*) '}'
+;
+
+ParametersAssignment:
+	'(' parameters += ParametricArity (',' parameters+=ParametricArity)* ')'
+;
+
 
 SerComp returns Body:
 	ParComp ({SerComp.left=current} ';' right=ParComp)*;
@@ -59,55 +86,117 @@ ParComp returns Body:
 BodyBase returns Body: 
    '(' Body ')' | Atomic;
 
+Permutation: 
+  '/' indexes+=Digit (indexes+=Digit)* '/';
+ 
 
+FunctionInvocation:
+	funName=[Declaration | QualifiedName]
+	( aritiesAssign = AritiesAssignment)?
+	( paramsAssign = ParametersAssignment)?
+;
+
+/**
+ * Indexes are 1-based.
+ */
 Atomic returns Body: 
-    {BodyId}  funName='id' 
-  | {BodyInc} funName='inc' 
-  | {BodyDec} funName='dec'
-  | {BodyNeg} funName='neg'
+    {BodyId}  funName ='id' 
+  | {BodyInc} funName ='inc' 
+  | {BodyDec} funName ='dec'
+  | {BodyNeg} funName ='neg'
   | {BodyFor} function='for' '[' body=Body ']'
   | {BodyInv} function='inv' '[' body=Body ']'
   | {BodyIt}  function='it' '[' body=Body ']'
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
-  | {BodyFun} funName=[Declaration | QualifiedName] 
+  | {BodyFun} function=FunctionInvocation
   | {BodyPerm} permutation=Permutation
-  | {BodyPermIndex} permIndexed = PermutationIndexed
-  ;
-
-Permutation: 
-  '/' indexes+=Digit (indexes+=Digit)* '/';
-
-/**
- * The index stored at the end is 1-based.
- */
-PermutationIndexed: // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
-  '/' '{'
-  permutationArity = INT // LinearParamIntExpression
-  '}' '/'
+  | AtomicParametricArity
 ;
 
-/*
-LinearParamIntExpression: LPIExpr;
 
-LPIExpr returns LinearParamIntExpression:
-	IntExprArgument (
-		( {LPIEAddition.left = current} '+' right = IntExprArgument) 
-		| ( {LPIESubtraction.left = current} '-' right = IntExprArgument) 
+AtomicParametricArity returns Body:
+	  AtomicParArityOperator
+	| AtomicParametricRepetition
+	| {BodySwap} function = SwapIndexed
+;
+
+AtomicParArityOperator returns Body:
+	  ({BodyParamPerm}        '/' arity = AritiesAssignment '/') // the total arity is: "1 (the index's register) + permutationAriety (desired permutation's arity)".
+	| ({BodyParamId} funName='id' arity = AritiesAssignment)
+	| ({BodyParamIt} funName='it' paramsAssign = ParametersAssignment '[' body=Body ']')
+	| ({BodyParamFor} funName='for' paramsAssign = ParametersAssignment '[' body=Body ']')
+;
+
+AtomicParametricRepetition returns Body:
+	AtomicParRep
+	arity = AritiesAssignment
+	( paramsAssign = ParametersAssignment )? // "repetitions" values could be taken from funtion's "invocation parameters" or "arity parameters"
+;
+
+AtomicParRep :
+	  {BodyParamInc} funName='inc'
+	| {BodyParamDec} funName='dec'
+	| {BodyParamNeg} funName='neg'
+;
+
+SwapIndexed :
+	funName= 'swap'
+	arity = AritiesAssignment
+	paramsAssign = ParametersAssignment
+;
+
+
+ParametricArity:
+	arity = LinearExpressionWithParameters
+;
+
+
+/** LINEAR EXPRESSION (enhanced with parameters)
+ * 
+ * Note:
+ * right now, only additions and subtractions are allowed and implemented.
+ * */
+
+LinearExpressionWithParameters:
+	LEWP
+;
+
+LEWP returns LinearExpressionWithParameters:
+	BinaryArgLEWP (
+		({AdditionLEWP.left = current} '+' right = BinaryArgLEWP)
+		|({SubtractionLEWP.left = current} '-' right = BinaryArgLEWP)
 	)*
 ;
- 
-IntExprArgument returns LinearParamIntExpression:
-	Digit | Parameter | LPIExprBracket
+
+BinaryArgLEWP returns LinearExpressionWithParameters:
+	PlusLEWP | MinusLEWP | BranchLEWP
 ;
 
-LPIExprBracket:
-  '(' sub = LinearParamIntExpression ')'
+
+MinusLEWP returns LinearExpressionWithParameters:
+	{MinusLEWP} '-' sub = BranchLEWP
 ;
 
-Parameter:
-  value = ID
+PlusLEWP returns LinearExpressionWithParameters:
+	{PlusLEWP} '+' sub = BranchLEWP
 ;
- */
+
+BranchLEWP returns LinearExpressionWithParameters:
+	BracketLEWP | AtomLEWP 
+;
+
+AtomLEWP returns LinearExpressionWithParameters:
+	  {IntLEWP}   value = Digit
+	| {ParamLEWP} value = ParameterLEWP
+;
+
+BracketLEWP:
+	'(' sub= LinearExpressionWithParameters ')'
+;
+
+ParameterLEWP:
+	paramName = ID
+;
 
 Digit:
 	value=INT;

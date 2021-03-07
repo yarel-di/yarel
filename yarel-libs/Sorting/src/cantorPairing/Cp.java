@@ -1,95 +1,60 @@
 package cantorPairing;
-
-import yarelcore.RPP;
+import yarelcore.*;	
 
 public class Cp implements RPP {
-	public Cp() {
-	}
+	public Cp() { }
+	
+	
+	
 
-	public InvCp getInverse() {
+	
+	public InvCp getInverse(){
 		return new InvCp();
 	}
-
-	private final RPP[] steps = new RPP[] { new RPP() { // BodyPermImpl
-		private final int a = 3;
-
-		@Override
-		public void b(int[] x, int startIndex, int endIndex) {
-			int tmp = 0;
-			tmp = x[startIndex + 0];
-			x[startIndex + 0] = x[startIndex + 1];
-			x[startIndex + 1] = tmp;
+	
+	private final RPP[] __steps__ = new RPP[]{
+		new RPP() { // BodyPermImpl // index: 0
+			private final int __a__ = 3;
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				int __tmp__=0;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
+			}
+			public int getA() { return this.__a__; }
+		},
+		
+		new RPP() { // ParCompImpl // index: 1
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new arithNat.SumN();
+				public int getA() { return __function__.getA(); }
+				public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
+				}
+			};
+			public int getA() { return 3; }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
+			}
+		},
+		
+		new RPP() { // BodyFunImpl // index: 2
+			RPP __function__ = new funcH12.P3();
+			public int getA() { return __function__.getA(); }
+			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
+			}
 		}
-
-		@Override
-		public int getA() {
-			return this.a;
+	};
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+		while( ++__i__ < __steps__.length ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
 		}
-	},
-
-			new RPP() { // ParCompImpl
-				private RPP f = new RPP() {
-					RPP function = new arithNat.SumN();
-					private final int a = function.getA();
-
-					@Override
-					public void b(int[] x, int startIndex, int endIndex) {
-						this.function.b(x, startIndex, endIndex);
-					}
-
-					@Override
-					public int getA() {
-						return this.a;
-					}
-				};
-				private final int a = 3;
-
-				@Override
-				public int getA() {
-					return this.a;
-				}
-
-				@Override
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.f.b(x, startIndex + 0, startIndex + this.a + 0);
-				}
-			},
-
-			new RPP() { // BodyFunImpl
-				RPP function = new funcH12.P3();
-				private final int a = function.getA();
-
-				@Override
-				public void b(int[] x, int startIndex, int endIndex) {
-					this.function.b(x, startIndex, endIndex);
-				}
-
-				@Override
-				public int getA() {
-					return this.a;
-				}
-			} };
-	private final int a = steps[0].getA();
-
-	@Override
-	public int getA() {
-		return this.a;
 	}
-
-	@Override
-	public void b(int[] x, int startIndex, int endIndex) { // Implements a serial composition.
-//		int i;
-//		i = -1;
-//		while( ++i < steps.length ){
-//			steps[i].b(x, startIndex, endIndex);
-//		}
-		x[startIndex] = cp(x[startIndex], x[startIndex + 1]);
-		x[startIndex + 1] = 0;
-	}
-
-	public static int cp(int x, int y) {
-		int t = x + y;
-		return x + ((t * (t + 1)) >> 1);
-	}
-
 }
