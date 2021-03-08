@@ -21,6 +21,12 @@ package org.di.unito.yarel.generator.javagen
 import java.util.HashMap
 import java.util.LinkedList
 import java.util.Map
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.xtext.generator.IFileSystemAccess2
+import org.eclipse.xtext.generator.IGenerator2
+import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.di.unito.yarel.utils.ComposedArity
 import org.di.unito.yarel.utils.YarelUtils
 import org.di.unito.yarel.yarel.Body
@@ -49,13 +55,14 @@ import org.di.unito.yarel.yarel.Model
 import org.di.unito.yarel.yarel.ParComp
 import org.di.unito.yarel.yarel.Permutation
 import org.di.unito.yarel.yarel.SerComp
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IFileSystemAccess2
-import org.eclipse.xtext.generator.IGenerator2
-import org.eclipse.xtext.generator.IGeneratorContext
-import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.di.unito.yarel.yarel.ParamConstraintList
+import org.di.unito.yarel.yarel.ParamConstraint
+import org.di.unito.yarel.yarel.ParamConstrPositive
+import org.di.unito.yarel.yarel.ParamConstrNatural
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.di.unito.yarel.yarel.ParamConstrDistinct
+import org.di.unito.yarel.yarel.ParamConstrBound
 
 // Modified by Marco Ottina
 class JavaYarelGenerator implements IGenerator2 {
@@ -554,6 +561,54 @@ class JavaYarelGenerator implements IGenerator2 {
 	  }
 	}
 	
+	private def compileSingleConstraint(Model model, Declaration declaration, ParamConstraint constraint, int constraintIndex){
+		return switch constraint {
+			ParamConstrNatural:
+				'''
+				// constraint natural
+				if( «constraint.constrName» < 0 ){ throw new IllegalArgumentException("The parameter «constraint.constrName» must be a natural (>= 0)."); }
+				'''
+			ParamConstrPositive:
+				'''
+				// constraint positive
+				if( «constraint.constrName» < 1 ){ throw new IllegalArgumentException("The parameter «constraint.constrName» must be strictly positive."); }
+				'''
+			ParamConstrDistinct:{
+				if(constraint.paramsNames.size == 2){
+				'''
+				// constraint distinct
+				if(«constraint.paramsNames.get(0)» == «constraint.paramsNames.get(1)»){ throw new IllegalArgumentException("The parameters «constraint.paramsNames.get(0)» and «constraint.paramsNames.get(1)» must be different."); }
+				'''
+				}else{
+				'''
+				// constraint distinct
+				java.util.Map<Integer, String> distincValues_«constraintIndex» = new java.util.HashMap<>(«constraint.paramsNames.size»);
+				«FOR p : constraint.paramsNames SEPARATOR "\n"»
+				if( distincValues_«constraintIndex».containsKey(«p») ){ throw new IllegalArgumentException("The parameter «p» has the same value as " + distincValues_«constraintIndex».get(«p») + "."); }
+				«ENDFOR»
+				'''
+				}
+			}
+			ParamConstrBound:{
+				'''
+				// constraint bound
+				if( 1 > «constraint.paramName» || «constraint.paramName» «IF constraint.upperInclusivity»>«ELSE»>=«ENDIF» «constraint.arityParamName» ){ throw new IllegalArgumentException("The parameter «constraint.paramName» should be greater than zero and lower «IF constraint.upperInclusivity»or equal «ENDIF»than «constraint.arityParamName»"); }
+				'''
+			}
+		}
+	}
+	private def compileConstraints(Model model, Declaration declaration, ParamConstraintList paramsConstr){
+		if (paramsConstr === null) return '''''';
+		val EList<ParamConstraint> constraints = paramsConstr.constraints
+		if(constraints===null || constraints.empty) return '''''';
+		var constraintIndex = 0
+		'''
+		«FOR c : constraints SEPARATOR "\n"»
+		«compileSingleConstraint(model, declaration, c, constraintIndex++)»
+		«ENDFOR»
+		'''
+	}
+	
 	// Changed by Marco Ottina
 	// class compilation
 	private def compile(Model model, Definition definition, boolean fwd) {
@@ -591,6 +646,9 @@ class JavaYarelGenerator implements IGenerator2 {
 				this.«par.replace('\b', '_')» = «par.replace('\b', '_')»;
 				«/* TODO: mettere qui l'implementazione dei vincoli */»
 				«ENDFOR»«ENDIF»
+				«IF definition.declarationName.parametersConstraint !== null »
+				«compileConstraints(model, definition.declarationName, definition.declarationName.parametersConstraint)»
+				«ENDIF»
 			}
 			protected «className»(){
 				this(«FOR par : declArity.parametersCoefficients.entrySet SEPARATOR ", "»«par.value»«ENDFOR»«IF hasDeclParams»«IF declArity.isParametric»,«ENDIF»«FOR par: declParams SEPARATOR ", "»0«ENDFOR»«ENDIF»);
@@ -784,11 +842,11 @@ class JavaYarelGenerator implements IGenerator2 {
 				};
 				/*
 				private final AritySupplier[] __startIndexOffsetSuppliers__ = { //
-					«FOR subtask : parallelSubBodies  SEPARATOR ", //\n"»() -> { return «subtask.startIndexOffset.toString()»;}«ENDFOR»
+					«FOR subtask : parallelSubBodies SEPARATOR ", //\n"»() -> { return «subtask.startIndexOffset.toString()»;}«ENDFOR»
 				};
 				*/
 				private final int[] __startIndexOffset__ = {
-					«FOR subtask : parallelSubBodies  SEPARATOR ", //\n"»«subtask.startIndexOffset.toString()»«ENDFOR»
+					«FOR subtask : parallelSubBodies SEPARATOR ", //\n"»«subtask.startIndexOffset.toString()»«ENDFOR»
 				};
 				public int getA() { return («totalArityParallelBody.toString() /*FOR i : 0..< parallelSubBodies.size SEPARATOR " + "»__subtasks__[«i»].getA()«ENDFOR*/»); }
 				public void b(int[] __x__, int __startIndex__, int __endIndex__) { // Implements a parallel composition

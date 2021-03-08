@@ -18,6 +18,8 @@
 
 
 grammar org.di.unito.yarel.Yarel with org.eclipse.xtext.common.Terminals
+// needed because of the usage of Ecore type EBoolean
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 generate yarel "http://www.di.org/unito/yarel/Yarel"
 
@@ -90,23 +92,22 @@ ParamConstraintList:
 
 ParamConstraint:
 	  ({ParamConstrPositive} constrName='positive' '(' paramName = ParamName')')
+	| ({ParamConstrNatural} constrName='natural' '(' paramName = ParamName')')
 	| (
 		{ParamConstrDistinct} constrName='distinct' '('
-			paramName = ParamName
-			',' arityParamName = ParamName
+			paramsNames += ParamName
+			(',' paramsNames += ParamName)+
 		')'
-	)
-	
+		)
 	| (
 		{ParamConstrBound} constrName='bound' '('
 			paramName = ParamName
 			',' arityParamName = ParamName
-			(',' 'lowerBound' '=' baseIndex=('0-based'|'yarel'))? // yarel == "1-based", default: 'yarel'
-			(',' 'upperBound' '=' upperInclusivity=('incl'|'excl'))?
-		')' // 0 <= paramName <= arityParamName
+			(',' 'upperInclusive' '=' upperInclusivity = BOOL_LITERAL)?
+		')' // 1 <= paramName <=|< arityParamName
 	  )
 //	| (
-//		TODO: expressions, like: `(A+B) < K` or `(A % 2) == 0`
+//		TODO future works:: expressions, like: `(A+B) < K` or `(A % 2) == 0`
 //	) 
 ;
 
@@ -237,3 +238,6 @@ ParameterLEWP:
 
 Digit:
 	value=INT;
+	
+terminal BOOL_LITERAL returns ecore::EBoolean: 'true' | 'false' | 'TRUE' | 'FALSE'
+;
