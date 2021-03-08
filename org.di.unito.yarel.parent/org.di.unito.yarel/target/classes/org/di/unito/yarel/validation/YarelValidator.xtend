@@ -103,6 +103,7 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL = BASE_ERROR_NAME + 'ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL'
 	public static val ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH'
 	public static val ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH'
+	public static val ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT = BASE_ERROR_NAME + 'ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT'
 	
 	protected static val Set<String> FORBIDDEN_KEYWORD = {
 		val Set<String> s = new HashSet();
@@ -675,6 +676,29 @@ class YarelValidator extends AbstractYarelValidator {
 					}
 				};
 			]
+		}
+	}
+	
+	@Check
+	def checkUniquienessOnDistinctConstraint(ParamConstrDistinct constraint){
+		val Map<String,Integer> elementToIndexMap = new TreeMap<String,Integer>(Utils.STRING_COMPARATOR);
+		pinpointDuplicate(
+			constraint.paramsNames,
+			YarelPackage::eINSTANCE.paramConstrDistinct_ParamsNames,
+			elementToIndexMap,
+			[p | p.parName],
+			"distinct parameter name",
+			ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT
+		)
+	}
+	
+	@Check
+	def checkDistinctOnBoundConstraint(ParamConstrBound constraint){
+		if(constraint.paramName.parName == constraint.arityParamName.parName){
+			error("Duplicated parameter on bound constraint: " + constraint.paramName.parName,
+				YarelPackage::eINSTANCE.paramConstrBound_ArityParamName,
+			ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT
+			)
 		}
 	}
 

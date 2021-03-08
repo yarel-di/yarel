@@ -566,25 +566,25 @@ class JavaYarelGenerator implements IGenerator2 {
 			ParamConstrNatural:
 				'''
 				// constraint natural
-				if( «constraint.constrName» < 0 ){ throw new IllegalArgumentException("The parameter «constraint.constrName» must be a natural (>= 0)."); }
+				if( «constraint.paramName.parName» < 0 ){ throw new IllegalArgumentException("The parameter «constraint.paramName.parName» must be a natural (>= 0)."); }
 				'''
 			ParamConstrPositive:
 				'''
 				// constraint positive
-				if( «constraint.constrName» < 1 ){ throw new IllegalArgumentException("The parameter «constraint.constrName» must be strictly positive."); }
+				if( «constraint.paramName.parName» < 1 ){ throw new IllegalArgumentException("The parameter «constraint.paramName.parName» must be strictly positive."); }
 				'''
 			ParamConstrDistinct:{
 				if(constraint.paramsNames.size == 2){
 				'''
 				// constraint distinct
-				if(«constraint.paramsNames.get(0)» == «constraint.paramsNames.get(1)»){ throw new IllegalArgumentException("The parameters «constraint.paramsNames.get(0)» and «constraint.paramsNames.get(1)» must be different."); }
+				if(«constraint.paramsNames.get(0).parName» == «constraint.paramsNames.get(1).parName»){ throw new IllegalArgumentException("The parameters «constraint.paramsNames.get(0).parName» and «constraint.paramsNames.get(1).parName» must be different."); }
 				'''
 				}else{
 				'''
 				// constraint distinct
 				java.util.Map<Integer, String> distincValues_«constraintIndex» = new java.util.HashMap<>(«constraint.paramsNames.size»);
 				«FOR p : constraint.paramsNames SEPARATOR "\n"»
-				if( distincValues_«constraintIndex».containsKey(«p») ){ throw new IllegalArgumentException("The parameter «p» has the same value as " + distincValues_«constraintIndex».get(«p») + "."); }
+				if( distincValues_«constraintIndex».containsKey(«p.parName») ){ throw new IllegalArgumentException("The parameter «p.parName» has the same value as " + distincValues_«constraintIndex».get(«p.parName») + "."); }
 				«ENDFOR»
 				'''
 				}
@@ -592,11 +592,12 @@ class JavaYarelGenerator implements IGenerator2 {
 			ParamConstrBound:{
 				'''
 				// constraint bound
-				if( 1 > «constraint.paramName» || «constraint.paramName» «IF constraint.upperInclusivity»>«ELSE»>=«ENDIF» «constraint.arityParamName» ){ throw new IllegalArgumentException("The parameter «constraint.paramName» should be greater than zero and lower «IF constraint.upperInclusivity»or equal «ENDIF»than «constraint.arityParamName»"); }
+				if( 1 > «constraint.paramName.parName» || «constraint.paramName.parName» «IF constraint.upperInclusivity»>«ELSE»>=«ENDIF» «constraint.arityParamName.parName» ){ throw new IllegalArgumentException("The parameter «constraint.paramName.parName» should be greater than zero and lower «IF constraint.upperInclusivity»or equal «ENDIF»than «constraint.arityParamName.parName»"); }
 				'''
 			}
 		}
 	}
+	
 	private def compileConstraints(Model model, Declaration declaration, ParamConstraintList paramsConstr){
 		if (paramsConstr === null) return '''''';
 		val EList<ParamConstraint> constraints = paramsConstr.constraints
