@@ -13,6 +13,8 @@ public class JustASwap implements RPP {
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
 		this.I = I;
 		
+		// constraint bound
+		if( 1 > I || I >= K ){ throw new IllegalArgumentException("The parameter I should be greater than zero and lower than K"); }
 	}
 	protected JustASwap(){
 		this(1,0);
@@ -48,7 +50,7 @@ public class JustASwap implements RPP {
 	protected void checkTheWholeBody(){
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							private RPP __f__ = Inc.SINGLETON_Inc;

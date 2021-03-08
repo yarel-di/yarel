@@ -13,6 +13,8 @@ public class InvParamItFor implements RPP {
 		// if(Amount < 0){ throw new WrongArityException("The parameter \"Amount\" cannot be negative: " + Amount); }
 		this.Amount = Amount;
 		
+		// constraint natural
+		if( Amount < 0 ){ throw new IllegalArgumentException("The parameter Amount must be a natural (>= 0)."); }
 	}
 	protected InvParamItFor(){
 		this(1,0);
@@ -63,7 +65,7 @@ public class InvParamItFor implements RPP {
 						}
 					}
 				};
-				
+					
 				/** inverse function used when v < 0 */
 				RPP __inv_function__ = new RPP() { // InvBodyParamIncImpl
 					private RPP __f__ = Inc.SINGLETON_Inc;
