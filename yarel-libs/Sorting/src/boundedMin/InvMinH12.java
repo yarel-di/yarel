@@ -33,7 +33,7 @@ public class InvMinH12 implements RPP {
 		return new MinH12();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -80,7 +80,7 @@ public class InvMinH12 implements RPP {
 		new RPP() { // BodyItImpl // index: 3
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new funcH12.InvH12_v2();
@@ -189,7 +189,7 @@ public class InvMinH12 implements RPP {
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
+						private final RPP[] __subtasks__ = new RPP[]{ //
 							new RPP(){ // BodyIncImpl // index: 0
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								private final int __a__ = __f__.getA();

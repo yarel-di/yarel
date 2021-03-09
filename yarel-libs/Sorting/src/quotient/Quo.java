@@ -12,7 +12,7 @@ public class Quo implements RPP {
 		return new InvQuo();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 6;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -63,7 +63,7 @@ public class Quo implements RPP {
 		new RPP() { // BodyItImpl // index: 3
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new QuoStep();
@@ -148,7 +148,7 @@ public class Quo implements RPP {
 					
 					new RPP() { // BodyIfImpl // index: 4
 						RPP __pos__=new RPP() {
-							private final RPP[] __steps__ = new RPP[]{
+							private final RPP[] __steps__ = new RPP[]{ //
 								new RPP() { // BodyPermImpl // index: 0
 									private final int __a__ = 4;
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {

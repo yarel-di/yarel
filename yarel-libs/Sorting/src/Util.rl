@@ -5,7 +5,7 @@ module util {
 	 *  to the value 0. The first ancilla assume the value a.
 	 *  The second ancilla remains 0.
 	 */
-	dcl dup: 3 int
+	dcl dup {3 int}
 	def dup:= /*  a   0  0*/ /2 3 1/
 	        ; /*  0   0  a*/ it[dec|inc] 
 	        ; /*-|a| |a| a*/ it[inc]|id 

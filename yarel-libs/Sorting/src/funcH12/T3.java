@@ -12,7 +12,7 @@ public class T3 implements RPP {
 		return new InvT3();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {

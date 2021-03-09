@@ -13,7 +13,7 @@ public class InvDisSelN implements RPP {
 	}
 	
 	RPP __pos__=new RPP() {
-		private final RPP[] __steps__ = new RPP[]{
+		private final RPP[] __steps__ = new RPP[]{ //
 			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = InvId.SINGLETON_InvId;
@@ -69,7 +69,7 @@ public class InvDisSelN implements RPP {
 		}
 	};
 	RPP __zero__=new RPP() {
-		private final RPP[] __steps__ = new RPP[]{
+		private final RPP[] __steps__ = new RPP[]{ //
 			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = InvId.SINGLETON_InvId;
@@ -136,7 +136,7 @@ public class InvDisSelN implements RPP {
 		}
 	};
 	RPP __neg__=new RPP() {
-		private final RPP[] __steps__ = new RPP[]{
+		private final RPP[] __steps__ = new RPP[]{ //
 			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = InvDec.SINGLETON_InvDec;

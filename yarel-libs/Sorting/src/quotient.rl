@@ -14,7 +14,7 @@ module quotient {
 	 * q: quotient
 	 * k: will be r-d at first, then it'll be 0 if the subtraction step has been executed, -d otherwise.
 	 */
-	dcl quoStep : 4 int
+	dcl quoStep {4 int}
 	
 	/* 
 	 * We set k = r-d, so if k >= 0 [case A], we execute the subtraction step; else we don't do it[case B].
@@ -63,7 +63,7 @@ module quotient {
 	 * it: number of times we iterate. It is set to D.
 	 * 
 	 */
-	dcl quo : 6 int
+	dcl quo {6 int}
 	
 	/*
 	 * At each iteration, it performs quoStep. In case r<d, quoStep does nothing but setting k=-d.

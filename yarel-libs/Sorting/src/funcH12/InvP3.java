@@ -12,7 +12,7 @@ public class InvP3 implements RPP {
 		return new P3();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -55,7 +55,7 @@ public class InvP3 implements RPP {
 		new RPP() { // BodyItImpl // index: 3
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // BodyFunImpl // index: 0
 						RPP __function__ = new arithNat.InvSumN();
 						public int getA() { return __function__.getA(); }

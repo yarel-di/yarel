@@ -6,7 +6,7 @@ module CantorPairing {
     /* note: Sum[a] := (\sum_{i=0}^{a}i) */
     
     /* Cantor pairing */
-    dcl cp : 3 int
+    dcl cp {3 int}
     
     /*
      * input:  < x, y, 0>
@@ -24,7 +24,7 @@ module CantorPairing {
     
     
     /* Cantor unpairing */
-    dcl cu : 5 int
+    dcl cu {5 int}
     
     /* 
      * input:  < z, 0, 0, 0, 0 >

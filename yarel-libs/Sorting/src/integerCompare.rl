@@ -28,7 +28,7 @@ module IntegerCompare{
 	// clearly, they are the same
 	
 	
-	dcl sameSignLess : 3 int
+	dcl sameSignLess {3 int}
 	def sameSignLess :=  // k i j .... k == 1 <-> j > i
 		id | for[dec] // k (i-j) j
 		;/1 3 2/ // k j (i-j)
@@ -36,7 +36,7 @@ module IntegerCompare{
 		;/1 3 2/ // k (i-j) j
 		;id | for[inc]  // k i j
 	
-	dcl sameSignMore : 3 int
+	dcl sameSignMore {3 int}
 	def sameSignMore :=  // k i j .... k == 1 <-> j < i
 		id | for[dec] // k (i-j) j
 		;/1 3 2/ // k j (i-j)
@@ -45,14 +45,14 @@ module IntegerCompare{
 		;id | for[inc]  // k i j
 	
 	
-	dcl dupStep: 5 int
+	dcl dupStep {5 int}
 	def dupStep:= // k 0(p) 0(q) i j
 		/1 2 5 3 4/ // k 0 j 0 i
 		;id | for[inc] | for[inc] // k j j i i
 		;/1 5 3 4 2/              // k i j i j
 	
 	
-	dcl less : 5 int // 0(k) 0(p) 0(q) i j .. then holds k == 1 <-> i < j
+	dcl less {5 int} // 0(k) 0(p) 0(q) i j .. then holds k == 1 <-> i < j
 	def less :=
 		dupStep // k i j i j
 		;if[ //this "if" is the "F" function 
@@ -62,7 +62,7 @@ module IntegerCompare{
 		]
 		;inv[dupStep]
 	
-	dcl more : 5 int // 0(k) 0(p) 0(q) i j .. then holds k == 1 <-> i > j
+	dcl more {5 int} // 0(k) 0(p) 0(q) i j .. then holds k == 1 <-> i > j
 	def more:=
 		dupStep // k i j i j
 		;if[ //this "if" is the "F" function 
@@ -76,7 +76,7 @@ module IntegerCompare{
 
 	//
 
-	dcl sameSignCompare : 3 int
+	dcl sameSignCompare {3 int}
 	def sameSignCompare :=  // k i j .... k == 1 <-> j < i && k == 0 <-> j == i && k == -1 
 		id | for[dec]
 		;/1 3 2/ // k j (i-j)
@@ -85,7 +85,7 @@ module IntegerCompare{
 		;id | for[inc]
 
 
-	dcl compare : 5 int
+	dcl compare {5 int}
 	def compare :=
 		dupStep // k i j i j
 		;if[ //this "if" is the "F" function 
@@ -95,7 +95,7 @@ module IntegerCompare{
 		]
 		;inv[dupStep]
 
-	dcl compareOverflowUnsafe : 3 int
+	dcl compareOverflowUnsafe {3 int}
 	def compareOverflowUnsafe :=
 		sameSignCompare
 }

@@ -33,7 +33,7 @@ public class DisStepN implements RPP {
 		return new InvDisStepN();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // ParCompImpl // index: 0
 			/**
 			 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
@@ -41,7 +41,7 @@ public class DisStepN implements RPP {
 			 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 			 * The order is preserved from the Yarel source code.
 			*/
-			private final RPP[] __subtasks__ = new RPP[]{
+			private final RPP[] __subtasks__ = new RPP[]{ //
 				new RPP(){ // BodyFunImpl // index: 0
 					RPP __function__ = new SubN();
 					public int getA() { return __function__.getA(); }

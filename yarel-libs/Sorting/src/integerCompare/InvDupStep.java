@@ -33,7 +33,7 @@ public class InvDupStep implements RPP {
 		return new DupStep();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -53,7 +53,7 @@ public class InvDupStep implements RPP {
 			 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 			 * The order is preserved from the Yarel source code.
 			*/
-			private final RPP[] __subtasks__ = new RPP[]{
+			private final RPP[] __subtasks__ = new RPP[]{ //
 				new RPP(){ // BodyForImpl // index: 0
 					/** regular function used when v > 0 */
 					RPP __function__ = new RPP() { // BodyIncImpl
