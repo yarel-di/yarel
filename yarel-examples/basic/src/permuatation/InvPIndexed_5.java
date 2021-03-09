@@ -33,16 +33,16 @@ public class InvPIndexed_5 implements RPP {
 		return new PIndexed_5();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // ParCompImpl
+	private final RPP[] __steps__ = new RPP[]{ //
+		new RPP() { // ParCompImpl // index: 0
 			/**
 			 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 			 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 			 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 			 * The order is preserved from the Yarel source code.
 			*/
-			private final RPP[] __subtasks__ = new RPP[]{
-				new RPP(){ // BodyFunImpl
+			private final RPP[] __subtasks__ = new RPP[]{ //
+				new RPP(){ // BodyFunImpl // index: 0
 					RPP __function__ = new InvPInd_dataset();
 					public int getA() { return __function__.getA(); }
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -50,9 +50,9 @@ public class InvPIndexed_5 implements RPP {
 					}
 				},
 				
-				new RPP(){ // SerCompImpl
-					private final RPP[] __steps__ = new RPP[]{
-						new RPP() { // BodyIncImpl
+				new RPP(){ // SerCompImpl // index: 1
+					private final RPP[] __steps__ = new RPP[]{ //
+						new RPP() { // BodyIncImpl // index: 0
 							private RPP __f__ = InvInc.SINGLETON_InvInc;
 							private final int __a__ = __f__.getA();
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -61,7 +61,7 @@ public class InvPIndexed_5 implements RPP {
 							public int getA() { return this.__a__; }
 						},
 						
-						new RPP() { // BodyIncImpl
+						new RPP() { // BodyIncImpl // index: 1
 							private RPP __f__ = InvInc.SINGLETON_InvInc;
 							private final int __a__ = __f__.getA();
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -70,7 +70,7 @@ public class InvPIndexed_5 implements RPP {
 							public int getA() { return this.__a__; }
 						},
 						
-						new RPP() { // BodyIncImpl
+						new RPP() { // BodyIncImpl // index: 2
 							private RPP __f__ = InvInc.SINGLETON_InvInc;
 							private final int __a__ = __f__.getA();
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -79,7 +79,7 @@ public class InvPIndexed_5 implements RPP {
 							public int getA() { return this.__a__; }
 						},
 						
-						new RPP() { // BodyIncImpl
+						new RPP() { // BodyIncImpl // index: 3
 							private RPP __f__ = InvInc.SINGLETON_InvInc;
 							private final int __a__ = __f__.getA();
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -88,7 +88,7 @@ public class InvPIndexed_5 implements RPP {
 							public int getA() { return this.__a__; }
 						},
 						
-						new RPP() { // BodyIncImpl
+						new RPP() { // BodyIncImpl // index: 4
 							private RPP __f__ = InvInc.SINGLETON_InvInc;
 							private final int __a__ = __f__.getA();
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -208,7 +208,7 @@ public class InvPIndexed_5 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyParamPermImpl
+		new RPP() { // BodyParamPermImpl // index: 1
 			public int getA() { return 1 + 4; }
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				final int __permutArity__ = this.getA() - 1;

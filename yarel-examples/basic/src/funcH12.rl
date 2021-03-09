@@ -7,7 +7,7 @@
      */
     
     /* T2 function */
-    dcl T2 : 2 int
+    dcl T2 {2 int}
     /*
      * input:  < x, y >
      * output: < x + 1, x + y + 1 >
@@ -20,7 +20,7 @@
     		
     		
 	/* T2sub function: different from T2 because it does the subtraction instead of sum. */
-    dcl T2sub : 2 int
+    dcl T2sub {2 int}
     /*
 	 * input: < x, y >
 	 * output: < x + 1, y - x - 1 >
@@ -32,7 +32,7 @@
     		   
     
     /* T3 function */
-    dcl T3 : 3 int
+    dcl T3 {3 int}
     /*
      * input: < x, y, z >
      * output: < x, y + x, z + yx + Sum[x] >
@@ -44,7 +44,7 @@
     
     
     /* T3sub function */
-    dcl T3sub : 3 int
+    dcl T3sub {3 int}
     /*
      * input:  < x, y, z >
      * output: < x, y + x, z - yx - Sum[x] >
@@ -65,7 +65,7 @@
     * But P3 doesn't have to use triangular numbers and is very simple. Besides, it terminates with a "<res,res,0>" configuration, while
     * T3 ends with a "<res,res,dirty>" configuration, so you don't have to revert some operation to transform dirty bits into zero.
     */        
-    dcl P3 : 3 int
+    dcl P3 {3 int}
     /*
      * input:  < x, z, 0 >
      * output: < x, z + Sum[x], 0>
@@ -82,7 +82,7 @@
     
     
     /* IMPORTANT: it is exactly what we want from H12! See below H12_v2 */ 
-    dcl P3sub : 3 int
+    dcl P3sub {3 int}
     /*
      * input:  < x, z, 0 >
      * output: < x, z - Sum[x], 0>
@@ -98,7 +98,7 @@
             ; /3 1 2/     /* x z-Sum[0] 0 */
     
     /* Ad hoc duplication with two inputs, useful for P3 */
-    dcl dup_2 : 2 int
+    dcl dup_2 {2 int}
     /*
      * input:  < x, 0 >
      * output: < x, x >
@@ -113,7 +113,7 @@
     
     
 	/* Like H34 in original article but with one less parameter */
-    dcl H12 : 3 int
+    dcl H12 {3 int}
     /*
      * input:  < x, y, 0 >
      * output: < x, y - Sum[x], 0>
@@ -133,7 +133,7 @@
      * less generality for other purposes). So, the second version H12 just performs the simple operations done by P3sub!
      * I've simply used the new name H12_v2 for a question of semantics. I can remove it and call P3sub directly if efficency will force me...
      */
-    dcl H12_v2 : 3 int
+    dcl H12_v2 {3 int}
     /*
      * input:  < x, y, 0 >
      * output: < x, y - Sum[x], 0>

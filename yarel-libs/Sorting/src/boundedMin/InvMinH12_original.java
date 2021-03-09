@@ -33,11 +33,11 @@ public class InvMinH12_original implements RPP {
 		return new MinH12_original();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyItImpl // index: 0
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new funcH12.InvH12();
@@ -83,7 +83,7 @@ public class InvMinH12_original implements RPP {
 							}
 						};
 						RPP __neg__=new RPP() {
-							private final RPP[] __steps__ = new RPP[]{
+							private final RPP[] __steps__ = new RPP[]{ //
 								new RPP() { // BodyIfImpl // index: 0
 									RPP __pos__=new RPP() {
 										public int getA() { return 4; }
@@ -204,7 +204,7 @@ public class InvMinH12_original implements RPP {
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
+						private final RPP[] __subtasks__ = new RPP[]{ //
 							new RPP(){ // BodyIncImpl // index: 0
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								private final int __a__ = __f__.getA();
@@ -413,7 +413,7 @@ public class InvMinH12_original implements RPP {
 		new RPP() { // BodyInvImpl // index: 4
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							RPP __function__ = new funcH12.H12();
@@ -526,7 +526,7 @@ public class InvMinH12_original implements RPP {
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
+						private final RPP[] __subtasks__ = new RPP[]{ //
 							new RPP(){ // BodyIncImpl // index: 0
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								private final int __a__ = __f__.getA();

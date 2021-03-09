@@ -5,8 +5,8 @@
  */
 module arithNat { 
 
-	//////// sum
-	dcl sumN : 2 int
+	//////// sum	
+	dcl sumN {2 int}
 	/* in : x    , y both equal or greater than 0
 	 * out: x + y, y
      * Iterates inc as many times as y, starting from x.
@@ -14,25 +14,25 @@ module arithNat {
 	def sumN := it[inc]
 
 	//////// subtraction	
-	dcl subN : 2 int
+	dcl subN {2 int}
 	/* in : x    , y
 	 * out: x - y, y
 	 * Eventually, iterates dec on x as many times as y.
 	 * Behavior achieved by inverting sum, i.e. by iterating the inverse of inc.
 	 */
 	def subN := inv[sumN]
-
+	
 	//////// multiplication	
-	dcl mulN : 3 int
+	dcl mulN {3 int}
 	/* in : x        , y, a
 	 * out: a+x+...+x, x, y where x+...+x has y occurrences of x
 	 * Iterates sum as many times as y, using the value of the 
 	 * ancilla a as a starting point.
 	 */
 	def mulN := /3 1 2/;it[sumN] 
-
+	
 	//////// quotient
-	dcl disSelN: 3 int
+	dcl disSelN {3 int}
 	/* in : q(otient) , n(egative)o(verflow)c(ounter), r(eminder)
 	 * out: q(otient)', noc'                         , r'
 	 * disSelN stands for 'distribution selection'.
@@ -53,7 +53,7 @@ module arithNat {
 	  	                ];(id|inc)  // q, noc+1 if r-d < 0
 	                 ]
 	        	
-	dcl disStepN : 4 int 
+	dcl disStepN {4 int} 
 	/* in : r(eminder) , d(ivisor) , q(otient) , n(egative)o(verflow)c(ounter)
 	 * out: r(eminder)', d(ivisor)', q(otient)', noc'
 	 * disStepN stands for 'distribution step'.
@@ -69,7 +69,7 @@ module arithNat {
 	              ;(id|disSelN)
 	              ;/4 1 2 3/
   
-	dcl quoN : 5 int
+	dcl quoN {5 int}
 	/* in : D(ividend) , d(ivisor), q(otient) , i(teration unfolder), n(egative)o(verflow)c(ounter)
 	 * out: r'         , d        , q'        , i                   , noc' 
      * Gives the quotient of D/d. 

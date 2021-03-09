@@ -33,7 +33,7 @@ public class QuoStep implements RPP {
 		return new InvQuoStep();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 4;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -112,7 +112,7 @@ public class QuoStep implements RPP {
 				 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 				 * The order is preserved from the Yarel source code.
 				*/
-				private final RPP[] __subtasks__ = new RPP[]{
+				private final RPP[] __subtasks__ = new RPP[]{ //
 					new RPP(){ // BodyFunImpl // index: 0
 						RPP __function__ = new arithNat.SubN();
 						public int getA() { return __function__.getA(); }
@@ -237,7 +237,7 @@ public class QuoStep implements RPP {
 				 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 				 * The order is preserved from the Yarel source code.
 				*/
-				private final RPP[] __subtasks__ = new RPP[]{
+				private final RPP[] __subtasks__ = new RPP[]{ //
 					new RPP(){ // BodyFunImpl // index: 0
 						RPP __function__ = new arithNat.SubN();
 						public int getA() { return __function__.getA(); }

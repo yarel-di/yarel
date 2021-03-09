@@ -33,7 +33,7 @@ public class Sum implements RPP {
 		return new InvSum();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 5;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -121,7 +121,7 @@ public class Sum implements RPP {
 						}
 					};
 					RPP __neg__=new RPP() {
-						private final RPP[] __steps__ = new RPP[]{
+						private final RPP[] __steps__ = new RPP[]{ //
 							new RPP() { // ParCompImpl // index: 0
 								private RPP __f__ = new RPP(){
 									private RPP __f__ = Neg.SINGLETON_Neg;
@@ -195,7 +195,7 @@ public class Sum implements RPP {
 				};
 				RPP __neg__=new RPP() {
 					RPP __pos__=new RPP() {
-						private final RPP[] __steps__ = new RPP[]{
+						private final RPP[] __steps__ = new RPP[]{ //
 							new RPP() { // ParCompImpl // index: 0
 								private RPP __f__ = new RPP(){
 									private RPP __f__ = Neg.SINGLETON_Neg;
@@ -256,7 +256,7 @@ public class Sum implements RPP {
 						}
 					};
 					RPP __neg__=new RPP() {
-						private final RPP[] __steps__ = new RPP[]{
+						private final RPP[] __steps__ = new RPP[]{ //
 							new RPP() { // ParCompImpl // index: 0
 								/**
 								 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
@@ -264,7 +264,7 @@ public class Sum implements RPP {
 								 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 								 * The order is preserved from the Yarel source code.
 								*/
-								private final RPP[] __subtasks__ = new RPP[]{
+								private final RPP[] __subtasks__ = new RPP[]{ //
 									new RPP(){ // BodyNegImpl // index: 0
 										private RPP __f__ = Neg.SINGLETON_Neg;
 										private final int __a__ = __f__.getA();
@@ -399,7 +399,7 @@ public class Sum implements RPP {
 								 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 								 * The order is preserved from the Yarel source code.
 								*/
-								private final RPP[] __subtasks__ = new RPP[]{
+								private final RPP[] __subtasks__ = new RPP[]{ //
 									new RPP(){ // BodyNegImpl // index: 0
 										private RPP __f__ = Neg.SINGLETON_Neg;
 										private final int __a__ = __f__.getA();

@@ -12,7 +12,7 @@ public class Fibonacci implements RPP {
 		return new InvFibonacci();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new Fib();

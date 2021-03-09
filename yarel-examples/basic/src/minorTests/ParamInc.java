@@ -13,6 +13,8 @@ public class ParamInc implements RPP {
 		// if(Amount < 0){ throw new WrongArityException("The parameter \"Amount\" cannot be negative: " + Amount); }
 		this.Amount = Amount;
 		
+		// constraint positive
+		if( Amount < 1 ){ throw new IllegalArgumentException("The parameter Amount must be strictly positive."); }
 	}
 	protected ParamInc(){
 		this(1,0);

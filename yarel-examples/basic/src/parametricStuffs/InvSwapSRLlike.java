@@ -17,6 +17,14 @@ public class InvSwapSRLlike implements RPP {
 		// if(E < 0){ throw new WrongArityException("The parameter \"E\" cannot be negative: " + E); }
 		this.E = E;
 		
+		// constraint distinct
+		if(S == E){ throw new IllegalArgumentException("The parameters S and E must be different."); }
+		
+		// constraint bound
+		if( 1 > S || S > K ){ throw new IllegalArgumentException("The parameter S should be greater than zero and lower or equal than K (" + K + ")."); }
+		
+		// constraint bound
+		if( 1 > E || E > K ){ throw new IllegalArgumentException("The parameter E should be greater than zero and lower or equal than K (" + K + ")."); }
 	}
 	protected InvSwapSRLlike(){
 		this(1,0, 0);
@@ -55,8 +63,8 @@ public class InvSwapSRLlike implements RPP {
 	protected void checkTheWholeBody(){
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
-				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyFunImpl
+				private final RPP[] __steps__ = new RPP[]{ //
+					new RPP() { // BodyFunImpl // index: 0
 						RPP __function__ = new InvSwapParamHelper(
 							0 + (1*K)
 							,
@@ -68,7 +76,7 @@ public class InvSwapSRLlike implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 1
 						RPP __function__ = new InvSwapParamHelper(
 							0 + (1*K)
 							,
@@ -80,7 +88,7 @@ public class InvSwapSRLlike implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyFunImpl
+					new RPP() { // BodyFunImpl // index: 2
 						RPP __function__ = new InvSwapParamHelper(
 							0 + (1*K)
 							,

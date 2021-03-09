@@ -69,8 +69,8 @@ public class InvDecIncr implements RPP {
 				 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 				 * The order is preserved from the Yarel source code.
 				*/
-				private final RPP[] __subtasks__ = new RPP[]{
-					new RPP(){ // BodyParamDecImpl
+				private final RPP[] __subtasks__ = new RPP[]{ //
+					new RPP(){ // BodyParamDecImpl // index: 0
 						private RPP __f__ = InvDec.SINGLETON_InvDec;
 						public int getA() { return 1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -85,7 +85,7 @@ public class InvDecIncr implements RPP {
 						}
 					},
 					
-					new RPP(){ // BodyParamIncImpl
+					new RPP(){ // BodyParamIncImpl // index: 1
 						private RPP __f__ = InvInc.SINGLETON_InvInc;
 						public int getA() { return 1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {

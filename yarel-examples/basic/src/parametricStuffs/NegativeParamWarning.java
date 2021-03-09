@@ -40,8 +40,8 @@ public class NegativeParamWarning implements RPP {
 	protected void checkTheWholeBody(){
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
-				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+				private final RPP[] __steps__ = new RPP[]{ //
+					new RPP() { // ParCompImpl // index: 0
 						private RPP __f__ = new RPP(){
 							private RPP __f__ = Inc.SINGLETON_Inc;
 							public int getA() { return 5 + ((-1)*K); }
@@ -65,7 +65,7 @@ public class NegativeParamWarning implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 1
 						private RPP __f__ = new RPP(){
 							/** regular function used when v > 0 */
 							RPP __function__ = new RPP() { // BodyIncImpl
@@ -118,7 +118,7 @@ public class NegativeParamWarning implements RPP {
 						}
 					},
 					
-					new RPP() { // BodySwapImpl
+					new RPP() { // BodySwapImpl // index: 2
 						public int getA() { return 2 + (1*K) + (1*J); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __arity__ = this.getA(); // "- 1" is removed

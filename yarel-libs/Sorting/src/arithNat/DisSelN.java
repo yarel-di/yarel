@@ -13,7 +13,7 @@ public class DisSelN implements RPP {
 	}
 	
 	RPP __pos__=new RPP() {
-		private final RPP[] __steps__ = new RPP[]{
+		private final RPP[] __steps__ = new RPP[]{ //
 			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = Id.SINGLETON_Id;
@@ -69,7 +69,7 @@ public class DisSelN implements RPP {
 		}
 	};
 	RPP __zero__=new RPP() {
-		private final RPP[] __steps__ = new RPP[]{
+		private final RPP[] __steps__ = new RPP[]{ //
 			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = Id.SINGLETON_Id;
@@ -136,7 +136,7 @@ public class DisSelN implements RPP {
 		}
 	};
 	RPP __neg__=new RPP() {
-		private final RPP[] __steps__ = new RPP[]{
+		private final RPP[] __steps__ = new RPP[]{ //
 			new RPP() { // BodyIfImpl // index: 0
 				RPP __pos__=new RPP() {
 					private RPP __f__ = Dec.SINGLETON_Dec;

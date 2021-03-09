@@ -19,6 +19,7 @@ import java.util.Arrays;
  * <li> {@link RPP}</li>
 * <li> {@link minorTests.JustASwap}</li>
 * <li> {@link minorTests.JustASwap2}</li>
+* <li> {@link minorTests.SwapSRLLike2}</li>
 * <li> {@link minorTests.ParamInc}</li>
 * <li> {@link minorTests.ParamDec}</li>
 * <li> {@link minorTests.ParamNeg}</li>
@@ -55,6 +56,8 @@ public class MinorTestsPlayWith {
 		testJustASwap();
 		
 		testJustASwap2();
+		
+		testSwapSRLLike2();
 		
 		testParamInc();
 		
@@ -119,6 +122,34 @@ public class MinorTestsPlayWith {
 		for( int[] data: datasets ){
 			System.out.println("\nTesting the function justASwap2 with values:" + Arrays.toString(data));
 			justASwap2RPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testSwapSRLLike2(){
+		RPP swapSRLLike2RPP = new minorTests.SwapSRLLike2();
+		final int[][] datasets = {
+			new int[]{1,5},
+			new int[]{1,5},
+			new int[]{ 0,  0},
+			new int[]{ 1,  1},
+			new int[]{ -1,  -1},
+			new int[]{ 2,  2},
+			new int[]{ -2,  -2},
+			new int[]{ 3,  3},
+			new int[]{ -3,  -3},
+			new int[]{ 4,  4},
+			new int[]{ -4,  -4},
+			new int[]{ 10,  10},
+			new int[]{ -10,  -10},
+			new int[]{ 11,  11},
+			new int[]{ -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function swapSRLLike2 with values:" + Arrays.toString(data));
+			swapSRLLike2RPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

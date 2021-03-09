@@ -24,7 +24,7 @@ module BoundedMin {
      * 
      */
                            
-    dcl minH12 : 5 int
+    dcl minH12 {5 int}
     
     /*
      * input:  < x, y, 0, 0, 0 >
@@ -69,7 +69,7 @@ module BoundedMin {
     
     
     /* RPP original version translated in Yarel. For further comment and details, see the article about RPP. */
-    dcl minH12_original : 7 int
+    dcl minH12_original {7 int}
     def minH12_original := it[
 		                     H12 |id|id|id
 		                     ; /1 3 4 5 6 2/
