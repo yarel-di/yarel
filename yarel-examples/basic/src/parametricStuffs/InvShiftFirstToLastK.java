@@ -58,16 +58,16 @@ public class InvShiftFirstToLastK implements RPP {
 	protected void checkTheWholeBody(){
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
-				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+				private final RPP[] __steps__ = new RPP[]{ //
+					new RPP() { // ParCompImpl // index: 0
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyParamIncImpl
+						private final RPP[] __subtasks__ = new RPP[]{ //
+							new RPP(){ // BodyParamIncImpl // index: 0
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return 1; }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -82,7 +82,7 @@ public class InvShiftFirstToLastK implements RPP {
 								}
 							},
 							
-							new RPP(){ // BodyParamIncImpl
+							new RPP(){ // BodyParamIncImpl // index: 1
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return 1; }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -198,11 +198,11 @@ public class InvShiftFirstToLastK implements RPP {
 						}
 					},
 					
-					new RPP() { // BodyForImpl
+					new RPP() { // BodyForImpl // index: 1
 						/** regular function used when v > 0 */
 						RPP __function__ = new RPP() { // SerCompImpl
-							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyParamPermImpl
+							private final RPP[] __steps__ = new RPP[]{ //
+								new RPP() { // BodyParamPermImpl // index: 0
 									public int getA() { return 1 + 0 + (1*K); }
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										final int __permutArity__ = this.getA() - 1;
@@ -216,7 +216,7 @@ public class InvShiftFirstToLastK implements RPP {
 									}
 								},
 								
-								new RPP() { // ParCompImpl
+								new RPP() { // ParCompImpl // index: 1
 									private RPP __f__ = new RPP(){
 										private RPP __f__ = InvDec.SINGLETON_InvDec;
 										private final int __a__ = __f__.getA();
@@ -246,8 +246,8 @@ public class InvShiftFirstToLastK implements RPP {
 						
 						/** inverse function used when v < 0 */
 						RPP __inv_function__ = new RPP() { // InvSerCompImpl
-							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyParamPermImpl
+							private final RPP[] __steps__ = new RPP[]{ //
+								new RPP() { // BodyParamPermImpl // index: 0
 									public int getA() { return 1 + 0 + (1*K); }
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 										final int __permutArity__ = this.getA() - 1;
@@ -261,7 +261,7 @@ public class InvShiftFirstToLastK implements RPP {
 									}
 								},
 								
-								new RPP() { // ParCompImpl
+								new RPP() { // ParCompImpl // index: 1
 									private RPP __f__ = new RPP(){
 										private RPP __f__ = Dec.SINGLETON_Dec;
 										private final int __a__ = __f__.getA();
@@ -312,15 +312,15 @@ public class InvShiftFirstToLastK implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 2
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyDecImpl
+						private final RPP[] __subtasks__ = new RPP[]{ //
+							new RPP(){ // BodyDecImpl // index: 0
 								private RPP __f__ = InvDec.SINGLETON_InvDec;
 								private final int __a__ = __f__.getA();
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -329,7 +329,7 @@ public class InvShiftFirstToLastK implements RPP {
 								public int getA() { return this.__a__; }
 							},
 							
-							new RPP(){ // BodyParamDecImpl
+							new RPP(){ // BodyParamDecImpl // index: 1
 								private RPP __f__ = InvDec.SINGLETON_InvDec;
 								public int getA() { return 1; }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {

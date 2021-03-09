@@ -67,8 +67,8 @@ public class DoubleSwapSomewhere implements RPP {
 				 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 				 * The order is preserved from the Yarel source code.
 				*/
-				private final RPP[] __subtasks__ = new RPP[]{
-					new RPP(){ // BodyDecImpl
+				private final RPP[] __subtasks__ = new RPP[]{ //
+					new RPP(){ // BodyDecImpl // index: 0
 						private RPP __f__ = Dec.SINGLETON_Dec;
 						private final int __a__ = __f__.getA();
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -77,7 +77,7 @@ public class DoubleSwapSomewhere implements RPP {
 						public int getA() { return this.__a__; }
 					},
 					
-					new RPP(){ // BodySwapImpl
+					new RPP(){ // BodySwapImpl // index: 1
 						public int getA() { return 0 + (1*a); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __arity__ = this.getA(); // "- 1" is removed
@@ -90,11 +90,11 @@ public class DoubleSwapSomewhere implements RPP {
 						}
 					},
 					
-					new RPP(){ // BodyForImpl
+					new RPP(){ // BodyForImpl // index: 2
 						/** regular function used when v > 0 */
 						RPP __function__ = new RPP() { // SerCompImpl
-							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyIncImpl
+							private final RPP[] __steps__ = new RPP[]{ //
+								new RPP() { // BodyIncImpl // index: 0
 									private RPP __f__ = Inc.SINGLETON_Inc;
 									private final int __a__ = __f__.getA();
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -103,7 +103,7 @@ public class DoubleSwapSomewhere implements RPP {
 									public int getA() { return this.__a__; }
 								},
 								
-								new RPP() { // BodyIncImpl
+								new RPP() { // BodyIncImpl // index: 1
 									private RPP __f__ = Inc.SINGLETON_Inc;
 									private final int __a__ = __f__.getA();
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -124,8 +124,8 @@ public class DoubleSwapSomewhere implements RPP {
 						
 						/** inverse function used when v < 0 */
 						RPP __inv_function__ = new RPP() { // InvSerCompImpl
-							private final RPP[] __steps__ = new RPP[]{
-								new RPP() { // BodyIncImpl
+							private final RPP[] __steps__ = new RPP[]{ //
+								new RPP() { // BodyIncImpl // index: 0
 									private RPP __f__ = InvInc.SINGLETON_InvInc;
 									private final int __a__ = __f__.getA();
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -134,7 +134,7 @@ public class DoubleSwapSomewhere implements RPP {
 									public int getA() { return this.__a__; }
 								},
 								
-								new RPP() { // BodyIncImpl
+								new RPP() { // BodyIncImpl // index: 1
 									private RPP __f__ = InvInc.SINGLETON_InvInc;
 									private final int __a__ = __f__.getA();
 									public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -176,7 +176,7 @@ public class DoubleSwapSomewhere implements RPP {
 						}
 					},
 					
-					new RPP(){ // BodyFunImpl
+					new RPP(){ // BodyFunImpl // index: 3
 						RPP __function__ = new SwapSRLlike(
 							0 + (1*B)
 							,
@@ -189,9 +189,9 @@ public class DoubleSwapSomewhere implements RPP {
 						}
 					},
 					
-					new RPP(){ // SerCompImpl
-						private final RPP[] __steps__ = new RPP[]{
-							new RPP() { // BodyIncImpl
+					new RPP(){ // SerCompImpl // index: 4
+						private final RPP[] __steps__ = new RPP[]{ //
+							new RPP() { // BodyIncImpl // index: 0
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								private final int __a__ = __f__.getA();
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -200,7 +200,7 @@ public class DoubleSwapSomewhere implements RPP {
 								public int getA() { return this.__a__; }
 							},
 							
-							new RPP() { // BodyNegImpl
+							new RPP() { // BodyNegImpl // index: 1
 								private RPP __f__ = Neg.SINGLETON_Neg;
 								private final int __a__ = __f__.getA();
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -219,7 +219,7 @@ public class DoubleSwapSomewhere implements RPP {
 						}
 					},
 					
-					new RPP(){ // BodyParamIncImpl
+					new RPP(){ // BodyParamIncImpl // index: 5
 						private RPP __f__ = Inc.SINGLETON_Inc;
 						public int getA() { return 1; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {

@@ -12,7 +12,7 @@ public class InvCompare implements RPP {
 		return new Compare();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyFunImpl // index: 0
 			RPP __function__ = new InvDupStep();
 			public int getA() { return __function__.getA(); }

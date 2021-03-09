@@ -13,6 +13,8 @@ public class ParamDec implements RPP {
 		// if(Amount < 0){ throw new WrongArityException("The parameter \"Amount\" cannot be negative: " + Amount); }
 		this.Amount = Amount;
 		
+		// constraint natural
+		if( Amount < 0 ){ throw new IllegalArgumentException("The parameter Amount must be a natural (>= 0)."); }
 	}
 	protected ParamDec(){
 		this(1,0);

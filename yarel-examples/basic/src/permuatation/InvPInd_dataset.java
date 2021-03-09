@@ -39,10 +39,10 @@ public class InvPInd_dataset implements RPP {
 	 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 	 * The order is preserved from the Yarel source code.
 	*/
-	private final RPP[] __subtasks__ = new RPP[]{
-		new RPP(){ // SerCompImpl
-			private final RPP[] __steps__ = new RPP[]{
-				new RPP() { // BodyDecImpl
+	private final RPP[] __subtasks__ = new RPP[]{ //
+		new RPP(){ // SerCompImpl // index: 0
+			private final RPP[] __steps__ = new RPP[]{ //
+				new RPP() { // BodyDecImpl // index: 0
 					private RPP __f__ = InvDec.SINGLETON_InvDec;
 					private final int __a__ = __f__.getA();
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -51,7 +51,7 @@ public class InvPInd_dataset implements RPP {
 					public int getA() { return this.__a__; }
 				},
 				
-				new RPP() { // BodyDecImpl
+				new RPP() { // BodyDecImpl // index: 1
 					private RPP __f__ = InvDec.SINGLETON_InvDec;
 					private final int __a__ = __f__.getA();
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -60,7 +60,7 @@ public class InvPInd_dataset implements RPP {
 					public int getA() { return this.__a__; }
 				},
 				
-				new RPP() { // BodyDecImpl
+				new RPP() { // BodyDecImpl // index: 2
 					private RPP __f__ = InvDec.SINGLETON_InvDec;
 					private final int __a__ = __f__.getA();
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -79,9 +79,9 @@ public class InvPInd_dataset implements RPP {
 			}
 		},
 		
-		new RPP(){ // SerCompImpl
-			private final RPP[] __steps__ = new RPP[]{
-				new RPP() { // BodyIncImpl
+		new RPP(){ // SerCompImpl // index: 1
+			private final RPP[] __steps__ = new RPP[]{ //
+				new RPP() { // BodyIncImpl // index: 0
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
 					private final int __a__ = __f__.getA();
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -90,7 +90,7 @@ public class InvPInd_dataset implements RPP {
 					public int getA() { return this.__a__; }
 				},
 				
-				new RPP() { // BodyIncImpl
+				new RPP() { // BodyIncImpl // index: 1
 					private RPP __f__ = InvInc.SINGLETON_InvInc;
 					private final int __a__ = __f__.getA();
 					public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -109,7 +109,7 @@ public class InvPInd_dataset implements RPP {
 			}
 		},
 		
-		new RPP(){ // BodyIncImpl
+		new RPP(){ // BodyIncImpl // index: 2
 			private RPP __f__ = InvInc.SINGLETON_InvInc;
 			private final int __a__ = __f__.getA();
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {

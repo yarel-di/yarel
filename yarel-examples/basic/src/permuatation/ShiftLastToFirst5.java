@@ -12,8 +12,8 @@ public class ShiftLastToFirst5 implements RPP {
 		return new InvShiftLastToFirst5();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // ParCompImpl
+	private final RPP[] __steps__ = new RPP[]{ //
+		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				/** regular function used when v > 0 */
 				RPP __function__ = new RPP() { // BodyIncImpl
@@ -66,11 +66,11 @@ public class ShiftLastToFirst5 implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyForImpl
+		new RPP() { // BodyForImpl // index: 1
 			/** regular function used when v > 0 */
 			RPP __function__ = new RPP() { // SerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyParamPermImpl
+				private final RPP[] __steps__ = new RPP[]{ //
+					new RPP() { // BodyParamPermImpl // index: 0
 						public int getA() { return 1 + 5; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							final int __permutArity__ = this.getA() - 1;
@@ -84,7 +84,7 @@ public class ShiftLastToFirst5 implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 1
 						private RPP __f__ = new RPP(){
 							private RPP __f__ = Dec.SINGLETON_Dec;
 							private final int __a__ = __f__.getA();
@@ -114,8 +114,8 @@ public class ShiftLastToFirst5 implements RPP {
 			
 			/** inverse function used when v < 0 */
 			RPP __inv_function__ = new RPP() { // InvSerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodyParamPermImpl
+				private final RPP[] __steps__ = new RPP[]{ //
+					new RPP() { // BodyParamPermImpl // index: 0
 						public int getA() { return 1 + 5; }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							final int __permutArity__ = this.getA() - 1;
@@ -129,7 +129,7 @@ public class ShiftLastToFirst5 implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 1
 						private RPP __f__ = new RPP(){
 							private RPP __f__ = InvDec.SINGLETON_InvDec;
 							private final int __a__ = __f__.getA();

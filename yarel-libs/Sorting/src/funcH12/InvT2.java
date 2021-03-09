@@ -12,7 +12,7 @@ public class InvT2 implements RPP {
 		return new T2();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				private RPP __f__ = InvInc.SINGLETON_InvInc;

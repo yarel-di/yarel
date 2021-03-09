@@ -12,7 +12,7 @@ public class InvDup_2 implements RPP {
 		return new Dup_2();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 2;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {

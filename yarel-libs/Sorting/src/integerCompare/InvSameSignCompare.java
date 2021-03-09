@@ -12,7 +12,7 @@ public class InvSameSignCompare implements RPP {
 		return new SameSignCompare();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				/** regular function used when v > 0 */

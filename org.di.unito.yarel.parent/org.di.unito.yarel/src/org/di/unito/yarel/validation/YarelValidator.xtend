@@ -19,50 +19,53 @@
 package org.di.unito.yarel.validation
 
 import com.google.inject.Inject
+import java.util.Arrays
+import java.util.List
+import java.util.Set
+import java.util.Map
 import java.util.HashMap
 import java.util.HashSet
-import java.util.List
-import java.util.Map
 import java.util.TreeMap
+import java.util.function.Supplier
 import java.util.function.Function
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.validation.Check
+import org.eclipse.xtext.validation.CheckType
 import org.di.unito.yarel.scoping.YarelIndex
 import org.di.unito.yarel.utils.ComposedArity
 import org.di.unito.yarel.utils.Utils
 import org.di.unito.yarel.utils.YarelUtils
-import org.di.unito.yarel.yarel.AritiesAssignment
-import org.di.unito.yarel.yarel.BodyIf
-import org.di.unito.yarel.yarel.BodyPerm
-import org.di.unito.yarel.yarel.Declaration
-import org.di.unito.yarel.yarel.FunctionInvocation
+import org.di.unito.yarel.yarel.YarelPackage
 import org.di.unito.yarel.yarel.Import
 import org.di.unito.yarel.yarel.Model
+import org.di.unito.yarel.yarel.Declaration
+import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.ParamName
+import org.di.unito.yarel.yarel.AritiesAssignment
+import org.di.unito.yarel.yarel.FunctionInvocation
+import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.ParameterLEWP
 import org.di.unito.yarel.yarel.ParametersAssignment
 import org.di.unito.yarel.yarel.ParametricArity
+import org.di.unito.yarel.yarel.BodyIf
+import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.BodyParamFor
 import org.di.unito.yarel.yarel.BodyParamIt
-import org.di.unito.yarel.yarel.ParamName
-import org.di.unito.yarel.yarel.YarelPackage
-import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.xtext.validation.Check
-import org.eclipse.xtext.validation.CheckType
-
-import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
-import java.util.Set
-import java.util.TreeSet
 import org.di.unito.yarel.yarel.BodyParamPerm
 import org.di.unito.yarel.yarel.BodyParamId
-import java.util.Arrays
 import org.di.unito.yarel.yarel.Body
 import org.di.unito.yarel.yarel.BodyParamInc
 import org.di.unito.yarel.yarel.BodyParamNeg
 import org.di.unito.yarel.yarel.BodyParamDec
 import org.di.unito.yarel.yarel.SwapIndexed
-import java.util.function.Supplier
-import org.eclipse.emf.ecore.EObject
-import org.di.unito.yarel.yarel.Definition
-import org.di.unito.yarel.yarel.SerComp
+import org.di.unito.yarel.yarel.ParamConstrPositive
+import org.di.unito.yarel.yarel.ParamConstrNatural
+import org.di.unito.yarel.yarel.ParamConstrDistinct
+import org.di.unito.yarel.yarel.ParamConstrBound
+
+import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
@@ -91,6 +94,7 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_NON_POSITIVE_ARITY_SCALAR = BASE_ERROR_NAME + 'ERROR_NON_POSITIVE_ARITY_SCALAR'
 	public static val ERROR_PARAMETRIC_OPERATOR_ARITY = BASE_ERROR_NAME + 'ERROR_PARAMETRIC_OPERATOR_ARITY'
 	public static val ERROR_PARAMS_ON_NON_PARAM_FUNCTION = BASE_ERROR_NAME + 'ERROR_PARAMS_ON_NON_PARAM_FUNCTION'
+	public static val ERROR_UNDEFINED_PARAM_IN_CONSTRAINT = BASE_ERROR_NAME + 'ERROR_UNDEFINED_PARAM_IN_CONSTRAINT'
 	public static val ERROR_PARAM_BOTH_IN_ARITY_INVOCATION = BASE_ERROR_NAME + 'ERROR_PARAM_BOTH_IN_ARITY_INVOCATION';
 	public static val ERROR_DUPLICATE_PARAMETER_DEFINITION = BASE_ERROR_NAME + 'ERROR_DUPLICATE_PARAMETER_DEFINITION'
 	public static val ERROR_UNDEFINED_PARAM_IN_ARITY_ASSIGN = BASE_ERROR_NAME + 'ERROR_UNDEFINED_PARAM_IN_ARITY_ASSIGN'
@@ -99,9 +103,10 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL = BASE_ERROR_NAME + 'ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL'
 	public static val ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH'
 	public static val ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH'
+	public static val ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT = BASE_ERROR_NAME + 'ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT'
 	
 	protected static val Set<String> FORBIDDEN_KEYWORD = {
-		val Set<String> s = new TreeSet(Utils.STRING_COMPARATOR);
+		val Set<String> s = new HashSet();
 		s.addAll("int", "A", "return", "inverse", "class","public","private","protected","final","[","]","(",")","{","}",
 		",",".","\"", "RPP","inc","dec","id","for","if","while",";","/","\\", "this", "new", "null", "synchronized", "static",
 		"__startIndex__","__endIndex__","__theWholeBody__","__x__","__steps__","__function__","__semaphore__","__threadPoolExecutor__","__neverStarted__",
@@ -409,8 +414,6 @@ class YarelValidator extends AbstractYarelValidator {
 				BodyParamInc : body.arity
 				BodyParamDec : body.arity
 				BodyParamNeg : body.arity
-				//BodyParamIt  : body.arity
-				//BodyParamFor : body.arity
 				default:
 					null
 				}
@@ -445,10 +448,6 @@ class YarelValidator extends AbstractYarelValidator {
 			}
 		}
 	}
-	
-//	@Check
-//	def checkArityParameterAssignment(ParameterLEWP parName){
-	
 	
 	/*
 	 * Parameters can be invoked freely upon functions' parameters assignment,
@@ -525,9 +524,9 @@ class YarelValidator extends AbstractYarelValidator {
 //		}
 		
 		setOfParamsAssignement.forEach[ pa, indexPa|
-			val compAr = YarelUtils.getArity(pa)
-			if(compAr.isParametric){
-				compAr.parametersCoefficients.forEach([paName, coeff|
+			val arityParamAssign = YarelUtils.getArity(pa)
+			if(arityParamAssign.isParametric){
+				arityParamAssign.parametersCoefficients.forEach([paName, coeff|
 					if(!allowedParamsName.contains(paName)){
 						error(
 							"Inside the function "+funCallerDecl.name+", the parameter \""+paName+"\" is not an arity parameter, invocation parameter or is undefined.",
@@ -634,60 +633,74 @@ class YarelValidator extends AbstractYarelValidator {
 	}
 	
 	
+	protected def checkConstraintParamExisting(Declaration decl, ParamName parameter, int indexParam, boolean mustBeOnlyArityParam){
+		val allowedParamsName = new HashSet<String>();
+		if(decl.aritySignature.parametricArities !== null ){
+			decl.aritySignature.parametricArities.forEach[allowedParamsName.add(it.parName)]
+		}
+		if(!mustBeOnlyArityParam){
+			if(decl.invocParamsSignat !== null && decl.invocParamsSignat.invocParam !== null){
+				decl.invocParamsSignat.invocParam .forEach[allowedParamsName.add(it.parName)]
+			}
+		}
+		if(!allowedParamsName.contains(parameter.parName)){
+			error(
+				"The parameter \""+parameter.parName+"\" is not an arity parameter"+
+				(mustBeOnlyArityParam ? ", invocation parameter":"")
+				+" or is undefined.",
+				YarelPackage::eINSTANCE.declaration_ParametersConstraint,
+				indexParam, ERROR_UNDEFINED_PARAM_IN_CONSTRAINT
+			)
+		}
+	}
 	
+	@Check
+	def checkConstraintParamExisting(Declaration declaration){
+		if( declaration.parametersConstraint !== null){
+			declaration.parametersConstraint.constraints.forEach[constraint, index|
+				 switch constraint {
+					ParamConstrPositive: {
+						checkConstraintParamExisting(declaration, constraint.paramName, index, false)
+					}
+					ParamConstrNatural: {
+						checkConstraintParamExisting(declaration, constraint.paramName, index, false)
+					}
+					ParamConstrDistinct: {
+						constraint.paramsNames.forEach[param|
+							checkConstraintParamExisting(declaration, param, index, false)
+						]
+					}
+					ParamConstrBound:{
+						checkConstraintParamExisting(declaration, constraint.paramName, index, false)
+						checkConstraintParamExisting(declaration, constraint.arityParamName, index, true)
+					}
+				};
+			]
+		}
+	}
 	
-//	@Check
-//	def checkNoParametersOnNonParametricArityFunction(FunctionInvocation fun){
-//		if(fun.paramsAssign !== null && fun.paramsAssign.size != 0 && 
-//			( fun.aritiesAssign=== null || fun.aritiesAssign.size == 0)
-//			){
-//			error("Cannot provide function parameters on a non-parametrized function (i.e. that does not require an arity's parameter between curly brackets)",
-//				YarelPackage::eINSTANCE.functionInvocation_ParamsAssign,
-//				ERROR_PARAMS_ON_NON_PARAM_FUNCTION
-//			)
-//		}
-//		if(
-//			(fun.parameters === null && fun.aritiesAssign !== null && fun.aritiesAssign.size > 0)
-//			|| ( fun.parameters .size !== (fun.aritiesAssign === null ? 0 : fun.aritiesAssign.size) )
-//		){
-//			error("Wrong amount of parameters provided",
-//				YarelPackage::eINSTANCE.functionInvocation_Parameters,
-//				ERROR_WRONG_PARAMS_AMOUNT_ON_FUNCTION
-//			)
-//		}
-////				+ (fun.parameters.size) +" on"
-////	ERROR_WRONG_PARAMS_AMOUNT_ON_FUNCTION
-//	}
+	@Check
+	def checkUniquienessOnDistinctConstraint(ParamConstrDistinct constraint){
+		val Map<String,Integer> elementToIndexMap = new TreeMap<String,Integer>(Utils.STRING_COMPARATOR);
+		pinpointDuplicate(
+			constraint.paramsNames,
+			YarelPackage::eINSTANCE.paramConstrDistinct_ParamsNames,
+			elementToIndexMap,
+			[p | p.parName],
+			"distinct parameter name",
+			ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT
+		)
+	}
 	
-//	@Check
-//	def checkParametersExisting(ParametricArity parmArity){
-////		if(para)
-//	}
-//	def checkParametersExisting(Definition defin){
-//		val currentModule = defin.getContainerOfType(typeof(Model));
-//		if(currentModule.declarations.size>0){//count the number of definition
-//			if(currentModule.declarations
-//				.map[Declaration decl|decl.name]
-//				.contains(defin.declarationName.name)
-//			){
-//				
-//			//.get(i).declarationName == decl) 
-////		permutationArity =
-////		defin.
-//			}
-//		}
-//	}
-
-
-//	@Check(CheckType::FAST)
-//	def checkBodyPermIndexArity(PermutationIndexed indexedPermutations){
-//		if(indexedPermutations.permutationArity < 2){
-//			error('''Indexed permutations invalid: «indexedPermutations.permutationArity». The minimum is 2.''',
-//				YarelPackage::eINSTANCE.permutation_Indexes,
-//				ERROR_ARITY
-//			)
-//		}
-//	}
+	@Check
+	def checkDistinctOnBoundConstraint(ParamConstrBound constraint){
+		if(constraint.paramName.parName == constraint.arityParamName.parName){
+			error("Duplicated parameter on bound constraint: " + constraint.paramName.parName,
+				YarelPackage::eINSTANCE.paramConstrBound_ArityParamName,
+			ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT
+			)
+		}
+	}
 
 	static interface AritySupplier extends Supplier<ComposedArity>{}
 }

@@ -58,8 +58,8 @@ public class Hello implements RPP {
 	protected void checkTheWholeBody(){
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
-				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // BodySwapImpl
+				private final RPP[] __steps__ = new RPP[]{ //
+					new RPP() { // BodySwapImpl // index: 0
 						public int getA() { return 1 + (1*K); } // "1 +" is removed
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							int __arity__ = this.getA(); // "- 1" is removed
@@ -72,15 +72,15 @@ public class Hello implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 1
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyParamNegImpl
+						private final RPP[] __subtasks__ = new RPP[]{ //
+							new RPP(){ // BodyParamNegImpl // index: 0
 								private RPP __f__ = Neg.SINGLETON_Neg;
 								public int getA() { return 2; }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -95,7 +95,7 @@ public class Hello implements RPP {
 								}
 							},
 							
-							new RPP(){ // BodyParamIncImpl
+							new RPP(){ // BodyParamIncImpl // index: 1
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								public int getA() { return -2 + (1*K); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -211,15 +211,15 @@ public class Hello implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 2
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyParamNegImpl
+						private final RPP[] __subtasks__ = new RPP[]{ //
+							new RPP(){ // BodyParamNegImpl // index: 0
 								private RPP __f__ = Neg.SINGLETON_Neg;
 								public int getA() { return 1; }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -234,7 +234,7 @@ public class Hello implements RPP {
 								}
 							},
 							
-							new RPP(){ // BodyParamIncImpl
+							new RPP(){ // BodyParamIncImpl // index: 1
 								private RPP __f__ = Inc.SINGLETON_Inc;
 								public int getA() { return -2 + (1*K); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {

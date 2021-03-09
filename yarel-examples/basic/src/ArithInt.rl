@@ -10,7 +10,7 @@ module arithInt {
 	/* in : a  , b, 0, 0, 0
 	 * out: a+b, a, b, 0, 0
 	 */
-	dcl sum : 5 int
+	dcl sum {5 int}
 	def sum := /*a b 0 0 0*/ /1 3 2 4 5/
 	         ; /*a 0 b 0 0*/ id|id|dup
 	         ; /*a 0 b b 0*/ /1 2 5 3 4/
@@ -32,7 +32,6 @@ module arithInt {
 	/* in : a  , b, 0, 0, 0
 	 * out: a-b, a, b, 0, 0
 	 */
-	dcl sub : 5 int
+	dcl sub {5 int}
 	def sub := inv[sum]
-
 }

@@ -64,16 +64,16 @@ public class InvParamSum implements RPP {
 	protected void checkTheWholeBody(){
 		if(this.__theWholeBody__ == null){
 			this.__theWholeBody__ = new RPP(){
-				private final RPP[] __steps__ = new RPP[]{
-					new RPP() { // ParCompImpl
+				private final RPP[] __steps__ = new RPP[]{ //
+					new RPP() { // ParCompImpl // index: 0
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyForImpl
+						private final RPP[] __subtasks__ = new RPP[]{ //
+							new RPP(){ // BodyForImpl // index: 0
 								/** regular function used when v > 0 */
 								RPP __function__ = new RPP() { // BodyIncImpl
 									private RPP __f__ = InvInc.SINGLETON_InvInc;
@@ -117,7 +117,7 @@ public class InvParamSum implements RPP {
 								}
 							},
 							
-							new RPP(){ // BodyParamIncImpl
+							new RPP(){ // BodyParamIncImpl // index: 1
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return 0 + (1*I); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -233,15 +233,15 @@ public class InvParamSum implements RPP {
 						}
 					},
 					
-					new RPP() { // ParCompImpl
+					new RPP() { // ParCompImpl // index: 1
 						/**
 						 * Yarel's code is a sequence of instructions, we could name them "code blocks". <br>
 						 * Those blocks could be formed by a set of sub-blocks that requires to be executed in a parallel way. <br>
 						 * This is the set of those sub-blocks (for a given code block), which are {@link RPP} instances. <br>
 						 * The order is preserved from the Yarel source code.
 						*/
-						private final RPP[] __subtasks__ = new RPP[]{
-							new RPP(){ // BodyForImpl
+						private final RPP[] __subtasks__ = new RPP[]{ //
+							new RPP(){ // BodyForImpl // index: 0
 								/** regular function used when v > 0 */
 								RPP __function__ = new RPP() { // BodyIncImpl
 									private RPP __f__ = InvInc.SINGLETON_InvInc;
@@ -285,7 +285,7 @@ public class InvParamSum implements RPP {
 								}
 							},
 							
-							new RPP(){ // BodyParamIncImpl
+							new RPP(){ // BodyParamIncImpl // index: 1
 								private RPP __f__ = InvInc.SINGLETON_InvInc;
 								public int getA() { return 0 + (1*I); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {

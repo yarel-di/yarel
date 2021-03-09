@@ -12,8 +12,8 @@ public class InvFibonacci implements RPP {
 		return new Fibonacci();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
-		new RPP() { // ParCompImpl
+	private final RPP[] __steps__ = new RPP[]{ //
+		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new InvFib();
 				public int getA() { return __function__.getA(); }
@@ -30,7 +30,7 @@ public class InvFibonacci implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 1
 			private final int __a__ = 4;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -42,7 +42,7 @@ public class InvFibonacci implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 2
 			private RPP __f__ = new RPP(){
 				// Iteration start
 				RPP __function__ = new RPP() { // BodyIncImpl
@@ -72,7 +72,7 @@ public class InvFibonacci implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyInvImpl
+		new RPP() { // BodyInvImpl // index: 3
 			private final int __a__ = 4;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;
@@ -84,7 +84,7 @@ public class InvFibonacci implements RPP {
 			public int getA() { return this.__a__; }
 		},
 		
-		new RPP() { // ParCompImpl
+		new RPP() { // ParCompImpl // index: 4
 			private RPP __f__ = new RPP(){
 				RPP __function__ = new Fib();
 				public int getA() { return __function__.getA(); }
@@ -101,7 +101,7 @@ public class InvFibonacci implements RPP {
 			}
 		},
 		
-		new RPP() { // BodyPermImpl
+		new RPP() { // BodyPermImpl // index: 5
 			private final int __a__ = 4;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 				int __tmp__=0;

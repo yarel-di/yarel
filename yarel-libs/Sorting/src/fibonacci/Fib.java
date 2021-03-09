@@ -12,7 +12,7 @@ public class Fib implements RPP {
 		return new InvFib();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // BodyPermImpl // index: 0
 			private final int __a__ = 3;
 			public void b(int[] __x__, int __startIndex__, int __endIndex__) {
@@ -45,7 +45,7 @@ public class Fib implements RPP {
 		new RPP() { // BodyItImpl // index: 2
 			// Iteration start
 			RPP __function__ = new RPP() { // SerCompImpl
-				private final RPP[] __steps__ = new RPP[]{
+				private final RPP[] __steps__ = new RPP[]{ //
 					new RPP() { // BodyForImpl // index: 0
 						/** regular function used when v > 0 */
 						RPP __function__ = new RPP() { // BodyIncImpl

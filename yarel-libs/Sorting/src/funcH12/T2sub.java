@@ -12,7 +12,7 @@ public class T2sub implements RPP {
 		return new InvT2sub();
 	}
 	
-	private final RPP[] __steps__ = new RPP[]{
+	private final RPP[] __steps__ = new RPP[]{ //
 		new RPP() { // ParCompImpl // index: 0
 			private RPP __f__ = new RPP(){
 				private RPP __f__ = Inc.SINGLETON_Inc;
