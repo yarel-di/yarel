@@ -1340,9 +1340,9 @@ ruleParamConstraint returns [EObject current=null]
 				{
 					newLeafNode(otherlv_23, grammarAccess.getParamConstraintAccess().getCommaKeyword_3_6_0());
 				}
-				otherlv_24='upperInclusive'
+				otherlv_24='upperExclusive'
 				{
-					newLeafNode(otherlv_24, grammarAccess.getParamConstraintAccess().getUpperInclusiveKeyword_3_6_1());
+					newLeafNode(otherlv_24, grammarAccess.getParamConstraintAccess().getUpperExclusiveKeyword_3_6_1());
 				}
 				otherlv_25='='
 				{
@@ -1350,9 +1350,9 @@ ruleParamConstraint returns [EObject current=null]
 				}
 				(
 					(
-						lv_upperInclusivity_26_0=RULE_BOOL_LITERAL
+						lv_upperExclusivity_26_0=RULE_BOOL_LITERAL
 						{
-							newLeafNode(lv_upperInclusivity_26_0, grammarAccess.getParamConstraintAccess().getUpperInclusivityBOOL_LITERALTerminalRuleCall_3_6_3_0());
+							newLeafNode(lv_upperExclusivity_26_0, grammarAccess.getParamConstraintAccess().getUpperExclusivityBOOL_LITERALTerminalRuleCall_3_6_3_0());
 						}
 						{
 							if ($current==null) {
@@ -1360,8 +1360,8 @@ ruleParamConstraint returns [EObject current=null]
 							}
 							setWithLastConsumed(
 								$current,
-								"upperInclusivity",
-								lv_upperInclusivity_26_0,
+								"upperExclusivity",
+								lv_upperExclusivity_26_0,
 								"org.di.unito.yarel.Yarel.BOOL_LITERAL");
 						}
 					)

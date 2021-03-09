@@ -30,7 +30,7 @@
 'neg'=38
 'positive'=26
 'swap'=45
-'upperInclusive'=30
+'upperExclusive'=30
 '{'=13
 '|'=33
 '}'=14

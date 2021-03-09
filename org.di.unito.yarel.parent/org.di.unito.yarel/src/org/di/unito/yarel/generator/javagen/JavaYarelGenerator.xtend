@@ -592,7 +592,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			ParamConstrBound:{
 				'''
 				// constraint bound
-				if( 1 > «constraint.paramName.parName» || «constraint.paramName.parName» «IF constraint.upperInclusivity»>«ELSE»>=«ENDIF» «constraint.arityParamName.parName» ){ throw new IllegalArgumentException("The parameter «constraint.paramName.parName» should be greater than zero and lower «IF constraint.upperInclusivity»or equal «ENDIF»than «constraint.arityParamName.parName»"); }
+				if( 1 > «constraint.paramName.parName» || «constraint.paramName.parName» «IF constraint.upperExclusivity»>=«ELSE»>«ENDIF» «constraint.arityParamName.parName» ){ throw new IllegalArgumentException("The parameter «constraint.paramName.parName» should be greater than zero and lower «IF ! constraint.upperExclusivity»or equal «ENDIF»than «constraint.arityParamName.parName»"); }
 				'''
 			}
 		}

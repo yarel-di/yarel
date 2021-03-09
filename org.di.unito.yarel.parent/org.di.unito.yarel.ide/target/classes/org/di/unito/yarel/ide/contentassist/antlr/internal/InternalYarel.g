@@ -4180,9 +4180,9 @@ rule__ParamConstraint__Group_3_6__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getParamConstraintAccess().getUpperInclusiveKeyword_3_6_1()); }
-	'upperInclusive'
-	{ after(grammarAccess.getParamConstraintAccess().getUpperInclusiveKeyword_3_6_1()); }
+	{ before(grammarAccess.getParamConstraintAccess().getUpperExclusiveKeyword_3_6_1()); }
+	'upperExclusive'
+	{ after(grammarAccess.getParamConstraintAccess().getUpperExclusiveKeyword_3_6_1()); }
 )
 ;
 finally {
@@ -4233,9 +4233,9 @@ rule__ParamConstraint__Group_3_6__3__Impl
 	}
 :
 (
-	{ before(grammarAccess.getParamConstraintAccess().getUpperInclusivityAssignment_3_6_3()); }
-	(rule__ParamConstraint__UpperInclusivityAssignment_3_6_3)
-	{ after(grammarAccess.getParamConstraintAccess().getUpperInclusivityAssignment_3_6_3()); }
+	{ before(grammarAccess.getParamConstraintAccess().getUpperExclusivityAssignment_3_6_3()); }
+	(rule__ParamConstraint__UpperExclusivityAssignment_3_6_3)
+	{ after(grammarAccess.getParamConstraintAccess().getUpperExclusivityAssignment_3_6_3()); }
 )
 ;
 finally {
@@ -7803,15 +7803,15 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ParamConstraint__UpperInclusivityAssignment_3_6_3
+rule__ParamConstraint__UpperExclusivityAssignment_3_6_3
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getParamConstraintAccess().getUpperInclusivityBOOL_LITERALTerminalRuleCall_3_6_3_0()); }
+		{ before(grammarAccess.getParamConstraintAccess().getUpperExclusivityBOOL_LITERALTerminalRuleCall_3_6_3_0()); }
 		RULE_BOOL_LITERAL
-		{ after(grammarAccess.getParamConstraintAccess().getUpperInclusivityBOOL_LITERALTerminalRuleCall_3_6_3_0()); }
+		{ after(grammarAccess.getParamConstraintAccess().getUpperExclusivityBOOL_LITERALTerminalRuleCall_3_6_3_0()); }
 	)
 ;
 finally {

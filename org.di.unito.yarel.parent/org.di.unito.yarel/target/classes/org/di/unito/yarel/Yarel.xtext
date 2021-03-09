@@ -103,7 +103,7 @@ ParamConstraint:
 		{ParamConstrBound} constrName='bound' '('
 			paramName = ParamName
 			',' arityParamName = ParamName
-			(',' 'upperInclusive' '=' upperInclusivity = BOOL_LITERAL)?
+			(',' 'upperExclusive' '=' upperExclusivity = BOOL_LITERAL)?
 		')' // 1 <= paramName <=|< arityParamName
 	  )
 //	| (
