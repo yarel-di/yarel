@@ -608,7 +608,7 @@ class JavaYarelGenerator implements IGenerator2 {
 			val serialSubblocksSequence = YarelUtils.getAllSequentialBodyBlocks(b)
 			if(serialSubblocksSequence.size <= 1){
 				'''
-				«compile(b, fwd, hasParallelBlock)»
+				«compile(b.right, fwd, hasParallelBlock)»
 				'''
 			}else{
 				'''
