@@ -18,6 +18,8 @@
 
 
 grammar org.di.unito.yarel.Yarel with org.eclipse.xtext.common.Terminals
+// needed because of the usage of Ecore type EBoolean
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 generate yarel "http://www.di.org/unito/yarel/Yarel"
 
@@ -36,17 +38,23 @@ QualifiedName:
 QualifiedNameWithWildcard:
     ID ('.' ID)* '.' (ID | '*');  //Changed by Matteo Palazzo
 
+/* FUNCTION DECLARATION & DEFINITION */
+
 Declaration:
-	'dcl' name=ID ':' signature=Signature;
-
-Signature:
-	types += Type (',' types+=Type)*;
-
-Type: 
-    {Type} value=(INT)? 'int'
+	'dcl' name=ID 
+	':' (types += Type (',' types+=Type)*)
 ;
+
+Type:
+    {Type} value=(INT)? 'int';
+
+
 Definition:
 	'def' declarationName=[Declaration] ':=' body=Body;
+
+
+
+/* BODY FUNCTION */
 
 Body: SerComp;
 
@@ -59,21 +67,29 @@ ParComp returns Body:
 BodyBase returns Body: 
    '(' Body ')' | Atomic;
 
+Permutation: 
+  '/' indexes+=Digit (indexes+=Digit)* '/';
+ 
 
+FunctionInvocation:
+	funName=[Declaration | QualifiedName]
+;
+
+/**
+ * Indexes are 1-based.
+ */
 Atomic returns Body: 
-    {BodyId}  funName='id' 
-  | {BodyInc} funName='inc' 
-  | {BodyDec} funName='dec'
-  | {BodyNeg} funName='neg'
+    {BodyId}  funName ='id' 
+  | {BodyInc} funName ='inc' 
+  | {BodyDec} funName ='dec'
+  | {BodyNeg} funName ='neg'
   | {BodyFor} function='for' '[' body=Body ']'
   | {BodyInv} function='inv' '[' body=Body ']'
   | {BodyIt}  function='it' '[' body=Body ']'
   | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
-  | {BodyFun} funName=[Declaration | QualifiedName] 
-  | {BodyPerm} permutation=Permutation;
+  | {BodyFun} function=FunctionInvocation
+  | {BodyPerm} permutation=Permutation
+;
 
-Permutation: 
-  '/' indexes+=Digit (indexes+=Digit)* '/';
-  
 Digit:
 	value=INT;
