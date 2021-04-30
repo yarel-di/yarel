@@ -1,15 +1,15 @@
 package sorting;
 import yarelcore.*;	
 
-public class InvSortPreComparisonPart implements RPP {
-	public InvSortPreComparisonPart(//arities:
+public class InvPairExtraction implements RPP {
+	public InvPairExtraction(//arities:
 		int K
 		){
 		this.__fixedRegistersAmount__ = 4;
 		if(K < 0){ throw new WrongArityException("The arity \"K\" cannot be negative: " + K); }
 		this.K = K;
 	}
-	protected InvSortPreComparisonPart(){
+	protected InvPairExtraction(){
 		this(1);
 	}
 	
@@ -21,8 +21,8 @@ public class InvSortPreComparisonPart implements RPP {
 	protected RPP __theWholeBody__ = null;
 
 	
-	public SortPreComparisonPart getInverse(){
-		return new SortPreComparisonPart(this.K);
+	public PairExtraction getInverse(){
+		return new PairExtraction(this.K);
 	}
 	
 	public int getA() {

@@ -11,7 +11,7 @@ public class InvCompareThanOverflowUnsafe implements RPP {
 		int Q,
 		int K
 		){
-		this.__fixedRegistersAmount__ = 4;
+		this.__fixedRegistersAmount__ = 3;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }

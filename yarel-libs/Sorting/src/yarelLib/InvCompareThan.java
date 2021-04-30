@@ -11,7 +11,7 @@ public class InvCompareThan implements RPP {
 		int Q,
 		int K
 		){
-		this.__fixedRegistersAmount__ = 6;
+		this.__fixedRegistersAmount__ = 5;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
@@ -148,7 +148,7 @@ public class InvCompareThan implements RPP {
 									}
 									public int getA() { return this.__a__; }
 								};
-								public int getA() { return 4 + (1*M); }
+								public int getA() { return 3 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
@@ -165,7 +165,7 @@ public class InvCompareThan implements RPP {
 									}
 									public int getA() { return this.__a__; }
 								};
-								public int getA() { return 4 + (1*M); }
+								public int getA() { return 3 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
@@ -195,7 +195,7 @@ public class InvCompareThan implements RPP {
 									}
 									public int getA() { return this.__a__; }
 								};
-								public int getA() { return 4 + (1*M); }
+								public int getA() { return 3 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
@@ -204,7 +204,7 @@ public class InvCompareThan implements RPP {
 								}
 							};
 							RPP __zero__=new RPP() {
-								public int getA() { return 4 + (1*M); }
+								public int getA() { return 3 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
 							};
 							RPP __neg__=new RPP() {
@@ -216,7 +216,7 @@ public class InvCompareThan implements RPP {
 									}
 									public int getA() { return this.__a__; }
 								};
-								public int getA() { return 4 + (1*M); }
+								public int getA() { return 3 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
@@ -246,7 +246,7 @@ public class InvCompareThan implements RPP {
 									}
 									public int getA() { return this.__a__; }
 								};
-								public int getA() { return 4 + (1*M); }
+								public int getA() { return 3 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),
@@ -263,7 +263,7 @@ public class InvCompareThan implements RPP {
 									}
 									public int getA() { return this.__a__; }
 								};
-								public int getA() { return 4 + (1*M); }
+								public int getA() { return 3 + (1*M); }
 								public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 									this.__f__.b(__x__,
 										__startIndex__ + -1 + (1*K),

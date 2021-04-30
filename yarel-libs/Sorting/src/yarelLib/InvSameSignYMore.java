@@ -9,7 +9,7 @@ public class InvSameSignYMore implements RPP {
 		int P,
 		int Q
 		){
-		this.__fixedRegistersAmount__ = 4;
+		this.__fixedRegistersAmount__ = 3;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(K < 0){ throw new WrongArityException("The parameter \"K\" cannot be negative: " + K); }
@@ -110,16 +110,16 @@ public class InvSameSignYMore implements RPP {
 					
 					new RPP() { // ParCompImpl // index: 2
 						private RPP __f__ = new RPP(){
-							private final int __a__ = 4;
+							private final int __a__ = 3;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								int __tmp__=0;
 								__tmp__ = __x__[__startIndex__ + 1]; 
-								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
-								__x__[__startIndex__ + 3] = __tmp__; 
+								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+								__x__[__startIndex__ + 2] = __tmp__; 
 							}
 							public int getA() { return this.__a__; }
 						};
-						public int getA() { return 4 + (1*M); }
+						public int getA() { return 3 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),
@@ -138,7 +138,7 @@ public class InvSameSignYMore implements RPP {
 								}
 								public int getA() { return this.__a__; }
 							};
-							public int getA() { return 3 + (1*M); }
+							public int getA() { return 2 + (1*M); }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								this.__f__.b(__x__,
 									__startIndex__ + -1 + (1*K),
@@ -147,11 +147,11 @@ public class InvSameSignYMore implements RPP {
 							}
 						};
 						RPP __zero__=new RPP() {
-							public int getA() { return 3 + (1*M); }
+							public int getA() { return 2 + (1*M); }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
 						};
 						RPP __neg__=new RPP() {
-							public int getA() { return 3 + (1*M); }
+							public int getA() { return 2 + (1*M); }
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) { }
 						};
 						public int getA() { return this.__pos__.getA()+1; }
@@ -169,16 +169,16 @@ public class InvSameSignYMore implements RPP {
 					
 					new RPP() { // ParCompImpl // index: 4
 						private RPP __f__ = new RPP(){
-							private final int __a__ = 4;
+							private final int __a__ = 3;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								int __tmp__=0;
 								__tmp__ = __x__[__startIndex__ + 1]; 
-								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
-								__x__[__startIndex__ + 3] = __tmp__; 
+								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+								__x__[__startIndex__ + 2] = __tmp__; 
 							}
 							public int getA() { return this.__a__; }
 						};
-						public int getA() { return 4 + (1*M); }
+						public int getA() { return 3 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),

@@ -17,7 +17,7 @@ import java.util.Arrays;
  * For further informations, check the documentation:
  * <ul>
  * <li> {@link RPP}</li>
-* <li> {@link sorting.SortPreComparisonPart}</li>
+* <li> {@link sorting.PairExtraction}</li>
 * <li> {@link sorting.SortGrowing}</li>
 * <li> {@link sorting.SortUnGrowing}</li>
  * </ul>
@@ -48,7 +48,7 @@ import java.util.Arrays;
 public class SortingPlayWith {
 	
 	public static void main(String[] args) throws Exception {
-		testSortPreComparisonPart();
+		testPairExtraction();
 		
 		testSortGrowing();
 		
@@ -57,8 +57,8 @@ public class SortingPlayWith {
 	
 	//
 	
-	public static void testSortPreComparisonPart(){
-		RPP sortPreComparisonPartRPP = new sorting.SortPreComparisonPart();
+	public static void testPairExtraction(){
+		RPP pairExtractionRPP = new sorting.PairExtraction();
 		final int[][] datasets = {
 			new int[]{1,2,3,4,5},
 			new int[]{4,3,2,1,5},
@@ -77,8 +77,8 @@ public class SortingPlayWith {
 			new int[]{ -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function sortPreComparisonPart with values:" + Arrays.toString(data));
-			sortPreComparisonPartRPP.b(data);
+			System.out.println("\nTesting the function pairExtraction with values:" + Arrays.toString(data));
+			pairExtractionRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

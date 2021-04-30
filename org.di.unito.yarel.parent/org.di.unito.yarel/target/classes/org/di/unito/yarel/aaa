@@ -1,0 +1,72 @@
+generate yarel "http://www.di.org/unito/yarel/Yarel"
+
+Model:
+    imports += Import* 'module' name=ID '{' elements+=Element* '}';
+	
+Element: 
+	  Declaration | Definition;
+
+Import:
+	'import' importedNamespace=QualifiedNameWithWildcard; //Changed by Matteo Palazzo
+
+QualifiedName:
+   ID ('.' ID)*;
+
+QualifiedNameWithWildcard:
+    ID ('.' ID)* '.' (ID | '*');  //Changed by Matteo Palazzo
+
+/* FUNCTION DECLARATION & DEFINITION */
+
+Declaration:
+	'dcl' name=ID 
+	':' (types += Type (',' types+=Type)*)
+;
+
+Type:
+    {Type} value=(INT)? 'int';
+
+
+Definition:
+	'def' declarationName=[Declaration] ':=' body=Body;
+
+
+
+/* BODY FUNCTION */
+
+Body: SerComp;
+
+SerComp returns Body:
+	ParComp ({SerComp.left=current} ';' right=ParComp)*;
+
+ParComp returns Body:
+	BodyBase ({ParComp.left=current} '|' right=BodyBase)* ;
+
+BodyBase returns Body: 
+   '(' Body ')' | Atomic;
+
+Permutation: 
+  '/' indexes+=Digit (indexes+=Digit)* '/';
+ 
+
+FunctionInvocation:
+	funName=[Declaration | QualifiedName]
+;
+
+/**
+ * Indexes are 1-based.
+ */
+Atomic returns Body: 
+    {BodyId}  funName ='id' 
+  | {BodyInc} funName ='inc' 
+  | {BodyDec} funName ='dec'
+  | {BodyNeg} funName ='neg'
+  | {BodyFor} function='for' '[' body=Body ']'
+  | {BodyInv} function='inv' '[' body=Body ']'
+  | {BodyIt}  function='it' '[' body=Body ']'
+  | {BodyIf}  function='if' '[' pos=Body ',' zero=Body ',' neg=Body ']'
+  | {BodyFun} function=FunctionInvocation
+  | {BodyPerm} permutation=Permutation
+;
+
+Digit:
+	value=INT;

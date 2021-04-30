@@ -224,7 +224,7 @@ public class SortGrowing implements RPP {
 											
 											new RPP() { // ParCompImpl // index: 1
 												private RPP __f__ = new RPP(){
-													RPP __function__ = new SortPreComparisonPart(
+													RPP __function__ = new PairExtraction(
 														0 + (1*K)
 													);
 													public int getA() { return __function__.getA(); }
@@ -387,7 +387,7 @@ public class SortGrowing implements RPP {
 												*/
 												private final RPP[] __subtasks__ = new RPP[]{ //
 													new RPP(){ // BodyInvImpl // index: 0
-														RPP __function__ = new InvSortPreComparisonPart(
+														RPP __function__ = new InvPairExtraction(
 															0 + (1*K)
 														);
 														public int getA() { return __function__.getA(); }

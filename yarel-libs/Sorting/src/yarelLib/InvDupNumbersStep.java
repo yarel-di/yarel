@@ -11,7 +11,7 @@ public class InvDupNumbersStep implements RPP {
 		int Q,
 		int K
 		){
-		this.__fixedRegistersAmount__ = 6;
+		this.__fixedRegistersAmount__ = 5;
 		if(M < 0){ throw new WrongArityException("The arity \"M\" cannot be negative: " + M); }
 		this.M = M;
 		// if(I < 0){ throw new WrongArityException("The parameter \"I\" cannot be negative: " + I); }
@@ -131,21 +131,19 @@ public class InvDupNumbersStep implements RPP {
 					
 					new RPP() { // ParCompImpl // index: 4
 						private RPP __f__ = new RPP(){
-							private final int __a__ = 6;
+							private final int __a__ = 5;
 							public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 								int __tmp__=0;
 								__tmp__ = __x__[__startIndex__ + 0]; 
-								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 4]; 
+								__x__[__startIndex__ + 0] = __x__[__startIndex__ + 3]; 
+								__x__[__startIndex__ + 3] = __x__[__startIndex__ + 1]; 
+								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 4]; 
 								__x__[__startIndex__ + 4] = __x__[__startIndex__ + 2]; 
 								__x__[__startIndex__ + 2] = __tmp__; 
-								__tmp__ = __x__[__startIndex__ + 1]; 
-								__x__[__startIndex__ + 1] = __x__[__startIndex__ + 5]; 
-								__x__[__startIndex__ + 5] = __x__[__startIndex__ + 3]; 
-								__x__[__startIndex__ + 3] = __tmp__; 
 							}
 							public int getA() { return this.__a__; }
 						};
-						public int getA() { return 6 + (1*M); }
+						public int getA() { return 5 + (1*M); }
 						public void b(int[] __x__, int __startIndex__, int __endIndex__) {
 							this.__f__.b(__x__,
 								__startIndex__ + 0 + (1*M),

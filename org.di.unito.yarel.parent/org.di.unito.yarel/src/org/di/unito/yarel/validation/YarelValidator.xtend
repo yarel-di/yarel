@@ -506,7 +506,9 @@ class YarelValidator extends AbstractYarelValidator {
 		EReference refError, String errorCode
 	){
 		val sovrafunctionCallerDefinition = parCallingContext.getContainerOfType(typeof(Definition))
-		
+		if(setOfParamsAssignement.empty){
+			return;
+		}
  		if(sovrafunctionCallerDefinition === null){
  			return;
  		}
