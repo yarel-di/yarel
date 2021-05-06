@@ -19,7 +19,10 @@ import java.util.Arrays;
  * <li> {@link RPP}</li>
 * <li> {@link sorting.PairExtraction}</li>
 * <li> {@link sorting.SortGrowing}</li>
-* <li> {@link sorting.SortUnGrowing}</li>
+* <li> {@link sorting.SortUngrowing}</li>
+* <li> {@link sorting.PairExtraction2}</li>
+* <li> {@link sorting.SortGrowingOpt}</li>
+* <li> {@link sorting.SortUngrowingOpt}</li>
  * </ul>
  * <p>
  *
@@ -52,7 +55,13 @@ public class SortingPlayWith {
 		
 		testSortGrowing();
 		
-		testSortUnGrowing();
+		testSortUngrowing();
+		
+		testPairExtraction2();
+		
+		testSortGrowingOpt();
+		
+		testSortUngrowingOpt();
 	}
 	
 	//
@@ -113,8 +122,8 @@ public class SortingPlayWith {
 	
 	
 	
-	public static void testSortUnGrowing(){
-		RPP sortUnGrowingRPP = new sorting.SortUnGrowing();
+	public static void testSortUngrowing(){
+		RPP sortUngrowingRPP = new sorting.SortUngrowing();
 		final int[][] datasets = {
 			new int[]{1,2,3,4,5,6,7,8,9,10,11,5},
 			new int[]{11,10,9,8,7,6,5,4,3,2,1,5},
@@ -133,8 +142,92 @@ public class SortingPlayWith {
 			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
 		};
 		for( int[] data: datasets ){
-			System.out.println("\nTesting the function sortUnGrowing with values:" + Arrays.toString(data));
-			sortUnGrowingRPP.b(data);
+			System.out.println("\nTesting the function sortUngrowing with values:" + Arrays.toString(data));
+			sortUngrowingRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testPairExtraction2(){
+		RPP pairExtraction2RPP = new sorting.PairExtraction2();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5},
+			new int[]{4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function pairExtraction2 with values:" + Arrays.toString(data));
+			pairExtraction2RPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testSortGrowingOpt(){
+		RPP sortGrowingOptRPP = new sorting.SortGrowingOpt();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,7,8,9,5},
+			new int[]{9,8,7,6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function sortGrowingOpt with values:" + Arrays.toString(data));
+			sortGrowingOptRPP.b(data);
+			System.out.println("Resulting in: " + Arrays.toString(data));
+		}
+	}
+	
+	
+	
+	public static void testSortUngrowingOpt(){
+		RPP sortUngrowingOptRPP = new sorting.SortUngrowingOpt();
+		final int[][] datasets = {
+			new int[]{1,2,3,4,5,6,7,8,9,5},
+			new int[]{9,8,7,6,5,4,3,2,1,5},
+			new int[]{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+			new int[]{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+			new int[]{ -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1},
+			new int[]{ 2,  2,  2,  2,  2,  2,  2,  2,  2,  2},
+			new int[]{ -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2,  -2},
+			new int[]{ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3},
+			new int[]{ -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3,  -3},
+			new int[]{ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4},
+			new int[]{ -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4},
+			new int[]{ 10,  10,  10,  10,  10,  10,  10,  10,  10,  10},
+			new int[]{ -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10,  -10},
+			new int[]{ 11,  11,  11,  11,  11,  11,  11,  11,  11,  11},
+			new int[]{ -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11,  -11},
+		};
+		for( int[] data: datasets ){
+			System.out.println("\nTesting the function sortUngrowingOpt with values:" + Arrays.toString(data));
+			sortUngrowingOptRPP.b(data);
 			System.out.println("Resulting in: " + Arrays.toString(data));
 		}
 	}

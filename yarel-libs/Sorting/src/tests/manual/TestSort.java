@@ -3,11 +3,11 @@ package tests.manual;
 import java.util.Arrays;
 
 import sorting.SortGrowing;
-import sorting.SortUnGrowing;
+import sorting.SortUngrowing;
 import yarelcore.RPP;
 
 public class TestSort {
-	static final int[] DATASET = { 4, 0, 3, -2, 8, 4, 1, 6, -5, -2, 5, 7, 6, -12, 0, 10, 77, -4 };
+	public static final int[] DATASET = { 4, 3, 0, -2, 8, 4, 1, 6, -5, -2, 5, 7, 6, -12, 0, 10, 77, -4 };
 
 	public static void main(String[] args) {
 		int m = DATASET.length;
@@ -16,7 +16,7 @@ public class TestSort {
 			System.out.println("\n\n\n start new cycle with k= " + k);
 			sorter = new SortGrowing(k);
 			testSort(k, sorter);
-			sorter = new SortUnGrowing(k);
+			sorter = new SortUngrowing(k);
 			testSort(k, sorter);
 		}
 	}

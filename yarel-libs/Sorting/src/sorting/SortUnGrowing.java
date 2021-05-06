@@ -4,15 +4,15 @@ import java.util.concurrent.Executors;
 // import java.util.function.Supplier;
 import yarelcore.*;	
 
-public class SortUnGrowing implements RPP {
-	public SortUnGrowing(//arities:
+public class SortUngrowing implements RPP {
+	public SortUngrowing(//arities:
 		int K
 		){
 		this.__fixedRegistersAmount__ = 11;
 		if(K < 0){ throw new WrongArityException("The arity \"K\" cannot be negative: " + K); }
 		this.K = K;
 	}
-	protected SortUnGrowing(){
+	protected SortUngrowing(){
 		this(1);
 	}
 	
@@ -33,17 +33,17 @@ public class SortUnGrowing implements RPP {
 	*/
 	protected ExecutorService __threadPoolExecutor__ = Executors.newWorkStealingPool(); // needed for parallel computation
 	protected void finalize(){
-		this.destructorSortUnGrowing();
+		this.destructorSortUngrowing();
 	}
-	protected void destructorSortUnGrowing(){
+	protected void destructorSortUngrowing(){
 		if(__threadPoolExecutor__ != null){
 			// __threadPoolExecutor__.shutdown(); // required only if "newCachedThreadPool" is choosed to instantiate "threadPoolExecutor"
 			__threadPoolExecutor__ = null; // mark it as shut-down
 		}
 	}
 	
-	public InvSortUnGrowing getInverse(){
-		return new InvSortUnGrowing(this.K);
+	public InvSortUngrowing getInverse(){
+		return new InvSortUngrowing(this.K);
 	}
 	
 	public int getA() {
