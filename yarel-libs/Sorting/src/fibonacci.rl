@@ -19,7 +19,7 @@ module Fibonacci {
 		fib|id         // n fib(n) fib(n-1) 0
 		;/1 3 4 2/     // n fib(n-1) 0 fib(n)
 		;id|id|it[inc] // n fib(n-1) fib(n) fib(n)
-		;inv[/1 3 4 2/]// n fib(n) fib(n-1) fib(n)
+		;/1 3 2 4/     // n fib(n) fib(n-1) fib(n)
 		;inv[fib]|id   // n 0 0 fib(n)
-		;/1 4 2 3/     // n fib(n) 0 0
+		;/1 4 3 2/     // n fib(n) 0 0
 }
