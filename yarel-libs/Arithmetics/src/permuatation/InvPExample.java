@@ -1,19 +1,23 @@
 package permuatation;
-import java.util.Arrays;
-import java.lang.Math;
+import java.math.BigInteger;
 import yarelcore.*;	
+
 public class InvPExample implements RPP {
-    public InvPExample() { }
-    private final int a = 4;
-    public int[] b(int[] x) {
-    	int tmp=0;
-    	tmp = x[0]; 
-    	x[0] = x[2]; 
-    	x[2] = tmp; 
-    	tmp = x[1]; 
-    	x[1] = x[3]; 
-    	x[3] = tmp; 
-    	return x;
-    }
-    public int getA() { return this.a; }
+	public InvPExample() { }
+	
+	
+	public PExample getInverse(){
+		return new PExample();
+	}
+	
+	public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+		BigInteger __tmp__ = BigInteger.ZERO;
+		__tmp__ = __x__[__startIndex__ + 0]; 
+		__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+		__x__[__startIndex__ + 2] = __tmp__; 
+		__tmp__ = __x__[__startIndex__ + 1]; 
+		__x__[__startIndex__ + 1] = __x__[__startIndex__ + 3]; 
+		__x__[__startIndex__ + 3] = __tmp__; 
+	}
+	public int getA() { return 4; }
 }

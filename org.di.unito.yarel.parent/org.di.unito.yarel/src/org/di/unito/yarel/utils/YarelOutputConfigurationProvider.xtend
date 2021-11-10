@@ -1,9 +1,8 @@
 package org.di.unito.yarel.utils
 
+import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IOutputConfigurationProvider
 import org.eclipse.xtext.generator.OutputConfiguration
-import org.eclipse.xtext.generator.IFileSystemAccess
-import java.util.HashSet
 
 class YarelOutputConfigurationProvider implements IOutputConfigurationProvider {
 	

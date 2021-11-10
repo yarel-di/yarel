@@ -1,70 +1,57 @@
 package cantorPairing;
-import java.util.Arrays;
-import java.lang.Math;
+import java.math.BigInteger;
 import yarelcore.*;	
+
 public class InvCp implements RPP {
-    public InvCp() { }
-    RPP l = new RPP() {
-    	RPP l = new RPP() {
-    		private final int a = 3;
-    		public int[] b(int[] x) {
-    			int tmp=0;
-    			tmp = x[0]; 
-    			x[0] = x[1]; 
-    			x[1] = tmp; 
-    			return x;
-    		}
-    		public int getA() { return this.a; }
-    	};
-    	RPP r = new RPP() {
-    		RPP l = new RPP() {
-    			RPP function = new arithNat.InvSumN();
-    			private final int a = function.getA();
-    			public int[] b(int[] x) { 
-    				  	return this.function.b(x);
-    			}
-    			 public int getA() { return this.a; }
-    		};
-    		RPP r = new RPP() {
-    			private RPP f = new InvId();
-    			private final int a = f.getA();
-    			public int[] b(int[] x) {
-    				return this.f.b(x);
-    			}
-    			public int getA() { return this.a; }
-    		};
-    		private final int a = l.getA() + r.getA();
-    		public int[] b(int[] x) { // Implements a parallel composition
-    			return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    			,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    		}
-    		public int getA() { return this.a; }
-    		private int[] append(int[] l, int[] r) {
-    			int[] res = new int[l.length + r.length];
-    			for(int i = 0; i < l.length; i++)
-    				res[i] = l[i];
-    			for(int i = 0; i < r.length; i++) 
-    			  	res[i + l.length] = r[i];
-    		 	return res;
-    		}
-    	};
-    	private final int a = l.getA();
-    	public int[] b(int[] x) { // Implements a serial composition.
-    		return this.l.b(this.r.b(x));
-    	}
-    	public int getA() { return this.a; }
-    };
-    RPP r = new RPP() {
-    	RPP function = new funcH12.InvP3();
-    	private final int a = function.getA();
-    	public int[] b(int[] x) { 
-    		  	return this.function.b(x);
-    	}
-    	 public int getA() { return this.a; }
-    };
-    private final int a = l.getA();
-    public int[] b(int[] x) { // Implements a serial composition.
-    	return this.l.b(this.r.b(x));
-    }
-    public int getA() { return this.a; }
+	public InvCp() { }
+	
+	
+	public Cp getInverse(){
+		return new Cp();
+	}
+	
+	private final RPP[] __steps__ = new RPP[]{ //
+		new RPP() { // BodyPermImpl // index: 0
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				BigInteger __tmp__ = BigInteger.ZERO;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
+			}
+			public int getA() { return 3; }
+		},
+		
+		new RPP() { // ParCompImpl // index: 1
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new arithNat.InvSumN();
+				public int getA() { return __function__.getA(); }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
+				}
+			};
+			public int getA() { return 3; }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
+			}
+		},
+		
+		new RPP() { // BodyFunImpl // index: 2
+			RPP __function__ = new funcH12.InvP3();
+			public int getA() { return __function__.getA(); }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
+			}
+		}
+	};
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = __steps__.length;
+		while( __i__-->0 ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
+		}
+	}
 }

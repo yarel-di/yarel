@@ -1,17 +1,21 @@
 package multiplication;
-import java.util.Arrays;
-import java.lang.Math;
+import java.math.BigInteger;
 import yarelcore.*;	
+
 public class Permutation implements RPP {
-    public Permutation() { }
-    private final int a = 3;
-    public int[] b(int[] x) {
-    	int tmp=0;
-    	tmp = x[0]; 
-    	x[0] = x[2]; 
-    	x[2] = x[1]; 
-    	x[1] = tmp; 
-    	return x;
-    }
-    public int getA() { return this.a; }
+	public Permutation() { }
+	
+	
+	public InvPermutation getInverse(){
+		return new InvPermutation();
+	}
+	
+	public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+		BigInteger __tmp__ = BigInteger.ZERO;
+		__tmp__ = __x__[__startIndex__ + 0]; 
+		__x__[__startIndex__ + 0] = __x__[__startIndex__ + 2]; 
+		__x__[__startIndex__ + 2] = __x__[__startIndex__ + 1]; 
+		__x__[__startIndex__ + 1] = __tmp__; 
+	}
+	public int getA() { return 3; }
 }
