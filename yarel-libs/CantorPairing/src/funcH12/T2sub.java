@@ -1,88 +1,67 @@
 package funcH12;
-import java.util.Arrays;
-import java.lang.Math;
+import java.math.BigInteger;
 import yarelcore.*;	
+
 public class T2sub implements RPP {
-    public T2sub() { }
-    RPP l = new RPP() {
-    	RPP l = new RPP() {
-    		RPP l = new RPP() {
-    			RPP l = new RPP() {
-    				private RPP f = new Inc();
-    				private final int a = f.getA();
-    				public int[] b(int[] x) {
-    					return this.f.b(x);
-    				}
-    				public int getA() { return this.a; }
-    			};
-    			RPP r = new RPP() {
-    				private RPP f = new Id();
-    				private final int a = f.getA();
-    				public int[] b(int[] x) {
-    					return this.f.b(x);
-    				}
-    				public int getA() { return this.a; }
-    			};
-    			private final int a = l.getA() + r.getA();
-    			public int[] b(int[] x) { // Implements a parallel composition
-    				return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    				,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    			}
-    			public int getA() { return this.a; }
-    			private int[] append(int[] l, int[] r) {
-    				int[] res = new int[l.length + r.length];
-    				for(int i = 0; i < l.length; i++)
-    					res[i] = l[i];
-    				for(int i = 0; i < r.length; i++) 
-    				  	res[i + l.length] = r[i];
-    			 	return res;
-    			}
-    		};
-    		RPP r = new RPP() {
-    			private final int a = 2;
-    			public int[] b(int[] x) {
-    				int tmp=0;
-    				tmp = x[0]; 
-    				x[0] = x[1]; 
-    				x[1] = tmp; 
-    				return x;
-    			}
-    			public int getA() { return this.a; }
-    		};
-    		private final int a = l.getA();
-    		public int[] b(int[] x) { // Implements a serial composition.
-    			return this.r.b(this.l.b(x));
-    		}
-    		public int getA() { return this.a; }
-    	};
-    	RPP r = new RPP() {
-    		RPP function = new arithNat.SubN();
-    		private final int a = function.getA();
-    		public int[] b(int[] x) { 
-    			  	return this.function.b(x);
-    		}
-    		 public int getA() { return this.a; }
-    	};
-    	private final int a = l.getA();
-    	public int[] b(int[] x) { // Implements a serial composition.
-    		return this.r.b(this.l.b(x));
-    	}
-    	public int getA() { return this.a; }
-    };
-    RPP r = new RPP() {
-    	private final int a = 2;
-    	public int[] b(int[] x) {
-    		int tmp=0;
-    		tmp = x[0]; 
-    		x[0] = x[1]; 
-    		x[1] = tmp; 
-    		return x;
-    	}
-    	public int getA() { return this.a; }
-    };
-    private final int a = l.getA();
-    public int[] b(int[] x) { // Implements a serial composition.
-    	return this.r.b(this.l.b(x));
-    }
-    public int getA() { return this.a; }
+	public T2sub() { }
+	
+	
+	public InvT2sub getInverse(){
+		return new InvT2sub();
+	}
+	
+	private final RPP[] __steps__ = new RPP[]{ //
+		new RPP() { // ParCompImpl // index: 0
+			private RPP __f__ = new RPP(){
+				private RPP __f__ = Inc.SINGLETON_Inc;
+				public int getA() { return this.__f__.getA(); }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__, __startIndex__, __endIndex__);
+				}
+			};
+			public int getA() { return 2; }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
+			}
+		},
+		
+		new RPP() { // BodyPermImpl // index: 1
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				BigInteger __tmp__ = BigInteger.ZERO;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
+			}
+			public int getA() { return 2; }
+		},
+		
+		new RPP() { // BodyFunImpl // index: 2
+			RPP __function__ = new arithNat.SubN();
+			public int getA() { return __function__.getA(); }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
+			}
+		},
+		
+		new RPP() { // BodyPermImpl // index: 3
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				BigInteger __tmp__ = BigInteger.ZERO;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
+			}
+			public int getA() { return 2; }
+		}
+	};
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+		while( ++__i__ < __steps__.length ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
+		}
+	}
 }

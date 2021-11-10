@@ -18,47 +18,40 @@
 
 package org.di.unito.yarel.validation
 
+import com.google.inject.Inject
 import java.util.HashSet
-import org.di.unito.yarel.yarel.Body
-import org.di.unito.yarel.yarel.BodyDec
-import org.di.unito.yarel.yarel.BodyFun
-import org.di.unito.yarel.yarel.BodyId
+import java.util.Map
+import java.util.Set
+import java.util.function.Function
+import org.di.unito.yarel.scoping.YarelIndex
+import org.di.unito.yarel.utils.YarelUtils
 import org.di.unito.yarel.yarel.BodyIf
-import org.di.unito.yarel.yarel.BodyInc
-import org.di.unito.yarel.yarel.BodyInv
-import org.di.unito.yarel.yarel.BodyIt
-import org.di.unito.yarel.yarel.BodyNeg
 import org.di.unito.yarel.yarel.BodyPerm
 import org.di.unito.yarel.yarel.Declaration
 import org.di.unito.yarel.yarel.Definition
-import org.di.unito.yarel.yarel.ParComp
+import org.di.unito.yarel.yarel.Import
+import org.di.unito.yarel.yarel.Model
 import org.di.unito.yarel.yarel.SerComp
 import org.di.unito.yarel.yarel.YarelPackage
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.validation.Check
-import org.di.unito.yarel.yarel.BodyFor
-import org.di.unito.yarel.yarel.Import
-import org.di.unito.yarel.scoping.YarelIndex
-import com.google.inject.Inject
-import org.di.unito.yarel.utils.YarelUtils
-import org.di.unito.yarel.yarel.Model
 import org.eclipse.xtext.validation.CheckType
-import static extension org.eclipse.xtext.EcoreUtil2.*
-import java.util.HashMap
-import java.util.Map
-import java.util.List
-import java.util.ArrayList
+
+import static extension org.eclipse.xtext.EcoreUtil2.getContainerOfType
 
 /**
  * This class contains the rules that are necessary to every Reval program in order to work.  
  */
 class YarelValidator extends AbstractYarelValidator {
-	@Inject extension YarelIndex
+//	@Inject extension YarelIndex
 	@Inject extension YarelUtils
 
 	//Error ids
 	public static val BASE_ERROR_NAME = 'org.di.unito.yarel_'
 	public static val WARNING_BAD_MODULE_NAME = BASE_ERROR_NAME + 'WARNING_BAD_MODULE_NAME'
 	public static val ERROR_RECURSION = BASE_ERROR_NAME + 'ERROR_RECURSION'
+	public static val ERROR_FORBIDDEN_KEYWORD = BASE_ERROR_NAME + 'ERROR_FORBIDDEN_KEYWORD'
 	public static val ERROR_SERIAL_COMPOSITION = BASE_ERROR_NAME + 'ERROR_SERIAL_COMPOSITION'
 	public static val ERROR_IF_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_IF_FUNCTIONS_ARITY'
 	public static val ERROR_PERMUTATION_BOUND = BASE_ERROR_NAME + 'ERROR_PERMUTATION_BOUND'
@@ -66,30 +59,37 @@ class YarelValidator extends AbstractYarelValidator {
 	public static val ERROR_ITERATION_FUNCTIONS_ARITY = BASE_ERROR_NAME + 'ERROR_ITERATION_FUNCTIONS_ARITY'
 	public static val ERROR_ARITY = BASE_ERROR_NAME + 'ERROR_ARITY'
 	public static val ERROR_IMPORT = BASE_ERROR_NAME + 'ERROR_IMPORT'
+	public static val ERROR_PARAM_UNDEFINED = BASE_ERROR_NAME + 'ERROR_PARAM_UNDEFINED'
 	public static val ERROR_DUPLICATE_MODULE = BASE_ERROR_NAME + 'ERROR_DUPLICATE_MODULE'
+	public static val ERROR_FUNCTION_NOT_FOUND = BASE_ERROR_NAME + 'ERROR_FUNCTION_NOT_FOUND'
 	public static val ERROR_INVALID_DEFINITION_COUNT = BASE_ERROR_NAME + 'ERROR_INVALID_DEFINITION_COUNT'
+	public static val ERROR_SERIAL_COMPOSITION_ARITY = BASE_ERROR_NAME + 'ERROR_SERIAL_COMPOSITION_ARITY'
+	public static val ERROR_NON_POSITIVE_ARITY_SCALAR = BASE_ERROR_NAME + 'ERROR_NON_POSITIVE_ARITY_SCALAR'
+	public static val ERROR_PARAMETRIC_OPERATOR_ARITY = BASE_ERROR_NAME + 'ERROR_PARAMETRIC_OPERATOR_ARITY'
+	public static val ERROR_PARAMS_ON_NON_PARAM_FUNCTION = BASE_ERROR_NAME + 'ERROR_PARAMS_ON_NON_PARAM_FUNCTION'
+	public static val ERROR_UNDEFINED_PARAM_IN_CONSTRAINT = BASE_ERROR_NAME + 'ERROR_UNDEFINED_PARAM_IN_CONSTRAINT'
+	public static val ERROR_PARAM_BOTH_IN_ARITY_INVOCATION = BASE_ERROR_NAME + 'ERROR_PARAM_BOTH_IN_ARITY_INVOCATION';
+	public static val ERROR_DUPLICATE_PARAMETER_DEFINITION = BASE_ERROR_NAME + 'ERROR_DUPLICATE_PARAMETER_DEFINITION'
+	public static val ERROR_UNDEFINED_PARAM_IN_ARITY_ASSIGN = BASE_ERROR_NAME + 'ERROR_UNDEFINED_PARAM_IN_ARITY_ASSIGN'
+	public static val ERROR_UNDEFINED_PARAM_IN_PARAM_ASSIGN = BASE_ERROR_NAME + 'ERROR_UNDEFINED_PARAM_IN_PARAM_ASSIGN'
+	public static val ERROR_FUNCTION_PARAM_OUTSIDE_DEFINITION = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAM_OUTSIDE_DEFINITION'
+	public static val ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL = BASE_ERROR_NAME + 'ERROR_PARAMETERS_AMOUNT_ON_FUNCTION_CALL'
+	public static val ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_PARAMS_AND_PROVIDED_UNMATCH'
+	public static val ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH = BASE_ERROR_NAME + 'ERROR_FUNCTION_ARITIES_AND_PROVIDED_UNMATCH'
+	public static val ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT = BASE_ERROR_NAME + 'ERROR_DUPLICATE_PARAMETER_IN_CONSTRAINT'
 	
-	private def dispatch int getArity(Declaration declaration) {
-		return declaration.signature.types.map[ if(it.value == 0)  1 else it.value ].reduce[p1, p2 | p1 + p2]
+	protected static val Set<String> FORBIDDEN_KEYWORD = {
+		val Set<String> s = new HashSet();
+		s.addAll("int", "A", "return", "inverse", "class","public","private","protected","final","[","]","(",")","{","}",
+		",",".","\"", "RPP","inc","dec","id","for","if","while",";","/","\\", "this", "new", "null", "synchronized", "static",
+		"__startIndex__","__endIndex__","__theWholeBody__","__x__","__steps__","__function__","__semaphore__","__threadPoolExecutor__","__neverStarted__",
+		"__subtasks__","__repCounterIndex__","__repetitionCounter__","__originalRepCounter__","__startIndexOffset__", "__iterationsAmount__"
+		);
+		s;
 	}
-		
-	private def dispatch int getArity(Body body) {
-		switch body {
-			SerComp: body.left.arity
-			ParComp: body.right.arity + body.left.arity
-			BodyInv : body.body.arity
-			BodyFun : body.funName.arity
-			BodyIt : 1 + body.body.arity
-			BodyFor: 1 + body.body.arity
-			BodyIf: 1 + body.pos.arity
-			BodyPerm: body.permutation.indexes.size
-			BodyInc : 1
-			BodyDec : 1
-			BodyNeg : 1
-			BodyId: 1
-			default:
-				throw new RuntimeException("Body not found " + body)
-		}
+	
+	static def boolean isForbidden(String word){
+		return FORBIDDEN_KEYWORD.contains(word);
 	}
 	
 	/**
@@ -97,23 +97,70 @@ class YarelValidator extends AbstractYarelValidator {
 	 */
 	@Check
 	def checkSelection(BodyIf selection) {
-		val posArity = selection.pos.arity
-		val negArity =  selection.neg.arity
-		val zeroArity = selection.zero.arity
-		if((posArity != zeroArity) || (zeroArity != negArity) || (posArity != negArity)) //TODO: Da separare per evidenziare l'errore sulla funzione giusta
-				error("Arity of positive, zero and negative functions must be equal", YarelPackage::eINSTANCE.bodyIf_Pos, ERROR_IF_FUNCTIONS_ARITY)
+		val posArity =  YarelUtils.getArity(selection.pos)
+		val negArity =  YarelUtils.getArity(selection.neg)
+		val zeroArity = YarelUtils.getArity(selection.zero)
+		val boolean posEqualsZero = posArity.equals(zeroArity)
+		val boolean negEqualsZero = negArity.equals(zeroArity)
+		val boolean posEqualsNeg  = posArity.equals(negArity)
+		if(! (posEqualsZero && negEqualsZero && posEqualsNeg)){ // the last is redundant ..
+			if(posEqualsZero){
+				error("Arity of negative function ["+negArity.toString()+"] is not equal to the others: [" + posArity.toString() + "]"
+					, YarelPackage::eINSTANCE.bodyIf_Neg, ERROR_IF_FUNCTIONS_ARITY
+				)
+			} else if(negEqualsZero){
+				error("Arity of positive function ["+posArity.toString()+"] is not equal to the others: [" + negArity.toString() + "]"
+					, YarelPackage::eINSTANCE.bodyIf_Pos, ERROR_IF_FUNCTIONS_ARITY
+				)
+			} else if(posEqualsNeg){
+				error("Arity of zero-case function ["+zeroArity.toString()+"] is not equal to the others: [" + posArity.toString() + "]"
+					, YarelPackage::eINSTANCE.bodyIf_Zero, ERROR_IF_FUNCTIONS_ARITY
+				)
+			} else {
+				error("All functions arities must be equal, but they are all different:<ul>"
+						+"<li>pos : [" + posArity.toString() + "]</li>"
+						+"<li>zero: [" + zeroArity.toString() + "]</li>"
+						+"<li>neg : [" + negArity.toString() + "]</li></ul>"
+					, YarelPackage::eINSTANCE.bodyIf_Function, ERROR_IF_FUNCTIONS_ARITY
+				)
+			}
+		}
 	}
 	
 	/**
 	 * Check if the number of parameters of each branch of the serial composition are equal
 	 */
 	@Check
-	def checkSerialComposition(SerComp serial) {
-		val leftArity = serial.left.arity
-		val rightArity = serial.right.arity
+	def checkSerialComposition(Definition deff){
+		val deffArity = YarelUtils.getArity(deff.declarationName)
+		val allSequentialBlocks = YarelUtils.getAllSequentialBodyBlocks(deff.body)
 		
-		if(leftArity != rightArity)
-			error("Arity of left and right branch must be equal", YarelPackage::eINSTANCE.serComp_Left, ERROR_SERIAL_COMPOSITION)
+		allSequentialBlocks.forEach[ b, index|
+			val bodyArity = YarelUtils.getArity(b)
+			if(!deffArity.equals(bodyArity)){
+				error("Arity of "+index+"-th serial-composition's block must be equal to the declaration (the \"dcl\" of the function):<br><ul><li>The declared one:[ "
+					+ deffArity.toString() + " ]</li> <li> the block's one: [ "+
+					bodyArity.toString()+" ] </li></ul>."
+					, YarelPackage::eINSTANCE.definition_Body, index,
+					ERROR_SERIAL_COMPOSITION_ARITY
+				)
+			}
+		]
+	}
+	
+	@Check
+//	def checkSerialComposition(SerComp deff){
+//	}
+	def checkSerialComposition(SerComp serial) {
+		val leftArity = YarelUtils.getArity(serial.left)
+		val rightArity = YarelUtils.getArity(serial.right)
+//		val allSequentialBlocks = YarelUtils.getAllSequentialBodyBlocks(serial)
+		
+		if(!leftArity.equals(rightArity))
+			error("Arity of left and right branch in serial composition must be equal: LEFT:["
+				+ leftArity.toString() + "] , right:["+rightArity.toString()+"]"
+				, YarelPackage::eINSTANCE.serComp_Right, ERROR_SERIAL_COMPOSITION_ARITY
+			)
 	}
 	
 	/**
@@ -121,8 +168,10 @@ class YarelValidator extends AbstractYarelValidator {
 	 */
 	@Check
 	def checkArity(Definition definition) {
-		if(definition.declarationName.arity != definition.body.arity)
-			error("Different arities", YarelPackage::eINSTANCE.definition_Body, ERROR_ARITY)
+		val arityDec = YarelUtils.getArity(definition.declarationName);
+		val arityDef = YarelUtils.getArity(definition.body);
+		if(!arityDec.equals(arityDef))
+			error('''Different arities:\n\tdeclarion=[«arityDec»];\n\tdefinition=[«arityDef»]''', YarelPackage::eINSTANCE.definition_Body, ERROR_ARITY)
 	}
 	
 	/**
@@ -131,12 +180,13 @@ class YarelValidator extends AbstractYarelValidator {
 	@Check
 	def checkPermutationBound(BodyPerm permutationBody) {
 		val permutation = permutationBody.permutation
-		val arity = permutationBody.arity
-		
-		val outOfBoundIndexes = permutation.indexes.filter[!(1..arity).contains(it.value)]
+		val arity = YarelUtils.getArity(permutationBody)
+		val intArityPart = arity
+		val indexes = 1..intArityPart
+		val outOfBoundIndexes = permutation.indexes.filter[!indexes.contains(it.value)]
 		
 		if(outOfBoundIndexes.size > 0)
-				error("Index of permutation out of bound, it must be between 1 and " + arity, YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_BOUND)
+				error("Index of permutation out of bound, it must be between 1 and " + intArityPart, YarelPackage::eINSTANCE.bodyPerm_Permutation, ERROR_PERMUTATION_BOUND)
 	}	
 	
 	/**
@@ -160,70 +210,90 @@ class YarelValidator extends AbstractYarelValidator {
 	 * And if the imported function of the imported module exist
 	 * Added by: Matteo Palazzo
 	 */
-	 @Check(CheckType::NORMAL)
-	 def checkImport(Import impt){
-	 	val importedModule = impt.visibleModules.findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
-	 	if(importedModule === null){//check if the module exist
-	 		error(
-	 			''''«impt.importedModule»' cannot be resolved as a module''', 
-	 			YarelPackage::eINSTANCE.import_ImportedNamespace, 
-	 			ERROR_IMPORT
-	 		)
-	 	}
-	 	else{//Check that the imported function is declared in the imported module
-	 		val importedFunction = impt.importedFunction
-	 		if(importedFunction != '*'){//the wildcard is not used
-	 			if(!importedModule.declarations.map[name].contains(importedFunction)){//check if the imported module contain the function
-	 				error(
-	 					"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
+	@Check(CheckType::NORMAL)
+	def checkImport(Import impt){
+		val importedModule = YarelIndex.getVisibleModules(impt).findFirst[mod |mod.name.equals(impt.importedModule)]//should be only one
+		if(importedModule === null){//check if the module exist
+			error(
+				''''«impt.importedModule»' cannot be resolved as a module''', 
+				YarelPackage::eINSTANCE.import_ImportedNamespace, 
+				ERROR_IMPORT
+			)
+		}
+		else{//Check that the imported function is declared in the imported module
+			val importedFunction = impt.importedFunction
+			if(importedFunction != '*'){//the wildcard is not used
+				if(!YarelIndex.declarations(importedModule).map[name].contains(importedFunction)){//check if the imported module contain the function
+					error(
+						"'" + importedModule.name + "'" + " does not declare function: " + "'" + importedFunction + "'", 
 						YarelPackage::eINSTANCE.import_ImportedNamespace, 
-						ERROR_IMPORT)	
-	 			}
-	 		}		
-	 	}
-	 }
+						ERROR_IMPORT)
+				}
+			}
+		}
+	}
 	 
-	 /**
-	  * Check if there aren't module duplicate
-	  * Added by: Matteo Palazzo
-	  */
-	  @Check(CheckType::NORMAL)
-	  def checkModuleDuplicate(Model currentModule){
-	  	if(currentModule.visibleModules.exists[mod | mod != currentModule && mod.name == currentModule.name]){
-	  		error(
-	  			'''The module '«currentModule.name»' is already defined''',
-	  			YarelPackage::eINSTANCE.model_Name,
-	  			ERROR_DUPLICATE_MODULE
-	  		)
-	  	}
-	  }
-	  
-	  /**
-	   * Check that every declared function has just one definition
-	   * also check that every declared function has a definition inside the same module
-	   * Added by Matteo Palazzo
-	   */
-	  @Check
-	  def checkOneDefinition(Declaration decl){
-	  	val currentModule = decl.getContainerOfType(typeof(Model))
-	  	var count = 0
-	  	var i = 0
-	  	while(count < 2 && i < currentModule.definitions.size){//count the number of definition
-	  		if(currentModule.definitions.get(i).declarationName == decl) count++
-	  		i++
-	  	}
-	  	if(count >= 2){//check if the declaration has no definition
-	  		error('''The declared function '«decl.name»' has multiple definitions''',
-	  			YarelPackage::eINSTANCE.declaration_Name,
-	  			ERROR_INVALID_DEFINITION_COUNT
-	  		)
-	  	}
-	  	else if(count == 0){//check if the declaration has multiple definition
-	  		error('''The declared function '«decl.name»' has no definition''',
-	  			YarelPackage::eINSTANCE.declaration_Name,
-	  			ERROR_INVALID_DEFINITION_COUNT
-	  		)	
-	  	}
-	  	//else noError
-	  }
+	/**
+	 * Check if there aren't module duplicate
+	 * Added by: Matteo Palazzo
+	 */
+	 @Check(CheckType::NORMAL)
+	def checkModuleDuplicate(Model currentModule){
+		if(YarelIndex.getVisibleModules(currentModule).exists[mod | mod != currentModule && mod.name == currentModule.name]){
+			error(
+				'''The module '«currentModule.name»' is already defined''',
+				YarelPackage::eINSTANCE.model_Name,
+				ERROR_DUPLICATE_MODULE
+			)
+		}
+	}
+	
+	/**
+	 * Check that every declared function has just one definition
+	 * also check that every declared function has a definition inside the same module
+	 * Added by Matteo Palazzo
+	 */
+	@Check
+	def checkOneDefinition(Declaration decl){
+		val currentModule = decl.getContainerOfType(typeof(Model))
+		var count = 0
+		var i = 0
+		val defs = YarelIndex.definitions( currentModule)
+		while(count < 2 && i < defs.size){//count the number of definition
+			if(defs.get(i).declarationName == decl) count++
+			i++
+		}
+		if(count >= 2){//check if the declaration has no definition
+			error('''The declared function '«decl.name»' has multiple definitions''',
+				YarelPackage::eINSTANCE.declaration_Name,
+				ERROR_INVALID_DEFINITION_COUNT
+			)
+		}
+		else if(count == 0){//check if the declaration has multiple definition
+			error('''The declared function '«decl.name»' has no definition''',
+				YarelPackage::eINSTANCE.declaration_Name,
+				ERROR_INVALID_DEFINITION_COUNT
+			)
+		}
+		//else noError
+	}
+	
+	
+	/*Added by Marco Ottina*/
+	def <E> pinpointDuplicate(EList<E> list, EReference literal, Map<String,Integer> elementToIndexMap, 
+		Function<E,String> elementToStringMapper, String listName, String code){
+		elementToIndexMap.clear;
+		for (var i= 0; i < list.size ; i++){
+			var name = elementToStringMapper.apply(list.get(i));
+			if(elementToIndexMap.containsKey(name)){
+				error(
+					'''Duplicate element "«name»" in «listName» list at index «(i+1)» (it was the «(elementToIndexMap.get(name) +1)»-th element).'''
+						,literal, i, code
+					);
+			}else{
+				elementToIndexMap.put(name,i);
+			}
+		}
+		elementToIndexMap.clear;
+	}
 }

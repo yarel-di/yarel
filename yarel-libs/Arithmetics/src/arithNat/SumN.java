@@ -1,31 +1,32 @@
 package arithNat;
-import java.util.Arrays;
-import java.lang.Math;
+import java.math.BigInteger;
 import yarelcore.*;	
+
 public class SumN implements RPP {
-    public SumN() { }
-    // Iteration start
-    RPP function = new RPP() {
-    	private RPP f = new Inc();
-    	private final int a = f.getA();
-    	public int[] b(int[] x) {
-    		return this.f.b(x);
-    	}
-    	public int getA() { return this.a; }
-    };
-    private final int a = function.getA()+1;
-    public int[] b(int[] x) {
-    	int[] t=Arrays.copyOfRange(x,0,function.getA());
-    	for(int i = 0 ; i < Math.abs(x[x.length - 1]); i++){
-    		t = function.b(t);
-    	}
-    	int[] r=new int[x.length];
-    	for (int i=0; i<t.length; i++){
-    		r[i]=t[i];
-    	}
-    	r[r.length-1]=x[x.length-1];
-    	return r;
-    }
-    public int getA() { return this.a; } 
-    // Iteration stop
+	public SumN() { }
+	
+	
+	public InvSumN getInverse(){
+		return new InvSumN();
+	}
+	
+	// Iteration start
+	RPP __function__ = new RPP() { // BodyIncImpl
+		private RPP __f__ = Inc.SINGLETON_Inc;
+		public int getA() { return this.__f__.getA(); }
+		public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+			this.__f__.b(__x__, __startIndex__, __endIndex__);
+		}
+	};
+	private int __a__ = this.__function__.getA()+1;
+	public int getA() { return this.__a__; }
+	public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+		int __endIndexBody__ = (__startIndex__ + this.getA()) - 1;
+		BigInteger __iterationsLeft__ = __x__[__endIndexBody__].abs();
+		while(__iterationsLeft__.compareTo(BigInteger.ZERO) > 0){
+			__function__.b(__x__, __startIndex__, __endIndexBody__);
+			__iterationsLeft__ = __iterationsLeft__.subtract(BigInteger.ONE);
+		}
+	}
+	// Iteration stop
 }

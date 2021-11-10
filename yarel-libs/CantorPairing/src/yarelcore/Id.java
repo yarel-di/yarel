@@ -1,8 +1,8 @@
 package yarelcore;
+import java.math.BigInteger;
 public class Id implements RPP {
-	private final int a = 1;
-	public int[] b(int[] x) {
-		return x;
-	}
-	public int getA() { return this.a; }
+	public static final RPP SINGLETON_Id = new Id();
+	private final int __a__ = 1;
+	public int getA() { return this.__a__; }
+	public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__){  }
 }

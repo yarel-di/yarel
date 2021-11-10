@@ -1,619 +1,168 @@
 package cantorPairing;
-import java.util.Arrays;
-import java.lang.Math;
+import java.math.BigInteger;
 import yarelcore.*;	
+
 public class Cu implements RPP {
-    public Cu() { }
-    RPP l = new RPP() {
-    	RPP l = new RPP() {
-    		RPP l = new RPP() {
-    			RPP l = new RPP() {
-    				RPP l = new RPP() {
-    					RPP l = new RPP() {
-    						RPP l = new RPP() {
-    							RPP l = new RPP() {
-    								private final int a = 5;
-    								public int[] b(int[] x) {
-    									int tmp=0;
-    									tmp = x[0]; 
-    									x[0] = x[1]; 
-    									x[1] = tmp; 
-    									return x;
-    								}
-    								public int getA() { return this.a; }
-    							};
-    							RPP r = new RPP() {
-    								RPP function = new boundedMin.MinH12();
-    								private final int a = function.getA();
-    								public int[] b(int[] x) { 
-    									  	return this.function.b(x);
-    								}
-    								 public int getA() { return this.a; }
-    							};
-    							private final int a = l.getA();
-    							public int[] b(int[] x) { // Implements a serial composition.
-    								return this.r.b(this.l.b(x));
-    							}
-    							public int getA() { return this.a; }
-    						};
-    						RPP r = new RPP() {
-    							private final int a = 5;
-    							public int[] b(int[] x) {
-    								int tmp=0;
-    								tmp = x[1]; 
-    								x[1] = x[2]; 
-    								x[2] = x[3]; 
-    								x[3] = x[4]; 
-    								x[4] = tmp; 
-    								return x;
-    							}
-    							public int getA() { return this.a; }
-    						};
-    						private final int a = l.getA();
-    						public int[] b(int[] x) { // Implements a serial composition.
-    							return this.r.b(this.l.b(x));
-    						}
-    						public int getA() { return this.a; }
-    					};
-    					RPP r = new RPP() {
-    						RPP pos=new RPP() {
-    							RPP l = new RPP() {
-    								RPP l = new RPP() {
-    									RPP l = new RPP() {
-    										private RPP f = new Id();
-    										private final int a = f.getA();
-    										public int[] b(int[] x) {
-    											return this.f.b(x);
-    										}
-    										public int getA() { return this.a; }
-    									};
-    									RPP r = new RPP() {
-    										private RPP f = new Id();
-    										private final int a = f.getA();
-    										public int[] b(int[] x) {
-    											return this.f.b(x);
-    										}
-    										public int getA() { return this.a; }
-    									};
-    									private final int a = l.getA() + r.getA();
-    									public int[] b(int[] x) { // Implements a parallel composition
-    										return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    										,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    									}
-    									public int getA() { return this.a; }
-    									private int[] append(int[] l, int[] r) {
-    										int[] res = new int[l.length + r.length];
-    										for(int i = 0; i < l.length; i++)
-    											res[i] = l[i];
-    										for(int i = 0; i < r.length; i++) 
-    										  	res[i + l.length] = r[i];
-    									 	return res;
-    									}
-    								};
-    								RPP r = new RPP() {
-    									private RPP f = new Id();
-    									private final int a = f.getA();
-    									public int[] b(int[] x) {
-    										return this.f.b(x);
-    									}
-    									public int getA() { return this.a; }
-    								};
-    								private final int a = l.getA() + r.getA();
-    								public int[] b(int[] x) { // Implements a parallel composition
-    									return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    									,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    								}
-    								public int getA() { return this.a; }
-    								private int[] append(int[] l, int[] r) {
-    									int[] res = new int[l.length + r.length];
-    									for(int i = 0; i < l.length; i++)
-    										res[i] = l[i];
-    									for(int i = 0; i < r.length; i++) 
-    									  	res[i + l.length] = r[i];
-    								 	return res;
-    								}
-    							};
-    							RPP r = new RPP() {
-    								private RPP f = new Id();
-    								private final int a = f.getA();
-    								public int[] b(int[] x) {
-    									return this.f.b(x);
-    								}
-    								public int getA() { return this.a; }
-    							};
-    							private final int a = l.getA() + r.getA();
-    							public int[] b(int[] x) { // Implements a parallel composition
-    								return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    								,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    							}
-    							public int getA() { return this.a; }
-    							private int[] append(int[] l, int[] r) {
-    								int[] res = new int[l.length + r.length];
-    								for(int i = 0; i < l.length; i++)
-    									res[i] = l[i];
-    								for(int i = 0; i < r.length; i++) 
-    								  	res[i + l.length] = r[i];
-    							 	return res;
-    							}
-    						};
-    						RPP zero=new RPP() {
-    							RPP l = new RPP() {
-    								RPP l = new RPP() {
-    									RPP l = new RPP() {
-    										private RPP f = new Inc();
-    										private final int a = f.getA();
-    										public int[] b(int[] x) {
-    											return this.f.b(x);
-    										}
-    										public int getA() { return this.a; }
-    									};
-    									RPP r = new RPP() {
-    										private RPP f = new Id();
-    										private final int a = f.getA();
-    										public int[] b(int[] x) {
-    											return this.f.b(x);
-    										}
-    										public int getA() { return this.a; }
-    									};
-    									private final int a = l.getA() + r.getA();
-    									public int[] b(int[] x) { // Implements a parallel composition
-    										return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    										,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    									}
-    									public int getA() { return this.a; }
-    									private int[] append(int[] l, int[] r) {
-    										int[] res = new int[l.length + r.length];
-    										for(int i = 0; i < l.length; i++)
-    											res[i] = l[i];
-    										for(int i = 0; i < r.length; i++) 
-    										  	res[i + l.length] = r[i];
-    									 	return res;
-    									}
-    								};
-    								RPP r = new RPP() {
-    									private RPP f = new Id();
-    									private final int a = f.getA();
-    									public int[] b(int[] x) {
-    										return this.f.b(x);
-    									}
-    									public int getA() { return this.a; }
-    								};
-    								private final int a = l.getA() + r.getA();
-    								public int[] b(int[] x) { // Implements a parallel composition
-    									return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    									,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    								}
-    								public int getA() { return this.a; }
-    								private int[] append(int[] l, int[] r) {
-    									int[] res = new int[l.length + r.length];
-    									for(int i = 0; i < l.length; i++)
-    										res[i] = l[i];
-    									for(int i = 0; i < r.length; i++) 
-    									  	res[i + l.length] = r[i];
-    								 	return res;
-    								}
-    							};
-    							RPP r = new RPP() {
-    								private RPP f = new Id();
-    								private final int a = f.getA();
-    								public int[] b(int[] x) {
-    									return this.f.b(x);
-    								}
-    								public int getA() { return this.a; }
-    							};
-    							private final int a = l.getA() + r.getA();
-    							public int[] b(int[] x) { // Implements a parallel composition
-    								return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    								,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    							}
-    							public int getA() { return this.a; }
-    							private int[] append(int[] l, int[] r) {
-    								int[] res = new int[l.length + r.length];
-    								for(int i = 0; i < l.length; i++)
-    									res[i] = l[i];
-    								for(int i = 0; i < r.length; i++) 
-    								  	res[i + l.length] = r[i];
-    							 	return res;
-    							}
-    						};
-    						RPP neg=new RPP() {
-    							RPP l = new RPP() {
-    								RPP l = new RPP() {
-    									RPP l = new RPP() {
-    										private RPP f = new Id();
-    										private final int a = f.getA();
-    										public int[] b(int[] x) {
-    											return this.f.b(x);
-    										}
-    										public int getA() { return this.a; }
-    									};
-    									RPP r = new RPP() {
-    										private RPP f = new Id();
-    										private final int a = f.getA();
-    										public int[] b(int[] x) {
-    											return this.f.b(x);
-    										}
-    										public int getA() { return this.a; }
-    									};
-    									private final int a = l.getA() + r.getA();
-    									public int[] b(int[] x) { // Implements a parallel composition
-    										return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    										,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    									}
-    									public int getA() { return this.a; }
-    									private int[] append(int[] l, int[] r) {
-    										int[] res = new int[l.length + r.length];
-    										for(int i = 0; i < l.length; i++)
-    											res[i] = l[i];
-    										for(int i = 0; i < r.length; i++) 
-    										  	res[i + l.length] = r[i];
-    									 	return res;
-    									}
-    								};
-    								RPP r = new RPP() {
-    									private RPP f = new Id();
-    									private final int a = f.getA();
-    									public int[] b(int[] x) {
-    										return this.f.b(x);
-    									}
-    									public int getA() { return this.a; }
-    								};
-    								private final int a = l.getA() + r.getA();
-    								public int[] b(int[] x) { // Implements a parallel composition
-    									return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    									,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    								}
-    								public int getA() { return this.a; }
-    								private int[] append(int[] l, int[] r) {
-    									int[] res = new int[l.length + r.length];
-    									for(int i = 0; i < l.length; i++)
-    										res[i] = l[i];
-    									for(int i = 0; i < r.length; i++) 
-    									  	res[i + l.length] = r[i];
-    								 	return res;
-    								}
-    							};
-    							RPP r = new RPP() {
-    								private RPP f = new Id();
-    								private final int a = f.getA();
-    								public int[] b(int[] x) {
-    									return this.f.b(x);
-    								}
-    								public int getA() { return this.a; }
-    							};
-    							private final int a = l.getA() + r.getA();
-    							public int[] b(int[] x) { // Implements a parallel composition
-    								return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    								,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    							}
-    							public int getA() { return this.a; }
-    							private int[] append(int[] l, int[] r) {
-    								int[] res = new int[l.length + r.length];
-    								for(int i = 0; i < l.length; i++)
-    									res[i] = l[i];
-    								for(int i = 0; i < r.length; i++) 
-    								  	res[i + l.length] = r[i];
-    							 	return res;
-    							}
-    						};
-    						private final int a=pos.getA()+1;
-    						public int getA() {return this.a;}
-    						public int[] b(int[] x) {
-    							int[] t=Arrays.copyOfRange(x,0,pos.getA());	  		
-    							if(x[x.length-1]>0){
-    								t=pos.b(t);
-    							}
-    							if(x[x.length-1]==0){
-    								t=zero.b(t);
-    							}
-    							if(x[x.length-1]<0){
-    								t=neg.b(t);
-    							}
-    							int[] r = new int[x.length];
-    							for (int i = 0; i < t.length; i++){
-    								r[i]=t[i];
-    							}
-    							r[r.length-1]=x[x.length-1];
-    							return r;
-    						}
-    					};
-    					private final int a = l.getA();
-    					public int[] b(int[] x) { // Implements a serial composition.
-    						return this.r.b(this.l.b(x));
-    					}
-    					public int getA() { return this.a; }
-    				};
-    				RPP r = new RPP() {
-    					private final int a = 5;
-    					public int[] b(int[] x) {
-    						int tmp=0;
-    						tmp = x[1]; 
-    						x[1] = x[4]; 
-    						x[4] = x[3]; 
-    						x[3] = x[2]; 
-    						x[2] = tmp; 
-    						return x;
-    					}
-    					public int getA() { return this.a; }
-    				};
-    				private final int a = l.getA();
-    				public int[] b(int[] x) { // Implements a serial composition.
-    					return this.r.b(this.l.b(x));
-    				}
-    				public int getA() { return this.a; }
-    			};
-    			RPP r = new RPP() {
-    				RPP l = new RPP() {
-    					RPP l = new RPP() {
-    						RPP l = new RPP() {
-    							RPP l = new RPP() {
-    								private RPP f = new Dec();
-    								private final int a = f.getA();
-    								public int[] b(int[] x) {
-    									return this.f.b(x);
-    								}
-    								public int getA() { return this.a; }
-    							};
-    							RPP r = new RPP() {
-    								private RPP f = new Id();
-    								private final int a = f.getA();
-    								public int[] b(int[] x) {
-    									return this.f.b(x);
-    								}
-    								public int getA() { return this.a; }
-    							};
-    							private final int a = l.getA() + r.getA();
-    							public int[] b(int[] x) { // Implements a parallel composition
-    								return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    								,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    							}
-    							public int getA() { return this.a; }
-    							private int[] append(int[] l, int[] r) {
-    								int[] res = new int[l.length + r.length];
-    								for(int i = 0; i < l.length; i++)
-    									res[i] = l[i];
-    								for(int i = 0; i < r.length; i++) 
-    								  	res[i + l.length] = r[i];
-    							 	return res;
-    							}
-    						};
-    						RPP r = new RPP() {
-    							private RPP f = new Id();
-    							private final int a = f.getA();
-    							public int[] b(int[] x) {
-    								return this.f.b(x);
-    							}
-    							public int getA() { return this.a; }
-    						};
-    						private final int a = l.getA() + r.getA();
-    						public int[] b(int[] x) { // Implements a parallel composition
-    							return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    							,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    						}
-    						public int getA() { return this.a; }
-    						private int[] append(int[] l, int[] r) {
-    							int[] res = new int[l.length + r.length];
-    							for(int i = 0; i < l.length; i++)
-    								res[i] = l[i];
-    							for(int i = 0; i < r.length; i++) 
-    							  	res[i + l.length] = r[i];
-    						 	return res;
-    						}
-    					};
-    					RPP r = new RPP() {
-    						private RPP f = new Id();
-    						private final int a = f.getA();
-    						public int[] b(int[] x) {
-    							return this.f.b(x);
-    						}
-    						public int getA() { return this.a; }
-    					};
-    					private final int a = l.getA() + r.getA();
-    					public int[] b(int[] x) { // Implements a parallel composition
-    						return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    						,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    					}
-    					public int getA() { return this.a; }
-    					private int[] append(int[] l, int[] r) {
-    						int[] res = new int[l.length + r.length];
-    						for(int i = 0; i < l.length; i++)
-    							res[i] = l[i];
-    						for(int i = 0; i < r.length; i++) 
-    						  	res[i + l.length] = r[i];
-    					 	return res;
-    					}
-    				};
-    				RPP r = new RPP() {
-    					private RPP f = new Id();
-    					private final int a = f.getA();
-    					public int[] b(int[] x) {
-    						return this.f.b(x);
-    					}
-    					public int getA() { return this.a; }
-    				};
-    				private final int a = l.getA() + r.getA();
-    				public int[] b(int[] x) { // Implements a parallel composition
-    					return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    					,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    				}
-    				public int getA() { return this.a; }
-    				private int[] append(int[] l, int[] r) {
-    					int[] res = new int[l.length + r.length];
-    					for(int i = 0; i < l.length; i++)
-    						res[i] = l[i];
-    					for(int i = 0; i < r.length; i++) 
-    					  	res[i + l.length] = r[i];
-    				 	return res;
-    				}
-    			};
-    			private final int a = l.getA();
-    			public int[] b(int[] x) { // Implements a serial composition.
-    				return this.r.b(this.l.b(x));
-    			}
-    			public int getA() { return this.a; }
-    		};
-    		RPP r = new RPP() {
-    			RPP l = new RPP() {
-    				RPP l = new RPP() {
-    					RPP function = new funcH12.H12_v2();
-    					private final int a = function.getA();
-    					public int[] b(int[] x) { 
-    						  	return this.function.b(x);
-    					}
-    					 public int getA() { return this.a; }
-    				};
-    				RPP r = new RPP() {
-    					private RPP f = new Id();
-    					private final int a = f.getA();
-    					public int[] b(int[] x) {
-    						return this.f.b(x);
-    					}
-    					public int getA() { return this.a; }
-    				};
-    				private final int a = l.getA() + r.getA();
-    				public int[] b(int[] x) { // Implements a parallel composition
-    					return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    					,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    				}
-    				public int getA() { return this.a; }
-    				private int[] append(int[] l, int[] r) {
-    					int[] res = new int[l.length + r.length];
-    					for(int i = 0; i < l.length; i++)
-    						res[i] = l[i];
-    					for(int i = 0; i < r.length; i++) 
-    					  	res[i + l.length] = r[i];
-    				 	return res;
-    				}
-    			};
-    			RPP r = new RPP() {
-    				private RPP f = new Id();
-    				private final int a = f.getA();
-    				public int[] b(int[] x) {
-    					return this.f.b(x);
-    				}
-    				public int getA() { return this.a; }
-    			};
-    			private final int a = l.getA() + r.getA();
-    			public int[] b(int[] x) { // Implements a parallel composition
-    				return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    				,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    			}
-    			public int getA() { return this.a; }
-    			private int[] append(int[] l, int[] r) {
-    				int[] res = new int[l.length + r.length];
-    				for(int i = 0; i < l.length; i++)
-    					res[i] = l[i];
-    				for(int i = 0; i < r.length; i++) 
-    				  	res[i + l.length] = r[i];
-    			 	return res;
-    			}
-    		};
-    		private final int a = l.getA();
-    		public int[] b(int[] x) { // Implements a serial composition.
-    			return this.r.b(this.l.b(x));
-    		}
-    		public int getA() { return this.a; }
-    	};
-    	RPP r = new RPP() {
-    		RPP l = new RPP() {
-    			RPP l = new RPP() {
-    				RPP l = new RPP() {
-    					RPP function = new arithNat.SubN();
-    					private final int a = function.getA();
-    					public int[] b(int[] x) { 
-    						  	return this.function.b(x);
-    					}
-    					 public int getA() { return this.a; }
-    				};
-    				RPP r = new RPP() {
-    					private RPP f = new Id();
-    					private final int a = f.getA();
-    					public int[] b(int[] x) {
-    						return this.f.b(x);
-    					}
-    					public int getA() { return this.a; }
-    				};
-    				private final int a = l.getA() + r.getA();
-    				public int[] b(int[] x) { // Implements a parallel composition
-    					return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    					,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    				}
-    				public int getA() { return this.a; }
-    				private int[] append(int[] l, int[] r) {
-    					int[] res = new int[l.length + r.length];
-    					for(int i = 0; i < l.length; i++)
-    						res[i] = l[i];
-    					for(int i = 0; i < r.length; i++) 
-    					  	res[i + l.length] = r[i];
-    				 	return res;
-    				}
-    			};
-    			RPP r = new RPP() {
-    				private RPP f = new Id();
-    				private final int a = f.getA();
-    				public int[] b(int[] x) {
-    					return this.f.b(x);
-    				}
-    				public int getA() { return this.a; }
-    			};
-    			private final int a = l.getA() + r.getA();
-    			public int[] b(int[] x) { // Implements a parallel composition
-    				return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    				,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    			}
-    			public int getA() { return this.a; }
-    			private int[] append(int[] l, int[] r) {
-    				int[] res = new int[l.length + r.length];
-    				for(int i = 0; i < l.length; i++)
-    					res[i] = l[i];
-    				for(int i = 0; i < r.length; i++) 
-    				  	res[i + l.length] = r[i];
-    			 	return res;
-    			}
-    		};
-    		RPP r = new RPP() {
-    			private RPP f = new Id();
-    			private final int a = f.getA();
-    			public int[] b(int[] x) {
-    				return this.f.b(x);
-    			}
-    			public int getA() { return this.a; }
-    		};
-    		private final int a = l.getA() + r.getA();
-    		public int[] b(int[] x) { // Implements a parallel composition
-    			return append(l.b(Arrays.copyOfRange(x,0       ,l.getA()         ))
-    			,r.b(Arrays.copyOfRange(x,l.getA(),l.getA()+r.getA())));
-    		}
-    		public int getA() { return this.a; }
-    		private int[] append(int[] l, int[] r) {
-    			int[] res = new int[l.length + r.length];
-    			for(int i = 0; i < l.length; i++)
-    				res[i] = l[i];
-    			for(int i = 0; i < r.length; i++) 
-    			  	res[i + l.length] = r[i];
-    		 	return res;
-    		}
-    	};
-    	private final int a = l.getA();
-    	public int[] b(int[] x) { // Implements a serial composition.
-    		return this.r.b(this.l.b(x));
-    	}
-    	public int getA() { return this.a; }
-    };
-    RPP r = new RPP() {
-    	private final int a = 5;
-    	public int[] b(int[] x) {
-    		int tmp=0;
-    		tmp = x[0]; 
-    		x[0] = x[1]; 
-    		x[1] = tmp; 
-    		return x;
-    	}
-    	public int getA() { return this.a; }
-    };
-    private final int a = l.getA();
-    public int[] b(int[] x) { // Implements a serial composition.
-    	return this.r.b(this.l.b(x));
-    }
-    public int getA() { return this.a; }
+	public Cu() { }
+	
+	
+	public InvCu getInverse(){
+		return new InvCu();
+	}
+	
+	private final RPP[] __steps__ = new RPP[]{ //
+		new RPP() { // BodyPermImpl // index: 0
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				BigInteger __tmp__ = BigInteger.ZERO;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
+			}
+			public int getA() { return 5; }
+		},
+		
+		new RPP() { // BodyFunImpl // index: 1
+			RPP __function__ = new boundedMin.MinH12();
+			public int getA() { return __function__.getA(); }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__function__.b(__x__, __startIndex__, __endIndex__);
+			}
+		},
+		
+		new RPP() { // BodyPermImpl // index: 2
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				BigInteger __tmp__ = BigInteger.ZERO;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __x__[__startIndex__ + 4]; 
+				__x__[__startIndex__ + 4] = __tmp__; 
+			}
+			public int getA() { return 5; }
+		},
+		
+		new RPP() { // BodyIfImpl // index: 3
+			RPP __pos__=new RPP() {
+				public int getA() { return 4; }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					// There were only parallels identities, nothing interesting to show and run
+				}
+			};
+			RPP __zero__=new RPP() {
+				private RPP __f__ = new RPP(){
+					private RPP __f__ = Inc.SINGLETON_Inc;
+					public int getA() { return this.__f__.getA(); }
+					public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+						this.__f__.b(__x__, __startIndex__, __endIndex__);
+					}
+				};
+				public int getA() { return 4; }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__,
+						__startIndex__ + 0,
+						__startIndex__ + (0) + this.__f__.getA()
+						);
+				}
+			};
+			RPP __neg__=new RPP() {
+				public int getA() { return 4; }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					// There were only parallels identities, nothing interesting to show and run
+				}
+			};
+			private int __a__ = this.__pos__.getA()+1;
+			public int getA() { return this.__a__; }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				final int __testPositivity__ = __x__[(__startIndex__ + this.getA()) - 1].compareTo(BigInteger.ZERO);
+				if(__testPositivity__ > 0){
+					__pos__.b(__x__, __startIndex__, __startIndex__ + __pos__.getA());
+				} else if(__testPositivity__ == 0){
+					__zero__.b(__x__, __startIndex__, __startIndex__ + __zero__.getA());
+				} else { // The "__testPositivity__ < 0" test is a tautology
+					__neg__.b(__x__, __startIndex__, __startIndex__ + __neg__.getA());
+				}
+			}
+		},
+		
+		new RPP() { // BodyPermImpl // index: 4
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				BigInteger __tmp__ = BigInteger.ZERO;
+				__tmp__ = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __x__[__startIndex__ + 4]; 
+				__x__[__startIndex__ + 4] = __x__[__startIndex__ + 3]; 
+				__x__[__startIndex__ + 3] = __x__[__startIndex__ + 2]; 
+				__x__[__startIndex__ + 2] = __tmp__; 
+			}
+			public int getA() { return 5; }
+		},
+		
+		new RPP() { // ParCompImpl // index: 5
+			private RPP __f__ = new RPP(){
+				private RPP __f__ = Dec.SINGLETON_Dec;
+				public int getA() { return this.__f__.getA(); }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					this.__f__.b(__x__, __startIndex__, __endIndex__);
+				}
+			};
+			public int getA() { return 5; }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
+			}
+		},
+		
+		new RPP() { // ParCompImpl // index: 6
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new funcH12.H12_v2();
+				public int getA() { return __function__.getA(); }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
+				}
+			};
+			public int getA() { return 5; }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
+			}
+		},
+		
+		new RPP() { // ParCompImpl // index: 7
+			private RPP __f__ = new RPP(){
+				RPP __function__ = new arithNat.SubN();
+				public int getA() { return __function__.getA(); }
+				public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+					this.__function__.b(__x__, __startIndex__, __endIndex__);
+				}
+			};
+			public int getA() { return 5; }
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				this.__f__.b(__x__,
+					__startIndex__ + 0,
+					__startIndex__ + (0) + this.__f__.getA()
+					);
+			}
+		},
+		
+		new RPP() { // BodyPermImpl // index: 8
+			public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) {
+				BigInteger __tmp__ = BigInteger.ZERO;
+				__tmp__ = __x__[__startIndex__ + 0]; 
+				__x__[__startIndex__ + 0] = __x__[__startIndex__ + 1]; 
+				__x__[__startIndex__ + 1] = __tmp__; 
+			}
+			public int getA() { return 5; }
+		}
+	};
+	public int getA() { return this.__steps__[0].getA(); }
+	public void b(BigInteger[] __x__, int __startIndex__, int __endIndex__) { // Implements a serial composition.
+		int __i__;
+		__i__ = -1;
+		while( ++__i__ < __steps__.length ){
+			__steps__[__i__].b(__x__, __startIndex__, __endIndex__);
+		}
+	}
 }

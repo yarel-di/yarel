@@ -4,8 +4,34 @@
 package org.di.unito.yarel.ui.labeling
 
 import com.google.inject.Inject
+import java.util.Arrays
+import org.di.unito.yarel.utils.YarelUtils
+import org.di.unito.yarel.yarel.BodyDec
+import org.di.unito.yarel.yarel.BodyFor
+import org.di.unito.yarel.yarel.BodyFun
+import org.di.unito.yarel.yarel.BodyId
+import org.di.unito.yarel.yarel.BodyIf
+import org.di.unito.yarel.yarel.BodyInc
+import org.di.unito.yarel.yarel.BodyInv
+import org.di.unito.yarel.yarel.BodyIt
+import org.di.unito.yarel.yarel.BodyNeg
+import org.di.unito.yarel.yarel.BodyPerm
+import org.di.unito.yarel.yarel.Declaration
+import org.di.unito.yarel.yarel.Definition
+import org.di.unito.yarel.yarel.Digit
+import org.di.unito.yarel.yarel.FunctionInvocation
+import org.di.unito.yarel.yarel.Import
+import org.di.unito.yarel.yarel.Model
+import org.di.unito.yarel.yarel.ParComp
+import org.di.unito.yarel.yarel.Permutation
+import org.di.unito.yarel.yarel.SerComp
+import org.di.unito.yarel.yarel.Type
+import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
+import org.eclipse.xtext.ui.editor.model.XtextDocument
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider
+
+//import static extension org.di.unito.yarel.utils.YarelUtils.getArity
 
 /**
  * Provides labels for EObjects.
@@ -19,13 +45,40 @@ class YarelLabelProvider extends DefaultEObjectLabelProvider {
 		super(delegate);
 	}
 
-	// Labels and icons can be computed like this:
+	def dispatch text(XtextDocument xtextDoc ){
+		xtextDoc === null? "no xtextDocument" : "Don't know how to label xtextDocument" // xtextDoc.getText
+	}
 	
-//	def text(Greeting ele) {
-//		'A greeting to ' + ele.name
-//	}
-//
-//	def image(Greeting ele) {
-//		'Greeting.gif'
-//	}
+	def dispatch text(Model model){ "Model: " + model.name }
+	def dispatch text(Import importt){ "Import" + importt.importedNamespace } 
+	def dispatch text(Declaration decl){ '''dcl = «decl.name»'''.toString() }
+	def dispatch text(Definition deff){ '''def = «deff.declarationName.name»'''.toString()  }
+	def dispatch text(SerComp ser){ "Serial blocks:" }
+	def dispatch text(ParComp deff){ "Parallel sub-blocks:" }
+	def dispatch text(FunctionInvocation funInv){ funInv.funName.name; }
+	def dispatch text(EList<?> params){ Arrays.toString(params.toArray) }
+	
+	def dispatch text(BodyId bAtom){ bAtom.funName }
+	def dispatch text(BodyInc bAtom){ bAtom.funName }
+	def dispatch text(BodyDec bAtom){ bAtom.funName }
+	def dispatch text(BodyNeg bAtom){ bAtom.funName }
+	def dispatch text(BodyFor bAtom){ bAtom.function }
+	def dispatch text(BodyInv bAtom){ bAtom.function }
+	def dispatch text(BodyPerm bAtom){ 
+		val perm = bAtom.permutation
+		return '''permutation: / «FOR i : perm.indexes SEPARATOR ", "»«i.value»«ENDFOR»/'''.toString()
+	}
+	def dispatch text(Permutation perm){ 
+		return '''permutation: / «FOR i : perm.indexes SEPARATOR ", "»«i.value»«ENDFOR»/'''.toString()
+	}
+	def dispatch text(BodyIt bAtom){ bAtom.function }
+	def dispatch text(BodyIf bAtom){ bAtom.function }
+	def dispatch text(BodyFun bAtom){ 
+		'''
+		Invocation of the function «bAtom.function.funName.name» with <strong>declared</strong> arity [«YarelUtils.getArity(bAtom.function.funName)»].
+		The optional arities and parameters are "given" with the same order as they are placed during invocation.
+		'''.toString()
+	}
+	def dispatch text(Type t){ '''«t.value»'''.toString() }
+	def dispatch text(Digit d){ '''«d.value»'''.toString(); }
 }
